@@ -11,7 +11,8 @@ export default {
   name: 'home',
   components: {
     'mh-Contents': Contents
-  }
+  },
+  mounted() {}
 };
 </script>
 

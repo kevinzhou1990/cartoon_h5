@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import install from './lib/request';
 /**
  * 引入mintui
  */
 import MintUI from 'mint-ui';
-import 'mint-ui/lib/style.css'
+import 'mint-ui/lib/style.css';
 // swpier组件
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 Vue.use(MintUI);
-Vue.use(VueAwesomeSwiper)
+Vue.use(VueAwesomeSwiper);
+Vue.prototype.$http = {};
+install(Vue);
 
 Vue.config.productionTip = false;
 
