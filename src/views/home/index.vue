@@ -1,6 +1,5 @@
 <template>
   <div class="index">
-    <mt-header title="漫画威龙" />
     <mh-Contents />
   </div>
 </template>
