@@ -1,15 +1,16 @@
 <template>
   <div class="index">
-    <mh-Contents />
+    首页
+    <!-- <mh-Contents /> -->
   </div>
 </template>
 
 <script>
-import Contents from '@/common/components/contents';
+// import Contents from '@/common/components/contents';
 export default {
   name: 'home',
   components: {
-    'mh-Contents': Contents
+    // 'mh-Contents': Contents
   },
   mounted() {}
 };

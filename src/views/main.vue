@@ -5,11 +5,11 @@
         <router-view class="main-wrap" />
       </keep-alive>
     </transition>
-    <mt-tabbar>
-      <mt-tab-item id="home">首页</mt-tab-item>
-      <mt-tab-item id="bookshelf">书架</mt-tab-item>
-      <mt-tab-item id="mine">我的</mt-tab-item>
-    </mt-tabbar>
+    <div class="tabber flex">
+      <div>首页</div>
+      <div>书架</div>
+      <div>我的</div>
+    </div>
   </div>
 </template>
 
@@ -18,7 +18,6 @@ export default {
   name: '',
   data() {
     return {
-      selected: '',
       transitionName: ''
     };
   }
@@ -26,4 +25,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  .tabber {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  .flex {
+    display: flex;
+    & > div {
+      flex: 1;
+      font-size: 10px;
+    }
+  }
+}
 </style>
