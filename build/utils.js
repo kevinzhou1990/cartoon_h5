@@ -27,7 +27,7 @@ exports.cssLoaders = function(options) {
     test: /].scss$/,
     loader: 'px2rem-loader',
     options: {
-      remUnit: 75, // 40px = 1rem
+      remUnit: 37.5, // 40px = 1rem
       remPrecision: 8 // rem的小数点后位数
     }
   };

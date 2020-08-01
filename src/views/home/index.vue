@@ -2,6 +2,7 @@
   <div class="index">
     首页
     <!-- <mh-Contents /> -->
+    <Button type="default" size="default" :disabled="true" @click="test">饿哦</Button>
   </div>
 </template>
 
@@ -12,7 +13,12 @@ export default {
   components: {
     // 'mh-Contents': Contents
   },
-  mounted() {}
+  mounted() {},
+  methods: {
+    test() {
+      alert('test');
+    }
+  }
 };
 </script>
 
