@@ -10,9 +10,9 @@ import 'lib-flexible';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 // swpier组件
-import VueAwesomeSwiper from 'vue-awesome-swiper';
+// import VueAwesomeSwiper from 'vue-awesome-swiper';
 Vue.use(MintUI);
-Vue.use(VueAwesomeSwiper);
+// Vue.use(VueAwesomeSwiper);
 Vue.use(Button);
 install(Vue);
 

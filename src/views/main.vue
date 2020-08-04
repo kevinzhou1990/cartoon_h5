@@ -33,6 +33,7 @@ export default {
   }
   .flex {
     display: flex;
+    text-align: center;
     & > div {
       flex: 1;
       font-size: 10px;

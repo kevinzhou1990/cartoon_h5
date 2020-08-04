@@ -6,8 +6,7 @@ import Detail from '@/views/detail';
 import Recommend from '@/views/recommend';
 import Main from '@/views/main';
 import Reader from '@/views/reader';
-
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   mode: 'history',
