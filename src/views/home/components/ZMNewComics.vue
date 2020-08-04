@@ -54,7 +54,7 @@ export default {
       &-img {
         width: 152px;
         height: 152px;
-        background: url("../images/headerBg.png") no-repeat;
+        // background: url("../images/headerBg.png") no-repeat;
         background-size: 100%;
         border-radius: 4px;
       }
