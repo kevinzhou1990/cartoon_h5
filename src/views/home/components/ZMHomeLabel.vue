@@ -41,7 +41,7 @@ export default {
     padding: 0 8px;
     justify-content: space-between;
     font-weight: bold;
-
+    font-size: $label-fontSize;
     &-r {
       color: $label-color;
       font-size: $label-right-fonSize;

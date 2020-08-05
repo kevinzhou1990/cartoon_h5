@@ -12,6 +12,8 @@
     <z-m-hot-comics></z-m-hot-comics>
     <!--经典漫画-->
     <z-m-classics-comics></z-m-classics-comics>
+    <!--推荐喜欢看的组建-->
+    <z-m-like-comics></z-m-like-comics>
   </div>
 </template>
 
@@ -21,6 +23,7 @@ import ZMSwiper from './components/ZMswiper'
 import ZMNewComics from './components/ZMNewComics'
 import ZMHotComics from './components/ZMHotComics'
 import ZMClassicsComics from './components/ZMClassicsComics'
+import ZMLikeComics from './components/ZMLikeComics'
 
 export default {
   name: 'home',
@@ -29,7 +32,8 @@ export default {
     ZMSwiper,
     ZMNewComics,
     ZMHotComics,
-    ZMClassicsComics
+    ZMClassicsComics,
+    ZMLikeComics
   },
   mounted() {},
   methods: {}
