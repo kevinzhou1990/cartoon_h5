@@ -1,1 +1,14 @@
-html,body,p,div{margin: 0;}
+html,
+body,
+p,
+div {
+  margin: 0;
+}
+@font-face {
+  font-family: 'pingfang-blod';
+  src: url('../../../assets/font/PingFang-SC-Semibold.ttf');
+}
+@font-face {
+  font-family: 'pingfang-regular';
+  src: url('../../../assets/font/PingFang-SC-Regular.ttf');
+}

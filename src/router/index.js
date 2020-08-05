@@ -6,9 +6,11 @@ import Detail from '@/views/detail';
 import Recommend from '@/views/recommend';
 import Main from '@/views/main';
 import Reader from '@/views/reader';
-Vue.use(Router)
-
-export default new Router({
+import Mine from '@/views/mine';
+import Shelf from '@/views/shelf';
+import store from '../store';
+Vue.use(Router);
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -40,6 +42,18 @@ export default new Router({
           name: 'recommend',
           component: Recommend,
           meta: { title: '更多推荐', transitionIn: 'slide-left' }
+        },
+        {
+          path: '/mine',
+          name: 'mine',
+          component: Mine,
+          meta: { title: '我的', transitionIn: 'slide-left' }
+        },
+        {
+          path: '/shelf',
+          name: 'shelf',
+          component: Shelf,
+          meta: { title: '书架', transitionIn: 'slide-left' }
         }
       ]
     },
@@ -51,3 +65,8 @@ export default new Router({
     }
   ]
 });
+
+router.afterEach((to, from) => {
+  store.commit('updateActived', to.name);
+});
+export default router;

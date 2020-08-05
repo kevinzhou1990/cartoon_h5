@@ -3,6 +3,7 @@ import App from './App';
 import router from './router';
 import install from './lib/request';
 import Button from '@/common/plugin/button';
+import store from '@/store';
 import 'lib-flexible';
 /**
  * 引入mintui
@@ -23,5 +24,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
+  store,
   template: '<App/>'
 });
