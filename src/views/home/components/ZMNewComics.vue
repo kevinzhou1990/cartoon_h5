@@ -54,7 +54,7 @@ export default {
       &-img {
         width: 152px;
         height: 152px;
-        // background: url("../images/headerBg.png") no-repeat;
+        background: url("../images/headerBg.png") no-repeat;
         background-size: 100%;
         border-radius: 4px;
       }
@@ -64,6 +64,9 @@ export default {
         font-weight: bold;
       }
       &-author {
+        display: inline-block;
+        transform: scale(0.83);
+        -webkit-transform-origin-x: 0;
         font-size: 10px;
         color: #BBBBBB;
         font-weight: bold;

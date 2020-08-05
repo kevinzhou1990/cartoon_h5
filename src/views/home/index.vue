@@ -1,35 +1,43 @@
 <template>
   <div class="main">
+    <!--首页搜索组件-->
     <div class="main-search">
       <z-m-search></z-m-search>
     </div>
+    <!--首页滑动组件-->
     <z-m-swiper></z-m-swiper>
+    <!--首页新漫-->
     <z-m-new-comics></z-m-new-comics>
+    <!--首页热番 -->
     <z-m-hot-comics></z-m-hot-comics>
+    <!--经典漫画-->
+    <z-m-classics-comics></z-m-classics-comics>
+    <!--推荐喜欢看的组建-->
+    <z-m-like-comics></z-m-like-comics>
   </div>
 </template>
 
 <script>
-// import Contents from '@/common/components/contents';
 import ZMSearch from './components/search'
 import ZMSwiper from './components/ZMswiper'
 import ZMNewComics from './components/ZMNewComics'
 import ZMHotComics from './components/ZMHotComics'
+import ZMClassicsComics from './components/ZMClassicsComics'
+import ZMLikeComics from './components/ZMLikeComics'
+
 export default {
   name: 'home',
   components: {
     ZMSearch,
     ZMSwiper,
     ZMNewComics,
-    ZMHotComics
+    ZMHotComics,
+    ZMClassicsComics,
+    ZMLikeComics
   },
   mounted() {},
-  methods: {
-    test() {
-      alert('test');
-    }
-  }
-};
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -39,6 +47,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
+
     &-search {
       position: absolute;
       width: 343px;

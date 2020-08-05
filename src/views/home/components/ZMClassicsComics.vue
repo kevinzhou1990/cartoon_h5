@@ -1,0 +1,132 @@
+/**
+* @info: ZM-home-classics
+* @author: PengGeng
+* @date: 8/5/20-2:12 下午
+*/
+<template>
+  <div class="classics-main">
+    <z-m-home-label :label-name="labelName" @hot-more="hanldeClikckClassicsMore"></z-m-home-label>
+    <div class="classics-main-content">
+      <div class="classics-main-content-item" v-for="index in 6" :key="index">
+        <div class="classics-main-content-item-bg">
+          <div class="classics-main-content-item-bg-img"></div>
+          <div class="classics-main-content-item-bg-content">
+            <span class="classics-main-content-item-bg-content-title">女神降临</span>
+            <div>
+              <span class="classics-main-content-item-bg-content-label">悬疑</span>
+              <span class="classics-main-content-item-bg-content-label">热血</span>
+            </div>
+            <span class="classics-main-content-item-bg-content-chapter">完结/共234话</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import ZMHomeLabel from './ZMHomeLabel'
+
+export default {
+  name: 'ZMClassicsComics',
+  data() {
+    return {
+      labelName: '经典漫画'
+    }
+  },
+  components: {
+    ZMHomeLabel
+  },
+  methods: {
+    /**
+     * @info: go to classics comics info
+     * @author: PengGeng
+     * @date: 8/5/20-2:23 下午
+     */
+    hanldeClikckClassicsMore() {
+      console.log('go to classics comics info')
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  $main-color: #222222;
+  $main-fontSize: 18px;
+  $title-fontSize: 14px;
+  $chapter-fontSize: 10px;
+  $chapter-color: #BBBBBB;
+  .classics-main {
+    position: relative;
+    padding: 20px 8px;
+    color: $main-color;
+    font-size: $main-fontSize;
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0 20px 0;
+      flex-wrap: wrap;
+      &-item {
+        position: relative;
+        width: 175px;
+        height: 104px;
+        padding: 4px 0;
+        &-bg {
+          display: flex;
+          width: 175px;
+          justify-content: flex-start;
+          background: url("../images/module_bg.png") no-repeat;
+          background-position-y: bottom;
+          background-size: contain;
+          border-radius: 4px;
+          &-img {
+            /*display: inline-block;*/
+            margin-left: 9px;
+            margin-top: 8px;
+            width: 72px;
+            height: 96px;
+            border-radius: 4px;
+            background: url("../images/headerBg.png") no-repeat;
+            background-size: cover;
+            background-position-y: bottom;
+          }
+          &-content {
+            padding-top: 24px;
+            padding-bottom: 10px;
+            padding-left: 8px;
+            width: 82px;
+            color: $chapter-color;
+            font-size: $chapter-fontSize;
+            &-title {
+              display: block;
+              padding: 4px 0;
+              color: $main-color;
+              font-size: $title-fontSize;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            &-label {
+              display: inline-block;
+              padding: 2px 0;
+              width: 32px;
+              height: 20px;
+              border: 1px solid rgba(0,0,0,0.08);;
+              border-radius: 4px;
+              text-align: center;
+              line-height: 20px;
+              -webkit-transform-origin-x: 0;
+              transform: scale(0.83);
+            }
+            &-chapter {
+              display: inline-block;
+              -webkit-transform-origin-x: 0;
+              transform: scale(0.83);
+              padding: 4px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
