@@ -34,7 +34,8 @@ export default {
 
 <style scoped lang="scss">
   $label-color: #BBBBBB;
-  $label-fontSize: 10px;
+  $label-fontSize: 18px;
+  $label-right-fonSize: 10px;
   .main-label {
     display: flex;
     padding: 0 8px;
@@ -43,7 +44,7 @@ export default {
 
     &-r {
       color: $label-color;
-      font-size: $label-fontSize;
+      font-size: $label-right-fonSize;
       text-align: right;
       padding-right: 16px;
 

@@ -46,16 +46,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  $label-color: #222222;
-  $label-fontSize: 18px;
+  $main-color: #222222;
+  $main-fontSize: 18px;
   $title-fontSize: 14px;
   $chapter-color: #BBBBBB;
   $chapter-fontSize: 10px;
   .hot-main {
     position: relative;
-    padding: 40px 8px;
-    color: $label-color;
-    font-size: $label-fontSize;
+    padding: 20px 8px;
+    color: $main-color;
+    font-size: $main-fontSize;
 
     &-content {
       display: flex;
@@ -91,6 +91,8 @@ export default {
         &-chapter {
           padding: 2px 0 8px 0;
           font-size: $chapter-fontSize;
+          transform: scale(0.83);
+          -webkit-transform-origin-x: 0;
           color: $chapter-color;
           font-weight: bold;
         }

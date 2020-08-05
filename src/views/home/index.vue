@@ -10,6 +10,8 @@
     <z-m-new-comics></z-m-new-comics>
     <!--首页热番 -->
     <z-m-hot-comics></z-m-hot-comics>
+    <!--经典漫画-->
+    <z-m-classics-comics></z-m-classics-comics>
   </div>
 </template>
 
@@ -18,17 +20,20 @@ import ZMSearch from './components/search'
 import ZMSwiper from './components/ZMswiper'
 import ZMNewComics from './components/ZMNewComics'
 import ZMHotComics from './components/ZMHotComics'
+import ZMClassicsComics from './components/ZMClassicsComics'
+
 export default {
   name: 'home',
   components: {
     ZMSearch,
     ZMSwiper,
     ZMNewComics,
-    ZMHotComics
+    ZMHotComics,
+    ZMClassicsComics
   },
   mounted() {},
   methods: {}
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -38,6 +43,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
+
     &-search {
       position: absolute;
       width: 343px;

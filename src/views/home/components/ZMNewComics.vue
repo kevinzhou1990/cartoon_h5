@@ -64,6 +64,9 @@ export default {
         font-weight: bold;
       }
       &-author {
+        display: inline-block;
+        transform: scale(0.83);
+        -webkit-transform-origin-x: 0;
         font-size: 10px;
         color: #BBBBBB;
         font-weight: bold;
