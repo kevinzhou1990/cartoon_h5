@@ -5,10 +5,7 @@
 */
 <template>
   <div class="hot-main">
-    <div class="hot-main-label" @click.stop="handleClickHotMore">
-      <span>七月热番</span>
-      <span class="hot-main-label-r">更多</span>
-    </div>
+    <z-m-home-label :label-name="labelName" @hot-more="handelClickHotMore"></z-m-home-label>
     <div class="hot-main-content">
       <div class="hot-main-content-item" v-for="index in 6" :key="index">
         <span class="hot-main-content-item-img"></span>
@@ -23,16 +20,26 @@
 </template>
 
 <script>
+import ZMHomeLabel from './ZMHomeLabel'
+
 export default {
   name: 'ZMHotComics',
+  data() {
+    return {
+      labelName: '七月热番'
+    }
+  },
+  components: {
+    ZMHomeLabel
+  },
   methods: {
     /**
-     * @info: 热翻点击了更多
+     * @info: 热番更多
      * @author: PengGeng
-     * @date: 8/4/20-6:14 下午
+     * @date: 8/5/20-11:52 上午
      */
-    handleClickHotMore() {
-      console.log('点击了更多漫画！')
+    handelClickHotMore() {
+      console.log('点击了更多！')
     }
   }
 }
@@ -50,29 +57,6 @@ export default {
     color: $label-color;
     font-size: $label-fontSize;
 
-    &-label {
-      display: flex;
-      padding: 0 8px;
-      justify-content: space-between;
-      font-weight: bold;
-
-      &-r {
-        color: $chapter-color;
-        font-size: $chapter-fontSize;
-        text-align: right;
-        padding-right: 16px;
-
-        &:after {
-          position: absolute;
-          content: '';
-          width: 16px;
-          height: 16px;
-          background: url("../images/more.png") no-repeat;
-          background-size: 100%;
-        }
-      }
-    }
-
     &-content {
       display: flex;
       justify-content: flex-start;
@@ -88,7 +72,7 @@ export default {
         &-img {
           width: 109px;
           height: 145px;
-          // background: url("../images/headerBg.png") no-repeat;
+          background: url("../images/headerBg.png") no-repeat;
           background-size: cover;
           /*padding: 8px;*/
           border-radius: 4px;
@@ -116,6 +100,7 @@ export default {
     &-btn {
       display: flex;
       justify-content: center;
+
       &-content {
         width: 160px;
         height: 44px;
@@ -126,6 +111,7 @@ export default {
         font-size: 12px;
         color: #12E079;
         font-weight: bold;
+
         &:before {
           display: inline-block;
           content: '';

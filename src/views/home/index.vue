@@ -1,16 +1,19 @@
 <template>
   <div class="main">
+    <!--首页搜索组件-->
     <div class="main-search">
       <z-m-search></z-m-search>
     </div>
+    <!--首页滑动组件-->
     <z-m-swiper></z-m-swiper>
+    <!--首页新漫-->
     <z-m-new-comics></z-m-new-comics>
+    <!--首页热番 -->
     <z-m-hot-comics></z-m-hot-comics>
   </div>
 </template>
 
 <script>
-// import Contents from '@/common/components/contents';
 import ZMSearch from './components/search'
 import ZMSwiper from './components/ZMswiper'
 import ZMNewComics from './components/ZMNewComics'
@@ -24,11 +27,7 @@ export default {
     ZMHotComics
   },
   mounted() {},
-  methods: {
-    test() {
-      alert('test');
-    }
-  }
+  methods: {}
 };
 </script>
 
