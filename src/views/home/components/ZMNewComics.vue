@@ -82,7 +82,7 @@ export default {
         display: -webkit-box;
         /*white-space: nowrap;*/
         -webkit-line-clamp: 2;
-        /*!*! autoprefixer: off *!*/
+        /*! autoprefixer: off *!*/
         -webkit-box-orient: vertical;
       }
     }

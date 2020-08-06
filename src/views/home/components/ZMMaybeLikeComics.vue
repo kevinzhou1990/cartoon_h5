@@ -1,0 +1,183 @@
+/**
+* @info: ZM-home-MaybeLike
+* @author: PengGeng
+* @date: 8/5/20-7:19 下午
+*/
+<template>
+  <div class="maybe-main">
+    <z-m-home-label :label-name="labelName" @hot-more="handleClickMybeLike"></z-m-home-label>
+    <div class="maybe-main-content" v-for="index in nums" :key="index">
+      <div class="maybe-main-content-item">
+        <div class="maybe-main-content-item-img"></div>
+        <div class="maybe-main-content-item-desc">
+          <div class="maybe-main-content-item-desc-title">
+            <span>全职读者视角</span>
+            <div class="maybe-main-content-item-desc-title-c" @click="isCollectFlag = !isCollectFlag">
+              <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">
+              <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
+            </div>
+          </div>
+          <div class="maybe-main-content-item-desc-chapter">
+            <span>流星</span>
+            <span class="p-l10">完结/共234话</span>
+          </div>
+          <div class="maybe-main-content-item-desc-label">
+            <span class="s-border">悬疑</span>
+            <span class="s-border m-l8">热血</span>
+          </div>
+          <span class="maybe-main-content-item-desc-content">
+            欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放
+          </span>
+        </div>
+      </div>
+      <span class="maybe-main-content-item-line" v-if="index < nums.length"></span>
+    </div>
+  </div>
+</template>
+
+<script>
+import ZMHomeLabel from './ZMHomeLabel'
+
+export default {
+  name: 'ZMPossibale',
+  data() {
+    return {
+      labelName: '你可能喜欢',
+      isCollectFlag: false, // 是否已经收藏
+      ba_img: require('../images/save_ba.png'),
+      bb_img: require('../images/save_bb.png'),
+      nums: [1, 2, 3]
+    }
+  },
+  components: {
+    ZMHomeLabel
+  },
+  methods: {
+    /**
+     * @info: go to maybe like more info
+     * @author: PengGeng
+     * @date: 8/5/20-7:25 下午
+     */
+    handleClickMybeLike() {
+      console.log('go to maybe like more info')
+    }
+  }
+}
+</script>
+<style scoped lang="scss">
+  $maybe-fontSize: 18px;
+  $maybe-color: #222222;
+  $banner-font-color: #FFFFFF;
+  $title-fontSize: 14px;
+  $chapter-color: #BBBBBB;
+  $chapter-fontSize: 10px;
+  $content-fontSize: 12px;
+  $content-color: #999999;
+.f-c-g {
+  color: $chapter-color;
+}
+.p-l10 {
+  padding-left: 10px;
+}
+.m-l8 {
+  margin-left: 8px;
+}
+
+.maybe-main {
+  position: relative;
+  padding: 20px 8px;
+  color: $maybe-color;
+  font-size: $maybe-fontSize;
+  font-weight: bold;
+  &-content {
+    width: 343px;
+    height: 137px;
+    padding: 12px 8px 0 8px;
+    &-item {
+      display: flex;
+      padding: 8px 0;
+      justify-content: flex-start;
+      &-img {
+        width: 90px;
+        height: 120px;
+        border-radius: 4px;
+        background: url("../images/defaultBook.png") no-repeat;
+        background-size: auto;
+      }
+      &-desc {
+        display: flex;
+        flex-direction: column;
+        width: 253px;
+        padding-left: 8px;
+        &-title {
+          display: flex;
+          padding: 8px 2px 4px 2px;
+          justify-content: space-between;
+          font-size: $title-fontSize;
+          &-c {
+            display: flex;
+            justify-content: space-between;
+            color: #12E079;
+            font-size: $content-fontSize;
+            &-img {
+              width: 16px;
+              height: 16px;
+              line-height: 16px;
+              margin-right: 4px;
+            }
+          }
+        }
+        &-chapter {
+          padding: 0 2px;
+          color: $chapter-color;
+          font-size: $chapter-fontSize;
+          transform: scale(0.83);
+          -webkit-transform-origin-x: 0;
+        }
+        &-label {
+          margin: 2px 2px;
+          color: $chapter-color;
+          font-size: $chapter-fontSize;
+          transform: scale(0.83);
+          -webkit-transform-origin-x: 0;
+          .s-border {
+            display: inline-block;
+            width: 32px;
+            height: 20px;
+            border: 1px solid $chapter-color;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 20px;
+          }
+        }
+        &-content {
+          font-weight: bold;
+          width: 245px;
+          color: $content-color;
+          font-size: $content-fontSize;
+          /*transform: scale(0.83);*/
+          /*-webkit-transform-origin-x: 0;*/
+          /*-webkit-transform-origin-y: 0;*/
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          /*! autoprefixer: off *!*/
+          -webkit-box-orient: vertical;
+        }
+      }
+      &-line {
+        display:flex;
+        box-sizing: border-box;
+        font-weight: normal;
+        opacity: 0.2;
+        padding: 4px 0;
+        width: 1143px;
+        border-bottom: 1px solid #000000;
+        transform: scale(0.3);
+        -webkit-transform-origin-x: 0;
+      }
+    }
+  }
+}
+</style>

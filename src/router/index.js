@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/home';
-import Comments from '@/views/comments';
+// import Comments from '@/views/comments';
 import Detail from '@/views/detail';
 import Recommend from '@/views/recommend';
 import Main from '@/views/main';
@@ -31,12 +31,12 @@ const router = new Router({
           component: Detail,
           meta: { title: '漫画详情', transitionIn: 'slide-left' }
         },
-        {
-          path: '/detail/comments',
-          name: 'comments',
-          component: Comments,
-          meta: { title: '评论', transitionIn: 'slide-left' }
-        },
+        // {
+        //   path: '/detail/comments',
+        //   name: 'comments',
+        //   component: Comments,
+        //   meta: { title: '评论', transitionIn: 'slide-left' }
+        // },
         {
           path: '/recommend',
           name: 'recommend',
