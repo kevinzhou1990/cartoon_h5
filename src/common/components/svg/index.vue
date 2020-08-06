@@ -1,16 +1,25 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="`${svgClass} ${size}`" aria-hidden="true">
     <use :xlink:href="iconName" />
   </svg>
 </template>
 
 <script>
+function oneOf(value, list) {
+  return list.indexOf(value) !== -1;
+}
 export default {
   name: 'SvgIcon',
   props: {
     iconClass: {
       type: String,
       required: true
+    },
+    size: {
+      validator(value) {
+        return oneOf(value, ['default', 'small', 'middle', 'large']);
+      },
+      default: 'default'
     }
   },
   computed: {
@@ -35,5 +44,17 @@ export default {
   vertical-align: middle;
   fill: currentColor;
   overflow: hidden;
+  &.large {
+    height: 88px;
+    width: 88px;
+  }
+  &.small {
+    height: 16px;
+    width: 16px;
+  }
+  &.middle {
+    height: 48px;
+    width: 48px;
+  }
 }
 </style>
