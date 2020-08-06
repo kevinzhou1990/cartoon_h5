@@ -14,6 +14,8 @@
     <z-m-classics-comics></z-m-classics-comics>
     <!--推荐喜欢看的组建-->
     <z-m-like-comics></z-m-like-comics>
+    <!--可能喜欢组建-->
+    <z-m-maybe-like-comics></z-m-maybe-like-comics>
   </div>
 </template>
 
@@ -24,6 +26,7 @@ import ZMNewComics from './components/ZMNewComics'
 import ZMHotComics from './components/ZMHotComics'
 import ZMClassicsComics from './components/ZMClassicsComics'
 import ZMLikeComics from './components/ZMLikeComics'
+import ZMMaybeLikeComics from './components/ZMMaybeLikeComics'
 
 export default {
   name: 'home',
@@ -33,7 +36,8 @@ export default {
     ZMNewComics,
     ZMHotComics,
     ZMClassicsComics,
-    ZMLikeComics
+    ZMLikeComics,
+    ZMMaybeLikeComics
   },
   mounted() {},
   methods: {}
