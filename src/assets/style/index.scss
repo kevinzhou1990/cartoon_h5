@@ -4,6 +4,10 @@ p,
 div {
   margin: 0;
 }
+html,
+body {
+  height: 100%;
+}
 @font-face {
   font-family: 'pingfang-blod';
   src: url('../../../assets/font/PingFang-SC-Semibold.ttf');

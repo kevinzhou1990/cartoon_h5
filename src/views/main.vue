@@ -6,23 +6,17 @@
       </keep-alive>
     </transition>
     <div class="tabber flex">
-      <div :class="actived === 'home' ? 'active' : ''">
-        <router-link to="/">
-          <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
-          <span>首页</span>
-        </router-link>
+      <div :class="actived === 'home' ? 'active' : ''" @click="switchTab('home')">
+        <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
+        <span>首页</span>
       </div>
-      <div :class="actived === 'shelf' ? 'active' : ''">
-        <router-link to="/shelf">
-          <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
-          <span>书架</span>
-        </router-link>
+      <div :class="actived === 'shelf' ? 'active' : ''" @click="switchTab('shelf')">
+        <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
+        <span>书架</span>
       </div>
-      <div :class="actived === 'mine' ? 'active' : ''">
-        <router-link to="/mine">
-          <svgIcon :iconClass="`my_${actived === 'mine' ? 'aa' : 'ab'}`" />
-          <span>我的</span>
-        </router-link>
+      <div :class="actived === 'mine' ? 'active' : ''" @click="switchTab('mine')">
+        <svgIcon :iconClass="`my_${actived === 'mine' ? 'aa' : 'ab'}`" />
+        <span>我的</span>
       </div>
     </div>
   </div>
@@ -43,7 +37,14 @@ export default {
     ...mapState({ actived: (state) => state.main.actived })
   },
   methods: {
-    ...mapMutations(['updateActived'])
+    ...mapMutations(['updateActived']),
+    switchTab(name) {
+      if (this.actived === name) {
+        return false;
+      }
+      this.updateActived(name);
+      this.$router.push(`/${name}`);
+    }
   },
   mounted() {
     this.updateActived(this.$route.name);
