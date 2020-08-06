@@ -1,21 +1,23 @@
 <template>
   <div class="main">
-    <!--首页搜索组件-->
+    <!-- 首页搜索组件 -->
     <div class="main-search">
       <z-m-search></z-m-search>
     </div>
-    <!--首页滑动组件-->
+    <!-- 首页滑动组件 -->
     <z-m-swiper></z-m-swiper>
-    <!--首页新漫-->
+    <!-- 首页新漫 -->
     <z-m-new-comics></z-m-new-comics>
-    <!--首页热番 -->
+    <!-- 首页热番 -->
     <z-m-hot-comics></z-m-hot-comics>
-    <!--经典漫画-->
+    <!-- 经典漫画 -->
     <z-m-classics-comics></z-m-classics-comics>
-    <!--推荐喜欢看的组建-->
+    <!-- 推荐喜欢看的组建 -->
     <z-m-like-comics></z-m-like-comics>
-    <!--可能喜欢组建-->
+    <!-- 可能喜欢组建 -->
     <z-m-maybe-like-comics></z-m-maybe-like-comics>
+    <!-- 无数据了 -->
+    <z-m-no-data></z-m-no-data>
   </div>
 </template>
 
@@ -27,6 +29,7 @@ import ZMHotComics from './components/ZMHotComics'
 import ZMClassicsComics from './components/ZMClassicsComics'
 import ZMLikeComics from './components/ZMLikeComics'
 import ZMMaybeLikeComics from './components/ZMMaybeLikeComics'
+import ZMNoData from './components/ZMNoData'
 
 export default {
   name: 'home',
@@ -37,7 +40,8 @@ export default {
     ZMHotComics,
     ZMClassicsComics,
     ZMLikeComics,
-    ZMMaybeLikeComics
+    ZMMaybeLikeComics,
+    ZMNoData
   },
   mounted() {},
   methods: {}
@@ -50,8 +54,9 @@ export default {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow-x: hidden;
-
+    overflow: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar { width: 0 !important }
     &-search {
       position: absolute;
       width: 343px;

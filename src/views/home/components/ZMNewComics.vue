@@ -42,10 +42,11 @@ export default {
     padding: 12px 0 6px 16px;
     letter-spacing: 0;
   }
+  ::-webkit-scrollbar { width: 0 !important }
   &-content {
     display: flex;
     padding: 6px 8px 20px 8px;
-    overflow: scroll;
+    overflow-x: scroll;
     &-item {
       display: flex;
       flex-direction: column;
@@ -54,12 +55,12 @@ export default {
       &-img {
         width: 152px;
         height: 152px;
-        background: url("../images/headerBg.png") no-repeat;
+        background: url("../images/newDefaultBook.png") no-repeat;
         background-size: 100%;
         border-radius: 4px;
       }
       &-title {
-        margin-top: -5px;
+        padding-top: 4px;
         font-size: 14px;
         font-weight: bold;
       }

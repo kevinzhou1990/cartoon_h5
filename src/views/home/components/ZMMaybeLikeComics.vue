@@ -102,7 +102,7 @@ export default {
         height: 120px;
         border-radius: 4px;
         background: url("../images/defaultBook.png") no-repeat;
-        background-size: auto;
+        background-size: cover;
       }
       &-desc {
         display: flex;
