@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <router-view />
+    <div style="height: 100px; width: 100px; margin: 20px;" class="zm-b">000</div>
+    <div style="height: 100px; width: 100px; margin: 20px;" class="zm-b-t">111</div>
+    <div style="height: 100px; width: 100px; margin: 20px;" class="zm-b-b">222</div>
+    <div style="height: 100px; width: 100px; margin: 20px;" class="zm-b-l">333</div>
+    <div style="height: 100px; width: 100px; margin: 20px;" class="zm-b-r">444</div>
   </div>
 </template>
 
@@ -12,35 +17,10 @@ export default {
 </script>
 
 <style lang="scss">
+$BORDER_COLOR: #eee;
 @import url('/assets/style/index.scss');
-@import url('/assets/style/1px.scss');
-/*1px border 开始*/
-/* 下border */
-.zm-b-b {
-  .zm-1px-b(#eee);
-}
+@import './src/assets/style/1px.scss';
 
-/* 上border */
-.zm-b-t {
-  .zm-1px-t(#eee);
-}
-
-/* 左border */
-.zm-b-l {
-  .zm-1px-l(#eee);
-}
-
-/* 右border */
-.zm-b-r {
-  .zm-1px-r(#eee);
-}
-
-/* 全部border */
-.zm-b {
-  .zm-1px(#eee);
-}
-
-/*1px border 结束*/
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
