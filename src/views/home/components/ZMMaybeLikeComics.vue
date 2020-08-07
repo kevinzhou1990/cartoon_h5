@@ -30,7 +30,7 @@
           </span>
         </div>
       </div>
-      <span class="maybe-main-content-item-line" v-if="index < nums.length"></span>
+      <div class="maybe-main-content-item-line zm-b-t" v-if="index < nums.length"></div>
     </div>
   </div>
 </template>
@@ -155,9 +155,6 @@ export default {
           width: 245px;
           color: $content-color;
           font-size: $content-fontSize;
-          /*transform: scale(0.83);*/
-          /*-webkit-transform-origin-x: 0;*/
-          /*-webkit-transform-origin-y: 0;*/
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -172,10 +169,10 @@ export default {
         font-weight: normal;
         opacity: 0.2;
         padding: 4px 0;
-        width: 1143px;
-        border-bottom: 1px solid #000000;
-        transform: scale(0.3);
-        -webkit-transform-origin-x: 0;
+        /*width: 1143px;*/
+        /*border-bottom: 1px solid #000000;*/
+        /*transform: scale(0.5);*/
+        /*-webkit-transform-origin-x: 0;*/
       }
     }
   }
