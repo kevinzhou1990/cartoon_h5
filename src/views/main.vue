@@ -2,7 +2,7 @@
   <div class="main">
     <transition :name="transitionName">
       <keep-alive>
-        <router-view class="main-wrap" />
+        <router-view/>
       </keep-alive>
     </transition>
     <div class="tabber zm-b-t flex">
