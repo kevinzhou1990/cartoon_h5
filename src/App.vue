@@ -21,4 +21,17 @@ $BORDER_COLOR: rgb(0,0,0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+  .box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 44px;
+    overflow: auto;
+    & > .header-main {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+    }
+  }
 </style>
