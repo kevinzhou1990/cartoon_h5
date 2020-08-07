@@ -4,17 +4,21 @@ import router from './router';
 import install from './lib/request';
 import Button from '@/common/plugin/button';
 import Dialog from '@/common/plugin/dialog';
+import Toast from '@/common/plugin/toast';
 import store from '@/store';
 import 'lib-flexible';
 /**
  * 引入mintui
  */
 import MintUI from 'mint-ui';
+import './assets/style/index.scss';
+import './assets/style/1px.scss';
 import 'mint-ui/lib/style.css';
 // swpier组件
 Vue.use(MintUI);
 Vue.use(Button);
 Vue.use(Dialog);
+Vue.use(Toast);
 install(Vue);
 
 Vue.config.productionTip = false;

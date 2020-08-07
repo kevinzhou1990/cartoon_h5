@@ -5,7 +5,7 @@
         <router-view class="main-wrap" />
       </keep-alive>
     </transition>
-    <div class="tabber flex">
+    <div class="tabber zm-b-t flex">
       <div :class="actived === 'home' ? 'active' : ''" @click="switchTab('home')">
         <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
         <span>首页</span>
@@ -62,7 +62,6 @@ export default {
     background-clip: padding-box;
     background-color: #fff;
     height: 49px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
     a {
       color: #222;
       text-decoration: none;

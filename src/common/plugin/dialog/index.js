@@ -6,12 +6,11 @@ const Dialog = {
     const instance = new DialogConstructor();
     instance.$mount(document.createElement('div'));
     document.body.appendChild(instance.$el);
-    Vue.prototype.$dialog = (msg, type, { confirm, cancel }) => {
+    Vue.prototype.$dialog = (msg, type, options) => {
       instance.message = msg;
       instance.show = true;
       instance.type = type;
-      instance.confirm = confirm;
-      instance.cancel = cancel;
+      instance.options = options;
     };
   }
 };

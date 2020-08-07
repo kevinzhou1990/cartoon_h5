@@ -3,10 +3,10 @@
     <div class="dialog-content">
       <SvgIcon iconClass="ca" size="large" class="dialog-icon" />
       <div class="dialog-msg">{{message}}</div>
-      <div class="dialog-button" v-if="type === 'alert'" @click="confirm">确认</div>
-      <div class="dialog-button" v-else>
-        <div @click="cancel">取消</div>
-        <div @click="confirm">确认</div>
+      <div class="dialog-button zm-b-t" v-if="type === 'alert'" @click="confirm">确认</div>
+      <div class="dialog-button zm-b-t" v-else>
+        <div @click="cancel" class="zm-b-r">{{ options.cancel.text || '取消' }}</div>
+        <div @click="confirm">{{ options.confirm.text || '确认' }}</div>
       </div>
     </div>
   </div>
@@ -20,7 +20,17 @@ export default {
   data() {
     return { show: false, message: 'xxx', type: 'alert' };
   },
-  methods: {}
+  methods: {
+    cancel() {
+      if (this.type === 'confirm') {
+        this.options.cancel.callback();
+        this.show = false;
+      }
+    },
+    confirm() {
+      this.show = this.options.confirm.callback();
+    }
+  }
 };
 </script>
 
@@ -57,7 +67,7 @@ export default {
       display: flex;
       height: 55px;
       line-height: 55px;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      justify-content: center;
       & > div {
         flex: 1;
       }
