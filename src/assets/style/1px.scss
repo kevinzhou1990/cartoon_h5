@@ -1,3 +1,6 @@
+/**
+ * 针对移动端显示1px问题,请使用此变量
+ */
 .setTopLine($c: #C7C7C7) {
   content: ' ';
   position: absolute;
