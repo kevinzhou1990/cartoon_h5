@@ -12,7 +12,6 @@ import 'lib-flexible';
  */
 import MintUI from 'mint-ui';
 import './assets/style/index.scss';
-import './assets/style/1px.scss';
 import 'mint-ui/lib/style.css';
 // swpier组件
 Vue.use(MintUI);

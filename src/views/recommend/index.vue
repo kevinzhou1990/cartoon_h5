@@ -1,27 +1,35 @@
 <template>
   <div class="box">
-    <div style="position: relative;">
+    <div>
       <z-m-header :title-text="titleText" show-right>
         <div slot="right" class="right-change">
           <div class="icon-bg" :class="isLightIcon ? 'trl-l': 'trl-r' "></div>
         </div>
       </z-m-header>
-      <div :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click="handleClickLightIcon"></div>
-      <div :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
+      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click="handleClickLightIcon"></div>
+      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
     </div>
-    <div style="height: 1000px; bottom: 0;">
-        11111
+    <div class="nav-bar">
+      <z-m-nav-bar></z-m-nav-bar>
     </div>
+    <z-m-table v-if="isLightIcon"></z-m-table>
+    <z-m-list v-else></z-m-list>
   </div>
 </template>
 
 <script>
 import ZMHeader from './components/ZMHeader'
+import ZMNavBar from './components/ZMNavBar'
+import ZMTable from './components/ZMTable'
+import ZMList from './components/ZMList'
 
 export default {
   name: 'recommentd',
   components: {
-    ZMHeader
+    ZMHeader,
+    ZMNavBar,
+    ZMTable,
+    ZMList
   },
   data() {
     return {
@@ -78,6 +86,7 @@ export default {
     transform: translateX(#{$xLineLength}px);
   }
   .right-change {
+    overflow: hidden;
     display: flex;
     width: 44px;
     height: 24px;
@@ -139,5 +148,11 @@ export default {
     /*background-size: 100%;*/
     /*transition: all 0.8s ease-in-out;*/
   }
-
+  .nav-bar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 56px;
+    box-sizing: border-box;
+  }
 </style>

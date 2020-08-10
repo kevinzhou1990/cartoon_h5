@@ -17,6 +17,19 @@ $T_B: height !default;
   transform-origin: left top;
   transform: scale(0.5);
 }
+@mixin setTopAndBottom {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  border-bottom: 1px solid $BORDER_COLOR;
+  border-top: 1px solid $BORDER_COLOR;
+  color: $BORDER_COLOR;
+  height: 200%;
+  transform-origin: left top;
+  transform: scale(0.5);
+}
 
 // 这只某一个边框的线条公共mixin
 @mixin borderCom($BORDER_COLOR, $posit: top, $T_B) {
@@ -62,6 +75,12 @@ $T_B: height !default;
   position: relative;
   &:before {
     @include setLine;
+  }
+}
+.zm-b-t-b {
+  position: relative;
+  &:before {
+    @include setTopAndBottom
   }
 }
 /* 上边框 */

@@ -70,7 +70,7 @@ export default {
     margin: 12px 8px;
     width: 343px;
     height: 172px;
-    background: url("../images/defaultBanner.png") no-repeat;
+    background: url("../../../assets/img/defaultBanner.png") no-repeat;
     background-size: 100%;
     border-radius: 4px;
     &-img {
@@ -112,7 +112,7 @@ export default {
         height: 145px;
         border-radius: 4px;
         padding: 4px 2px;
-        background: url("../images/defaultBook.png") no-repeat;
+        background: url("../../../assets/img/defaultBook.png") no-repeat;
         background-size: 100%;
       }
       &-title {

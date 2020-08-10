@@ -23,7 +23,7 @@
 
 <script>
 import ZMSearch from './components/search'
-import ZMSwiper from './components/ZMswiper'
+import ZMSwiper from '@/common/components/ZMswiper'
 import ZMNewComics from './components/ZMNewComics'
 import ZMHotComics from './components/ZMHotComics'
 import ZMClassicsComics from './components/ZMClassicsComics'
