@@ -40,6 +40,7 @@ export default {
   width: 100%;
   height: 44px;
   line-height: 44px;
+  z-index: 999;
 }
 .header-left {
   flex: 1;

@@ -101,7 +101,7 @@ export default {
         width: 90px;
         height: 120px;
         border-radius: 4px;
-        background: url("../images/defaultBook.png") no-repeat;
+        background: url("../../../assets/img/defaultBook.png") no-repeat;
         background-size: cover;
       }
       &-desc {
