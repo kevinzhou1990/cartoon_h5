@@ -12,7 +12,8 @@
     <div class="nav-bar">
       <z-m-nav-bar></z-m-nav-bar>
     </div>
-    <z-m-table></z-m-table>
+    <z-m-table v-if="isLightIcon"></z-m-table>
+    <z-m-list v-else></z-m-list>
   </div>
 </template>
 
@@ -20,13 +21,15 @@
 import ZMHeader from './components/ZMHeader'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
+import ZMList from './components/ZMList'
 
 export default {
   name: 'recommentd',
   components: {
     ZMHeader,
     ZMNavBar,
-    ZMTable
+    ZMTable,
+    ZMList
   },
   data() {
     return {

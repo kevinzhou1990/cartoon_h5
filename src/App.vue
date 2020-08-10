@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style lang="scss">
+$BORDER_COLOR: #eee;
+@import './assets/style/1px.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

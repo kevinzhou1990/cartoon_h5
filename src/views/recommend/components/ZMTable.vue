@@ -1,3 +1,8 @@
+/**
+* @info:
+* @author: PengGeng
+* @date: 8/10/20-4:19 下午
+*/
 <template>
   <div class="main-content">
     <div style="display: flex; flex-flow: row wrap;">
@@ -40,11 +45,13 @@ export default {
     }
     &-title {
       display: inline-block;
+      padding: 8px 0 2px 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
     &-chapter {
+      padding: 2px 0 8px 0;
       @include chapterSize
     }
   }
