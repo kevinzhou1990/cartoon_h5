@@ -1,9 +1,9 @@
 /**
  * 针对移动端显示1px问题,请使用此变量
  */
-$BORDER_COLOR: #eee!default;
-$posit: top!default;
-$T_B: height!default;
+$BORDER_COLOR: #ebebeb !default;
+$posit: top !default;
+$T_B: height !default;
 // 这是边框线条的mixin
 @mixin setLine {
   content: ' ';
@@ -20,7 +20,7 @@ $T_B: height!default;
 
 // 这只某一个边框的线条公共mixin
 @mixin borderCom($BORDER_COLOR, $posit: top, $T_B) {
-  content: " ";
+  content: ' ';
   position: absolute;
   #{$posit}: 0;
   #{$T_B}: 1px;
@@ -61,7 +61,7 @@ $T_B: height!default;
 .zm-b {
   position: relative;
   &:before {
-    @include setLine
+    @include setLine;
   }
 }
 /* 上边框 */
@@ -83,14 +83,14 @@ $T_B: height!default;
 .zm-b-l {
   position: relative;
   &:before {
-    @include setLeftLine
+    @include setLeftLine;
   }
 }
 /* 右边框 */
 .zm-b-r {
   position: relative;
   &:before {
-    @include setRightLine
+    @include setRightLine;
   }
 }
 /* table */

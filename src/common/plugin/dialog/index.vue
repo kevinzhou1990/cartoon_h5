@@ -41,7 +41,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-family: 'pingfang-blod';
-  z-index: 9;
+  z-index: 99;
   bottom: 0;
   top: 0;
   left: 0;

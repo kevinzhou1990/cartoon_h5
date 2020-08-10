@@ -1,12 +1,19 @@
 html,
 body,
 p,
-div {
+div,
+ul,
+li {
   margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
 }
 html,
 body {
   height: 100%;
+  overflow-scrolling: touch;
 }
 @font-face {
   font-family: 'pingfang-blod';
