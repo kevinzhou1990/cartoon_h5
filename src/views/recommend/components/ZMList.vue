@@ -5,16 +5,15 @@
 */
 <template>
   <div class="maybe-main">
+    <div style="padding: 0 8px;">
+      <z-mswiper :banner-height="bannerHeight" :isBottomImg="isBottomImg" :swiperOptionsProps="swiperOptions"></z-mswiper>
+    </div>
     <div class="maybe-main-content" v-for="index in nums" :key="index">
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span>全职读者视角</span>
-<!--            <div class="maybe-main-content-item-desc-title-c" @click="isCollectFlag = !isCollectFlag">-->
-<!--              <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">-->
-<!--              <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>-->
-<!--            </div>-->
           </div>
           <div class="maybe-main-content-item-desc-chapter">
             <span>流星</span>
@@ -35,13 +34,29 @@
 </template>
 
 <script>
-
+import ZMswiper from '@/common/components/ZMswiper'
 export default {
   name: 'ZMPossibale',
   data() {
     return {
-      nums: [1, 2, 3]
+      bannerHeight: 86,
+      isBottomImg: false,
+      nums: [1, 2, 3],
+      swiperOptions: {
+        pagination: {
+          el: '.swiper-pagination',
+          // type: 'custom',
+          clickable: true, //点击分页器的指示点分页器会控制Swiper切换
+          bulletClass: 'point-customs-recommend',
+          bulletActiveClass: 'point-customs-active'
+        }
+      }
     }
+  },
+  created() {
+  },
+  components: {
+    ZMswiper
   }
 }
 </script>
@@ -66,7 +81,7 @@ export default {
 
   .maybe-main {
     position: relative;
-    padding: 20px 8px;
+    padding: 8px;
     color: $maybe-color;
     font-size: $maybe-fontSize;
     font-weight: bold;
