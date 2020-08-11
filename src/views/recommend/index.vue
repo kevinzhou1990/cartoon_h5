@@ -12,8 +12,13 @@
     <div class="nav-bar">
       <z-m-nav-bar></z-m-nav-bar>
     </div>
-    <z-m-table v-if="isLightIcon"></z-m-table>
-    <z-m-list v-else></z-m-list>
+    <div v-if="showDataFlag">
+      <z-m-table v-if="isLightIcon"></z-m-table>
+      <z-m-list v-else></z-m-list>
+    </div>
+    <div v-else>
+      <z-m-not-network></z-m-not-network>
+    </div>
   </div>
 </template>
 
@@ -22,6 +27,7 @@ import ZMHeader from './components/ZMHeader'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
+import ZMNotNetwork from '../../common/components/noNetwork'
 
 export default {
   name: 'recommentd',
@@ -29,16 +35,18 @@ export default {
     ZMHeader,
     ZMNavBar,
     ZMTable,
-    ZMList
+    ZMList,
+    ZMNotNetwork
   },
   data() {
     return {
       titleText: '更多推荐',
-      isLightIcon: 'false', // false 右边高亮  true 左边高亮
+      isLightIcon: false, // false 右边高亮  true 左边高亮
       listBb: require('./images/list_bb.png'),
       listBa: require('./images/list_ba.png'),
       blockBb: require('./images/block_bb.png'),
-      blockBa: require('./images/block_ba.png')
+      blockBa: require('./images/block_ba.png'),
+      showDataFlag: false // 显示是否显示没有网络的情况
     }
   },
   computed: {

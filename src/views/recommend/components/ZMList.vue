@@ -4,7 +4,7 @@
 * @date: 8/10/20-4:23 下午
 */
 <template>
-  <div class="maybe-main">
+  <div class="maybe-main" @click="handleClickComicsInfo">
     <div style="padding: 0 8px;">
       <z-mswiper :banner-height="bannerHeight" :isBottomImg="isBottomImg" :swiperOptionsProps="swiperOptions"></z-mswiper>
     </div>
@@ -35,6 +35,7 @@
 
 <script>
 import ZMswiper from '@/common/components/ZMswiper'
+
 export default {
   name: 'ZMPossibale',
   data() {
@@ -57,6 +58,16 @@ export default {
   },
   components: {
     ZMswiper
+  },
+  methods: {
+    /**
+     * @info: TODO 去漫画详情
+     * @author: PengGeng
+     * @date: 8/11/20-10:04 上午
+     */
+    handleClickComicsInfo() {
+      console.log('go to comics info......')
+    }
   }
 }
 </script>
@@ -72,9 +83,11 @@ export default {
   .f-c-g {
     color: $chapter-color;
   }
+
   .p-l10 {
     padding-left: 10px;
   }
+
   .m-l8 {
     margin-left: 8px;
   }
@@ -85,14 +98,17 @@ export default {
     color: $maybe-color;
     font-size: $maybe-fontSize;
     font-weight: bold;
+
     &-content {
       width: 343px;
       height: 137px;
       padding: 12px 8px 0 8px;
+
       &-item {
         display: flex;
         padding: 8px 0;
         justify-content: flex-start;
+
         &-img {
           width: 90px;
           height: 120px;
@@ -100,21 +116,25 @@ export default {
           background: url("../../../assets/img/defaultBook.png") no-repeat;
           background-size: cover;
         }
+
         &-desc {
           display: flex;
           flex-direction: column;
           width: 253px;
           padding-left: 8px;
+
           &-title {
             display: flex;
             padding: 8px 2px 4px 2px;
             justify-content: space-between;
             font-size: $title-fontSize;
+
             &-c {
               display: flex;
               justify-content: space-between;
               color: #12E079;
               font-size: $content-fontSize;
+
               &-img {
                 width: 16px;
                 height: 16px;
@@ -123,6 +143,7 @@ export default {
               }
             }
           }
+
           &-chapter {
             padding: 0 2px;
             color: $chapter-color;
@@ -130,12 +151,14 @@ export default {
             transform: scale(0.83);
             -webkit-transform-origin-x: 0;
           }
+
           &-label {
             margin: 2px 2px;
             color: $chapter-color;
             font-size: $chapter-fontSize;
             transform: scale(0.83);
             -webkit-transform-origin-x: 0;
+
             .s-border {
               display: inline-block;
               width: 32px;
@@ -146,6 +169,7 @@ export default {
               line-height: 20px;
             }
           }
+
           &-content {
             font-weight: bold;
             width: 245px;
@@ -159,8 +183,9 @@ export default {
             -webkit-box-orient: vertical;
           }
         }
+
         &-line {
-          display:flex;
+          display: flex;
           box-sizing: border-box;
           font-weight: normal;
           opacity: 0.8;
