@@ -1,3 +1,8 @@
+/**
+* @info: 滑动组件
+* @author: PengGeng
+* @date: 8/11/20-2:43 下午
+*/
 <template>
   <div class="container">
     <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="banners.length>0">

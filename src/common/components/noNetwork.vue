@@ -1,3 +1,8 @@
+/**
+* @info: 无网络加载页面
+* @author: PengGeng
+* @date: 8/11/20-2:42 下午
+*/
 <template>
   <div class="main">
     <div class="main-content">

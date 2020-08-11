@@ -1,3 +1,8 @@
+/**
+* @info: 头部组建
+* @author: PengGeng
+* @date: 8/11/20-2:43 下午
+*/
 <template>
   <div class="header-main h-h title-wrap">
     <div style="display: flex;">
@@ -61,7 +66,7 @@ export default {
   margin: 10px 0 10px 16px;
   width: 24px;
   height: 24px;
-  background: url(../images/nav_arrow.png) no-repeat center;
+  background: url(../../views/recommend/images/nav_arrow.png) no-repeat center;
   background-size: 100%
 }
 .title-wrap {

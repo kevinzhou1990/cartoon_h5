@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ZMHeader from './components/ZMHeader'
+import ZMHeader from '../../common/components/ZMHeader'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
