@@ -8,6 +8,10 @@
     >
       <div slot="right" :class="showNavFlag ? 'header-right-white': 'header-right'" @click="handleClickShare"></div>
     </z-m-header>
+<!--    <div style="position: relative;">-->
+<!--      <div style="position:fixed; z-index: 2; top: 30px; height: 100px; background: red; width: 100%;">1</div>-->
+<!--      <div style="position: absolute; top: 500px; height: 1000px; width: 100%; background: #BBBBBB; z-index: 5;">2</div>-->
+<!--    </div>-->
     <section class="main-content" :style="{background: headerBgColor}">
       <div class="main-content-box">
         <div class="main-content-box-left">
@@ -26,17 +30,18 @@
         </div>
         <div class="main-content-box-right"></div>
       </div>
-      <div style="padding: 0 32px;">简介：魔法师之都「帕兹」因政变灭亡，亚美娜味了将时间倒转以救自己所爱，欲在300年后才被泽卡勒唤醒
+      <div style="padding: 0 32px 24px 32px;">简介：魔法师之都「帕兹」因政变灭亡，亚美娜味了将时间倒转以救自己所爱，欲在300年后才被泽卡勒唤醒
         <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18,224,121,1);" @click="showMoreFlag = true">[展开]</a>
       </div>
     </section>
+    <z-m-scroll></z-m-scroll>
   </div>
 </template>
 
 <script>
 import ZMHeader from '@/common/components/ZMHeader'
 import ZMCollect from '@/views/detail/components/ZMCollect'
-
+import ZMScroll from '@/views/detail/components/ZMScroll'
 export default {
   name: 'comicsDetail',
   data() {
@@ -49,7 +54,8 @@ export default {
   },
   components: {
     ZMHeader,
-    ZMCollect
+    ZMCollect,
+    ZMScroll
   },
   methods: {
     /**
@@ -90,11 +96,13 @@ export default {
     position: relative;
     margin: 0 auto;
     &-content {
+      position: fixed;
       color: $content-color;
       height: 284px;
+      z-index: 1;
       &-box {
         display: flex;
-        padding: 18px 32px 0 32px;
+        padding: 8px 32px 0 32px;
         &-left {
           display: flex;
           flex-direction: column;
@@ -136,6 +144,14 @@ export default {
           background-size: 100% 160px;
         }
       }
+    }
+    .bg-index {
+      position: absolute;
+      /*top: 301px;*/
+      width: 100%;
+      opacity: 0.9;
+      z-index: 5;
+      overflow: auto;
     }
   }
 </style>
