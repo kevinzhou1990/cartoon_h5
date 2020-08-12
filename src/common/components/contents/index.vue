@@ -2,9 +2,10 @@
   <div
     :class="`${show ? 'contents-wrap contents-transition' : 'contents-wrap contents-transition contents-wrap-close'}`"
     ref="contents"
-    @touchmove="handlerMove"
-    @touchend="handlerEnd"
-    :style="show ? `top:${touchPois.y}px` : ''"
+    @touchstart.stop="handlerStart"
+    @touchmove.stop="handlerMove"
+    @touchend.stop="handlerEnd"
+    :style="show ? `top:${touchPois.y}` : ''"
   >
     <div class="contents-title">
       目录
@@ -13,99 +14,29 @@
       </span>
     </div>
     <div class="contents-last">
-      <div>
+      <div v-if="comicsInfo.status === 1">
         更新至
-        <span>256</span>话
-        /
-        每周六更新
+        <span>{{comicsInfo.title}}</span>
+        话/{{comicsInfo.update_freq}}
       </div>
-      <div class="zm-b">
-        <SvgIcon size="small" iconClass="sort_ba" />
-        <span>顺序排列</span>
+      <div v-else-if="comicsInfo.status === 2">已完结</div>
+      <div v-else>休更中</div>
+      <div class="zm-b" @click="switchSort">
+        <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
+        <span>{{`${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}`}}</span>
       </div>
     </div>
     <ul class="contents-list">
-      <li @click="goto()">
-        <div class="process" style="width:100%;" />
-        <div class="contents-list-item done">
-          <span>#000</span>
+      <li @click="goto" v-for="(item) in chapterData" :key="item.chapter_id">
+        <div class="process" :style="`width:${item.read_per}%`" />
+        <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
+          <span>{{item.title}}</span>
           <div class="chapter-title">
-            <div>序章</div>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="process" style="width:72%;" />
-        <div class="contents-list-item">
-          <span>#001</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">魔神降临上篇：黑盒的原罪之另有乾坤魔神降临上篇：黑盒的原罪之另有乾坤</span>
-            <span class="read-process">72%</span>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-          <SvgIcon size="small" iconClass="mark_ba" class="reading" />
-        </div>
-      </li>
-      <li>
-        <div class="process" />
-        <div class="contents-list-item">
-          <span>#002</span>
-          <div class="chapter-title">
-            <div>谁叫你背书了</div>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="process" style="width:25%;" />
-        <div class="contents-list-item">
-          <span>#003</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">进入魔道馆（1）</span>
-            <span class="read-process">25%</span>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="process" />
-        <div class="contents-list-item">
-          <span>#004</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">进入魔道馆（2）</span>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="process" />
-        <div class="contents-list-item">
-          <span>#005</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">拜师</span>
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="process" />
-        <div class="contents-list-item">
-          <span>#006</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">没那么容易</span>
+            <span class="chapter-title-content">{{item.intro}}</span>
+            <span
+              class="read-process"
+              v-if="item.read_per !== 100 && item.read_per !== 0"
+            >{{`${item.read_per}%`}}</span>
           </div>
           <div>
             <SvgIcon size="small" iconClass="more_bb" />
@@ -121,7 +52,25 @@ import SvgIcon from '@/common/components/svg';
 export default {
   name: 'Contents',
   props: {
-    show: { type: Boolean, default: false }
+    show: { type: Boolean, default: false },
+    chapterData: {
+      type: Array,
+      default: function () {
+        return [];
+      }
+    },
+    comicsInfo: {
+      type: Object,
+      default: function () {
+        return {
+          status: 1, // 1=连载中,2=已完结,3=休更中
+          update_freq: '每周五更新', // 更新频率
+          title: '#001', // 章节编号
+          sort: 1, // 1=正序,2=倒序
+          last_chapter_id: 1 // 上一次阅读章节id
+        };
+      }
+    }
   },
   components: { SvgIcon },
   data() {
@@ -129,23 +78,68 @@ export default {
       touchPois: {
         x: 0,
         y: '50%'
-      }
+      },
+      startY: 0,
+      moved: false,
+      initY: 0
     };
+  },
+  watch: {
+    show(n, o) {
+      if (n) {
+        this.touchPois.y = '50%';
+      } else {
+        this.touchPois.y = '100%';
+      }
+    }
   },
   methods: {
     closeContent() {
       this.$emit('close');
     },
+    handlerStart(event) {
+      this.startY = Math.round(event.touches[0].clientY);
+      this.initY = this.$refs.contents.getBoundingClientRect().top;
+    },
     handlerMove(event) {
-      event.preventDefault();
+      const classList = this.$refs.contents.classList;
       const y = Math.round(event.touches[0].clientY);
-      this.touchPois.y = y;
+      const difference = Math.round(y - this.startY);
+      classList.remove('contents-transition');
+      if (difference < 0) {
+        // 往上移动
+        this.touchPois.y = `${this.initY - Math.abs(difference)}px`;
+      } else {
+        // 往下移动
+        this.touchPois.y = `${this.initY + Math.abs(difference)}px`;
+      }
+      this.moved = true;
     },
     handlerEnd(event) {
-      console.log('拖动结束', event);
+      // 移动过，则进入处理，否则认为是点击事件
+      if (this.moved) {
+        const classList = this.$refs.contents.classList;
+        const y = this.$refs.contents.getBoundingClientRect().top;
+        const quarter = window.outerHeight / 4;
+        classList.add('contents-transition');
+        if (y < quarter) {
+          this.touchPois.y = '0';
+        } else if (y > quarter && y < quarter * 3) {
+          this.touchPois.y = '50%';
+        } else {
+          this.touchPois.y = '100%';
+          this.closeContent();
+        }
+        this.moved = false;
+      }
     },
-    goto() {
-      console.log('跳转');
+    goto(id) {
+      console.log(id, '跳转');
+    },
+
+    // 切换排序方式
+    switchSort() {
+      this.$emit('switch');
     }
   }
 };
@@ -159,14 +153,13 @@ $nousecolor: #bbb;
   transition: top 0.5s;
 }
 .contents-wrap {
-  min-height: 492px;
+  height: 100%;
   position: fixed;
   width: 100%;
   top: 50%;
   z-index: 99;
   background: #fff;
   font-family: 'pingfang-blod';
-
   .contents-title {
     background: $background;
     padding: 16px;
@@ -202,6 +195,7 @@ $nousecolor: #bbb;
     }
   }
   .contents-list {
+    overflow: auto;
     li {
       position: relative;
       height: 56px;

@@ -1,12 +1,9 @@
-/**
-* @info: 头部组建
-* @author: PengGeng
-* @date: 8/11/20-2:43 下午
-*/
 <template>
-  <div class="header-main h-h title-wrap">
+  <div :class="`header-main h-h title-wrap${hasBorder ? ' zm-b-b' : ''}`">
     <div style="display: flex;">
-      <a class="navigation_arrow"></a>
+      <slot name="left">
+        <a class="navigation_arrow"></a>
+      </slot>
       <section class="header-main-content">
         <slot name="center">
           <p class="header-left">{{ titleText }}</p>
@@ -16,7 +13,6 @@
         </slot>
       </section>
     </div>
-
   </div>
 </template>
 
@@ -31,14 +27,23 @@ export default {
     titleText: {
       type: String,
       default: '我是头部'
+    },
+    hasBorder: {
+      type: Boolean,
+      default: false
+    },
+    show: {
+      type: Boolean,
+      default: true
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
 .h-h {
-  font-weight: bold;
+  // font-weight: bold;
+  font-family: 'pingfang-blod';
   font-size: 18px;
   color: #222222;
   letter-spacing: 0;
@@ -58,7 +63,7 @@ export default {
   line-height: 24px;
   border-radius: 12px;
   margin: 10px 0;
-  background: #E6E6E6;
+  background: #e6e6e6;
 }
 .navigation_arrow {
   display: inline-block;
@@ -66,8 +71,8 @@ export default {
   margin: 10px 0 10px 16px;
   width: 24px;
   height: 24px;
-  background: url(../../views/recommend/images/nav_arrow.png) no-repeat center;
-  background-size: 100%
+  background: url('../../assets/img/nav_arrow.png') no-repeat center;
+  background-size: 100%;
 }
 .title-wrap {
   position: fixed;
