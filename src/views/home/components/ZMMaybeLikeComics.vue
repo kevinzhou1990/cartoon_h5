@@ -44,8 +44,8 @@ export default {
     return {
       labelName: '你可能喜欢',
       isCollectFlag: false, // 是否已经收藏
-      ba_img: require('../images/save_ba.png'),
-      bb_img: require('../images/save_bb.png'),
+      ba_img: require('@/assets/img/save_ba.png'),
+      bb_img: require('@/assets/img/save_bb.png'),
       nums: [1, 2, 3]
     }
   },

@@ -4,9 +4,9 @@
 * @date: 8/11/20-2:43 下午
 */
 <template>
-  <div class="header-main h-h title-wrap">
+  <div class="header-main h-h title-wrap" :style="{ background: backgroundColor }">
     <div style="display: flex;">
-      <a class="navigation_arrow"></a>
+      <a :class="showNavFlag ? 'navigation_arrow_white' : 'navigation_arrow'"></a>
       <section class="header-main-content">
         <slot name="center">
           <p class="header-left">{{ titleText }}</p>
@@ -24,6 +24,14 @@
 export default {
   name: 'ZMHeader',
   props: {
+    showNavFlag: {
+      type: Boolean,
+      default: false
+    },
+    backgroundColor: {
+      type: String,
+      default: '#ffffff'
+    },
     showRight: {
       type: Boolean,
       default: false
@@ -66,7 +74,16 @@ export default {
   margin: 10px 0 10px 16px;
   width: 24px;
   height: 24px;
-  background: url(../../views/recommend/images/nav_arrow.png) no-repeat center;
+  background: url(../../assets/img/nav_arrow.png) no-repeat center;
+  background-size: 100%
+}
+.navigation_arrow_white {
+  display: inline-block;
+  /*box-sizing: border-box;*/
+  margin: 10px 0 10px 16px;
+  width: 24px;
+  height: 24px;
+  background: url(../../assets/img/nav_arrow_white.png) no-repeat center;
   background-size: 100%
 }
 .title-wrap {
