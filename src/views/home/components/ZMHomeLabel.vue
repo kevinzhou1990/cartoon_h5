@@ -53,7 +53,7 @@ export default {
         content: '';
         width: 16px;
         height: 16px;
-        background: url("../images/more.png") no-repeat;
+        background: url("../../../assets/img/more.png") no-repeat;
         background-size: 100%;
       }
     }

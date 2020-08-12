@@ -77,6 +77,13 @@ $T_B: height !default;
     @include setLine;
   }
 }
+.zm-b-radius {
+  position: relative;
+  &:before {
+    @include setLine;
+    border-radius: 4px;
+  }
+}
 .zm-b-t-b {
   position: relative;
   &:before {

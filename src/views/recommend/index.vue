@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import ZMHeader from '../../common/components/ZMHeader'
+import ZMHeader from '@/common/components/ZMHeader'
+import ZMNotNetwork from '@/common/components/noNetwork'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
-import ZMNotNetwork from '../../common/components/noNetwork'
 
 export default {
   name: 'recommentd',
