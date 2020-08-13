@@ -62,6 +62,7 @@ export default {
   font-size: 12px;
   color: #222222;
   font-weight: bold;
+  padding-bottom: 20px;
   .remark-title {
     display: flex;
     justify-content: space-between;

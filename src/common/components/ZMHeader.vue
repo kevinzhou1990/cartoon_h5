@@ -1,5 +1,5 @@
 <template>
-  <div :class="`header-main h-h title-wrap${hasBorder ? ' zm-b-b' : ''}`" :style="{ background: backgroundColor }">
+  <div :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' : ''}`" :style="{ background: backgroundColor }">
     <div style="display: flex;">
       <slot name="left">
         <a :class="showNavFlag ? 'navigation_arrow_white' : 'navigation_arrow'"></a>

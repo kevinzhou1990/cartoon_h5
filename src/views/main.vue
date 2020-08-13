@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="home-main">
     <transition :name="transitionName">
       <keep-alive>
         <router-view/>
@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
+.home-main {
   padding-bottom: 49px;
   .tabber {
     position: fixed;

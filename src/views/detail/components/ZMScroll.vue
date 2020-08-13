@@ -17,6 +17,9 @@
     <div style="background: #FFFFFF;">
       <z-m-detail-chapter></z-m-detail-chapter>
       <z-m-detail-remark></z-m-detail-remark>
+      <z-m-comics-scroll :title-content="authorTitle"></z-m-comics-scroll>
+      <z-m-comics-scroll :title-content="maybeLikeTitle"></z-m-comics-scroll>
+      <z-m-no-data></z-m-no-data>
     </div>
   </div>
 </template>
@@ -24,24 +27,36 @@
 <script>
 import ZMDetailChapter from '@/views/detail/components/ZMDetailChapter'
 import ZMDetailRemark from '@/views/detail/components/ZMDetailRemark'
+import ZMComicsScroll from '@/views/detail/components/ZMComicsScroll'
+import ZMNoData from '@/common/components/ZMNoData'
 export default {
   name: 'ZMScroll',
   components: {
     ZMDetailChapter,
-    ZMDetailRemark
+    ZMDetailRemark,
+    ZMComicsScroll,
+    ZMNoData
+  },
+  data() {
+    return {
+      authorTitle: '作者其他漫画',
+      maybeLikeTitle: '喜欢《神灯精灵…》的也会喜欢'
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.main {
+  .main {
+  /*  overflow-scrolling: touch;*/
+  /*-webkit-overflow-scrolling: touch;*/
   /*position: absolute;*/
   font-weight: bold;
   margin: 0 auto;
   color: #222222;
-  height: 1000px;
   z-index: 6;
   width: 100%;
+  overflow: hidden;
   &-content {
     height: 256px;
     background: #FFFFFF;
@@ -55,7 +70,7 @@ export default {
     width: 343px;
     height: 56px;
     border-radius: 4px;
-    box-shadow: 0 4px 12px 0;
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,0.10);
     .left {
       display: flex;
       padding: 16px 22px;

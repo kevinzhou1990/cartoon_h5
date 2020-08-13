@@ -29,7 +29,7 @@ import ZMHotComics from './components/ZMHotComics'
 import ZMClassicsComics from './components/ZMClassicsComics'
 import ZMLikeComics from './components/ZMLikeComics'
 import ZMMaybeLikeComics from './components/ZMMaybeLikeComics'
-import ZMNoData from './components/ZMNoData'
+import ZMNoData from '../../common/components/ZMNoData'
 
 export default {
   name: 'home',
