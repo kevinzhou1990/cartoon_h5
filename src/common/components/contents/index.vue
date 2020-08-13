@@ -5,7 +5,7 @@
     @touchstart.stop="handlerStart"
     @touchmove.stop="handlerMove"
     @touchend.stop="handlerEnd"
-    :style="show ? `top:${touchPois.y}` : ''"
+    :style="show ? `top:${touchPois.y};` : ''"
   >
     <div class="contents-title">
       目录
@@ -26,7 +26,7 @@
         <span>{{`${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}`}}</span>
       </div>
     </div>
-    <ul class="contents-list">
+    <ul class="contents-list" ref="chapter">
       <li @click="goto" v-for="(item) in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
         <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
@@ -105,13 +105,20 @@ export default {
       const classList = this.$refs.contents.classList;
       const y = Math.round(event.touches[0].clientY);
       const difference = Math.round(y - this.startY);
+      const listTop = this.$refs.chapter.scrollTop;
       classList.remove('contents-transition');
       if (difference < 0) {
         // 往上移动
-        this.touchPois.y = `${this.initY - Math.abs(difference)}px`;
+        if (this.$refs.contents.getBoundingClientRect().top !== 0) {
+          this.touchPois.y = `${this.initY - Math.abs(difference)}px`;
+        }
       } else {
         // 往下移动
-        this.touchPois.y = `${this.initY + Math.abs(difference)}px`;
+        if (listTop === 0) {
+          this.touchPois.y = `${this.initY + Math.abs(difference)}px`;
+        } else {
+          this.startY = y;
+        }
       }
       this.moved = true;
     },
@@ -195,6 +202,7 @@ $nousecolor: #bbb;
     }
   }
   .contents-list {
+    height: calc(100% - 114px);
     overflow: auto;
     li {
       position: relative;

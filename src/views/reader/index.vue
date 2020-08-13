@@ -4,22 +4,23 @@
       <SvgIcon slot="left" iconClass="close_ab" class="icon-left" />
       <div slot="right" class="header-right">漫画详情</div>
     </ZMHeader>
+    <Navigation />
   </div>
 </template>
 
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
+import Navigation from './components/navigation';
 export default {
   name: 'Reader',
-  components: { ZMHeader, SvgIcon }
+  components: { ZMHeader, SvgIcon, Navigation }
 };
 </script>
 
 <style lang="scss" scoped>
 .page-reader {
   padding-top: 44px;
-  background: #000;
   min-height: 100%;
   .header-right {
     font-size: 12px;
