@@ -28,12 +28,6 @@ const router = new Router({
           meta: {title: '首页'}
         },
         {
-          path: '/detail',
-          name: 'detail',
-          component: Detail,
-          meta: {title: '漫画详情', transitionIn: 'slide-left'}
-        },
-        {
           path: '/detail/test',
           name: 'test',
           component: Test,
@@ -69,6 +63,12 @@ const router = new Router({
       name: 'reader',
       component: Reader,
       meta: {title: '漫画阅读'}
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: Detail,
+      meta: {title: '漫画详情', transitionIn: 'slide-left'}
     }
   ]
 })

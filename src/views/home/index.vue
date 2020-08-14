@@ -43,6 +43,9 @@ export default {
     ZMMaybeLikeComics,
     ZMNoData
   },
+  beforeMount() {
+    console.log('jinlailema .....')
+  },
   mounted() {},
   methods: {}
 }

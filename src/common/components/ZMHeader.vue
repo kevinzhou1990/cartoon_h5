@@ -2,7 +2,7 @@
   <div :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' : ''}`" :style="{ background: backgroundColor }">
     <div style="display: flex;">
       <slot name="left">
-        <a :class="showNavFlag ? 'navigation_arrow_white' : 'navigation_arrow'"></a>
+        <a :class="showNavFlag ? 'navigation_arrow_white' : 'navigation_arrow'" @click="goBack"></a>
       </slot>
       <section class="header-main-content">
         <slot name="center">
@@ -43,6 +43,12 @@ export default {
     show: {
       type: Boolean,
       default: true
+    }
+  },
+  methods: {
+    goBack() {
+      window.history.go(-1)
+      // this.$router.back()
     }
   }
 };

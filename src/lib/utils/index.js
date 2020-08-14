@@ -28,5 +28,7 @@ const utils = {
       padding: crypto.pad.Pkcs7
     }).toString();
   }
+
 };
-export default utils;
+
+export default utils

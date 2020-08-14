@@ -8,11 +8,7 @@
     >
       <div slot="right" :class="showNavFlag ? 'header-right-white': 'header-right'" @click="handleClickShare"></div>
     </z-m-header>
-    <!--    <div style="position: relative;">-->
-    <!--      <div style="position:fixed; z-index: 2; top: 30px; height: 100px; background: red; width: 100%;">1</div>-->
-    <!--      <div style="position: absolute; top: 500px; height: 1000px; width: 100%; background: #BBBBBB; z-index: 5;">2</div>-->
-    <!--    </div>-->
-    <section class="main-content" :style="{background: headerBgColor}">
+    <section class="main-content" ref="mainContent" :style="{background: headerBgColor}">
       <div class="main-content-box">
         <div class="main-content-box-left">
           <span class="main-content-box-left-title">神灯精灵亚美娜 第二季正在热更</span>
@@ -42,6 +38,7 @@
 import ZMHeader from '@/common/components/ZMHeader'
 import ZMCollect from '@/views/detail/components/ZMCollect'
 import ZMScroll from '@/views/detail/components/ZMScroll'
+// import utils from '@/lib/utils'
 
 export default {
   name: 'comicsDetail',
@@ -58,6 +55,10 @@ export default {
     ZMCollect,
     ZMScroll
   },
+  beforeMount() {
+
+  },
+  mounted() {},
   methods: {
     /**
      * @info: TODO 点击了分享
@@ -67,6 +68,16 @@ export default {
     handleClickShare() {
       console.log('click go to share....')
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave')
+    document.documentElement.scrollTop = 0
+    console.log('beforeRouteLeave', document.documentElement.scrollTop)
+    // setTimeout(() => {
+    //   // 让上一个页面回到顶部
+    //   document.documentElement.scrollTop = 0
+    // }, 0)
+    next()
   }
 }
 </script>
@@ -98,6 +109,7 @@ export default {
     font-weight: bold;
     position: relative;
     margin: 0 auto;
+    overflow: hidden;
     &-content {
       position: fixed;
       color: $content-color;
@@ -154,15 +166,6 @@ export default {
           background-size: 100% 160px;
         }
       }
-    }
-
-    .bg-index {
-      position: absolute;
-      /*top: 301px;*/
-      width: 100%;
-      opacity: 0.9;
-      z-index: 5;
-      overflow: auto;
     }
   }
 </style>

@@ -39,6 +39,7 @@ export default {
      * @date: 8/5/20-11:52 上午
      */
     handelClickHotMore() {
+      this.$router.push('/detail')
       console.log('点击了更多！')
     }
   }
