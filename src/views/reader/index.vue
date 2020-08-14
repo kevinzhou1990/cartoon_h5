@@ -5,6 +5,7 @@
       <div slot="right" class="header-right">漫画详情</div>
     </ZMHeader>
     <Navigation />
+    <Setting />
   </div>
 </template>
 
@@ -12,9 +13,10 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import Navigation from './components/navigation';
+import Setting from './components/settings';
 export default {
   name: 'Reader',
-  components: { ZMHeader, SvgIcon, Navigation }
+  components: { ZMHeader, SvgIcon, Navigation, Setting }
 };
 </script>
 
