@@ -1,12 +1,14 @@
 <template>
-  <div class="box main">
+  <div class="box main" style="overflow: hidden;">
     <z-m-header
+        ref="detailHeader"
         :title-text="titleText"
         :background-color="headerBgColor"
         show-right
         :show-nav-flag="showNavFlag"
+        :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     >
-      <div slot="right" :class="showNavFlag ? 'header-right-white': 'header-right'" @click="handleClickShare"></div>
+      <div slot="right" :class="showNavFlag ? 'header-right-white': 'header-right-detail'" @click="handleClickShare"></div>
     </z-m-header>
     <section class="main-content" ref="mainContent" :style="{background: headerBgColor}">
       <div class="main-content-box">
@@ -30,7 +32,7 @@
         <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18,224,121,1);" @click="showMoreFlag = true">[展开]</a>
       </div>
     </section>
-    <z-m-scroll></z-m-scroll>
+    <z-m-scroll :isChangeHeader.sync="isChangeHeader"></z-m-scroll>
   </div>
 </template>
 
@@ -47,7 +49,8 @@ export default {
       showNavFlag: true,
       titleText: '',
       headerBgColor: '#2F446F',
-      showMoreFlag: false // 展开查看更多
+      showMoreFlag: false, // 展开查看更多
+      isChangeHeader: false
     }
   },
   components: {
@@ -56,9 +59,15 @@ export default {
     ZMScroll
   },
   beforeMount() {
-
+    // window.document.body.style['overflow-y'] = 'hidden'
   },
-  mounted() {},
+  computed: {
+    scrollHeight() {
+      return console.log(document.body.scrollTop)
+    }
+  },
+  mounted() {
+  },
   methods: {
     /**
      * @info: TODO 点击了分享
@@ -67,6 +76,19 @@ export default {
      */
     handleClickShare() {
       console.log('click go to share....')
+    }
+  },
+  watch: {
+    isChangeHeader: function(newVal, oldVal) {
+      if (newVal !== oldVal && newVal){
+        this.titleText = '神灯精灵亚美娜'
+        this.headerBgColor = '#FFFFFF'
+        this.showNavFlag = false
+      } else {
+        this.titleText = ''
+        this.headerBgColor = '#2F446F'
+        this.showNavFlag = true
+      }
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -93,7 +115,7 @@ export default {
     margin: 10px 0 10px 16px;
   }
 
-  .header-right {
+  .header-right-detail {
     @include headerRight;
     background: url("./images/share.png") no-repeat center;
     background-size: 100%;
@@ -166,6 +188,52 @@ export default {
           background-size: 100% 160px;
         }
       }
+    }
+  }
+  .animation-active-in {
+    animation: fadeIn 0.3s;
+  }
+  .animation-active-out {
+    animation: fadeOut 0.3s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0.1;
+      color: #222222;
+      height: 44px;
+      background: #FFFFFF;
+    }
+    25% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    75% {
+      opacity: 0.75;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 0.1;
+      height: 44px;
+      background: #2F446F;
+    }
+    25% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    75% {
+      opacity: 0.75;
+    }
+    100% {
+      background: #2F446F;
+      opacity: 1;
     }
   }
 </style>

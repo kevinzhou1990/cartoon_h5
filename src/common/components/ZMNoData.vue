@@ -17,14 +17,12 @@ export default {
 
 <style scoped lang="scss">
 .no-data-main {
-  display: flex;
   font-weight: bold;
-  justify-content: center;
+  text-align: center;
+  padding: 40px 0;
   color: #BBBBBB;
   font-size: 10px;
   transform: scale(0.83);
   width: 100%;
-  height: 74px;
-  line-height: 54px;
 }
 </style>

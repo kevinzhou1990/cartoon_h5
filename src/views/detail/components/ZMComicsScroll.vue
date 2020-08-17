@@ -44,7 +44,7 @@ export default {
     &-img {
       display: flex;
       padding-top: 12px;
-      margin-right: 22px;
+      margin-right: 2px;
       overflow-x: auto;
       &::-webkit-scrollbar { width: 0 !important }
       &-content {
