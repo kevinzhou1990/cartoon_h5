@@ -1,5 +1,8 @@
 <template>
-  <div :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' : ''}`" :style="{ background: backgroundColor }">
+  <div
+    :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' : ''} ${show ? 'header-main-hidden' : ''}`"
+    :style="{ background: backgroundColor }"
+  >
     <div style="display: flex;">
       <slot name="left">
         <a :class="showNavFlag ? 'navigation_arrow_white' : 'navigation_arrow'" @click="goBack"></a>
@@ -47,7 +50,7 @@ export default {
   },
   methods: {
     goBack() {
-      window.history.go(-1)
+      window.history.go(-1);
       // this.$router.back()
     }
   }
@@ -95,7 +98,7 @@ export default {
   width: 24px;
   height: 24px;
   background: url(../../assets/img/nav_arrow_white.png) no-repeat center;
-  background-size: 100%
+  background-size: 100%;
 }
 .title-wrap {
   position: fixed;
@@ -105,6 +108,10 @@ export default {
   width: 100%;
   height: 44px;
   background: #fff;
+  transition: top 0.2s;
+  &.header-main-hidden {
+    top: -44px;
+  }
 }
 .header-main-content {
   display: flex;

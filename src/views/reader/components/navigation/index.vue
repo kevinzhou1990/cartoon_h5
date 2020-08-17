@@ -1,5 +1,7 @@
 <template>
-  <div class="navigation-wrap navigation-wrap-right">
+  <div
+    :class="`navigation-wrap navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`"
+  >
     <div class="navigation-content">
       <div class="navigation-contents">
         <SvgIcon iconClass="catalog_ba" size="small" />
@@ -10,6 +12,9 @@
       <div class="navigation-next">
         <span>下一话</span>
       </div>
+      <div :class="`setting-icon ${funcPos} ${show ? 'hidden' : ''}`" @click="switchFull">
+        <SvgIcon iconClass="set_ba" size="small" />
+      </div>
     </div>
   </div>
 </template>
@@ -18,7 +23,16 @@
 import SvgIcon from '@/common/components/svg';
 export default {
   name: 'Navigation',
-  components: { SvgIcon }
+  components: { SvgIcon },
+  props: {
+    funcPos: { type: String, default: 'right', required: true },
+    show: { type: Boolean, default: true }
+  },
+  methods: {
+    switchFull() {
+      this.$emit('switchFull');
+    }
+  }
 };
 </script>
 
@@ -28,11 +42,20 @@ export default {
   position: fixed;
   top: calc(50% - 160px);
   width: 40px;
+  z-index: 1000;
   &-left {
     left: 16px;
+    transition: left 0.2s;
+  }
+  &-left-hidden {
+    left: -56px;
   }
   &-right {
     right: 16px;
+    transition: right 0.2s;
+  }
+  &-right-hidden {
+    right: -56px;
   }
   .navigation-process {
     height: 160px;
@@ -60,6 +83,31 @@ export default {
       display: inline-block;
       height: 40px;
       width: 40px;
+    }
+  }
+  .setting-icon {
+    position: fixed;
+    bottom: 75px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    line-height: 40px;
+    &.right {
+      right: 16px;
+      transition: right 0.2s;
+      &.hidden {
+        right: -56px;
+      }
+    }
+    &.left {
+      left: 16px;
+      transition: left 0.2s;
+      &.hidden {
+        left: -56px;
+      }
     }
   }
 }
