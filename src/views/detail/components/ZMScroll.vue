@@ -2,15 +2,15 @@
   <div class="main" ref="remarkScroll">
     <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
     <div class="main-content"></div>
-    <div class="main-catalogue">
-      <div class="left">
+    <div class="main-catalogue box-shad">
+      <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt="">
         <span class="left-text">缓存</span>
       </div>
       <div class="center">
         阅读 第一话
       </div>
-      <div class="left">
+      <div class="left" @click.stop="handleClickChapter">
         <img class="left-dn" src="../images/catalog-icon.png" alt="">
         <span class="left-text">目录</span>
       </div>
@@ -19,9 +19,26 @@
       <z-m-detail-chapter></z-m-detail-chapter>
       <z-m-detail-remark></z-m-detail-remark>
       <z-m-comics-scroll :title-content="authorTitle"></z-m-comics-scroll>
-      <z-m-comics-scroll :title-content="maybeLikeTitle"></z-m-comics-scroll>
-      <z-m-no-data></z-m-no-data>
+      <z-m-comics-scroll :title-content="maybeLikeTitle" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
+      <z-m-no-data style="padding: 15px 0;"></z-m-no-data>
+<!-- -->
     </div>
+    <div class="main-foot" v-if="showFootFlag">
+      <div class="main-catalogue">
+        <div class="left">
+          <img class="left-dn" src="../images/download.png" alt="">
+          <span class="left-text">缓存</span>
+        </div>
+        <div class="center">
+          阅读 第一话
+        </div>
+        <div class="left">
+          <img class="left-dn" src="../images/catalog-icon.png" alt="">
+          <span class="left-text">目录</span>
+        </div>
+      </div>
+    </div>
+    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax"></div>
   </div>
 </template>
 
@@ -64,15 +81,24 @@ export default {
         height: this.touchDistance,
         transition: 'none'
       },
-      scrollHeight: document.documentElement.scrollTop,
       topAjax: true,
+      scrollHeight: document.documentElement.scrollTop,
+      bottomAjax: false,
+      bottomWrapStyle: {
+        height: 0,
+        transition: 'none'
+      },
       authorTitle: '作者其他漫画',
       maybeLikeTitle: '喜欢《神灯精灵…》的也会喜欢',
-      isShowBgColor: false
+      isShowBgColor: false,
+      showFootFlag: false
       // otherHeight: 0
     }
   },
+  computed: {
+  },
   beforeMount() {
+    // this.$refs.remarkScroll.style['overflow-y'] = 'hidden'
     // document.body.scrollTop = document.documentElement.scrollTop = 0
   },
   mounted() {
@@ -84,10 +110,32 @@ export default {
     })
   },
   methods: {
+    /**
+     * @info: 点击了缓存
+     * @author: PengGeng
+     * @date: 8/17/20-6:24 下午
+     */
+    handleDownload() {
+      console.log('download in 。。。')
+    },
+    /**
+     * @info: 点击了目录
+     * @author: PengGeng
+     * @date: 8/17/20-6:24 下午
+     */
+    handleClickChapter () {
+      console.log('点击了目录')
+    },
     touchStart(e) {
+      // e.preventDefault()
       const touch = e.changedTouches[0]
       this.startTouchValue = touch.pageY
-      if (this.startTouchValue < this.startTouchDistance) return
+      if (this.startTouchValue < this.startTouchDistance) {
+        this.$refs.remarkScroll.style['pointer-events'] = 'none'
+      }
+      setTimeout(() => {
+        this.$refs.remarkScroll.style['pointer-events'] = 'auto'
+      }, 500)
       e.stopPropagation()
       this.$el.addEventListener('touchmove', this.touchMove)
       console.log('我开始滑动了。。。。', this.startTouchValue)
@@ -101,13 +149,16 @@ export default {
         this.topWrapStyle.height = `${height}px`
         this.$parent.$refs.mainContent.style.height = (284 + height - 56) + 'px'
       }
-      // if (height < 0) {
+      if (height < -100) {
+        console.log('进来了。。。。。')
+        // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
+        this.bottomWrapStyle.height = `${Math.abs(height)}px`
       //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
       //   console.log('this.otherHeight', document.getElementsByClassName('main-other')[0].getBoundingClientRect().y)
       //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
       //   // this.$refs.ohterEl.style.background = 'red'
       //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
-      // }
+      }
       console.log('touchMove', height)
       console.log('我在滑动中。。。。')
     },
@@ -115,20 +166,31 @@ export default {
       if (this.startTouchValue < this.startTouchDistance) return
       const touch = e.changedTouches[0].pageY
       this.$el.removeEventListener('touchmove', this.touchMove)
-      if (this.$el.scrollTop > 0) {
-        this.startTouchValue = touch
-        return
-      }
+      // if (this.$el.scrollTop > 0) {
+      //   this.startTouchValue = touch
+      //   return
+      // }
+      let height = touch - this.startTouchValue
       this.$parent.$refs.mainContent.style.height = 284 + 'px'
       this.topWrapStyle.transition = 'height 200ms'
       this.topWrapStyle.height = `${this.touchDistance}`
-      console.log('我结束滑动了。。。。')
+      // this.bottomAjax = false
+      if (height < -100){
+        this.bottomAjax = true
+      } else {
+        this.bottomAjax = false
+      }
+      this.bottomWrapStyle.transition = 'height 200ms'
+      this.bottomWrapStyle.height = `0`
+      console.log('我结束滑动了。。。。', height)
     },
     transitionend() {
       this.topWrapStyle.transition = 'none'
     },
+    transitionendBottom() {
+      this.bottomWrapStyle.transition = 'none'
+    },
     scrolOnEventChange() {
-      // this.$refs.remarkScroll.addEventListener('scroll', this.getPageScroll, true)
       window.addEventListener('scroll', this.getPageScroll, true)
     },
     getPageScroll() {
@@ -142,18 +204,20 @@ export default {
       } else if (document.body) {
         yScroll = document.body.scrollTop
       }
-      console.log('滚动距离' + yScroll)
-      if (yScroll >= 20){
+      console.log('scroll的距离' + yScroll)
+      if (yScroll >= 0){
         this.isShowBgColor = true
       } else {
         this.isShowBgColor = false
       }
+      if (yScroll > 260) {
+        this.showFootFlag = true
+        this.$emit('update:isChangeHeader', true)
+      } else {
+        this.showFootFlag = false
+        this.$emit('update:isChangeHeader', false)
+      }
       return yScroll
-    }
-  },
-  watch: {
-    scrollHeight(newVal, oldVal) {
-      console.log(newVal, oldVal)
     }
   },
   beforeDestroy() {
@@ -166,6 +230,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .box-shad {
+    border-radius: 4px;
+    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.10);
+  }
   .main {
     /*  overflow-scrolling: touch;*/
     /*-webkit-overflow-scrolling: touch;*/
@@ -186,7 +254,12 @@ export default {
       margin-top: -50px;
       line-height: 50px;
     }
-
+    &-bottom {
+      display: block;
+      height: 50px;
+      margin-bottom: -50px;
+      line-height: 50px;
+    }
     &-content {
       margin-top: 256px;
       background: #FFFFFF;
@@ -200,9 +273,6 @@ export default {
       margin: 0 16px;
       width: 343px;
       height: 56px;
-      border-radius: 4px;
-      box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.10);
-
       .left {
         display: flex;
         padding: 16px 22px;
@@ -239,6 +309,32 @@ export default {
 
     .bgColor {
       background: #FFFFFF;
+    }
+    &-foot {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      height: 56px;
+      background: #FFFFFF;
+      /*transition: all 2s ease;*/
+      /*transition-property: opacity, top;*/
+      /*transition-duration: 3s, 5s;*/
+      animation: fadeBottom_in 0.3s;
+      z-index: 6;
+    }
+  }
+  @keyframes fadeBottom_in { // 可用于容器弹出
+    0% {
+      opacity: 0;
+      transform: translateY(56px);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(28px);
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
     }
   }
 </style>
