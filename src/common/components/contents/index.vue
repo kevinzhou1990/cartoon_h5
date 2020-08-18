@@ -164,7 +164,7 @@ $nousecolor: #bbb;
   position: fixed;
   width: 100%;
   top: 50%;
-  z-index: 99;
+  z-index: 999;
   background: #fff;
   font-family: 'pingfang-blod';
   .contents-title {

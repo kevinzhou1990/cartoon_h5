@@ -59,7 +59,6 @@ export default {
 
 <style scoped lang="scss">
 .h-h {
-  // font-weight: bold;
   font-family: 'pingfang-blod';
   font-size: 18px;
   color: #222222;
@@ -74,7 +73,6 @@ export default {
   text-align: center;
 }
 .header-right {
-  /*display: block;*/
   width: 44px;
   height: 24px;
   line-height: 24px;

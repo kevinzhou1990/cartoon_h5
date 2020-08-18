@@ -22,7 +22,7 @@ export default {
     };
   },
   props: {
-    message: { type: String, default: 'messagenew' },
+    message: { type: String, default: '' },
     type: { type: String, default: 'success' },
     duration: { type: Number, default: 300 }
   },

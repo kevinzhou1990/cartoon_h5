@@ -2,17 +2,25 @@
   <div
     :class="`navigation-wrap navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`"
   >
-    <div class="navigation-content">
-      <div class="navigation-contents">
+    <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
+      <div :class="`navigation-contents ${touching}`" @click="openContents">
         <SvgIcon iconClass="catalog_ba" size="small" />
       </div>
-      <div class="navigation-process">
-        <div></div>
+      <div
+        :class="`navigation-process ${touching ? 'navigation-process-touch': ''}`"
+        @touchstart="handlerTouchStart"
+        @touchmove="handlerTouchMove"
+        @touchend="handlerTouchEnd"
+      >
+        <div :style="`height:${readerProgress}%;`"></div>
       </div>
-      <div class="navigation-next">
+      <div :class="`navigation-next ${touching}`">
         <span>下一话</span>
       </div>
-      <div :class="`setting-icon ${funcPos} ${show ? 'hidden' : ''}`" @click="switchFull">
+      <div
+        :class="`setting-icon ${funcPos} ${show || touching ? 'hidden' : ''}`"
+        @click="switchFull"
+      >
         <SvgIcon iconClass="set_ba" size="small" />
       </div>
     </div>
@@ -28,9 +36,31 @@ export default {
     funcPos: { type: String, default: 'right', required: true },
     show: { type: Boolean, default: true }
   },
+  data() {
+    return {
+      touching: '',
+      readerProgress: 20,
+      initY: 0
+    };
+  },
   methods: {
     switchFull() {
       this.$emit('switchFull');
+    },
+    openContents() {
+      this.$emit('contents');
+    },
+    handlerTouchStart(e) {
+      e.preventDefault();
+      this.initY = e.changedTouches[0].clientY;
+      this.touching = 'touch';
+    },
+    handlerTouchMove(e) {
+      console.log(e, 'move');
+    },
+    handlerTouchEnd(e) {
+      console.log(e, 'end');
+      this.touching = '';
     }
   }
 };
@@ -42,10 +72,18 @@ export default {
   position: fixed;
   top: calc(50% - 160px);
   width: 40px;
-  z-index: 1000;
+  z-index: 999;
   &-left {
     left: 16px;
     transition: left 0.2s;
+    .navigation-contents,
+    .navigation-next {
+      transition: left 0.2s;
+      left: 0;
+      &.touch {
+        left: -56px;
+      }
+    }
   }
   &-left-hidden {
     left: -56px;
@@ -53,18 +91,53 @@ export default {
   &-right {
     right: 16px;
     transition: right 0.2s;
+    .navigation-contents,
+    .navigation-next {
+      transition: right 0.2s;
+      right: 0;
+      &.touch {
+        right: -56px;
+      }
+    }
   }
   &-right-hidden {
     right: -56px;
   }
+  .navigation-content-touch {
+    position: relative;
+    height: 272px;
+    .navigation-contents,
+    .navigation-next {
+      position: absolute;
+    }
+    .navigation-contents {
+      top: 0;
+    }
+    .navigation-next {
+      bottom: 0;
+    }
+  }
+
   .navigation-process {
     height: 160px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     margin: 16px 0 16px 0;
+    &-touch {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0;
+      height: 272px;
+      & > div {
+        background: rgba(255, 255, 255, 1);
+        border-radius: 8px 8px 0 0;
+      }
+    }
     & > div {
-      height: 20%;
       background: rgba(255, 255, 255, 1);
       border-radius: 8px 8px 0 0;
     }

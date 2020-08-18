@@ -3,7 +3,9 @@
     <div :class="`setting-content ${show ? '' : 'setting-content-hidden'}`">
       <div class="setting-content-title">
         设置
-        <SvgIcon iconClass="close_aa" size="default" />
+        <span @click="switchSetting">
+          <SvgIcon iconClass="close_aa" size="default" />
+        </span>
       </div>
       <ul>
         <li>
@@ -58,6 +60,9 @@ export default {
     // 更改功能栏位置
     changePos() {
       this.$emit('changeFuncPos');
+    },
+    switchSetting() {
+      this.$emit('switchSetting');
     }
   }
 };
@@ -67,7 +72,7 @@ export default {
 .setting-wrap {
   .setting-content {
     position: fixed;
-    z-index: 1000;
+    z-index: 999;
     bottom: 0px;
     box-sizing: border-box;
     width: 100%;
