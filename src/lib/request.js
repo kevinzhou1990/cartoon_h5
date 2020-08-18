@@ -1,6 +1,7 @@
 import axios from 'axios';
 import crypto from 'crypto-js';
-import utils from './utils';
+import { getRandomStr } from './utils';
+
 function install(Vue) {
   //创建axios实例
   const instance = axios.create({
@@ -11,7 +12,7 @@ function install(Vue) {
     config => {
       // 拦截请求，添加公共头部参数
       const timestamp = new Date().getTime();
-      const appNonce = utils.getRandomStr();
+      const appNonce = getRandomStr();
       const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
       const Authorization = '';
       const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`);

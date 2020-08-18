@@ -48,22 +48,6 @@ import ZMDetailRemark from '@/views/detail/components/ZMDetailRemark'
 import ZMComicsScroll from '@/views/detail/components/ZMComicsScroll'
 import ZMNoData from '@/common/components/ZMNoData'
 
-/*
- * @info 函数节流, 固定时间调取一次
- * @fn {function} 要执行的函数
- * @wait {number | ms} 要等待的毫秒数
- * */
-window.throttle = function(fn, wait = 300) {
-  let canRun = true
-  return function() {
-    if (!canRun) return
-    canRun = false
-    setTimeout(() => {
-      fn.apply(this, arguments)
-      canRun = true
-    }, wait)
-  }
-}
 export default {
   name: 'ZMScroll',
   components: {
@@ -73,6 +57,7 @@ export default {
     ZMNoData
   },
   data() {
+    this.timer = null // 定时器 用于点击事件的穿透
     this.startTouchValue = 0 // 手指触摸到屏幕距离顶部的距离
     this.touchDistance = '1.33333333rem' // 滑动的距离
     this.startTouchDistance = 310 // 手指触摸到屏幕多少距离才能出发滑动时间
@@ -126,20 +111,25 @@ export default {
     handleClickChapter () {
       console.log('点击了目录')
     },
+    // touch开始
     touchStart(e) {
       // e.preventDefault()
+      if (this.timer){
+        clearTimeout(this.timer)
+      }
       const touch = e.changedTouches[0]
       this.startTouchValue = touch.pageY
       if (this.startTouchValue < this.startTouchDistance) {
         this.$refs.remarkScroll.style['pointer-events'] = 'none'
       }
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.$refs.remarkScroll.style['pointer-events'] = 'auto'
       }, 500)
       e.stopPropagation()
       this.$el.addEventListener('touchmove', this.touchMove)
       console.log('我开始滑动了。。。。', this.startTouchValue)
     },
+    // touch 开始中
     touchMove(e) {
       if (this.startTouchValue < this.startTouchDistance) return
       const touch = e.changedTouches[0].pageY
@@ -162,6 +152,7 @@ export default {
       console.log('touchMove', height)
       console.log('我在滑动中。。。。')
     },
+    // touch 结束
     touchEnd(e) {
       if (this.startTouchValue < this.startTouchDistance) return
       const touch = e.changedTouches[0].pageY
@@ -184,15 +175,19 @@ export default {
       this.bottomWrapStyle.height = `0`
       console.log('我结束滑动了。。。。', height)
     },
+    // 清除下拉动画
     transitionend() {
       this.topWrapStyle.transition = 'none'
     },
+    // 清除上拉动画
     transitionendBottom() {
       this.bottomWrapStyle.transition = 'none'
     },
+    // 绑定滚动事件
     scrolOnEventChange() {
       window.addEventListener('scroll', this.getPageScroll, true)
     },
+    // 获取滚动到页面顶部的高度
     getPageScroll() {
       let yScroll
       let self = window
