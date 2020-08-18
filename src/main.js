@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import install from './lib/request';
 import Button from '@/common/plugin/button';
 import Dialog from '@/common/plugin/dialog';
 import Toast from '@/common/plugin/toast';
 import store from '@/store';
 import 'lib-flexible';
+import 'lib/utils/getTokenByLogin'
 /**
  * 引入mintui
  */
@@ -18,10 +18,8 @@ Vue.use(MintUI);
 Vue.use(Button);
 Vue.use(Dialog);
 Vue.use(Toast);
-install(Vue);
 
 Vue.config.productionTip = false;
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

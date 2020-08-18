@@ -25,8 +25,11 @@ module.exports = {
     'space-before-function-paren': 'off',
     'space-before-blocks': 'off',
     semi: 'off',
-    'spaced-comment': 'off',
+	  // 'no-tabs': ['error', {  allowIndentationTabs: true }],
+	  'no-tabs': "error",
+	  'spaced-comment': 'off',
     'no-useless-escape': 'off',
+	  'no-mixed-spaces-and-tabs': ["error", "smart-tabs"],
     camelcase: 0
     // camelcase: { ignoreDestructuring: true }
   }

@@ -30,6 +30,7 @@ import ZMClassicsComics from './components/ZMClassicsComics'
 import ZMLikeComics from './components/ZMLikeComics'
 import ZMMaybeLikeComics from './components/ZMMaybeLikeComics'
 import ZMNoData from '../../common/components/ZMNoData'
+import {getBanner, getRecommend} from '@/common/api/home'
 
 export default {
   name: 'home',
@@ -46,8 +47,29 @@ export default {
   beforeMount() {
     console.log('jinlailema .....')
   },
-  mounted() {},
-  methods: {}
+  mounted() {
+    // this.getBanner()
+  },
+  methods: {
+    /**
+     * @info: 获取banner的数据
+     * @author: PengGeng
+     * @date: 8/18/20-3:11 下午
+     */
+    async getBanner() {
+      const resData = await getBanner()
+      console.log(resData)
+    },
+    /**
+     * @info: 获取楼层
+     * @author: PengGeng
+     * @date: 8/18/20-3:16 下午
+     */
+    async getRecommend() {
+      const resData = await getRecommend()
+      console.log(resData)
+    }
+  }
 }
 </script>
 
@@ -59,7 +81,11 @@ export default {
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
-    &::-webkit-scrollbar { width: 0 !important }
+
+    &::-webkit-scrollbar {
+      width: 0 !important
+    }
+
     &-search {
       position: absolute;
       width: 343px;
