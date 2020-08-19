@@ -69,7 +69,6 @@ export default {
       this.readerProgress = ((gap + this.initHeight) / 272) * 100;
     },
     handlerTouchEnd(e) {
-      console.log(e, 'end');
       this.touching = '';
     }
   }

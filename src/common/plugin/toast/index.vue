@@ -23,7 +23,7 @@ export default {
   },
   props: {
     message: { type: String, default: '' },
-    type: { type: String, default: 'success' },
+    type: { type: String, default: 'fail' },
     duration: { type: Number, default: 300 }
   },
   mounted() {
