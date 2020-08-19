@@ -42,7 +42,7 @@ export default {
   components: {
     ZMSearch,
     ZMSwiper,
-	  ZMRankAndFondComics,
+    ZMRankAndFondComics,
     ZMNewComics,
     ZMHotComics,
     ZMClassicsComics,
