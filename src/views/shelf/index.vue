@@ -73,10 +73,14 @@ export default {
       });
     },
     toast() {
-      this.$toast('收藏成功，可在书架中查看', {
+      this.Toast('收藏成功，可在书架中查看', {
         type: 'success',
         duration: 1000
       });
+      // this.$toast('收藏成功，可在书架中查看', {
+      //   type: 'success',
+      //   duration: 1000
+      // });
     },
     openContents() {
       console.log('打开目录');

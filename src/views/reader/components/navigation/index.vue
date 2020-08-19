@@ -12,7 +12,11 @@
         @touchmove="handlerTouchMove"
         @touchend="handlerTouchEnd"
       >
-        <div :style="`height:${readerProgress}%;`"></div>
+        <div
+          :style="`height:${readerProgress}%;`"
+          :class="`${readerProgress > 97 ? 'reader-process' : ''}`"
+        ></div>
+        <div :class="`tag ${'tag-'+touching}`">40/70</div>
       </div>
       <div :class="`navigation-next ${touching}`">
         <span>下一话</span>
@@ -40,7 +44,8 @@ export default {
     return {
       touching: '',
       readerProgress: 20,
-      initY: 0
+      initY: 0,
+      initHeight: 0
     };
   },
   methods: {
@@ -52,11 +57,16 @@ export default {
     },
     handlerTouchStart(e) {
       e.preventDefault();
-      this.initY = e.changedTouches[0].clientY;
+      this.initY = Math.round(e.changedTouches[0].clientY);
+      this.initHeight = Math.round(272 * (this.readerProgress / 100));
       this.touching = 'touch';
     },
     handlerTouchMove(e) {
-      console.log(e, 'move');
+      const posY = Math.round(e.touches[0].clientY);
+      // 移动距离
+      const gap = posY - this.initY;
+      if (gap + this.initHeight > 272) return;
+      this.readerProgress = ((gap + this.initHeight) / 272) * 100;
     },
     handlerTouchEnd(e) {
       console.log(e, 'end');
@@ -140,6 +150,31 @@ export default {
     & > div {
       background: rgba(255, 255, 255, 1);
       border-radius: 8px 8px 0 0;
+    }
+    .reader-process {
+      border-radius: 8px;
+    }
+    .tag {
+      display: none;
+      box-sizing: border-box;
+      padding-right: 15px;
+      font-family: 'pingfang-blod';
+      background-image: url('./img/bubble_aa.png');
+      background-size: 100%;
+      background-position: 0 0;
+      position: absolute;
+      background-color: transparent;
+      color: #fff;
+      text-align: center;
+      line-height: 40px;
+      font-size: 18px;
+      right: 56px;
+      width: 94px;
+      height: 40px;
+      &.tag-touch {
+        display: block;
+        margin-top: -21px;
+      }
     }
   }
   .navigation-contents,

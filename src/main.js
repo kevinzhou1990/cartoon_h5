@@ -3,10 +3,10 @@ import App from './App';
 import router from './router';
 import Button from '@/common/plugin/button';
 import Dialog from '@/common/plugin/dialog';
-import Toast from '@/common/plugin/toast';
 import store from '@/store';
+import Toast from '@/common/plugin/toast';
 import 'lib-flexible';
-import 'lib/utils/getTokenByLogin'
+import 'lib/utils/getTokenByLogin';
 /**
  * 引入mintui
  */
@@ -17,7 +17,7 @@ import 'mint-ui/lib/style.css';
 Vue.use(MintUI);
 Vue.use(Button);
 Vue.use(Dialog);
-Vue.use(Toast);
+Vue.prototype.Toast = Toast;
 
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
