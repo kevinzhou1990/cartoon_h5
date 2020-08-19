@@ -1,0 +1,75 @@
+/**
+* @info: ZM-home-label
+* @author: PengGeng
+* @date: 8/19/20-6:11 下午
+*/
+<template>
+  <div class="label-main">
+    <div class="label-main-left">
+      <span class="label-main-cont">排行</span>
+    </div>
+    <div class="label-main-right">
+      <span class="label-main-cont">发现</span>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ZMRankAndFondComics'
+}
+</script>
+
+<style scoped lang="scss">
+  @mixin textContent {
+    position: relative;
+    /*display: block;*/
+    font-family: 'pingfang-blod';
+    font-size: 14px;
+    color: #222222;
+    letter-spacing: 0;
+    line-height: 56px;
+  }
+  @mixin iconLoaction {
+    display: inline-block;
+    vertical-align: middle;
+    content: ' ';
+    margin: auto 8px;
+    width: 24px;
+    height: 24px;
+  }
+.label-main {
+  display: flex;
+  margin: auto 16px;
+  text-align: center;
+  &-left {
+    width: 171px;
+    height: 56px;
+    background: url("../images/ranking_bg.png") no-repeat center;
+    background-size: 100%;
+    .label-main-cont {
+      @include textContent;
+      &:before {
+        @include iconLoaction;
+        background: url("../images/ranking_icon.png") no-repeat center;
+        background-size: 100%;
+      }
+    }
+  }
+  &-right {
+    width: 172px;
+    height: 56px;
+    background: url("../images/find_bg.png") no-repeat center;
+    background-size: 100%;
+    .label-main-cont {
+      @include textContent;
+      &:before {
+        @include iconLoaction;
+        background: url("../images/find_icon.png") no-repeat center;
+        background-size: 100%;
+      }
+    }
+  }
+
+}
+</style>

@@ -40,6 +40,12 @@ import ZMHomeLabel from './ZMHomeLabel'
 
 export default {
   name: 'ZMPossibale',
+  props: {
+    maybeLikeComics: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       labelName: '你可能喜欢',

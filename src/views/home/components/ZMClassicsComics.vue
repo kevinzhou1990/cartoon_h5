@@ -29,6 +29,12 @@ import ZMHomeLabel from './ZMHomeLabel'
 
 export default {
   name: 'ZMClassicsComics',
+  props: {
+    classicsComicsData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       labelName: '经典漫画'

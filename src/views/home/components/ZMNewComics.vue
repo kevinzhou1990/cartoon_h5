@@ -20,6 +20,12 @@
 <script>
 export default {
   name: 'ZMNewComics',
+  props: {
+    newCamicsData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       newComics: '新漫即将抵达'

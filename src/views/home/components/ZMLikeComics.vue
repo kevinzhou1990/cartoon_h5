@@ -29,6 +29,12 @@ import ZMHomeLabel from './ZMHomeLabel'
 
 export default {
   name: 'ZMLikeComics',
+  props: {
+    likeComicsData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       labelName: '喜欢《海贼王》的人都在看',

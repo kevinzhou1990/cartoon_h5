@@ -24,6 +24,12 @@ import ZMHomeLabel from './ZMHomeLabel'
 
 export default {
   name: 'ZMHotComics',
+  props: {
+    hotComicsData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       labelName: '七月热番'
