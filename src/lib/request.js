@@ -9,11 +9,12 @@ const service = axios.create({
 });
 service.interceptors.request.use(
   config => {
+    const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'))
     // 拦截请求，添加公共头部参数
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
-    const Authorization = '';
+    const Authorization = TOKEN_DATA.access_token
     const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`);
     config.headers = {
       'APP-TIMESTAMP': timestamp,

@@ -83,8 +83,7 @@ export default {
   computed: {
   },
   beforeMount() {
-    // this.$refs.remarkScroll.style['overflow-y'] = 'hidden'
-    // document.body.scrollTop = document.documentElement.scrollTop = 0
+    document.body.scrollTop = document.documentElement.scrollTop = 0
   },
   mounted() {
     this.scrolOnEventChange()

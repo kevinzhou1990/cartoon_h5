@@ -5,17 +5,21 @@
       <z-m-search></z-m-search>
     </div>
     <!-- 首页滑动组件 -->
-    <z-m-swiper></z-m-swiper>
-    <!-- 首页新漫 -->
-    <z-m-new-comics></z-m-new-comics>
-    <!-- 首页热番 -->
-    <z-m-hot-comics></z-m-hot-comics>
-    <!-- 经典漫画 -->
-    <z-m-classics-comics></z-m-classics-comics>
-    <!-- 推荐喜欢看的组建 -->
-    <z-m-like-comics></z-m-like-comics>
-    <!-- 可能喜欢组建 -->
-    <z-m-maybe-like-comics></z-m-maybe-like-comics>
+    <z-m-swiper :bannerList="bannerList"></z-m-swiper>
+    <section v-for="item in recList" :key="item.rec_id">
+      <!-- 排行与发现 -->
+      <div v-if="item.style_id === 1"> 待开发 </div>
+      <!-- 首页新漫 -->
+      <z-m-new-comics v-if="item.style_id === 1"></z-m-new-comics>
+      <!-- 首页热番 -->
+      <z-m-hot-comics v-if="item.style_id === 2"></z-m-hot-comics>
+      <!-- 经典漫画 -->
+      <z-m-classics-comics v-if="item.style_id == 3"></z-m-classics-comics>
+      <!-- 推荐喜欢看的组建 -->
+      <z-m-like-comics v-if="item.style_id === 4"></z-m-like-comics>
+      <!-- 可能喜欢组建 -->
+      <z-m-maybe-like-comics v-if="item.style_id === 6 "></z-m-maybe-like-comics>
+    </section>
     <!-- 无数据了 -->
     <z-m-no-data></z-m-no-data>
   </div>
@@ -44,11 +48,15 @@ export default {
     ZMMaybeLikeComics,
     ZMNoData
   },
-  beforeMount() {
-    console.log('jinlailema .....')
+  data() {
+    return {
+      bannerList: [], // banner
+      recList: [] // 楼层list
+    }
   },
   mounted() {
-    // this.getBanner()
+    this.getBanner()
+    this.getRecommend()
   },
   methods: {
     /**
@@ -58,7 +66,11 @@ export default {
      */
     async getBanner() {
       const resData = await getBanner()
-      console.log(resData)
+      if (resData.code === 0){
+        this.bannerList = resData.data.list || []
+      } else {
+        this.$toast(resData.msg || '系统出错,请稍后重试')
+      }
     },
     /**
      * @info: 获取楼层
@@ -67,6 +79,7 @@ export default {
      */
     async getRecommend() {
       const resData = await getRecommend()
+      this.recList = resData.data.list || []
       console.log(resData)
     }
   }

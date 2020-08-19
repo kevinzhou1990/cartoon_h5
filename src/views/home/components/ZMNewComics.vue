@@ -45,7 +45,7 @@ export default {
   ::-webkit-scrollbar { width: 0 !important }
   &-content {
     display: flex;
-    padding: 6px 8px 20px 8px;
+    margin: 6px 8px 20px 8px;
     overflow-x: scroll;
     &-item {
       display: flex;

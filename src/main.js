@@ -18,7 +18,15 @@ Vue.use(MintUI);
 Vue.use(Button);
 Vue.use(Dialog);
 Vue.prototype.Toast = Toast;
-
+router.beforeEach((to, form, next) => {
+  const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'))
+  if (TOKEN_DATA && TOKEN_DATA.access_token){
+    store.commit('SET_TOKEN_DATA', TOKEN_DATA)
+  } else {
+    // TODO 登陆 或者 刷新token
+  }
+  next()
+})
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({

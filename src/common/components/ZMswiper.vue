@@ -6,8 +6,8 @@
 <template>
   <div class="container">
     <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="banners.length>0">
-      <swiper-slide class="swiper-slide" v-for="item in banners" :key="item">
-        <img :src="item" alt class="swiper-img" :style="{ height: bannerHeight+'px' }" />
+      <swiper-slide class="swiper-slide" v-for="(item, index) in bannerList" :key="index">
+        <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px' }" />
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -23,7 +23,7 @@ import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter';
 
 MySwiperClass.use([Pagination, Autoplay]);
 const { Swiper, SwiperSlide } = getAwesomeSwiper(MySwiperClass);
-
+let vm = null
 export default {
   name: 'ZMswiper',
   props: {
@@ -38,6 +38,10 @@ export default {
     swiperOptionsProps: {
       type: Object,
       default: () => {}
+    },
+    bannerList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -59,7 +63,7 @@ export default {
         on: {
           click(swiper, event) {
           // todo 1,4 第一个 2 第二个  3 第三个 分别跳转不同的链接
-            console.log(swiper.clickedIndex);
+            vm.goBannerInfo(swiper.realIndex)
           }
         },
         pagination: {
@@ -94,10 +98,43 @@ export default {
     }
   },
   created() {
+    vm = this
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps)
     // this.swiperOptions = this.swiperOptionsObject
     // console.log('Current Swiper instance object', this.swiper)
     // this.swiper.slideTo(3, 1000, false)
+  },
+  methods: {
+    /**
+     * TODO 跳转链接待协商
+     * @info: 跳转banner的详情
+     * @author: PengGeng
+     * @date: 8/19/20-3:58 下午
+     */
+    goBannerInfo(index) {
+      const BANNER_DATA = this.bannerList
+      // 1-标签，2=专题，3=漫画详情页；4-内部URL；5-外部URL
+      const bannerType = BANNER_DATA[index]['jump_type']
+      console.log(bannerType)
+      const JUMP_ADDRESS = {
+        1: () => {
+          console.log('jump to 标签')
+        },
+        2: () => {
+          console.log('jump to 专题')
+        },
+        3: () => {
+          console.log('jump to 漫画详情页')
+        },
+        4: () => {
+          console.log('jump to 内部URL')
+        },
+        5: () => {
+          console.log('jump to 外部URL')
+        }
+      }
+      console.log(JUMP_ADDRESS[bannerType])
+    }
   }
 };
 </script>

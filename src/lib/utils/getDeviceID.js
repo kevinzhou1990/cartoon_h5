@@ -6,7 +6,7 @@ import Fingerprint2 from 'fingerprintjs2'
  * @author: PengGeng
  * @date: 8/18/20-5:44 下午
  */
-function getDeviceId() {
+function getDeviceId(callback) {
   let quniCode = ''
   if (window.requestIdleCallback) {
     requestIdleCallback(function () {
@@ -14,10 +14,10 @@ function getDeviceId() {
         let values = components.map((component) => {
           return component.value
         })
-        console.log(values)
         quniCode = Fingerprint2.x64hash128(values.join(''), 31)
-        console.log(quniCode)
-        return quniCode
+        if (callback && typeof callback === 'function') {
+          return callback(quniCode)
+        }
       })
     })
   } else {
@@ -26,13 +26,13 @@ function getDeviceId() {
         let values = components.map((component) => {
           return component.value
         })
-        console.log(values)
         quniCode = Fingerprint2.x64hash128(values.join(''), 31)
-        console.log(quniCode)
-        return quniCode
+        if (callback && typeof callback === 'function') {
+          return callback(quniCode)
+        }
       })
-    }, 500)
+    }, 200)
   }
 }
 
-export const DEVICE_ID = getDeviceId()
+export default getDeviceId
