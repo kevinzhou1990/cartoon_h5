@@ -19,18 +19,19 @@ $BORDER_COLOR: #eee;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
-  .box {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding-top: 44px;
-    overflow: auto;
-    & > .header-main {
-      position: fixed !important;
-      top: 0;
-      left: 0;
-    }
+.box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 44px;
+  overflow: auto;
+  & > .header-main {
+    position: fixed !important;
+    top: 0;
+    left: 0;
   }
+}
 </style>
