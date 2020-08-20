@@ -5,23 +5,23 @@
 */
 <template>
   <div class="hot-main">
-    <z-m-home-label :label-name="labelName" @hot-more="handelClickHotMore"></z-m-home-label>
+    <z-m-home-label :label-name="labelName" @hot-more="handleClickHotMore"></z-m-home-label>
     <div class="hot-main-content">
-      <div class="hot-main-content-item" v-for="index in 6" :key="index">
-        <span class="hot-main-content-item-img"></span>
-        <span class="hot-main-content-item-title">黑色放音机全黑色放音机全</span>
-        <span class="hot-main-content-item-chapter">更新至290话</span>
+      <div class="hot-main-content-item" v-for="item in hotComicsList" :key="item.cartoon_id">
+        <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></span>
+        <span class="hot-main-content-item-title">{{ item.intro || '-' }}</span>
+        <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>
     </div>
     <div class="hot-main-btn">
-      <span class="hot-main-btn-content">换一批</span>
+      <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
   </div>
 </template>
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
-
+import { getMoreComics } from '@/common/api/home'
 export default {
   name: 'ZMHotComics',
   props: {
@@ -32,11 +32,21 @@ export default {
   },
   data() {
     return {
-      labelName: '七月热番'
+      labelName: '热番',
+      hotComicsList: [],
+      recId: 2,
+      currentPage: 1,
+      pageSize: 6,
+      totalPages: 1
     }
   },
   components: {
     ZMHomeLabel
+  },
+  created() {
+    this.labelName = this.hotComicsData.name
+    this.hotComicsList = this.hotComicsData.cartoon_list
+    this.recId = this.hotComicsData.rec_id
   },
   methods: {
     /**
@@ -44,9 +54,35 @@ export default {
      * @author: PengGeng
      * @date: 8/5/20-11:52 上午
      */
-    handelClickHotMore() {
-      this.$router.push('/detail')
+    handleClickHotMore() {
+      this.$router.push({
+        path: '/recommend',
+        query: {
+          SEC_ID: this.recId
+        }
+      })
       console.log('点击了更多！')
+    },
+    /**
+     * @info: 点击更换一批
+     * @author: PengGeng
+     * @date: 8/20/20-11:16 上午
+     */
+    async handleChange() {
+      const reqData = {
+        page: this.currentPage,
+        page_size: this.pageSize
+      }
+      console.log(reqData)
+      const resData = await getMoreComics(this.recId, reqData)
+      if (resData && resData.code === 0){
+        this.hotComicsList = resData.data.cartoon_list
+        this.totalPage = resData.data.total_pages
+        this.currentPage = this.currentPage < this.totalPage ? this.currentPage + 1 : 1
+      } else {
+        this.$toast(resData.msg || '系统出错,请稍后重试')
+      }
+      console.log('handle click hot comics')
     }
   }
 }

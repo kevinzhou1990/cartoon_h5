@@ -10,7 +10,7 @@ export const getBanner = function (data = {}) {
   return request({
     url: '/api/home/banner',
     method: 'get',
-    data
+    params: data
   })
 }
 
@@ -19,6 +19,13 @@ export const getRecommend = function (data = {}) {
   return request({
     url: '/api/home/recommend',
     method: 'get',
-    data
+    params: data
+  })
+}
+export const getMoreComics = function (recId, data = {}) {
+  return request({
+    url: `/api/cartoon/more/${recId}`,
+    method: 'get',
+    params: data
   })
 }

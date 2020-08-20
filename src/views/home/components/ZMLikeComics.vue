@@ -6,25 +6,26 @@
 <template>
   <div class="like-main">
     <z-m-home-label :label-name="labelName" @hot-more="handleClickLikeMore"></z-m-home-label>
-    <div class="like-main-banner">
+    <div class="like-main-banner" :style="{background: 'url('+likeBannerData.cover+')'}">
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
-          <span>{{ bannerTitleName || '-' }}</span>
-          <span class="like-main-banner-img-text-l">{{ bannerChapterContent || '-' }}</span>
+          <span>{{ likeBannerData.title || '-' }}</span>
+          <span class="like-main-banner-img-text-l">{{ likeBannerData.author | authorFormate }} | {{ likeBannerData.publish_status || '--'}}</span>
         </div>
       </div>
     </div>
     <div class="like-main-other">
-      <div class="like-main-other-item" v-for="index in 3" :key="index">
-        <span class="like-main-other-item-img"></span>
-        <span class="like-main-other-item-title">看脸时代</span>
-        <span class="like-main-other-item-chapter">更新至290话</span>
+      <div class="like-main-other-item" v-for="item in likeComicsList" :key="item.cartoon_id">
+        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')'}"></span>
+        <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
+        <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import '../filters/home'
 import ZMHomeLabel from './ZMHomeLabel'
 
 export default {
@@ -38,12 +39,19 @@ export default {
   data() {
     return {
       labelName: '喜欢《海贼王》的人都在看',
-      bannerTitleName: '玛蒂娜生活日记',
-      bannerChapterContent: '流失之光工作室  |  更新至06话'
+      likeComicsList: [],
+      likeBannerData: null,
+      bannerTitleName: '玛蒂娜生活日记'
+      // bannerChapterContent: '流失之光工作室  |  更新至06话'
     }
   },
   components: {
     ZMHomeLabel
+  },
+  created() {
+    this.labelName = this.likeComicsData.name
+    this.likeComicsList = this.likeComicsData.cartoon_list
+    this.likeBannerData = this.likeComicsData.top || {}
   },
   methods: {
     /**
@@ -105,10 +113,12 @@ export default {
       }
     }
   }
+  ::-webkit-scrollbar { width: 0 !important }
   &-other {
     display: flex;
     justify-content: space-between;
-    padding: 0 4px;
+    margin: 0 4px;
+    overflow-x: scroll;
     &-item {
       display: flex;
       flex-direction: column;

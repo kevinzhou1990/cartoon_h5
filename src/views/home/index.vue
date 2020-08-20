@@ -14,10 +14,10 @@
       <!-- 首页热番 -->
       <z-m-hot-comics :hot-comics-data='item' v-if="item.style_id === 2"></z-m-hot-comics>
       <!-- 经典漫画 -->
-      <z-m-classics-comics :classics-comics-data = 'item' v-if="item.style_id == 3"></z-m-classics-comics>
+      <z-m-classics-comics :classics-comics-data = 'item' v-if="item.style_id === 4"></z-m-classics-comics>
       <!-- 推荐喜欢看的 -->
-      <z-m-like-comics :like-comics-data= 'item' v-if="item.style_id === 4"></z-m-like-comics>
-      <!-- 可能喜欢组建 -->
+      <z-m-like-comics :like-comics-data= 'item' v-if="item.style_id === 5"></z-m-like-comics>
+      <!-- 你可能喜欢的 -->
       <z-m-maybe-like-comics :maybe-like-comics='item' v-if="item.style_id === 6 "></z-m-maybe-like-comics>
     </section>
     <!-- 无数据了 -->
@@ -82,7 +82,14 @@ export default {
     async getRecommend() {
       const resData = await getRecommend()
       this.recList = resData.data.list || []
-      console.log(resData)
+      let recData = {}
+      this.recList.length && this.recList.map((item, index) => {
+        if (item.rec_id !== 0){
+          recData[item.rec_id] = item.name
+        }
+      })
+      // sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData))
+      this.$store.commit('SET_REC_DATA', recData)
     }
   }
 }

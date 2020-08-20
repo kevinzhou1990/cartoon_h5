@@ -38,12 +38,7 @@ const router = new Router({
         //   component: Comments,
         //   meta: { title: '评论', transitionIn: 'slide-left' }
         // },
-        {
-          path: '/recommend',
-          name: 'recommend',
-          component: Recommend,
-          meta: {title: '更多推荐', transitionIn: 'slide-left'}
-        },
+
         {
           path: '/mine',
           name: 'mine',
@@ -63,6 +58,12 @@ const router = new Router({
       name: 'reader',
       component: Reader,
       meta: {title: '漫画阅读'}
+    },
+    {
+      path: '/recommend',
+      name: 'recommend',
+      component: Recommend,
+      meta: {title: '更多推荐', transitionIn: 'slide-left'}
     },
     {
       path: '/detail',

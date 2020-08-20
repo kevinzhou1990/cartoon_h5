@@ -2,14 +2,14 @@
   <div class="main-bar zm-b-t-b bar-zindex">
     <div class="main-bar-content">
       <div class="main-bar-content-item"
-           v-for="index in 10"
-           :key="index"
-           @click.stop="isSelected = index"
+           v-for="(value, name) in tabListData"
+           :key="name"
+           @click.stop="isSelected = name"
       >
         <span
-            :class="isSelected ===index ? 'is-selected' : ''"
+            :class="isSelected == name ? 'is-selected' : ''"
         >
-          7月热番{{ index }}
+          {{ value }}
         </span>
       </div>
     </div>
@@ -20,10 +20,19 @@
 <script>
 export default {
   name: 'ZMTabBar',
+  props: {
+    tabListData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       isSelected: 1
     }
+  },
+  created() {
+    this.isSelected = this.$route.query.SEC_ID || 1
   }
 }
 </script>
@@ -39,7 +48,7 @@ export default {
       content: ' ';
       display: block;
       border-bottom: 2px solid $item-selected-color;
-      width: 24px;
+      /*width: 24px;*/
       margin: 0 8px;
     }
   }
@@ -65,16 +74,15 @@ export default {
       display: flex;
       flex-flow: row nowrap;
       position: relative;
-      width: auto;
-      overflow-x: auto;
+      width: 100%;
+      overflow-x: scroll;
 
       &::-webkit-scrollbar {
         width: 0 !important
       }
 
       &-item {
-        width: 50px;
-        padding: 0 16px;
+        margin: 0 16px;
         white-space: nowrap;
       }
     }

@@ -31,7 +31,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // 请求200的正常返回
-    console.log(response.data, '----请求返回')
+    // console.log(response.data, '----请求返回')
     if (response.data.code === '1003') {
     // TODO 去重新请求token
     } else if (response.data.code === '1004') {

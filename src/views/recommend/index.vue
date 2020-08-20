@@ -10,7 +10,7 @@
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
     </div>
     <div class="nav-bar">
-      <z-m-nav-bar></z-m-nav-bar>
+      <z-m-nav-bar :tabListData="tabListData"></z-m-nav-bar>
     </div>
     <div v-if="showDataFlag">
       <z-m-table v-if="isLightIcon"></z-m-table>
@@ -41,6 +41,8 @@ export default {
   data() {
     return {
       titleText: '更多推荐',
+      acticeIndex: 1,
+      tabListData: null,
       isLightIcon: false, // false 右边高亮  true 左边高亮
       listBb: require('./images/list_bb.png'),
       listBa: require('./images/list_ba.png'),
@@ -62,6 +64,10 @@ export default {
         return [this.listBa, this.blockBb]
       }
     }
+  },
+  created() {
+    // this.tabListData = this.$store.state.home.recData
+    this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
   },
   methods: {
     handleClickLightIcon() {

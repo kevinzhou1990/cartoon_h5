@@ -5,19 +5,20 @@
 */
 <template>
   <div class="new-main">
-    <span class="new-main-label">{{ newComics }}</span>
+    <span class="new-main-label">{{ newComicsName }}</span>
     <div class="new-main-content">
-      <div class="new-main-content-item" v-for="index in 10" :key="index">
-        <span class="new-main-content-item-img"></span>
-        <span class="new-main-content-item-title">黑白放映机</span>
-        <span class="new-main-content-item-author">陈俊滨</span>
-        <span class="new-main-content-item-des">欢迎来到这神秘又诡异的放映厅，入座后即将开始放</span>
+      <div class="new-main-content-item" v-for="item in newComicsList" :key="item.cartoon_id">
+        <span class="new-main-content-item-img" :style="{background: 'url('+item.cover+')'}"></span>
+        <span class="new-main-content-item-title">{{ item.title }}</span>
+        <span class="new-main-content-item-author">{{ item.author | authorFormate }}</span>
+        <span class="new-main-content-item-des">{{ item.intro }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import '../filters/home'
 export default {
   name: 'ZMNewComics',
   props: {
@@ -28,8 +29,15 @@ export default {
   },
   data() {
     return {
-      newComics: '新漫即将抵达'
+      newComicsName: '新漫即将抵达',
+      newComicsList: []
     }
+  },
+  created() {
+    this.newComicsName = this.newCamicsData.name
+    this.newComicsList = this.newCamicsData.cartoon_list
+  },
+  mounted() {
   }
 }
 </script>
@@ -66,9 +74,13 @@ export default {
         border-radius: 4px;
       }
       &-title {
+        display: block;
         padding-top: 4px;
         font-size: 14px;
         font-weight: bold;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       &-author {
         display: inline-block;

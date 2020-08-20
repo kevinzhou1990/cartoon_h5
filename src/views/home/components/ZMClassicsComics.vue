@@ -7,16 +7,15 @@
   <div class="classics-main">
     <z-m-home-label :label-name="labelName" @hot-more="hanldeClikckClassicsMore"></z-m-home-label>
     <div class="classics-main-content">
-      <div class="classics-main-content-item" v-for="index in 6" :key="index">
+      <div class="classics-main-content-item" v-for="item in classicsComicsList" :key="item.cartoon_id">
         <div class="classics-main-content-item-bg">
-          <div class="classics-main-content-item-bg-img"></div>
+          <div class="classics-main-content-item-bg-img" :style="{background: 'url('+item.cover+')'}"></div>
           <div class="classics-main-content-item-bg-content">
-            <span class="classics-main-content-item-bg-content-title">女神降临</span>
+            <span class="classics-main-content-item-bg-content-title">{{ item.title }}</span>
             <div>
-              <span class="classics-main-content-item-bg-content-label">悬疑</span>
-              <span class="classics-main-content-item-bg-content-label">热血</span>
+              <span class="classics-main-content-item-bg-content-label" v-for="(tagItem, index) in item.tag" :key="index">{{ tagItem }}</span>
             </div>
-            <span class="classics-main-content-item-bg-content-chapter">完结/共234话</span>
+            <span class="classics-main-content-item-bg-content-chapter">{{ item.publish_status }}</span>
           </div>
         </div>
       </div>
@@ -37,11 +36,18 @@ export default {
   },
   data() {
     return {
-      labelName: '经典漫画'
+      labelName: '经典漫画',
+      classicsComicsList: [],
+      recId: 4
     }
   },
   components: {
     ZMHomeLabel
+  },
+  created() {
+    this.labelName = this.classicsComicsData.name
+    this.classicsComicsList = this.classicsComicsData.cartoon_list
+    this.recId = this.classicsData.recId
   },
   methods: {
     /**
@@ -50,6 +56,12 @@ export default {
      * @date: 8/5/20-2:23 下午
      */
     hanldeClikckClassicsMore() {
+      this.$router.push({
+        path: '/recommend',
+        query: {
+          SEC_ID: this.recId
+        }
+      })
       console.log('go to classics comics info')
     }
   }
@@ -114,8 +126,8 @@ export default {
             }
             &-label {
               display: inline-block;
-              padding: 2px 0;
-              width: 32px;
+              padding: 2px;
+              min-width: 32px;
               height: 20px;
               border: 1px solid rgba(0,0,0,0.08);;
               border-radius: 4px;

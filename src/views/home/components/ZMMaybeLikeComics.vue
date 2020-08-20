@@ -6,38 +6,43 @@
 <template>
   <div class="maybe-main">
     <z-m-home-label :label-name="labelName" @hot-more="handleClickMybeLike"></z-m-home-label>
-    <div class="maybe-main-content" v-for="index in nums" :key="index">
+    <div class="maybe-main-content" v-for="(item, index) in maybeLikeComicsList" :key="item.cartoon_id">
       <div class="maybe-main-content-item">
-        <div class="maybe-main-content-item-img"></div>
+        <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
-            <span>全职读者视角</span>
+            <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
             <div class="maybe-main-content-item-desc-title-c" @click="isCollectFlag = !isCollectFlag">
               <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">
               <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
             </div>
           </div>
           <div class="maybe-main-content-item-desc-chapter">
-            <span>流星</span>
-            <span class="p-l10">完结/共234话</span>
+            <span>{{ item.author | authorFormate }}</span>
+            <span class="p-l10">{{ item.publish_status || '--' }}</span>
           </div>
           <div class="maybe-main-content-item-desc-label">
-            <span class="s-border">悬疑</span>
-            <span class="s-border m-l8">热血</span>
+            <span class="s-border"
+                  :class="{'m-l8' : index> 0}"
+                  v-for="(tagItem, index) in item.tag"
+                  :key="index"
+            >
+              {{ tagItem }}
+            </span>
           </div>
           <span class="maybe-main-content-item-desc-content">
-            欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放
+            {{ item.intro || '暂无'}}
           </span>
         </div>
       </div>
-      <div class="maybe-main-content-item-line zm-b-t" v-if="index < nums.length"></div>
+      <div class="maybe-main-content-item-line zm-b-t" v-if="index < maybeLikeComicsList.length - 1"></div>
     </div>
   </div>
 </template>
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
-
+import '../filters/home'
 export default {
   name: 'ZMPossibale',
   props: {
@@ -50,6 +55,7 @@ export default {
     return {
       labelName: '你可能喜欢',
       isCollectFlag: false, // 是否已经收藏
+      maybeLikeComicsList: [],
       ba_img: require('@/assets/img/save_ba.png'),
       bb_img: require('@/assets/img/save_bb.png'),
       nums: [1, 2, 3]
@@ -57,6 +63,10 @@ export default {
   },
   components: {
     ZMHomeLabel
+  },
+  created() {
+    this.labelName = this.maybeLikeComics.name
+    this.maybeLikeComicsList = this.maybeLikeComics.cartoon_list
   },
   methods: {
     /**
@@ -120,6 +130,13 @@ export default {
           padding: 8px 2px 4px 2px;
           justify-content: space-between;
           font-size: $title-fontSize;
+          &-text {
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 195px;
+          }
           &-c {
             display: flex;
             justify-content: space-between;
@@ -148,7 +165,8 @@ export default {
           -webkit-transform-origin-x: 0;
           .s-border {
             display: inline-block;
-            width: 32px;
+            min-width: 32px;
+            padding: 2px;
             height: 20px;
             border: 1px solid $chapter-color;
             border-radius: 4px;
@@ -173,7 +191,7 @@ export default {
         display:flex;
         box-sizing: border-box;
         font-weight: normal;
-        opacity: 0.2;
+        opacity: 0.8;
         padding: 4px 0;
         /*width: 1143px;*/
         /*border-bottom: 1px solid #000000;*/
