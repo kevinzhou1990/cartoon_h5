@@ -47,7 +47,7 @@ export default {
   created() {
     this.labelName = this.classicsComicsData.name
     this.classicsComicsList = this.classicsComicsData.cartoon_list
-    this.recId = this.classicsData.recId
+    this.recId = this.classicsComicsData.rec_id
   },
   methods: {
     /**
