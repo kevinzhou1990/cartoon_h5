@@ -84,7 +84,7 @@ export default {
       this.recList = resData.data.list || []
       let recData = {}
       this.recList.length && this.recList.map((item, index) => {
-        if (item.rec_id !== 0){
+        if (item.rec_id > 1){
           recData[item.rec_id] = item.name
         }
       })
