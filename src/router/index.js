@@ -10,6 +10,7 @@ import Reader from '@/views/reader';
 import Mine from '@/views/mine';
 import Shelf from '@/views/shelf';
 import Ranking from '@/views/ranking';
+import Topic from '@/views/topic';
 import store from '../store';
 
 Vue.use(Router);
@@ -64,7 +65,7 @@ const router = new Router({
       path: '/recommend',
       name: 'recommend',
       component: Recommend,
-      meta: {title: '更多推荐', transitionIn: 'slide-left'}
+      meta: { title: '更多推荐', transitionIn: 'slide-left' }
     },
     {
       path: '/detail',
@@ -77,6 +78,12 @@ const router = new Router({
       name: 'ranking',
       component: Ranking,
       meta: { title: '排行榜', transitionIn: 'slide-left' }
+    },
+    {
+      path: '/topic',
+      name: 'topic',
+      component: Topic,
+      meta: { title: '专题', transitionIn: 'slide-left' }
     }
   ]
 });
