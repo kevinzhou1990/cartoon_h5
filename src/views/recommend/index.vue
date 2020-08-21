@@ -10,11 +10,15 @@
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
     </div>
     <div class="nav-bar">
-      <z-m-nav-bar :tabListData="tabListData"></z-m-nav-bar>
+      <z-m-nav-bar
+          :tabListData="tabListData"
+          :acticeIndex="acticeIndex"
+          @getRecommendData="getData"
+      ></z-m-nav-bar>
     </div>
-    <div v-if="showDataFlag">
-      <z-m-table v-if="isLightIcon"></z-m-table>
-      <z-m-list v-else></z-m-list>
+    <div v-if="dataList.length">
+      <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
+      <z-m-list v-else :dataList="dataList"></z-m-list>
     </div>
     <div v-else>
       <z-m-not-network></z-m-not-network>
@@ -28,6 +32,7 @@ import ZMNotNetwork from '@/common/components/noNetwork'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
+import { getMoreComics } from '@/common/api/home'
 
 export default {
   name: 'recommentd',
@@ -48,7 +53,8 @@ export default {
       listBa: require('./images/list_ba.png'),
       blockBb: require('./images/block_bb.png'),
       blockBa: require('./images/block_ba.png'),
-      showDataFlag: false // 显示是否显示没有网络的情况
+      showDataFlag: false, // 显示是否显示没有网络的情况
+      dataList: []
     }
   },
   computed: {
@@ -67,9 +73,25 @@ export default {
   },
   created() {
     // this.tabListData = this.$store.state.home.recData
+    this.acticeIndex = this.$route.query.SEC_ID || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
+    this.getData(this.acticeIndex)
   },
   methods: {
+  /**
+   * @info: 获取tab上的数据
+   * @author: PengGeng
+   * @date: 8/21/20-5:32 下午
+   */
+    async getData(val) {
+      const resData = await getMoreComics(val)
+      if (resData && resData.code === 0) {
+        this.dataList = resData.data.cartoon_list
+        console.log(resData.data)
+      } else {
+        this.$toast(resData.msg || '系统繁忙,请稍后重试')
+      }
+    },
     handleClickLightIcon() {
       this.isLightIcon = !this.isLightIcon
       console.log('to do something。。。。')
@@ -165,7 +187,6 @@ export default {
   .nav-bar {
     position: relative;
     width: 100%;
-    height: 100%;
     padding-top: 56px;
     box-sizing: border-box;
   }

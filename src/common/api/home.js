@@ -22,6 +22,7 @@ export const getRecommend = function (data = {}) {
     params: data
   })
 }
+// 获取更多漫画
 export const getMoreComics = function (recId, data = {}) {
   return request({
     url: `/api/cartoon/more/${recId}`,

@@ -4,7 +4,7 @@
       <div class="main-bar-content-item"
            v-for="(value, name) in tabListData"
            :key="name"
-           @click.stop="isSelected = name"
+           @click.stop="handleRecommendTabItem(name)"
       >
         <span
             :class="isSelected == name ? 'is-selected' : ''"
@@ -24,15 +24,25 @@ export default {
     tabListData: {
       type: Object,
       default: () => {}
+    },
+    acticeIndex: {
+      type: String,
+      default: '1'
     }
   },
   data() {
     return {
-      isSelected: 1
+      isSelected: this.acticeIndex
     }
   },
   created() {
-    this.isSelected = this.$route.query.SEC_ID || 1
+
+  },
+  methods: {
+    handleRecommendTabItem(val) {
+      this.isSelected = Number(val)
+      this.$emit('getRecommendData', this.isSelected)
+    }
   }
 }
 </script>
@@ -57,7 +67,7 @@ export default {
     /*position: relative;*/
     left: 0;
     top: 44px;
-    z-index: 9999;
+    z-index: 9;
     background: #ffffff;
   }
 
@@ -69,20 +79,18 @@ export default {
     line-height: 56px;
     color: $item-color;
     width: 100%;
-
     &-content {
       display: flex;
       flex-flow: row nowrap;
       position: relative;
       width: 100%;
       overflow-x: scroll;
-
       &::-webkit-scrollbar {
         width: 0 !important
       }
 
       &-item {
-        margin: 0 16px;
+        padding: 0 16px;
         white-space: nowrap;
       }
     }

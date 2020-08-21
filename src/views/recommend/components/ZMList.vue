@@ -4,40 +4,51 @@
 * @date: 8/10/20-4:23 下午
 */
 <template>
-  <div class="maybe-main" @click="handleClickComicsInfo">
+  <div class="maybe-main">
     <div style="padding: 0 8px;">
       <z-mswiper :banner-height="bannerHeight" :isBottomImg="isBottomImg" :swiperOptionsProps="swiperOptions"></z-mswiper>
     </div>
-    <div class="maybe-main-content" v-for="index in nums" :key="index">
-      <div class="maybe-main-content-item">
-        <div class="maybe-main-content-item-img"></div>
+    <div class="maybe-main-content" v-for="(item, index) in dataList" :key="item.cartoon_id">
+      <div class="maybe-main-content-item" @click.stop="handleClickComicsInfo(item.cartoon_id)">
+        <div class="maybe-main-content-item-img" :style="{background: 'url('+item.cover+')'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
-            <span>全职读者视角</span>
+            <span class="maybe-main-content-item-desc-title-text">{{ item.title }}</span>
           </div>
           <div class="maybe-main-content-item-desc-chapter">
-            <span>流星</span>
-            <span class="p-l10">完结/共234话</span>
+            <span>{{ item.author | authorFormate }}</span>
+            <span class="p-l10">{{ item.publish_status || '--' }}</span>
           </div>
           <div class="maybe-main-content-item-desc-label">
-            <span class="s-border">悬疑</span>
-            <span class="s-border m-l8">热血</span>
+            <span class="s-border"
+                  :class="{'m-l8': index >1}"
+                  v-for="(tagItem,index) in item.tag"
+                  :key="index"
+            >
+              {{ tagItem }}
+            </span>
           </div>
           <span class="maybe-main-content-item-desc-content">
-            欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放欢迎来到这神秘又诡异的放映厅，入座后即将开始放
+            {{ item.intro }}
           </span>
         </div>
       </div>
-      <div class="maybe-main-content-item-line zm-b-t" v-if="index < nums.length"></div>
+      <div class="maybe-main-content-item-line zm-b-t" v-if="index < dataList.length -1"></div>
     </div>
   </div>
 </template>
 
 <script>
 import ZMswiper from '@/common/components/ZMswiper'
-
+import '@/common/filters/home'
 export default {
   name: 'ZMPossibale',
+  props: {
+    dataList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       bannerHeight: 86,
@@ -65,8 +76,8 @@ export default {
      * @author: PengGeng
      * @date: 8/11/20-10:04 上午
      */
-    handleClickComicsInfo() {
-      console.log('go to comics info......')
+    handleClickComicsInfo(val) {
+      console.log('go to comics info......', val)
     }
   }
 }
@@ -128,7 +139,13 @@ export default {
             padding: 8px 2px 4px 2px;
             justify-content: space-between;
             font-size: $title-fontSize;
-
+            &-text {
+              display: block;
+              overflow: hidden;
+              width: 245px;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
             &-c {
               display: flex;
               justify-content: space-between;
@@ -161,7 +178,8 @@ export default {
 
             .s-border {
               display: inline-block;
-              width: 32px;
+              padding: 0 2px;
+              min-width: 32px;
               height: 20px;
               border: 1px solid $chapter-color;
               border-radius: 4px;
@@ -189,7 +207,7 @@ export default {
           box-sizing: border-box;
           font-weight: normal;
           opacity: 0.8;
-          padding: 4px 0;
+          margin: 6px 0;
           /*width: 1143px;*/
           /*border-bottom: 1px solid #000000;*/
           /*transform: scale(0.5);*/

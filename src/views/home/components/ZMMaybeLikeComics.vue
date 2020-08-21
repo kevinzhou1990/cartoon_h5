@@ -42,7 +42,7 @@
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
-import '../filters/home'
+import '../../../common/filters/home'
 export default {
   name: 'ZMPossibale',
   props: {

@@ -14,7 +14,7 @@ import MintUI from 'mint-ui';
 import './assets/style/index.scss';
 import 'mint-ui/lib/style.css';
 import { getTokenByOAuth } from 'lib/utils/getTokenByLogin';
-getTokenByOAuth()
+
 // swpier组件
 Vue.use(MintUI);
 Vue.use(Button);
@@ -27,7 +27,7 @@ router.beforeEach((to, form, next) => {
     store.commit('SET_TOKEN_DATA', TOKEN_DATA)
   } else {
     // TODO 登陆 或者 获取token
-    // getTokenByOAuth()
+    getTokenByOAuth()
   }
   next()
 })

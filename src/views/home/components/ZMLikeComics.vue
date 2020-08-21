@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import '../filters/home'
+import '../../../common/filters/home'
 import ZMHomeLabel from './ZMHomeLabel'
 
 export default {

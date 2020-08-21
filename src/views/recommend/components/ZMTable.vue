@@ -4,12 +4,16 @@
 * @date: 8/10/20-4:19 下午
 */
 <template>
-  <div class="main-content" @click="handleClickInfo">
+  <div class="main-content">
     <div style="display: flex; flex-flow: row wrap;">
-      <div class="main-content-item" v-for="index in 7" :key="index">
-        <img class="main-content-item-img" src="@/assets/img/defaultBook.png">
-        <span class="main-content-item-title">黑色放音机全哈哈哈哈</span>
-        <span class="main-content-item-chapter">更新至290话</span>
+      <div class="main-content-item"
+           v-for="item in dataList"
+           :key="item.cartoon_id"
+           @click.stop="handleClickInfo(item.cartoon_id)"
+      >
+        <span class="main-content-item-img" :style="{background: 'url('+item.cover+')'}"></span>
+        <span class="main-content-item-title">{{ item.title }}</span>
+        <span class="main-content-item-chapter">{{ item.publish_status }}</span>
       </div>
     </div>
   </div>
@@ -17,15 +21,21 @@
 
 <script>
 export default {
-  name: 'ZMTable.vue',
+  name: 'ZMTable',
+  props: {
+    dataList: {
+      type: Array,
+      default: () => []
+    }
+  },
   methods: {
     /**
      * @info: TODO 去漫画详情
      * @author: PengGeng
      * @date: 8/11/20-10:01 上午
      */
-    handleClickInfo() {
-      console.log('go to comics info......')
+    handleClickInfo(val) {
+      console.log('go to comics info......', val)
     }
   }
 }
@@ -53,7 +63,10 @@ export default {
 
       &-img {
         height: 145px;
+        width: 109px;
         border-radius: 4px;
+        background: url("../../../assets/img/defaultBook.png") no-repeat;
+        background-size: 100%;
       }
 
       &-title {

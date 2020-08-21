@@ -88,7 +88,7 @@ export default {
           recData[item.rec_id] = item.name
         }
       })
-      // sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData))
+      sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData))
       this.$store.commit('SET_REC_DATA', recData)
     }
   }
