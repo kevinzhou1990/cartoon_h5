@@ -1,19 +1,16 @@
 <template>
-  <div class="main-bar zm-b-t-b bar-zindex">
+  <div class="main-bar zm-b-t-b bar-zindex" ref="navBar">
     <div class="main-bar-content">
       <div class="main-bar-content-item"
-           v-for="(value, name) in tabListData"
+           v-for="(value, name, index) in tabListData"
            :key="name"
-           @click.stop="handleRecommendTabItem(name)"
+           @click.stop="isSelected = name, start(index)"
+           ref="scrollItem"
+           :class="isSelected == name ? 'is-selected' : ''"
       >
-        <span
-            :class="isSelected == name ? 'is-selected' : ''"
-        >
-          {{ value }}
-        </span>
+        {{ value }}
       </div>
     </div>
-
   </div>
 </template>
 
@@ -31,17 +28,95 @@ export default {
     }
   },
   data() {
+    this.startTouchValue = 0
+    this.clientWidth = 0
     return {
       isSelected: this.acticeIndex
     }
   },
-  created() {
-
+  mounted() {
+    // this.$el.addEventListener('touchstart', this.touchStart, true)
+    console.log(this.clientWidth)
   },
   methods: {
+    getScrollOffset() {
+      let xScroll
+      let self = this.$el
+      if (self.pageXOffset) {
+        xScroll = self.pageXOffset
+      // xScroll = self.pageXOffset;
+      } else if (document.documentElement && document.documentElement.offsetLeft) {
+        xScroll = document.documentElement.offsetLeft
+      } else if (document.body) {
+        xScroll = document.body.offsetLeft
+      }
+      debugger
+      const scrollLeft = this.$refs[`navBar${this.isSelected}`][0].offsetLeft
+      if (scrollLeft > 300) {
+        this.$el.scrollLeft = 100
+      // this.$refs[`navBar${val}`][0].scrollTo({
+      //   left: 50,
+      //   behavior: 'smooth'
+      // })
+      // nvaBarEl.scrollTo({
+      //   left: 50,
+      //   behavior: 'smooth'
+      // })
+      }
+      console.log('scroll的距离' + xScroll)
+      // if (window.pageXOffset) {
+      //   return {
+      //     x: window.pageXOffset,
+      //     y: window.pageYOffset
+      //   }
+      // } else {
+      //   return {
+      //     x: document.body.scrollLeft + document.documentElement.scrollLeft,
+      //     y: document.body.scrollTop + document.documentElement.scrollTop
+      //   }
+      // }
+    },
+    touchStart(e) {
+      const touch = e.changedTouches[0]
+      this.startTouchValue = touch.pageX
+      if (this.startTouchValue > 300){
+
+      }
+      console.log(this.startTouchValue)
+    },
     handleRecommendTabItem(val) {
-      this.isSelected = Number(val)
+      // const nvaBarEl = this.$el
+      console.log(this.$refs.navBar.scrollLeft)
+      this.$refs.navBar.scrollTo(7, 0)
+      this.isSelected = val
       this.$emit('getRecommendData', this.isSelected)
+    },
+    start(index) {
+      /**
+       * 1)先让选中的元素滚到可视区域的最左边 scrollLeft
+       * 2)接着向右移动容器一半的距离 containWidth / 2
+       * 3)最后向左移动item一半的距离 offsetWidth / 2
+       */
+      let lastSpot = this.$refs.navBar.scrollLeft
+      console.log(lastSpot)
+      const nextSpace = 7 //每次移动距离
+      let scrollItemTimer = setInterval(() => {
+        this.$nextTick(() => {
+          let offsetWidth = this.$refs.scrollItem[index].offsetWidth //item
+          let scrollLeft = this.$refs.scrollItem[index].offsetLeft //选中的元素滚到可视区域的最左边
+          const containWidth = this.$refs.navBar.offsetWidth //容器的宽度
+          let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2 //最终要停留的点
+          if (Math.abs(lastSpot - resultSpot) < nextSpace) {
+            clearInterval(scrollItemTimer)
+          }
+          if (resultSpot >= lastSpot) {
+            lastSpot = lastSpot + nextSpace
+          } else {
+            lastSpot = lastSpot - nextSpace
+          }
+          this.$refs.navBar.scrollTo(lastSpot, 0)
+        })
+      }, 15)
     }
   }
 }

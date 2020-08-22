@@ -89,9 +89,9 @@ export default {
     this.scrolOnEventChange()
     this.$el.addEventListener('touchstart', this.touchStart, true)
     this.$el.addEventListener('touchend', this.touchEnd, true)
-    this.$nextTick(() => {
-      this.otherHeight = this.$refs.ohterEl.getBoundingClientRect().y
-    })
+    // this.$nextTick(() => {
+    //   this.otherHeight = this.$refs.ohterEl.getBoundingClientRect().y
+    // })
   },
   methods: {
     /**

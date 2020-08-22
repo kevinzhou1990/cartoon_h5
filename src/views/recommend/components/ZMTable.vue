@@ -1,5 +1,5 @@
 /**
-* @info:
+* @info: 推荐漫画 table
 * @author: PengGeng
 * @date: 8/10/20-4:19 下午
 */
