@@ -9,12 +9,13 @@ const service = axios.create({
 });
 service.interceptors.request.use(
   config => {
-    const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'))
+    console.log(config.url);
+    const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'));
     // 拦截请求，添加公共头部参数
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
-    const Authorization = (TOKEN_DATA && TOKEN_DATA.access_token) || ''
+    const Authorization = (TOKEN_DATA && TOKEN_DATA.access_token) || '';
     const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`);
     config.headers = {
       'APP-TIMESTAMP': timestamp,
@@ -31,20 +32,54 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // 请求200的正常返回
-    // console.log(response.data, '----请求返回')
     if (response.data.code === 1003) {
       // TODO 去重新请求token
-      getTokenByOAuth()
+      return tokenError('get', response);
+      // getTokenByOAuth();
     } else if (response.data.code === 1004) {
-      refreshGetToken()
-    // TODO 去刷新token
+      // TODO 去刷新token
+      return tokenError('refresh', response);
+      // refreshGetToken();
+    } else {
+      return response.data;
     }
-    return response.data;
+    // return response.data;
   },
   error => {
     Promise.reject(error);
   }
 );
-// Vue.prototype.$request = instance;
+// 请求队列，用于token报错后，存储请求
+let requestStock = [];
+let isGetting = false;
+let isRefreshing = false;
+// type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
+async function tokenError(type, res) {
+  if (!isGetting || !isRefreshing) {
+    type === 'get' ? (isGetting = true) : (isRefreshing = true);
+    if (type === 'get') {
+      await getTokenByOAuth();
+    } else {
+      await refreshGetToken();
+    }
+    const Authorization = JSON.parse(sessionStorage.getItem('tokenData'))
+      .access_token;
+    if (sessionStorage.getItem('tokenData')) {
+      requestStock.forEach(cb => cb(Authorization));
+      requestStock = [];
+      type === 'get' ? (isGetting = false) : (isRefreshing = false);
+      return service(res.config);
+    } else {
+      return Promise.reject(res);
+    }
+  } else {
+    return new Promise(resolve => {
+      requestStock.push(token => {
+        res.config.headers.Authorization = token;
+        resolve(res.config);
+      });
+    });
+  }
+}
 
 export default service;
