@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/home';
-// import Comments from '@/views/comments';
+import Comments from '@/views/comments';
 import Detail from '@/views/detail';
 import Test from '@/views/detail/indexTest';
 import Recommend from '@/views/recommend';
@@ -34,13 +34,7 @@ const router = new Router({
           name: 'test',
           component: Test,
           meta: { title: '漫画详情', transitionIn: 'slide-left' }
-        }, // {
-        //   path: '/detail/comments',
-        //   name: 'comments',
-        //   component: Comments,
-        //   meta: { title: '评论', transitionIn: 'slide-left' }
-        // },
-
+        },
         {
           path: '/mine',
           name: 'mine',
@@ -84,6 +78,12 @@ const router = new Router({
       name: 'topic',
       component: Topic,
       meta: { title: '专题', transitionIn: 'slide-left' }
+    },
+    {
+      path: '/comments',
+      name: 'comments',
+      component: Comments,
+      meta: { title: '评论', transitionIn: 'slide-left' }
     }
   ]
 });

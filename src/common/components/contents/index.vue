@@ -30,9 +30,9 @@
       <li @click="goto" v-for="(item) in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
         <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
-          <span>{{item.title}}</span>
+          <span>{{item.sort}}</span>
           <div class="chapter-title">
-            <span class="chapter-title-content">{{item.intro}}</span>
+            <span class="chapter-title-content">{{item.title}}</span>
             <span
               class="read-process"
               v-if="item.read_per !== 100 && item.read_per !== 0"
