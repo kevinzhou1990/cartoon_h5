@@ -5,7 +5,10 @@
 */
 <template>
   <div class="hot-main">
-    <z-m-home-label :label-name="labelName" @hot-more="handleClickHotMore"></z-m-home-label>
+    <z-m-home-label
+        :label-name="labelName"
+        :rec-id="recId">
+    </z-m-home-label>
     <div class="hot-main-content">
       <div class="hot-main-content-item" v-for="item in hotComicsList" :key="item.cartoon_id">
         <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></span>
@@ -49,20 +52,6 @@ export default {
     this.recId = this.hotComicsData.rec_id
   },
   methods: {
-    /**
-     * @info: 热番更多
-     * @author: PengGeng
-     * @date: 8/5/20-11:52 上午
-     */
-    handleClickHotMore() {
-      this.$router.push({
-        path: '/recommend',
-        query: {
-          SEC_ID: this.recId
-        }
-      })
-      console.log('点击了更多！')
-    },
     /**
      * @info: 点击更换一批
      * @author: PengGeng

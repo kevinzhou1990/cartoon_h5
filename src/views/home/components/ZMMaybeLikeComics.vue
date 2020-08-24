@@ -5,7 +5,7 @@
 */
 <template>
   <div class="maybe-main">
-    <z-m-home-label :label-name="labelName" @hot-more="handleClickMybeLike"></z-m-home-label>
+    <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div class="maybe-main-content" v-for="(item, index) in maybeLikeComicsList" :key="item.cartoon_id">
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></div>
@@ -58,7 +58,8 @@ export default {
       maybeLikeComicsList: [],
       ba_img: require('@/assets/img/save_ba.png'),
       bb_img: require('@/assets/img/save_bb.png'),
-      nums: [1, 2, 3]
+      nums: [1, 2, 3],
+      recId: 6
     }
   },
   components: {
@@ -66,6 +67,7 @@ export default {
   },
   created() {
     this.labelName = this.maybeLikeComics.name
+    this.recId = this.maybeLikeComics.rec_id || 6
     this.maybeLikeComicsList = this.maybeLikeComics.cartoon_list
   },
   methods: {

@@ -17,6 +17,10 @@ export default {
     labelName: {
       type: String,
       default: ''
+    },
+    recId: {
+      type: Number,
+      default: 1
     }
   },
   methods: {
@@ -26,7 +30,13 @@ export default {
      * @date: 8/4/20-6:14 下午
      */
     hotMore() {
-      this.$emit('hot-more')
+      // this.$emit('hot-more')
+      this.$router.push({
+        path: '/recommend',
+        query: {
+          SEC_ID: this.recId
+        }
+      })
     }
   }
 }

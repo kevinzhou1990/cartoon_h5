@@ -5,7 +5,10 @@
 */
 <template>
   <div class="classics-main">
-    <z-m-home-label :label-name="labelName" @hot-more="hanldeClikckClassicsMore"></z-m-home-label>
+    <z-m-home-label
+        :label-name="labelName"
+        :rec-id="recId"
+    ></z-m-home-label>
     <div class="classics-main-content">
       <div class="classics-main-content-item" v-for="item in classicsComicsList" :key="item.cartoon_id">
         <div class="classics-main-content-item-bg">
@@ -49,22 +52,7 @@ export default {
     this.classicsComicsList = this.classicsComicsData.cartoon_list
     this.recId = this.classicsComicsData.rec_id
   },
-  methods: {
-    /**
-     * @info: go to classics comics info
-     * @author: PengGeng
-     * @date: 8/5/20-2:23 下午
-     */
-    hanldeClikckClassicsMore() {
-      this.$router.push({
-        path: '/recommend',
-        query: {
-          SEC_ID: this.recId
-        }
-      })
-      console.log('go to classics comics info')
-    }
-  }
+  methods: {}
 }
 </script>
 

@@ -5,7 +5,7 @@
 */
 <template>
   <div class="like-main">
-    <z-m-home-label :label-name="labelName" @hot-more="handleClickLikeMore"></z-m-home-label>
+    <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div class="like-main-banner" :style="{background: 'url('+likeBannerData.cover+')'}">
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
@@ -41,7 +41,8 @@ export default {
       labelName: '喜欢《海贼王》的人都在看',
       likeComicsList: [],
       likeBannerData: null,
-      bannerTitleName: '玛蒂娜生活日记'
+      bannerTitleName: '玛蒂娜生活日记',
+      recId: 5
       // bannerChapterContent: '流失之光工作室  |  更新至06话'
     }
   },
@@ -50,19 +51,11 @@ export default {
   },
   created() {
     this.labelName = this.likeComicsData.name
+    this.recId = this.likeBannerData.rec_id
     this.likeComicsList = this.likeComicsData.cartoon_list
     this.likeBannerData = this.likeComicsData.top || {}
   },
-  methods: {
-    /**
-     * @info: go to home like more
-     * @author: PengGeng
-     * @date: 8/5/20-5:29 下午
-     */
-    handleClickLikeMore() {
-      console.log('go to home like more')
-    }
-  }
+  methods: {}
 }
 </script>
 

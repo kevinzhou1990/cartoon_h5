@@ -78,6 +78,12 @@ export default {
      */
     handleClickComicsInfo(val) {
       console.log('go to comics info......', val)
+      this.$router.push({
+        path: '/detail',
+        query: {
+          cartoon_id: val
+        }
+      })
     }
   }
 }

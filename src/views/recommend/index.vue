@@ -9,6 +9,13 @@
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click="handleClickLightIcon"></div>
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
     </div>
+<!--    <div class="nav-bar">-->
+<!--      <z-m-nav-bar-->
+<!--          :tabListData="tabListData"-->
+<!--          :acticeIndex="acticeIndex"-->
+<!--          @getRecommendData="getData"-->
+<!--      ></z-m-nav-bar>-->
+<!--    </div>-->
     <div class="nav-bar">
       <z-m-nav-bar
           :tabListData="tabListData"
@@ -187,7 +194,7 @@ export default {
   .nav-bar {
     position: relative;
     width: 100%;
-    padding-top: 56px;
+    height: 56px;
     box-sizing: border-box;
   }
 </style>
