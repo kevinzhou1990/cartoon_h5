@@ -5,19 +5,39 @@
 */
 <template>
   <div class="main-chapter zm-b-radius">
-    <div class="main-chapter-text">更新至234话 / 每周六更新</div>
-    <div class="main-chapter-info">
-      <span style="padding: 0 12px 0 16px;">#234</span>
-      <span style="padding: 0 16px 0 12px;">那年夏天</span>
-      <span class="main-chapter-info-time">2020/8/20</span>
-      <span class="main-chapter-info-r">最近更新</span>
+    <div class="main-chapter-text">{{ statusText }}</div>
+    <div class="main-chapter-info" v-if="detailNews">
+      <span style="padding: 0 12px 0 16px;">{{ detailNews.title || '--' }}</span>
+      <span style="padding: 0 16px 0 12px;">{{ detailNews.intro || '--' }}</span>
+      <span class="main-chapter-info-time">{{ detailNews.updated_at || '--'}}</span>
+      <span class="main-chapter-info-r" @click="handleComicsNewChapter">最近更新</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ZMDetailChapter'
+  name: 'ZMDetailChapter',
+  props: {
+	  statusText: {
+      type: String,
+      default: ''
+    },
+	  detailNews: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+	  /**
+	   * @info: 点击更新最新章节
+	   * @author: PengGeng
+	   * @date: 8/24/20-6:33 下午
+	   */
+	  handleComicsNewChapter() {
+      console.log('最新章节点击。。。。。')
+    }
+  }
 }
 </script>
 

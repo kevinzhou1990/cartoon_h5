@@ -1,23 +1,39 @@
 <template>
   <div class="main" ref="remarkScroll">
-    <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
+    <div
+        class="main-height"
+        :style="topWrapStyle" @transitionend="transitionend"
+        v-show="topAjax"
+    >
+    </div>
     <div class="main-content"></div>
     <div class="main-catalogue box-shad">
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt="">
         <span class="left-text">缓存</span>
       </div>
-      <div class="center">
-        阅读 第一话
+      <div class="center" @click="handleReader">
+        {{ readerChapter }}
       </div>
       <div class="left" @click.stop="handleClickChapter">
         <img class="left-dn" src="../images/catalog-icon.png" alt="">
         <span class="left-text">目录</span>
       </div>
     </div>
-    <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
-      <z-m-detail-chapter></z-m-detail-chapter>
-      <z-m-detail-remark></z-m-detail-remark>
+    <div
+        class="main-other" ref="ohterEl"
+        :class="{ bgColor: isShowBgColor }"
+    >
+      <z-m-detail-chapter
+          :status-text="ZMDetail.status_text"
+          :detail-news="detailData && detailData.news"
+      >
+      </z-m-detail-chapter>
+      <z-m-detail-remark
+          :comment-num="detailData.comment_num"
+          :remark-data="detailData && detailData.comment"
+      >
+      </z-m-detail-remark>
       <z-m-comics-scroll :title-content="authorTitle"></z-m-comics-scroll>
       <z-m-comics-scroll :title-content="maybeLikeTitle" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
       <z-m-no-data style="padding: 15px 0;"></z-m-no-data>
@@ -30,15 +46,17 @@
           <span class="left-text">缓存</span>
         </div>
         <div class="center">
-          阅读 第一话
+          {{ readerChapter }}
         </div>
-        <div class="left">
+        <div class="left" @click="handle">
           <img class="left-dn" src="../images/catalog-icon.png" alt="">
           <span class="left-text">目录</span>
         </div>
       </div>
     </div>
     <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax"></div>
+    <!-- 目录组件 -->
+    <z-m-contents :comicsInfo="comicsInfo"></z-m-contents>
   </div>
 </template>
 
@@ -47,6 +65,7 @@ import ZMDetailChapter from '@/views/detail/components/ZMDetailChapter'
 import ZMDetailRemark from '@/views/detail/components/ZMDetailRemark'
 import ZMComicsScroll from '@/views/detail/components/ZMComicsScroll'
 import ZMNoData from '@/common/components/ZMNoData'
+import ZMContents from '@/common/components/contents'
 
 export default {
   name: 'ZMScroll',
@@ -54,7 +73,14 @@ export default {
     ZMDetailChapter,
     ZMDetailRemark,
     ZMComicsScroll,
-    ZMNoData
+    ZMNoData,
+	  ZMContents
+  },
+  props: {
+    detailData: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     this.timer = null // 定时器 用于点击事件的穿透
@@ -76,24 +102,58 @@ export default {
       authorTitle: '作者其他漫画',
       maybeLikeTitle: '喜欢《神灯精灵…》的也会喜欢',
       isShowBgColor: false,
-      showFootFlag: false
+      showFootFlag: false,
+      ZMDetail: {},
+	    cartoonId: '', // 漫画id
+	    comicsInfo: {} // 目录数据
       // otherHeight: 0
     }
   },
   computed: {
+    readerChapter() {
+      if (!this.ZMDetail && !this.ZMDetail.last) {
+        return this.ZMDetail.last.title
+      } else {
+        return '阅读 第一章'
+      }
+    }
   },
-  beforeMount() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0
-  },
+  // beforeMount() {
+  //   document.body.scrollTop = document.documentElement.scrollTop = 0
+  // },
   mounted() {
     this.scrolOnEventChange()
     this.$el.addEventListener('touchstart', this.touchStart, true)
     this.$el.addEventListener('touchend', this.touchEnd, true)
+    this.ZMDetail = this.detailData
+    this.cartoonId = this.detailData.cartoon_id || ''
+    this.comicsInfo = {
+	    cartoon_id: this.detailData.cartoon_id || '', // 漫画ID
+	    status: this.detailData.status || 1, // 1=连载中,2=已完结,3=休更中
+	    update_freq: this.detailData.update_freq || '', // 更新频率
+	    title: (this.detailData.last && this.detailData.last.title) || '', // 章节编号
+	    last_chapter_id: (this.detailData.last && this.detailData.last.chapter_id) || ''// 当前阅读的章节
+    }
     // this.$nextTick(() => {
     //   this.otherHeight = this.$refs.ohterEl.getBoundingClientRect().y
     // })
   },
   methods: {
+	  /**
+	   * @info: 点击开始继续阅读漫画
+	   * @author: PengGeng
+	   * @date: 8/24/20-5:41 下午
+	   */
+	  handleReader() {
+      let capterId = (this.ZMDetail && this.ZMDetail.last && this.ZMDetail.last.chapter_id) || ''
+      this.$router.push({
+        path: '/reader',
+        query: {
+	        cartoon_id: this.cartoonId,
+	        capterId
+        }
+      })
+    },
     /**
      * @info: 点击了缓存
      * @author: PengGeng
@@ -184,20 +244,21 @@ export default {
     },
     // 绑定滚动事件
     scrolOnEventChange() {
-      window.addEventListener('scroll', this.getPageScroll, true)
+      this.$refs.remarkScroll.addEventListener('scroll', this.getPageScroll, true)
     },
     // 获取滚动到页面顶部的高度
     getPageScroll() {
-      let yScroll
-      let self = window
-      if (self.pageYOffset) {
-        yScroll = self.pageYOffset
-      // xScroll = self.pageXOffset;
-      } else if (document.documentElement && document.documentElement.scrollTop) {
-        yScroll = document.documentElement.scrollTop
-      } else if (document.body) {
-        yScroll = document.body.scrollTop
-      }
+      // let yScroll
+      // let self = window
+      // if (self.pageYOffset) {
+      //   yScroll = self.pageYOffset
+      // // xScroll = self.pageXOffset;
+      // } else if (document.documentElement && document.documentElement.scrollTop) {
+      //   yScroll = document.documentElement.scrollTop
+      // } else if (document.body) {
+      //   yScroll = document.body.scrollTop
+      // }
+      let yScroll = this.$refs.remarkScroll.scrollTop
       console.log('scroll的距离' + yScroll)
       if (yScroll >= 0){
         this.isShowBgColor = true
@@ -236,9 +297,10 @@ export default {
     margin: 0 auto;
     color: #222222;
     z-index: 6;
+    height: 100%;
     width: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-scrolling: touch;
     box-sizing: border-box;
 

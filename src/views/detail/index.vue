@@ -13,26 +13,29 @@
     <section class="main-content" ref="mainContent" :style="{background: headerBgColor}">
       <div class="main-content-box">
         <div class="main-content-box-left">
-          <span class="main-content-box-left-title">神灯精灵亚美娜 第二季正在热更</span>
-          <span class="main-content-box-left-author">[作者] 美岐</span>
+          <span class="main-content-box-left-title">{{ ZMDetailData.title || '--'}}</span>
+          <span class="main-content-box-left-author">[作者] {{ ZMDetailData.author | authorFormate }}</span>
           <div class="main-content-box-left-label">
             <span class="main-content-box-left-label-content zm-b-radius"
                   :style="index===1? {'margin-left' : 0 }: ''"
-                  v-for="index in 4"
+                  v-for="(tagItem, index) in ZMDetailData.tag"
                   :key="index"
             >
-              悬疑
+              {{ tagItem }}
             </span>
           </div>
           <z-m-collect></z-m-collect>
         </div>
-        <div class="main-content-box-right"></div>
+        <div class="main-content-box-right" :style="{ background: 'url('+ZMDetailData.cover_detail+')'}"></div>
       </div>
-      <div style="padding: 0 32px 24px 32px;">简介：魔法师之都「帕兹」因政变灭亡，亚美娜味了将时间倒转以救自己所爱，欲在300年后才被泽卡勒唤醒
+      <div style="padding: 0 32px 24px 32px;" class="content">{{ ZMDetailData.intro || '--' }}
         <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18,224,121,1);" @click="showMoreFlag = true">[展开]</a>
       </div>
     </section>
-    <z-m-scroll :isChangeHeader.sync="isChangeHeader"></z-m-scroll>
+    <z-m-scroll
+        :isChangeHeader.sync="isChangeHeader"
+        :detail-data="ZMDetailData"
+    ></z-m-scroll>
   </div>
 </template>
 
@@ -40,6 +43,8 @@
 import ZMHeader from '@/common/components/ZMHeader'
 import ZMCollect from '@/views/detail/components/ZMCollect'
 import ZMScroll from '@/views/detail/components/ZMScroll'
+import { getZMDetail } from '@/common/api/detail'
+import '@/common/filters/home'
 // import utils from '@/lib/utils'
 
 export default {
@@ -50,7 +55,9 @@ export default {
       titleText: '',
       headerBgColor: '#2F446F',
       showMoreFlag: false, // 展开查看更多
-      isChangeHeader: false
+      isChangeHeader: false,
+      cartoon_id: '', // 漫画id
+	    ZMDetailData: {}
     }
   },
   components: {
@@ -58,15 +65,14 @@ export default {
     ZMCollect,
     ZMScroll
   },
-  beforeMount() {
-    // window.document.body.style['overflow-y'] = 'hidden'
-  },
   computed: {
     scrollHeight() {
       return console.log(document.body.scrollTop)
     }
   },
   mounted() {
+    this.cartoon_id = this.$route.query.cartoon_id || ''
+    this.getZMDetail(this.cartoon_id)
   },
   methods: {
     /**
@@ -76,6 +82,20 @@ export default {
      */
     handleClickShare() {
       console.log('click go to share....')
+    },
+	  /**
+	   * @info: 获取漫画详情
+	   * @author: PengGeng
+	   * @date: 8/24/20-4:30 下午
+	   */
+	  async getZMDetail(cartoon_id) {
+      const resData = await getZMDetail(cartoon_id)
+      if (resData && resData.code === 0){
+        this.ZMDetailData = resData.data
+      } else {
+        this.$toast(resData.msg || '系统繁忙请稍后重试！')
+      }
+      console.log(resData)
     }
   },
   watch: {
@@ -127,6 +147,15 @@ export default {
     background-size: 100%;
   }
 
+  .content {
+    display: block;
+    width: 311px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
   .main {
     font-weight: bold;
     position: relative;

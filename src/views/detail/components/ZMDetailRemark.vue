@@ -7,18 +7,18 @@
   <div class="main-remark">
     <div class="remark-title">
       <span style="font-size: 18px;">漫画评论区</span>
-      <span class="remark-title-num">评论区999+</span>
+      <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
-    <div class="remark-content zm-b-radius" v-if="isRemarkData">
+    <div class="remark-content zm-b-radius" v-if="remarkData">
         <div class="remark-content-top">
           <img src="../images/share.png" class="remark-content-top-img">
-          <span style="padding: 0 16px; white-space: nowrap;">咔咔西露</span>
-          <span class="remark-content-top-time">2020/8/2  22:22</span>
+          <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname }}</span>
+          <span class="remark-content-top-time">{{ remarkData.created_at }}</span>
           <img class="remark-content-top-like" src="../images/glike.png" alt="">
-          <span class="remark-content-top-num">9999+</span>
+          <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
         </div>
         <div style="padding: 0 16px 0 53px;">
-          这漫画，迄今为止，最酷的设定，没有之一，不服就在上面点个赞！！
+          {{ remarkData.content }}
         </div>
     </div>
     <div class="no-remark" v-else>
@@ -31,6 +31,16 @@
 <script>
 export default {
   name: 'ZMDetailRemark',
+  props: {
+	  commentNum: {
+      type: Number,
+      default: 0
+    },
+    remarkData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       isRemarkData: false
@@ -69,7 +79,7 @@ export default {
     padding: 0 16px;
     &-num {
       position: absolute;
-      right: 0;
+      right: 12px;
       color: #BBBBBB;
       font-size: 10px;
       line-height: 26px;
