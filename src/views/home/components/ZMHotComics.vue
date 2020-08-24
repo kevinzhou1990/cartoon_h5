@@ -10,7 +10,12 @@
         :rec-id="recId">
     </z-m-home-label>
     <div class="hot-main-content">
-      <div class="hot-main-content-item" v-for="item in hotComicsList" :key="item.cartoon_id">
+      <div
+          class="hot-main-content-item"
+          v-for="item in hotComicsList"
+          :key="item.cartoon_id"
+          @click="handleZMInfo(item.cartoon_id)"
+      >
         <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></span>
         <span class="hot-main-content-item-title">{{ item.intro || '-' }}</span>
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
@@ -25,8 +30,10 @@
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
 import { getMoreComics } from '@/common/api/home'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMHotComics',
+  mixins: [myMixins],
   props: {
     hotComicsData: {
       type: Object,

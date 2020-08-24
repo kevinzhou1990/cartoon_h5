@@ -6,7 +6,11 @@
 <template>
   <div class="like-main">
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
-    <div class="like-main-banner" :style="{background: 'url('+likeBannerData.cover+')'}">
+    <div
+        class="like-main-banner"
+        :style="{background: 'url('+likeBannerData.cover+')'}"
+        @click="handleZMInfo(likeBannerData.cartoon_id)"
+    >
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
           <span>{{ likeBannerData.title || '-' }}</span>
@@ -15,7 +19,12 @@
       </div>
     </div>
     <div class="like-main-other">
-      <div class="like-main-other-item" v-for="item in likeComicsList" :key="item.cartoon_id">
+      <div
+          class="like-main-other-item"
+          v-for="item in likeComicsList"
+          :key="item.cartoon_id"
+          @click="handleZMInfo(item.cartoon_id)"
+      >
         <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')'}"></span>
         <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
         <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
@@ -27,9 +36,10 @@
 <script>
 import '../../../common/filters/home'
 import ZMHomeLabel from './ZMHomeLabel'
-
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMLikeComics',
+  mixins: [myMixins],
   props: {
     likeComicsData: {
       type: Object,
@@ -51,7 +61,7 @@ export default {
   },
   created() {
     this.labelName = this.likeComicsData.name
-    this.recId = this.likeBannerData.rec_id
+    this.recId = this.likeComicsData.rec_id || 5
     this.likeComicsList = this.likeComicsData.cartoon_list
     this.likeBannerData = this.likeComicsData.top || {}
   },

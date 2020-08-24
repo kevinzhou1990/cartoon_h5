@@ -6,7 +6,12 @@
 <template>
   <div class="maybe-main">
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
-    <div class="maybe-main-content" v-for="(item, index) in maybeLikeComicsList" :key="item.cartoon_id">
+    <div
+        class="maybe-main-content"
+        v-for="(item, index) in maybeLikeComicsList"
+        :key="item.cartoon_id"
+        @click="handleZMInfo(item.cartoon_id)"
+    >
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></div>
         <div class="maybe-main-content-item-desc">
@@ -43,8 +48,10 @@
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
 import '../../../common/filters/home'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMPossibale',
+  mixins: [myMixins],
   props: {
     maybeLikeComics: {
       type: Object,

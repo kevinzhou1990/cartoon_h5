@@ -10,7 +10,12 @@
         :rec-id="recId"
     ></z-m-home-label>
     <div class="classics-main-content">
-      <div class="classics-main-content-item" v-for="item in classicsComicsList" :key="item.cartoon_id">
+      <div
+          class="classics-main-content-item"
+          v-for="item in classicsComicsList"
+          :key="item.cartoon_id"
+          @click="handleZMInfo(item.cartoon_id)"
+      >
         <div class="classics-main-content-item-bg">
           <div class="classics-main-content-item-bg-img" :style="{background: 'url('+item.cover+')'}"></div>
           <div class="classics-main-content-item-bg-content">
@@ -28,9 +33,10 @@
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
-
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMClassicsComics',
+  mixins: [myMixins],
   props: {
     classicsComicsData: {
       type: Object,

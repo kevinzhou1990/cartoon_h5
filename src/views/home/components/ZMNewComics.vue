@@ -5,9 +5,13 @@
 */
 <template>
   <div class="new-main">
-    <span class="new-main-label">{{ newComicsName }}</span>
+  <span class="new-main-label">{{ newComicsName }}</span>
     <div class="new-main-content">
-      <div class="new-main-content-item" v-for="item in newComicsList" :key="item.cartoon_id">
+      <div class="new-main-content-item"
+           v-for="item in newComicsList"
+           :key="item.cartoon_id"
+           @click="handleZMInfo(item.cartoon_id)"
+      >
         <span class="new-main-content-item-img" :style="{background: 'url('+item.cover+')'}"></span>
         <span class="new-main-content-item-title">{{ item.title }}</span>
         <span class="new-main-content-item-author">{{ item.author | authorFormate }}</span>
@@ -19,8 +23,10 @@
 
 <script>
 import '../../../common/filters/home'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMNewComics',
+  mixins: [myMixins],
   props: {
     newCamicsData: {
       type: Object,
@@ -37,8 +43,7 @@ export default {
     this.newComicsName = this.newCamicsData.name
     this.newComicsList = this.newCamicsData.cartoon_list
   },
-  mounted() {
-  }
+  methods: {}
 }
 </script>
 

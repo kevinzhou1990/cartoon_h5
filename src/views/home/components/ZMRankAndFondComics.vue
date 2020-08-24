@@ -6,17 +6,36 @@
 <template>
   <div class="label-main">
     <div class="label-main-left">
-      <span class="label-main-cont">排行</span>
+      <span class="label-main-cont" @click="handleRankInfo"></span>
     </div>
     <div class="label-main-right">
-      <span class="label-main-cont">发现</span>
+      <span class="label-main-cont" @click="handleDiscoverInfo">发现</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ZMRankAndFondComics'
+  name: 'ZMRankAndFondComics',
+  methods: {
+	  /**
+	   * @info: go to ranking
+	   * @author: PengGeng
+	   * @date: 8/24/20-2:50 下午
+	   */
+	  handleRankInfo() {
+      this.$router.push('/ranking')
+    },
+	  /**
+	   * @info: go to discover
+	   * @author: PengGeng
+	   * @date: 8/24/20-2:51 下午
+	   */
+	  handleDiscoverInfo() {
+    // todo 去发现页面
+      console.log('go to discover info')
+    }
+  }
 }
 </script>
 

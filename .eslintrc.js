@@ -26,7 +26,7 @@ module.exports = {
     'space-before-blocks': 'off',
     semi: 'off',
 	  // 'no-tabs': ['error', {  allowIndentationTabs: true }],
-	  'no-tabs': "error",
+	  'no-tabs': ["off", 0],
 	  'spaced-comment': 'off',
     'no-useless-escape': 'off',
 	  'no-mixed-spaces-and-tabs': ["error", "smart-tabs"],
