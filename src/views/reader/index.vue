@@ -2,7 +2,9 @@
   <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`">
     <ZMHeader titleText="#001.魔神降临" :showRight="true" :hasBorder="true" :show="fullRead">
       <SvgIcon slot="left" iconClass="close_ab" class="icon-left" />
-      <div slot="right" class="header-right">漫画详情</div>
+      <div slot="right" class="header-right">
+        <span v-if="showComicsLink">漫画详情</span>
+      </div>
     </ZMHeader>
     <Navigation
       :funcPos="funcPos"
@@ -17,16 +19,16 @@
       @switchSetting="switchSetting"
     />
     <div class="reader-mask" @click="switchFull"></div>
-    <div>
-      <img src="@/assets/img/IMG_2332.png" alt style="width:100%;" />
+    <div class="reader-img">
+      <img
+        v-for="item in comicsList"
+        :src="item.path"
+        :key="item.detail_id"
+        alt
+        style="width:100%;"
+      />
     </div>
-    <Contents
-      :show="show"
-      :comicsInfo="comicsInfo"
-      :chapterData="chapterData"
-      @close="closeConents"
-      @switch="changeSort"
-    />
+    <Contents :show="show" :comicsInfo="comicsInfo" />
   </div>
 </template>
 
@@ -36,7 +38,7 @@ import SvgIcon from '@/common/components/svg';
 import Navigation from './components/navigation';
 import Setting from './components/settings';
 import Contents from '@/common/components/contents';
-import { getContents } from '@/common/api/reader';
+import { getChapter } from '@/common/api/reader';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents },
@@ -51,25 +53,41 @@ export default {
       // 设置状态，true显示，false不显示
       settingStatus: false,
       contentsStatus: false,
+      // 是否显示漫画详情按钮
+      showComicsLink: false,
       // 目录相关信息
       show: false,
       comicsInfo: {
         status: 2, // 1=连载中,2=已完结,3=休更中
         update_freq: '每周六更新', // 更新频率
         title: '#001', // 章节编号
-        sort: 2, // 1=正序,2=倒序
-        last_chapter_id: 1 // 当前阅读的章节
+        // sort: 2, // 1=正序,2=倒序
+        last_chapter_id: 1, // 当前阅读的章节
+        cartoon_id: 30
       },
-      chapterData: []
+      // 漫画图片列表
+      comicsList: []
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next();
   },
   mounted() {
     this.pageinit();
   },
+  activated() {
+    this.pageinit();
+  },
+  watch: {
+    show: function (n, o) {
+      this.navigationStatus = n;
+      if (this.fullRead) this.navigationStatus = this.fullRead;
+    }
+  },
   methods: {
     async pageinit() {
-      const contents = await getContents(644);
-      this.chapterData = contents.data.data;
+      const imgs = await getChapter(15);
+      this.comicsList = imgs.data.data[0].detail;
     },
     // 更改功能栏位置
     changeFuncPos() {
@@ -98,10 +116,6 @@ export default {
     openContents() {
       this.show = true;
       this.navigationStatus = true;
-    },
-    closeConents() {
-      this.show = false;
-      this.navigationStatus = false;
     },
     changeSort() {
       this.comicsInfo.sort = this.comicsInfo.sort === 1 ? 2 : 1;

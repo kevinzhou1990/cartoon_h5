@@ -30,9 +30,9 @@
       <li @click="goto" v-for="(item) in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
         <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
-          <span>{{item.sort}}</span>
+          <span>{{item.title}}</span>
           <div class="chapter-title">
-            <span class="chapter-title-content">{{item.title}}</span>
+            <span class="chapter-title-content">{{item.intro}}</span>
             <span
               class="read-process"
               v-if="item.read_per !== 100 && item.read_per !== 0"
@@ -49,16 +49,11 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
+import { getContents } from '@/common/api/reader';
 export default {
   name: 'Contents',
   props: {
     show: { type: Boolean, default: false },
-    chapterData: {
-      type: Array,
-      default: function () {
-        return [];
-      }
-    },
     comicsInfo: {
       type: Object,
       default: function () {
@@ -81,8 +76,14 @@ export default {
       },
       startY: 0,
       moved: false,
-      initY: 0
+      initY: 0,
+      chapterData: [] //章节列表
     };
+  },
+  async mounted() {
+    const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
+    this.chapterData = CHAPTERDATA.data.data;
+    this.comicsInfo.sort = this.comicsInfo.sort || 1;
   },
   watch: {
     show(n, o) {
@@ -95,29 +96,45 @@ export default {
   },
   methods: {
     closeContent() {
-      this.$emit('close');
+      this.$parent.show = false;
     },
     handlerStart(event) {
       this.startY = Math.round(event.touches[0].clientY);
       this.initY = this.$refs.contents.getBoundingClientRect().top;
     },
     handlerMove(event) {
-      const classList = this.$refs.contents.classList;
-      const y = Math.round(event.touches[0].clientY);
-      const difference = Math.round(y - this.startY);
-      const listTop = this.$refs.chapter.scrollTop;
-      classList.remove('contents-transition');
-      if (difference < 0) {
+      const CONTENTSCLASSLIST = this.$refs.contents.classList;
+      const Y = Math.round(event.touches[0].clientY);
+      const DIFFERENCE = Math.round(Y - this.startY);
+      const LISTTOP = this.$refs.chapter.scrollTop; // 章节列表滚动距离
+      const CONTENTTOP = this.$refs.contents.getBoundingClientRect().top; // 目录位置
+      // 1.目录没有拉动到顶之前，阻止默认事件
+      CONTENTSCLASSLIST.remove('contents-transition');
+      if (this.$refs.contents.offsetTop !== 0 && event.cancelable) {
+        event.preventDefault();
+      }
+      if (DIFFERENCE < 0) {
         // 往上移动
-        if (this.$refs.contents.getBoundingClientRect().top !== 0) {
-          this.touchPois.y = `${this.initY - Math.abs(difference)}px`;
+        if (CONTENTTOP !== 0) {
+          this.touchPois.y = `${this.initY - Math.abs(DIFFERENCE)}px`;
+        } else {
+          // 2.目录拉到顶，且目录滚动到底，向上移动，阻止默认事件，向下移动不阻止
+          if (
+            LISTTOP + this.$refs.chapter.clientHeight ===
+              this.$refs.chapter.scrollHeight &&
+            event.cancelable
+          ) {
+            event.preventDefault();
+          }
         }
       } else {
         // 往下移动
-        if (listTop === 0) {
-          this.touchPois.y = `${this.initY + Math.abs(difference)}px`;
+        if (LISTTOP === 0) {
+          this.touchPois.y = `${this.initY + Math.abs(DIFFERENCE)}px`;
+          // 3.目录拉到顶，且目录滚动到顶，向下移动，阻止默认事件，向上移动不阻止
+          if (CONTENTTOP === 0 && event.cancelable) event.preventDefault();
         } else {
-          this.startY = y;
+          this.startY = Y;
         }
       }
       this.moved = true;
@@ -143,10 +160,10 @@ export default {
     goto(id) {
       console.log(id, '跳转');
     },
-
     // 切换排序方式
     switchSort() {
-      this.$emit('switch');
+      this.comicsInfo.sort = this.comicsInfo.sort === 1 ? 2 : 1;
+      this.chapterData.reverse();
     }
   }
 };

@@ -7,4 +7,6 @@ export const getContents = cartoon_id => {
   return request.get(`/api/cartoon/chapter/${cartoon_id}`);
 };
 // 获取章节内容
-export const getChapter = chapter_id => {};
+export const getChapter = chapter_id => {
+  return request.get(`/api/cartoon/chapter/detail/${chapter_id}`);
+};
