@@ -10,14 +10,18 @@
       <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
     <div class="remark-content zm-b-radius" v-if="remarkData">
-      <div class="remark-content-top">
-        <img src="../images/share.png" class="remark-content-top-img" />
-        <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname }}</span>
-        <span class="remark-content-top-time">{{ remarkData.created_at }}</span>
-        <img class="remark-content-top-like" src="../images/glike.png" alt />
-        <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
-      </div>
-      <div style="padding: 0 16px 0 53px;">{{ remarkData.content }}</div>
+        <div class="remark-content-top">
+          <img :src="userIcon" class="remark-content-top-img">
+          <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname || '--' }}</span>
+          <span class="remark-content-top-time">{{ updateTime }}</span>
+          <div style="position: absolute; right: 12px; top: 16px; height: 24px;">
+            <img class="remark-content-top-like" src="../images/glike.png" alt="">
+            <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
+          </div>
+        </div>
+        <div style="padding: 0 16px 0 53px;">
+          {{ remarkData.content }}
+        </div>
     </div>
     <div class="no-remark" v-else>
       <div class="no-remark-text">发表首条评论，沙发就是你的～</div>
@@ -27,10 +31,11 @@
 </template>
 
 <script>
+import { timestampToTime } from 'lib/utils/index'
 export default {
   name: 'ZMDetailRemark',
   props: {
-    commentNum: {
+	  commentNum: {
       type: Number,
       default: 0
     },
@@ -41,8 +46,14 @@ export default {
   },
   data() {
     return {
-      isRemarkData: false
-    };
+      isRemarkData: false,
+      userIcon: require('../images/default-icon.png')
+    }
+  },
+  computed: {
+    updateTime() {
+      return timestampToTime(this.remarkData.created_at, 'date')
+    }
   },
   methods: {
     /**
@@ -51,20 +62,20 @@ export default {
      * @date: 8/12/20-7:04 下午
      */
     handleClickRemark() {
-      console.log('click remark btn go to remark......');
+      console.log('click remark btn go to remark......')
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
-$font-color: #bbbbbb !default;
-@mixin font10px($font-color) {
-  color: $font-color;
-  font-size: 10px;
-  transform: scale(0.83);
-  -webkit-transform-origin-x: 0;
-}
+  $font-color: #BBBBBB !default;
+  @mixin font10px($font-color) {
+    color: $font-color;
+    font-size: 10px;
+    transform: scale(0.83);
+    -webkit-transform-origin-x: 0;
+  }
 .main-remark {
   position: relative;
   font-size: 12px;
@@ -78,7 +89,7 @@ $font-color: #bbbbbb !default;
     &-num {
       position: absolute;
       right: 12px;
-      color: #bbbbbb;
+      color: #BBBBBB;
       font-size: 10px;
       line-height: 26px;
       transform: scale(0.83);
@@ -90,7 +101,7 @@ $font-color: #bbbbbb !default;
         margin-left: 4px;
         width: 16px;
         height: 16px;
-        background: url('../../../assets/img/more.png') no-repeat;
+        background: url("../../../assets/img/more.png") no-repeat;
         background-size: 100%;
         vertical-align: middle;
       }
@@ -111,7 +122,7 @@ $font-color: #bbbbbb !default;
       }
       &-time {
         white-space: nowrap;
-        @include font10px(#bbbbbb);
+        @include font10px(#BBBBBB)
       }
       &-like {
         display: inline-block;
@@ -119,17 +130,17 @@ $font-color: #bbbbbb !default;
         height: 16px;
         vertical-align: middle;
         line-height: 24px;
-        padding: 2px 2px 2px 70px;
       }
       &-num {
-        @include font10px(#bbbbbb);
+        @include font10px(#BBBBBB);
+        line-height: 24px;
         /*padding-left: 76px;*/
       }
     }
   }
   .no-remark {
     font-size: 12px;
-    color: #bbbbbb;
+    color: #BBBBBB;
     letter-spacing: 0;
     text-align: center;
     &-text {
@@ -139,12 +150,12 @@ $font-color: #bbbbbb !default;
       display: inline-block;
       width: 160px;
       height: 44px;
-      border: 1px solid #12e079;
+      border: 1px solid #12E079;
       border-radius: 22px;
       font-size: 14px;
       line-height: 44px;
       align-content: center;
-      color: #12e079;
+      color: #12E079;
       letter-spacing: 0;
       text-align: center;
     }
