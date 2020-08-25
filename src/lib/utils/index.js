@@ -33,7 +33,12 @@ function encry(pwd, time) {
  * @type  {*} data 日期 dataTime 日期时间
  */
 function timestampToTime(timestamp, type) {
-  let times = timestamp * (timestamp.toString().length === 10 ? 1000 : 1) || 0
+  let times = 0
+  if (!timestamp){
+	  times = 0
+  } else {
+	  times = timestamp * (timestamp.toString().length === 10 ? 1000 : 1) || 0
+  }
   let date = new Date(times); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
   let Y = date.getFullYear() + '/';
   let M =
