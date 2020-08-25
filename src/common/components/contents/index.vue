@@ -80,9 +80,9 @@ export default {
       chapterData: [] //章节列表
     };
   },
-  async mounted() {
-    const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
-    this.chapterData = CHAPTERDATA.data.data;
+  mounted() {
+    // const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
+    // this.chapterData = CHAPTERDATA.data.data;
     this.comicsInfo.sort = this.comicsInfo.sort || 1;
   },
   watch: {
@@ -92,6 +92,10 @@ export default {
       } else {
         this.touchPois.y = '100%';
       }
+    },
+    'comicsInfo.cartoon_id': async function () {
+      const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
+      this.chapterData = CHAPTERDATA.data.data;
     }
   },
   methods: {
