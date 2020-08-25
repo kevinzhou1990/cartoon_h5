@@ -2,19 +2,15 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import main from './modules/main';
 import home from './modules/home';
+import reader from './modules/reader';
 import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const createPersisted = createPersistedState({
-  storage: {
-    getItem: key => sessionStorage.getItem(key),
-    setItem: key => sessionStorage.setItem(key, { expires: 3, secure: true }),
-    removeItem: key => sessionStorage.removeItem(key)
-  },
-  paths: ['SET_REC_DATA']
+  storage: sessionStorage
 });
 const store = new Vuex.Store({
-  modules: { main, home },
+  modules: { main, home, reader },
   state: {
     tokenData: {}
   },

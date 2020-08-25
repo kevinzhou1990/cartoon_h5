@@ -1,7 +1,9 @@
 <template>
   <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`">
     <ZMHeader titleText="#001.魔神降临" :showRight="true" :hasBorder="true" :show="fullRead">
-      <SvgIcon slot="left" iconClass="close_ab" class="icon-left" />
+      <div slot="left" @click="back">
+        <SvgIcon iconClass="close_ab" class="icon-left" />
+      </div>
       <div slot="right" class="header-right">
         <span v-if="showComicsLink">漫画详情</span>
       </div>
@@ -22,10 +24,11 @@
     <div class="reader-img">
       <img
         v-for="item in comicsList"
-        :src="item.path"
-        :key="item.detail_id"
         alt
         style="width:100%;"
+        :src="item.path"
+        :key="item.detail_id"
+        :id="item.detail_id"
       />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
@@ -38,7 +41,6 @@ import SvgIcon from '@/common/components/svg';
 import Navigation from './components/navigation';
 import Setting from './components/settings';
 import Contents from '@/common/components/contents';
-import { getChapter } from '@/common/api/reader';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents },
@@ -58,25 +60,25 @@ export default {
       // 目录相关信息
       show: false,
       comicsInfo: {
-        status: 2, // 1=连载中,2=已完结,3=休更中
+        status: 1, // 1=连载中,2=已完结,3=休更中
         update_freq: '每周六更新', // 更新频率
         title: '#001', // 章节编号
         // sort: 2, // 1=正序,2=倒序
         last_chapter_id: 1, // 当前阅读的章节
-        cartoon_id: 30
-      },
-      // 漫画图片列表
-      comicsList: []
+        cartoon_id: ''
+      }
     };
-  },
-  beforeRouteEnter(to, from, next) {
-    next();
   },
   mounted() {
     this.pageinit();
   },
   activated() {
     this.pageinit();
+  },
+  computed: {
+    comicsList: function () {
+      return this.$store.state.reader.imagesList.detail;
+    }
   },
   watch: {
     show: function (n, o) {
@@ -86,8 +88,14 @@ export default {
   },
   methods: {
     async pageinit() {
-      const imgs = await getChapter(15);
-      this.comicsList = imgs.data.data[0].detail;
+      this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
+      // const imgs = await getChapter(this.$route.query.capterId);
+      this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      console.log(this.$store.state.reader);
+      // this.comicsList = imgs.data.data[0].detail;
+    },
+    back() {
+      history.go(-1);
     },
     // 更改功能栏位置
     changeFuncPos() {

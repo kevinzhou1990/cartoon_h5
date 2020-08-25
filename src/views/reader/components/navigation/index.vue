@@ -16,7 +16,7 @@
           :style="`height:${readerProgress}%;`"
           :class="`${readerProgress > 97 ? 'reader-process' : ''}`"
         ></div>
-        <div :class="`tag ${'tag-'+touching}`">40/70</div>
+        <div :class="`tag ${'tag-'+touching}`">{{imgIndex}}/{{imagesList.detail.length}}</div>
       </div>
       <div :class="`navigation-next ${touching}`">
         <span>下一话</span>
@@ -43,10 +43,23 @@ export default {
   data() {
     return {
       touching: '',
-      readerProgress: 20,
+      readerProgress: 0,
       initY: 0,
-      initHeight: 0
+      initHeight: 0,
+      imgIndex: 0
     };
+  },
+  computed: {
+    imagesList: function () {
+      return this.$store.state.reader.imagesList;
+    },
+    contentsList: function () {
+      return this.$store.state.reader.contentsList;
+    }
+    // localContents: function () {
+    //   console.log(this.$store.state.reader.localContents);
+    //   return this.$store.state.reader.localContents;
+    // }
   },
   methods: {
     switchFull() {
@@ -65,11 +78,28 @@ export default {
       const posY = Math.round(e.touches[0].clientY);
       // 移动距离
       const gap = posY - this.initY;
-      if (gap + this.initHeight > 272) return;
+      if (gap + this.initHeight > 272 || gap + this.initHeight < 0) return;
       this.readerProgress = ((gap + this.initHeight) / 272) * 100;
+      // 计算图片索引
+      this.imgIndex = Math.floor(
+        ((gap + this.initHeight) / 272) * this.imagesList.detail.length
+      );
     },
     handlerTouchEnd(e) {
       this.touching = '';
+      // 存阅读进度
+      // const localContents = JSON.parse(JSON.stringify(this.localContents));
+      // const chapter = {};
+      // console.log(JSON.stringify(this.localContents));
+      // chapter[this.imagesList.chapter_id] = {
+      //   read_per: this.readerProgress,
+      //   detail_id: this.imagesList.detail[this.imgIndex].detail_id
+      // };
+      // localContents[this.$route.query.cartoon_id] = {
+      //   ...localContents[this.$route.query.cartoon_id],
+      //   chapter
+      // };
+      // this.$store.dispatch('saveProcess', localContents);
     }
   }
 };

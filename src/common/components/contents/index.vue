@@ -49,7 +49,6 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
-import { getContents } from '@/common/api/reader';
 export default {
   name: 'Contents',
   props: {
@@ -76,13 +75,15 @@ export default {
       },
       startY: 0,
       moved: false,
-      initY: 0,
-      chapterData: [] //章节列表
+      initY: 0
     };
   },
+  computed: {
+    chapterData() {
+      return this.$store.state.reader.contentsList;
+    }
+  },
   mounted() {
-    // const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
-    // this.chapterData = CHAPTERDATA.data.data;
     this.comicsInfo.sort = this.comicsInfo.sort || 1;
   },
   watch: {
@@ -93,9 +94,10 @@ export default {
         this.touchPois.y = '100%';
       }
     },
-    'comicsInfo.cartoon_id': async function () {
-      const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
-      this.chapterData = CHAPTERDATA.data.data;
+    'comicsInfo.cartoon_id': function (n, o) {
+      this.$store.dispatch('getContentsData', n);
+      // const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
+      // this.chapterData = CHAPTERDATA.data.data;
     }
   },
   methods: {
