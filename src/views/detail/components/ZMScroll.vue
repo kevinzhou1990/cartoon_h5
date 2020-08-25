@@ -6,7 +6,7 @@
         v-show="topAjax"
     >
     </div>
-    <div class="main-content"></div>
+    <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>
     <div class="main-catalogue box-shad">
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt="">
@@ -81,6 +81,10 @@ export default {
     detailData: {
       type: Object,
       default: () => {}
+    },
+	  textHeight: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -88,6 +92,7 @@ export default {
     this.startTouchValue = 0 // 手指触摸到屏幕距离顶部的距离
     this.touchDistance = '1.33333333rem' // 滑动的距离
     this.startTouchDistance = 310 // 手指触摸到屏幕多少距离才能出发滑动时间
+    this.marginTop = 284
     return {
       topWrapStyle: {
         height: this.touchDistance,
@@ -196,9 +201,11 @@ export default {
       this.startTouchValue = touch.pageY
       if (this.startTouchValue < this.startTouchDistance) {
         this.$refs.remarkScroll.style['pointer-events'] = 'none'
+        this.$el.removeEventListener('touchstart', this.touchStart)
       }
       this.timer = setTimeout(() => {
 	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto'
+	      this.$el.addEventListener('touchstart', this.touchStart)
       }, 500)
       e.stopPropagation()
       this.$el.addEventListener('touchmove', this.touchMove)
@@ -212,7 +219,7 @@ export default {
       let height = touch - this.startTouchValue
       if (height > 44 && height < 180) {
         this.topWrapStyle.height = `${height}px`
-        this.$parent.$refs.mainContent.style.height = (284 + height - 56) + 'px'
+        this.$parent.$refs.mainContent.style.height = (this.marginTop + this.textHeight + height - 56) + 'px'
       }
       if (height < -100) {
         console.log('进来了。。。。。')
@@ -237,7 +244,8 @@ export default {
       //   return
       // }
       let height = touch - this.startTouchValue
-      this.$parent.$refs.mainContent.style.height = 284 + 'px'
+      this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px'
+	    // this.$parent.$refs['intro-content'].style.height = this.textHeight
       this.topWrapStyle.transition = 'height 200ms'
       this.topWrapStyle.height = `${this.touchDistance}`
       // this.bottomAjax = false
@@ -247,7 +255,7 @@ export default {
         this.bottomAjax = false
       }
       this.bottomWrapStyle.transition = 'height 200ms'
-      this.bottomWrapStyle.height = `0`
+      this.bottomWrapStyle.height = '0'
       console.log('我结束滑动了。。。。', height)
     },
     // 清除下拉动画
@@ -276,7 +284,7 @@ export default {
       // }
       let yScroll = this.$refs.remarkScroll.scrollTop
       console.log('scroll的距离' + yScroll)
-      if (yScroll >= 0){
+      if (yScroll >= 10){
         this.isShowBgColor = true
       } else {
         this.isShowBgColor = false
@@ -333,7 +341,6 @@ export default {
       line-height: 50px;
     }
     &-content {
-      margin-top: 256px;
       background: #FFFFFF;
       opacity: 0;
     }

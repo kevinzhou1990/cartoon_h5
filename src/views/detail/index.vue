@@ -34,16 +34,21 @@
           :style="{ background: 'url('+ZMDetailData.cover_detail+')'}"
         ></div>
       </div>
-      <div style="padding: 0 32px 24px 32px;" class="content">
-        {{ ZMDetailData.intro || '--' }}
+      <div style="padding: 0 32px 24px 32px;" class="content" ref="intro-content">
+        {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
         <a
           href="javascirpt:void(0)"
           style="text-decoration: none; color: rgba(18,224,121,1);"
-          @click="showMoreFlag = true"
+          v-if="isShowUnfold && !showMoreFlag"
+          @click="getElHeight"
         >[展开]</a>
       </div>
     </section>
-    <z-m-scroll :isChangeHeader.sync="isChangeHeader" :detail-data="ZMDetailData"></z-m-scroll>
+    <z-m-scroll
+        :isChangeHeader.sync="isChangeHeader"
+        :detail-data="ZMDetailData"
+        :textHeight="textHeight"
+    ></z-m-scroll>
   </div>
 </template>
 
@@ -66,7 +71,10 @@ export default {
       showMoreFlag: false, // 展开查看更多
       isChangeHeader: false,
       cartoon_id: '', // 漫画id
-      ZMDetailData: {}
+      ZMDetailData: {},
+      textLength: 50, // 简介默认展示50个字符 刚好占两行
+      textContent: '', // 简介两行的内容
+      textHeight: 0 // 简介展开的高度
     };
   },
   components: {
@@ -77,6 +85,17 @@ export default {
   computed: {
     scrollHeight() {
       return console.log(document.body.scrollTop);
+    },
+    // 是否显示展开按钮
+    isShowUnfold() {
+      return this.textContent.length > this.textLength
+    },
+    ZMDetailInfo() {
+      if (this.isShowUnfold) {
+        return this.textContent.substring(0, this.textLength)
+      } else {
+        return this.textContent
+      }
     }
   },
   mounted() {
@@ -92,6 +111,17 @@ export default {
     handleClickShare() {
       console.log('click go to share....');
     },
+	  getElHeight() {
+		  this.showMoreFlag = true
+		  const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight
+      setTimeout(() => {
+	      console.log(this.$refs['intro-content'].offsetHeight)
+        const introContentHeight = this.$refs['intro-content'].offsetHeight
+        const marginTop = introContentHeight - 58 - 56 / 2
+        const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop
+	      this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0
+      }, 100)
+    },
     /**
      * @info: 获取漫画详情
      * @author: PengGeng
@@ -100,8 +130,9 @@ export default {
     async getZMDetail(cartoon_id) {
       const resData = await getZMDetail(cartoon_id);
       if (resData && resData.code === 0) {
-        this.ZMDetailData = resData.data;
+        this.ZMDetailData = resData.data
         this.headerBgColor = this.mainColor = resData.data.bk_color
+        this.textContent = resData.data.intro
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试！');
       }
@@ -162,7 +193,8 @@ $content-label-fontSize: 10px;
   width: 311px;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
+  /*display: -webkit-box;*/
+  height: 100%;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -174,7 +206,7 @@ $content-label-fontSize: 10px;
   &-content {
     position: fixed;
     color: $content-color;
-    height: 284px;
+    min-height: 284px;
     z-index: 1;
 
     &-box {
@@ -185,11 +217,17 @@ $content-label-fontSize: 10px;
         display: flex;
         flex-direction: column;
         padding-right: 8px;
-
+        width: 175px;
         &-title {
+          /*display: inline-block;*/
+          display: -webkit-box;
           font-size: $content-title-fontSize;
           color: #ffffff;
           letter-spacing: 0;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
 
         &-author {
@@ -220,7 +258,7 @@ $content-label-fontSize: 10px;
       &-right {
         position: relative;
         width: 120px;
-        padding-left: 8px;
+        margin-left: 8px;
         height: 160px;
         border-radius: 4px;
         background: url('../../assets/img/defaultBook.png') no-repeat top;
