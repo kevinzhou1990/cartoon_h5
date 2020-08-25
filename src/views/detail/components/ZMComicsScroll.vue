@@ -1,28 +1,46 @@
 <template>
   <div class="main">
     <div class="main-title">{{ titleContent }}</div>
-    <div class="main-img">
-      <div class="main-img-content" v-for="index in 5" :key="index">
-        <img class="main-img-content-img" src="../../../assets/img/defaultBook.png" alt />
-        <span class="main-img-content-title">狐妖小红娘</span>
-        <span class="main-img-content-chapter">更新至2998话</span>
+    <div class="main-img" v-if="comicsList.length">
+      <div
+          class="main-img-content"
+          v-for="item in comicsList"
+          :key="item.cartoon_id"
+          @click="handleDetial(item.cartoon_id)"
+      >
+        <img class="main-img-content-img" :src="item.cover || comicsImg" alt />
+        <span class="main-img-content-title">{{ item.title }}</span>
+        <span class="main-img-content-chapter">{{ item.publish_status }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMComicsScroll',
+  mixins: [myMixins],
   props: {
     titleContent: {
       type: String,
       default: ''
     },
-    imageList: {
+	  comicsList: {
       type: Array,
       default: () => []
     }
+  },
+  data() {
+    return {
+      comicsImg: require('../../../assets/img/defaultBook.png')
+    }
+  },
+  methods: {
+	  handleDetial(val) {
+      this.$router.replace(`/detail?cartoon_id=${val}`)
+		  window.location.reload()
+	  }
   }
 };
 </script>

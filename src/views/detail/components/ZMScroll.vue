@@ -15,7 +15,7 @@
       <div class="center" @click="handleReader">
         {{ readerChapter }}
       </div>
-      <div class="left" @click.stop="handleClickChapter">
+      <div class="left" @click.stop="handleCatalog">
         <img class="left-dn" src="../images/catalog-icon.png" alt="">
         <span class="left-text">目录</span>
       </div>
@@ -34,8 +34,8 @@
           :remark-data="detailData && detailData.comment"
       >
       </z-m-detail-remark>
-      <z-m-comics-scroll :title-content="authorTitle"></z-m-comics-scroll>
-      <z-m-comics-scroll :title-content="maybeLikeTitle" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
+      <z-m-comics-scroll :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
+      <z-m-comics-scroll :title-content="maybeLikeTitle" :comicsList="yourselfLikeComics" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
       <z-m-no-data style="padding: 15px 0;"></z-m-no-data>
 <!-- -->
     </div>
@@ -66,6 +66,7 @@ import ZMDetailRemark from '@/views/detail/components/ZMDetailRemark'
 import ZMComicsScroll from '@/views/detail/components/ZMComicsScroll'
 import ZMNoData from '@/common/components/ZMNoData'
 import ZMContents from '@/common/components/contents'
+import { getAuthorOther } from '@/common/api/detail'
 
 export default {
   name: 'ZMScroll',
@@ -104,7 +105,9 @@ export default {
       isShowBgColor: false,
       showFootFlag: false,
 	    cartoonId: '', // 漫画id
-	    comicsInfo: {} // 目录数据
+	    comicsInfo: {}, // 目录数据
+      authorOhter: [], // 作者其他漫画
+      yourselfLikeComics: [] // 你可能喜欢的漫画
       // otherHeight: 0
     }
   },
@@ -120,21 +123,22 @@ export default {
   // beforeMount() {
   //   document.body.scrollTop = document.documentElement.scrollTop = 0
   // },
+  created() {
+	  console.log(this.detailData)
+	  this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || ''
+	  this.comicsInfo = {
+		  cartoon_id: this.cartoonId, // 漫画ID
+		  status: this.detailData.status || 1, // 1=连载中,2=已完结,3=休更中
+		  update_freq: this.detailData.update_freq || '', // 更新频率
+		  title: (this.detailData.last && this.detailData.last.title) || '', // 章节编号
+		  last_chapter_id: (this.detailData.last && this.detailData.last.chapter_id) || ''// 当前阅读的章节
+	  }
+    this.getAuthorOther()
+  },
   mounted() {
 	  this.scrolOnEventChange()
 	  this.$el.addEventListener('touchstart', this.touchStart, true)
 	  this.$el.addEventListener('touchend', this.touchEnd, true)
-	  this.$nextTick(() => {
-		  console.log(this.detailData)
-		  this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || ''
-		  this.comicsInfo = {
-			  cartoon_id: this.cartoonId, // 漫画ID
-			  status: this.detailData.status || 1, // 1=连载中,2=已完结,3=休更中
-			  update_freq: this.detailData.update_freq || '', // 更新频率
-			  title: (this.detailData.last && this.detailData.last.title) || '', // 章节编号
-			  last_chapter_id: (this.detailData.last && this.detailData.last.chapter_id) || ''// 当前阅读的章节
-		  }
-	  })
   },
   methods: {
 	  /**
@@ -168,13 +172,19 @@ export default {
 	  handleCatalog() {
       console.log('点击了目录')
     },
-    /**
-     * @info: 点击了目录
-     * @author: PengGeng
-     * @date: 8/17/20-6:24 下午
-     */
-    handleClickChapter () {
-      console.log('点击了目录')
+	  /**
+	   * @info: 获取可能喜欢的列表和作者的其他漫画
+	   * @author: PengGeng
+	   * @date: 8/25/20-12:03 下午
+	   */
+	 async getAuthorOther() {
+      const resData = await getAuthorOther(this.cartoonId)
+      if (resData && resData.code === 0){
+        this.authorOhter = resData.data.author || []
+        this.yourselfLikeComics = resData.data.rec || []
+      } else {
+        this.$toast(resData.msg || '系统繁忙请稍后重试！')
+      }
     },
     // touch开始
     touchStart(e) {

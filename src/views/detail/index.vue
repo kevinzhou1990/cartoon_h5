@@ -14,7 +14,7 @@
         @click="handleClickShare"
       ></div>
     </z-m-header>
-    <section class="main-content" ref="mainContent" :style="{background: headerBgColor}">
+    <section class="main-content" ref="mainContent" :style="{background: mainColor}">
       <div class="main-content-box">
         <div class="main-content-box-left">
           <span class="main-content-box-left-title">{{ ZMDetailData.title || '--'}}</span>
@@ -61,7 +61,8 @@ export default {
     return {
       showNavFlag: true,
       titleText: '',
-      headerBgColor: '#2F446F',
+      headerBgColor: '',
+      mainColor: '',
       showMoreFlag: false, // 展开查看更多
       isChangeHeader: false,
       cartoon_id: '', // 漫画id
@@ -100,6 +101,7 @@ export default {
       const resData = await getZMDetail(cartoon_id);
       if (resData && resData.code === 0) {
         this.ZMDetailData = resData.data;
+        this.headerBgColor = this.mainColor = resData.data.bk_color
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试！');
       }
@@ -114,7 +116,7 @@ export default {
         this.showNavFlag = false;
       } else {
         this.titleText = '';
-        this.headerBgColor = '#2F446F';
+        this.headerBgColor = this.mainColor
         this.showNavFlag = true;
       }
     }
@@ -257,7 +259,7 @@ $content-label-fontSize: 10px;
   0% {
     opacity: 0.1;
     height: 44px;
-    background: #2f446f;
+    /*background: #2f446f;*/
   }
   25% {
     opacity: 0.25;
@@ -269,7 +271,7 @@ $content-label-fontSize: 10px;
     opacity: 0.75;
   }
   100% {
-    background: #2f446f;
+    /*background: #2f446f;*/
     opacity: 1;
   }
 }
