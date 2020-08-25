@@ -36,36 +36,36 @@ export default {
         query: {
           SEC_ID: this.recId
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
-  $label-color: #BBBBBB;
-  $label-fontSize: 18px;
-  $label-right-fonSize: 10px;
-  .main-label {
-    display: flex;
-    padding: 0 8px;
-    justify-content: space-between;
-    font-weight: bold;
-    font-size: $label-fontSize;
-    &-r {
-      color: $label-color;
-      font-size: $label-right-fonSize;
-      text-align: right;
-      padding-right: 16px;
+$label-color: #bbbbbb;
+$label-fontSize: 18px;
+$label-right-fonSize: 10px;
+.main-label {
+  display: flex;
+  padding: 0 8px;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: $label-fontSize;
+  &-r {
+    color: $label-color;
+    font-size: $label-right-fonSize;
+    text-align: right;
+    padding-right: 16px;
 
-      &:after {
-        position: absolute;
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: url("../../../assets/img/more.png") no-repeat;
-        background-size: 100%;
-      }
+    &:after {
+      position: absolute;
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: url('../../../assets/img/more.png') no-repeat;
+      background-size: 100%;
     }
   }
+}
 </style>

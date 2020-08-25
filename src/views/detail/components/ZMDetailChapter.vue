@@ -19,81 +19,81 @@
 export default {
   name: 'ZMDetailChapter',
   props: {
-	  statusText: {
+    statusText: {
       type: String,
       default: ''
     },
-	  detailNews: {
+    detailNews: {
       type: Object,
       default: () => {}
     }
   },
   methods: {
-	  /**
-	   * @info: 点击更新最新章节
-	   * @author: PengGeng
-	   * @date: 8/24/20-6:33 下午
-	   */
-	  handleComicsNewChapter() {
-      console.log('最新章节点击。。。。。')
+    /**
+     * @info: 点击更新最新章节
+     * @author: PengGeng
+     * @date: 8/24/20-6:33 下午
+     */
+    handleComicsNewChapter() {
+      console.log('最新章节点击。。。。。');
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
-  $font-color: #BBBBBB !default;
-  @mixin font10px($font-color) {
-    display: inline-block;
+$font-color: #bbbbbb !default;
+@mixin font10px($font-color) {
+  display: inline-block;
+  font-size: 10px;
+  color: $font-color;
+  transform: scale(0.83);
+  -webkit-transform-origin-x: 0;
+}
+.main-chapter {
+  display: inline-block;
+  margin: 24px 16px;
+  height: 118px;
+  width: 343px;
+  align-content: center;
+  &-text {
+    box-sizing: border-box;
     font-size: 10px;
-    color: $font-color;
+    margin: 16px 0 8px 16px;
+    color: #bbbbbb;
+    letter-spacing: 0;
     transform: scale(0.83);
     -webkit-transform-origin-x: 0;
   }
-  .main-chapter {
-    display: inline-block;
-    margin: 24px 16px;
-    height: 118px;
-    width: 343px;
-    align-content: center;
-    &-text {
-      box-sizing: border-box;
-      font-size: 10px;
-      margin: 16px 0 8px 16px;
-      color: #BBBBBB;
-      letter-spacing: 0;
-      transform: scale(0.83);
-      -webkit-transform-origin-x: 0;
+  &-info {
+    box-sizing: border-box;
+    margin: 16px 0 8px 16px;
+    width: 311px;
+    height: 56px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #222222;
+    line-height: 56px;
+    &-time {
+      @include font10px(#bbbbbb);
+      padding: 0 19px 0 16px;
     }
-    &-info {
-      box-sizing: border-box;
-      margin: 16px 0 8px 16px;
-      width: 311px;
-      height: 56px;
-      background: #F5F5F5;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #222222;;
-      line-height: 56px;
-      &-time {
-        @include font10px(#BBBBBB);
-        padding: 0 19px 0 16px;
-      }
-      &-r {
-        @include font10px(#12E079);
-        &:after {
-          display: inline-block;
-          content: ' ';
-          padding: 2px;
-          width: 16px;
-          height: 16px;
-          vertical-align: middle;
-          background: url("../../../assets/img/more_chapter.png") no-repeat;
-          background-size: 100%;
-          transform: scale(0.83);
-          -webkit-transform-origin-y: 0;
-        }
+    &-r {
+      @include font10px(#12e079);
+      &:after {
+        display: inline-block;
+        content: ' ';
+        padding: 2px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        background: url('../../../assets/img/more_chapter.png') no-repeat;
+        background-size: 100%;
+        transform: scale(0.83);
+        -webkit-transform-origin-y: 0;
       }
     }
   }
+}
 </style>

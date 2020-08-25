@@ -67,11 +67,11 @@ export default {
      * @date: 8/18/20-3:11 下午
      */
     async getBanner() {
-      const resData = await getBanner()
-      if (resData.code === 0){
-        this.bannerList = resData.data.list || []
+      const resData = await getBanner();
+      if (resData.code === 0) {
+        this.bannerList = resData.data.list || [];
       } else {
-        this.$toast(resData.msg || '系统出错,请稍后重试')
+        this.$toast(resData.msg || '系统出错,请稍后重试');
       }
     },
     /**
