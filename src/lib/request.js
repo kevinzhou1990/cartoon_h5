@@ -2,11 +2,13 @@ import axios from 'axios';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
 import { getTokenByOAuth, refreshGetToken } from 'lib/utils/getTokenByLogin';
+// import Prestranining from '@/common/components/prestrain' todo loading 动画
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
   withCredentials: true
 });
+// let loading = []
 service.interceptors.request.use(
   config => {
     console.log(config.url);
@@ -23,6 +25,18 @@ service.interceptors.request.use(
       'APP-SIGN': sign,
       Authorization
     };
+	  /* 判断是否显示loading动画 */
+	  // if (
+    // 	  !config.hasOwnProperty('loading') ||
+    // 	  (config.hasOwnProperty('loading') && config.loading)
+	  // ) {
+    //   setTimeout(() => {
+    // 	  Prestranining(false)
+    //   }, 0)
+    //   loading.push(false)
+	  // } else {
+    //   loading.push(false)
+	  // }
     return config;
   },
   error => {

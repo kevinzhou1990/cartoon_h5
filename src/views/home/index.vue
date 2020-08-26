@@ -1,27 +1,30 @@
 <template>
   <div class="main">
-    <!-- 首页搜索组件 -->
-    <div class="main-search">
-      <z-m-search></z-m-search>
+    <home-loading v-if="!recList.length"></home-loading>
+    <div v-else>
+      <!-- 首页搜索组件 -->
+      <div class="main-search">
+        <z-m-search></z-m-search>
+      </div>
+      <!-- 首页滑动组件 -->
+      <z-m-swiper :bannerList="bannerList"></z-m-swiper>
+      <section v-for="item in recList" :key="item.rec_id">
+        <!-- 排行与发现 -->
+        <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
+        <!-- 首页新漫 -->
+        <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
+        <!-- 首页热番 -->
+        <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
+        <!-- 经典漫画 -->
+        <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
+        <!-- 推荐喜欢看的 -->
+        <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>
+        <!-- 你可能喜欢的 -->
+        <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>
+      </section>
+      <!-- 无数据了 -->
+      <z-m-no-data></z-m-no-data>
     </div>
-    <!-- 首页滑动组件 -->
-    <z-m-swiper :bannerList="bannerList"></z-m-swiper>
-    <section v-for="item in recList" :key="item.rec_id">
-      <!-- 排行与发现 -->
-      <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
-      <!-- 首页新漫 -->
-      <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
-      <!-- 首页热番 -->
-      <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
-      <!-- 经典漫画 -->
-      <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
-      <!-- 推荐喜欢看的 -->
-      <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>
-      <!-- 你可能喜欢的 -->
-      <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>
-    </section>
-    <!-- 无数据了 -->
-    <z-m-no-data></z-m-no-data>
   </div>
 </template>
 
@@ -35,6 +38,7 @@ import ZMClassicsComics from './components/ZMClassicsComics';
 import ZMLikeComics from './components/ZMLikeComics';
 import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
+import homeLoading from '@/views/home/components/homeLoading'
 import { getBanner, getRecommend } from '@/common/api/home';
 
 export default {
@@ -48,7 +52,8 @@ export default {
     ZMClassicsComics,
     ZMLikeComics,
     ZMMaybeLikeComics,
-    ZMNoData
+    ZMNoData,
+	  homeLoading
   },
   data() {
     return {
