@@ -27,7 +27,7 @@
               :key="index"
             >{{ tagItem }}</span>
           </div>
-          <z-m-collect></z-m-collect>
+          <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
         <div
           class="main-content-box-right"
@@ -70,6 +70,7 @@ export default {
       mainColor: '',
       showMoreFlag: false, // 展开查看更多
       isChangeHeader: false,
+      zmCollectData: null,
       cartoon_id: '', // 漫画id
       ZMDetailData: {},
       textLength: 50, // 简介默认展示50个字符 刚好占两行
@@ -120,7 +121,7 @@ export default {
         const marginTop = introContentHeight - 58 - 56 / 2
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop
 	      this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0
-      }, 100)
+      }, 10)
     },
     /**
      * @info: 获取漫画详情
@@ -133,6 +134,11 @@ export default {
         this.ZMDetailData = resData.data
         this.headerBgColor = this.mainColor = resData.data.bk_color
         this.textContent = resData.data.intro
+        this.zmCollectData = {
+	        score: resData.data.score || 0, // 评分
+	        evalNum: resData.data.eval_num || 0, // 评价数
+	        shelfNum: resData.data.shelf_num || 0 // 被加入书架量
+        }
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试！');
       }

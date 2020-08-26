@@ -23,12 +23,15 @@
           @getRecommendData="getData"
       ></z-m-nav-bar>
     </div>
-    <div v-if="dataList.length">
-      <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
-      <z-m-list v-else :dataList="dataList"></z-m-list>
-    </div>
-    <div v-else>
-      <z-m-not-network></z-m-not-network>
+    <div>
+      <div v-if="dataList.length">
+        <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
+        <z-m-list v-else :dataList="dataList"></z-m-list>
+      </div>
+      <div v-else>
+        <z-m-rec-loading v-if="isRecLoading"></z-m-rec-loading>
+        <z-m-not-network></z-m-not-network>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +42,7 @@ import ZMNotNetwork from '@/common/components/noNetwork'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
+import ZMRecLoading from '@/views/recommend/components/ZMRecLoading'
 import { getMoreComics } from '@/common/api/home'
 
 export default {
@@ -48,7 +52,8 @@ export default {
     ZMNavBar,
     ZMTable,
     ZMList,
-    ZMNotNetwork
+    ZMNotNetwork,
+	  ZMRecLoading
   },
   data() {
     return {
@@ -61,7 +66,8 @@ export default {
       blockBb: require('./images/block_bb.png'),
       blockBa: require('./images/block_ba.png'),
       showDataFlag: false, // 显示是否显示没有网络的情况
-      dataList: []
+      dataList: [],
+	    isRecLoading: false
     }
   },
   computed: {
@@ -80,9 +86,10 @@ export default {
   },
   created() {
     // this.tabListData = this.$store.state.home.recData
-    this.acticeIndex = this.$route.query.SEC_ID || 1
+    this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
     this.getData(this.acticeIndex)
+    console.log('......')
   },
   methods: {
   /**
@@ -91,10 +98,12 @@ export default {
    * @date: 8/21/20-5:32 下午
    */
     async getData(val) {
+	    this.isRecLoading = true
       const resData = await getMoreComics(val)
       if (resData && resData.code === 0) {
         this.dataList = resData.data.cartoon_list
         console.log(resData.data)
+	      this.isRecLoading = false
       } else {
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
       }

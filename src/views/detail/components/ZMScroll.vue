@@ -56,7 +56,7 @@
     </div>
     <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax"></div>
     <!-- 目录组件 -->
-    <z-m-contents :comicsInfo="comicsInfo"></z-m-contents>
+    <z-m-contents :comicsInfo="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
 
@@ -112,7 +112,8 @@ export default {
 	    cartoonId: '', // 漫画id
 	    comicsInfo: {}, // 目录数据
       authorOhter: [], // 作者其他漫画
-      yourselfLikeComics: [] // 你可能喜欢的漫画
+      yourselfLikeComics: [], // 你可能喜欢的漫画
+	    show: false // 显示目录
       // otherHeight: 0
     }
   },
@@ -175,6 +176,9 @@ export default {
 	   * @date: 8/25/20-10:38 上午
 	   */
 	  handleCatalog() {
+      this.show = true
+      this.$el.removeEventListener('tochstart', this.touchStart, true)
+		  this.$el.removeEventListener('touchend', this.touchEnd, true)
       console.log('点击了目录')
     },
 	  /**
@@ -285,8 +289,14 @@ export default {
       let yScroll = this.$refs.remarkScroll.scrollTop
       console.log('scroll的距离' + yScroll)
       if (yScroll >= 10){
+	      this.$el.removeEventListener('tochstart', this.touchStart, true)
+	      this.$el.removeEventListener('touchend', this.touchEnd, true)
+        this.$el.removeEventListener('touchMove', this.touchMove, true)
         this.isShowBgColor = true
       } else {
+	      this.$el.addEventListener('tochstart', this.touchStart, true)
+	      this.$el.addEventListener('touchend', this.touchEnd, true)
+	      this.$el.addEventListener('touchMove', this.touchMove, true)
         this.isShowBgColor = false
       }
       if (yScroll > 260) {
