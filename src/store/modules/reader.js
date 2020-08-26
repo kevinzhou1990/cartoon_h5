@@ -4,7 +4,7 @@ const reader = {
     imagesList: {}, // 当前章节图片列表
     contentsList: [], // 漫画章节列表
     settingData: {}, // 阅读器设置
-    localContents: null // 本地章节数据
+    localContents: {} // 本地章节数据
   },
   mutations: {
     UPDATE_IMAGELIST: (state, data) => {
@@ -17,7 +17,7 @@ const reader = {
       state.settingData = { ...data };
     },
     UPDATE_LOCALCONTENTS: (state, data) => {
-      state.localContents = data;
+      state.localContents = { ...data };
     }
   },
   actions: {
@@ -40,7 +40,16 @@ const reader = {
 
     saveProcess: ({ commit, state }, data) => {
       // 处理更新本地进度数据
-      console.log(data);
+      const dataKey = Object.keys(data);
+      const localContents = JSON.parse(JSON.stringify(state.localContents));
+      let d = localContents[dataKey[0]];
+      if (d) {
+        d = { ...d, ...data[dataKey[0]] };
+      } else {
+        d = data[dataKey[0]];
+      }
+      localContents[dataKey[0]] = d;
+      commit('UPDATE_LOCALCONTENTS', localContents);
     }
   }
 };

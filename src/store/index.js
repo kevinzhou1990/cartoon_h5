@@ -7,7 +7,8 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const createPersisted = createPersistedState({
-  storage: sessionStorage
+  storage: sessionStorage,
+  paths: ['reader']
 });
 const store = new Vuex.Store({
   modules: { main, home, reader },

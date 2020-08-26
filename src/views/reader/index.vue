@@ -8,12 +8,7 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </ZMHeader>
-    <Navigation
-      :funcPos="funcPos"
-      :show="navigationStatus"
-      @switchFull="switchSetting"
-      @contents="openContents"
-    />
+    <Navigation :funcPos="funcPos" :show="navigationStatus" @switchFull="switchSetting" />
     <Setting
       :funcPos="funcPos"
       :show="settingStatus"
@@ -22,14 +17,20 @@
     />
     <div class="reader-mask" @click="switchFull"></div>
     <div class="reader-img">
-      <img
+      <img-component
+        v-for="item in comicsList"
+        :key="item.detail_id"
+        :src="item.path"
+        :comics="item"
+      />
+      <!-- <img
         v-for="item in comicsList"
         alt
         style="width:100%;"
         :src="item.path"
         :key="item.detail_id"
         :id="item.detail_id"
-      />
+      />-->
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
   </div>
@@ -41,9 +42,10 @@ import SvgIcon from '@/common/components/svg';
 import Navigation from './components/navigation';
 import Setting from './components/settings';
 import Contents from '@/common/components/contents';
+import ImgComponent from './components/imgComponents';
 export default {
   name: 'Reader',
-  components: { ZMHeader, SvgIcon, Navigation, Setting, Contents },
+  components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
   data() {
     return {
       // 功能栏位置，right:右，left:左，默认：right
@@ -89,10 +91,7 @@ export default {
   methods: {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
-      // const imgs = await getChapter(this.$route.query.capterId);
       this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
-      console.log(this.$store.state.reader);
-      // this.comicsList = imgs.data.data[0].detail;
     },
     back() {
       history.go(-1);
@@ -125,8 +124,11 @@ export default {
       this.show = true;
       this.navigationStatus = true;
     },
-    changeSort() {
-      this.comicsInfo.sort = this.comicsInfo.sort === 1 ? 2 : 1;
+    scorllPos(read_per) {
+      let ele = document.scrollingElement;
+      let scrollheight = ele.scrollHeight;
+      let scrollAbleHeight = scrollheight - innerHeight;
+      ele.scrollTop = scrollAbleHeight * (read_per / 100);
     }
   }
 };

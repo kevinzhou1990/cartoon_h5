@@ -7,6 +7,12 @@
         <SvgIcon iconClass="catalog_ba" size="small" />
       </div>
       <div
+        :class="`navigation-next ${touching}`"
+        v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0"
+      >
+        <span>上一话</span>
+      </div>
+      <div
         :class="`navigation-process ${touching ? 'navigation-process-touch': ''}`"
         @touchstart="handlerTouchStart"
         @touchmove="handlerTouchMove"
@@ -16,9 +22,12 @@
           :style="`height:${readerProgress}%;`"
           :class="`${readerProgress > 97 ? 'reader-process' : ''}`"
         ></div>
-        <div :class="`tag ${'tag-'+touching}`">{{imgIndex}}/{{imagesList.detail.length}}</div>
+        <div :class="`tag ${'tag-'+touching}`">{{pageIndex}}/{{imagesList.detail.length}}</div>
       </div>
-      <div :class="`navigation-next ${touching}`">
+      <div
+        :class="`navigation-next ${touching}`"
+        v-if="contentsList.indexOf(parseInt($route.query.capterId)) === contentsList.length"
+      >
         <span>下一话</span>
       </div>
       <div
@@ -46,27 +55,36 @@ export default {
       readerProgress: 0,
       initY: 0,
       initHeight: 0,
-      imgIndex: 0
+      // 实际图片索引
+      imgIndex: 0,
+      // 显示索引
+      pageIndex: 1
     };
+  },
+  mounted() {
+    const p = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId];
+    this.readerProgress = p ? p.read_per : 0;
+    console.log(this.contentsList.indexOf(parseInt(this.$route.query.capterId)), this.contentsList);
   },
   computed: {
     imagesList: function () {
       return this.$store.state.reader.imagesList;
     },
     contentsList: function () {
-      return this.$store.state.reader.contentsList;
+      return this.$store.state.reader.contentsList.map((item) => {
+        return item.chapter_id;
+      });
+    },
+    localContents: function () {
+      return this.$store.state.reader.localContents;
     }
-    // localContents: function () {
-    //   console.log(this.$store.state.reader.localContents);
-    //   return this.$store.state.reader.localContents;
-    // }
   },
   methods: {
     switchFull() {
       this.$emit('switchFull');
     },
     openContents() {
-      this.$emit('contents');
+      this.$parent.show = true;
     },
     handlerTouchStart(e) {
       e.preventDefault();
@@ -75,31 +93,31 @@ export default {
       this.touching = 'touch';
     },
     handlerTouchMove(e) {
-      const posY = Math.round(e.touches[0].clientY);
+      let posY = Math.round(e.touches[0].clientY);
       // 移动距离
-      const gap = posY - this.initY;
+      let gap = posY - this.initY;
+      let index = Math.floor(((gap + this.initHeight) / 272) * this.imagesList.detail.length);
       if (gap + this.initHeight > 272 || gap + this.initHeight < 0) return;
-      this.readerProgress = ((gap + this.initHeight) / 272) * 100;
+      let read_per = ((gap + this.initHeight) / 272) * 100;
+      this.readerProgress = read_per;
       // 计算图片索引
-      this.imgIndex = Math.floor(
-        ((gap + this.initHeight) / 272) * this.imagesList.detail.length
-      );
+      this.imgIndex = index === this.imagesList.detail.length ? this.imagesList.detail.length - 1 : index;
+      this.pageIndex = index > 0 ? index : 1;
+      this.$parent.scorllPos(read_per);
     },
     handlerTouchEnd(e) {
       this.touching = '';
       // 存阅读进度
-      // const localContents = JSON.parse(JSON.stringify(this.localContents));
-      // const chapter = {};
-      // console.log(JSON.stringify(this.localContents));
-      // chapter[this.imagesList.chapter_id] = {
-      //   read_per: this.readerProgress,
-      //   detail_id: this.imagesList.detail[this.imgIndex].detail_id
-      // };
-      // localContents[this.$route.query.cartoon_id] = {
-      //   ...localContents[this.$route.query.cartoon_id],
-      //   chapter
-      // };
-      // this.$store.dispatch('saveProcess', localContents);
+      const localContents = JSON.parse(JSON.stringify(this.localContents));
+      const chapter = {};
+      chapter[this.imagesList.chapter_id] = {
+        read_per: Math.round(this.readerProgress),
+        detail_id: this.imagesList.detail[this.imgIndex].detail_id
+      };
+      localContents[this.$route.query.cartoon_id] = {
+        ...chapter
+      };
+      this.$store.dispatch('saveProcess', localContents);
     }
   }
 };
@@ -112,6 +130,9 @@ export default {
   top: calc(50% - 160px);
   width: 40px;
   z-index: 999;
+  .navigation-next {
+    margin-top: 16px;
+  }
   &-left {
     left: 16px;
     transition: left 0.2s;
@@ -160,7 +181,7 @@ export default {
   .navigation-process {
     height: 160px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(51, 51, 51, 0.7);
     border-radius: 8px;
     margin: 16px 0 16px 0;
     &-touch {
