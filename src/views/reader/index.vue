@@ -23,14 +23,6 @@
         :src="item.path"
         :comics="item"
       />
-      <!-- <img
-        v-for="item in comicsList"
-        alt
-        style="width:100%;"
-        :src="item.path"
-        :key="item.detail_id"
-        :id="item.detail_id"
-      />-->
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
   </div>
@@ -86,12 +78,18 @@ export default {
     show: function (n, o) {
       this.navigationStatus = n;
       if (this.fullRead) this.navigationStatus = this.fullRead;
+    },
+    $route: function (to, from) {
+      this.pageinit();
     }
   },
   methods: {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      // 滚动位置
+      // const h = (document.body.scrollHeight - innerHeight) * (this.$store.state.reader.readerProcess / 100);
+      // document.scrollingElement.scrollTop = h;
     },
     back() {
       history.go(-1);

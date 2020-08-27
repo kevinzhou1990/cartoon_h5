@@ -62,7 +62,7 @@ function timestampToTime(timestamp, type) {
  * @param {Boolean} iselapsed 是否等待上一次执行完成
  * @returns {Function}
  */
-function throttle(callback, delay = 200, context, iselapsed = true) {
+function throttle(callback, delay = 200, context, iselapsed = false) {
   let timeout = null;
   let lastRun = 0;
   return function() {

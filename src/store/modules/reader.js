@@ -4,7 +4,8 @@ const reader = {
     imagesList: {}, // 当前章节图片列表
     contentsList: [], // 漫画章节列表
     settingData: {}, // 阅读器设置
-    localContents: {} // 本地章节数据
+    localContents: {}, // 本地章节数据
+    readerProcess: 0
   },
   mutations: {
     UPDATE_IMAGELIST: (state, data) => {
@@ -18,6 +19,9 @@ const reader = {
     },
     UPDATE_LOCALCONTENTS: (state, data) => {
       state.localContents = { ...data };
+    },
+    UPDATE_READERPROCESS: (state, data) => {
+      state.readerProcess = data;
     }
   },
   actions: {

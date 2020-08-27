@@ -95,9 +95,7 @@ export default {
       }
     },
     'comicsInfo.cartoon_id': function (n, o) {
-      // this.$store.dispatch('getContentsData', n);
-      // const CHAPTERDATA = await getContents(this.comicsInfo.cartoon_id);
-      // this.chapterData = CHAPTERDATA.data.data;
+      this.$store.dispatch('getContentsData', n);
     }
   },
   methods: {
