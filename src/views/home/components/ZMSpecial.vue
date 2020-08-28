@@ -44,7 +44,7 @@ export default {
   font-family: 'pingfang-blod';
   font-size: 14px;
   color: #FFFFFF;
-  margin: 0 auto;
+  margin: 20px auto;
   .speical-bg {
     position: relative;
     border-radius: 4px;
