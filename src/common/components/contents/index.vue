@@ -27,8 +27,9 @@
       </div>
     </div>
     <ul class="contents-list" ref="chapter">
-      <li @click="goto" v-for="(item) in chapterData" :key="item.chapter_id">
+      <li @click="goto(item)" v-for="(item) in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
+        <span class="contents-current" v-if="item.chapter_id === parseInt($route.query.capterId)" />
         <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
           <span>{{item.title}}</span>
           <div class="chapter-title">
@@ -80,6 +81,14 @@ export default {
   },
   computed: {
     chapterData() {
+      // 同步本地记录阅读进度
+      let contentsList = this.$store.state.reader.contentsList;
+      contentsList.map((item) => {
+        const CAPTERID = item.chapter_id;
+        const CARTOON_ID = item.cartoon_id;
+        const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
+        item.read_per = P ? P.read_per : 0;
+      });
       return this.$store.state.reader.contentsList;
     }
   },
@@ -123,11 +132,7 @@ export default {
           this.touchPois.y = `${this.initY - Math.abs(DIFFERENCE)}px`;
         } else {
           // 2.目录拉到顶，且目录滚动到底，向上移动，阻止默认事件，向下移动不阻止
-          if (
-            LISTTOP + this.$refs.chapter.clientHeight ===
-              this.$refs.chapter.scrollHeight &&
-            event.cancelable
-          ) {
+          if (LISTTOP + this.$refs.chapter.clientHeight === this.$refs.chapter.scrollHeight && event.cancelable) {
             event.preventDefault();
           }
         }
@@ -161,8 +166,16 @@ export default {
         this.moved = false;
       }
     },
-    goto(id) {
-      console.log(id, '跳转');
+    goto(item) {
+      if (this.$route.name !== 'reader') {
+        this.$router.push({
+          path: '/reader',
+          query: {
+            cartoon_id: item.cartoon_id,
+            capterId: item.chapter_id
+          }
+        });
+      }
     },
     // 切换排序方式
     switchSort() {
@@ -232,6 +245,16 @@ $nousecolor: #bbb;
         position: absolute;
         height: 100%;
         font-size: 12px;
+      }
+      .contents-current {
+        position: absolute;
+        top: 0;
+        right: 32px;
+        width: 12px;
+        height: 16px;
+        background: #000;
+        background: url('../../../assets/img/markBa@3x.png') 0 0 transparent;
+        background-size: 100%;
       }
     }
     .process {

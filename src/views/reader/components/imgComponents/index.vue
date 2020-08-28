@@ -40,7 +40,7 @@ export default {
         });
         const idx = idList.indexOf(this.comics.detail_id);
         const readProcess = (idx + 1) / this.imagesList.length;
-        this.$store.commit('UPDATE_READERPROCESS', Math.round(readProcess * 100));
+        this.$store.commit('UPDATE_READERPROCESS', readProcess * 100);
         const localContents = {};
         const chapter = {};
         chapter[this.$route.query.capterId] = {

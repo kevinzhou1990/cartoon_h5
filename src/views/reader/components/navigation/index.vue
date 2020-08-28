@@ -62,9 +62,11 @@ export default {
       pageIndex: 1
     };
   },
-  mounted() {
-    const p = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId];
-    this.$store.commit('UPDATE_READERPROCESS', p ? p.read_per : 0);
+  watch: {
+    $route(to, from) {
+      const p = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId];
+      this.$store.commit('UPDATE_READERPROCESS', p ? p.read_per : 0);
+    }
   },
   computed: {
     imagesList: function () {

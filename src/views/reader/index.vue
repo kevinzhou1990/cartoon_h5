@@ -87,9 +87,11 @@ export default {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
-      // 滚动位置
-      // const h = (document.body.scrollHeight - innerHeight) * (this.$store.state.reader.readerProcess / 100);
-      // document.scrollingElement.scrollTop = h;
+      // 计算滚动位置
+      let availableScroll = document.body.scrollHeight - innerHeight;
+      let reader_per = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId] ? this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId].read_per : 0;
+      let percentage = reader_per / 100;
+      document.scrollingElement.scrollTop = availableScroll * percentage;
     },
     back() {
       history.go(-1);
