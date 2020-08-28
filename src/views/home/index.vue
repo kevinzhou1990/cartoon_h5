@@ -15,6 +15,8 @@
         <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
         <!-- 首页热番 -->
         <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
+        <!-- 专题 -->
+        <z-m-special :special-data="item" v-if="item.style_id === 3"></z-m-special>
         <!-- 经典漫画 -->
         <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
         <!-- 推荐喜欢看的 -->
@@ -38,6 +40,7 @@ import ZMClassicsComics from './components/ZMClassicsComics';
 import ZMLikeComics from './components/ZMLikeComics';
 import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
+import ZMSpecial from '@/views/home/components/ZMSpecial'
 import homeLoading from '@/views/home/components/homeLoading'
 import { getBanner, getRecommend } from '@/common/api/home';
 
@@ -53,7 +56,8 @@ export default {
     ZMLikeComics,
     ZMMaybeLikeComics,
     ZMNoData,
-	  homeLoading
+	  homeLoading,
+	  ZMSpecial
   },
   data() {
     return {
