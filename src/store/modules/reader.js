@@ -31,7 +31,6 @@ const reader = {
   actions: {
     getContentsData: async ({ commit }, cartoon_id) => {
       const list = await getContents(cartoon_id);
-      console.log(list, '+++');
       if (list.code === 0) {
         commit('UPDATE_CONTENTSLIST', list.data.data);
       }

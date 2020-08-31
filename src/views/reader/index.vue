@@ -1,6 +1,6 @@
 <template>
   <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`">
-    <ZMHeader titleText="#001.魔神降临" :showRight="true" :hasBorder="true" :show="fullRead">
+    <ZMHeader :titleText="titleText" :showRight="true" :hasBorder="true" :show="fullRead">
       <div slot="left" @click="back">
         <SvgIcon iconClass="close_ab" class="icon-left" />
       </div>
@@ -52,7 +52,8 @@ export default {
       // 是否显示漫画详情按钮
       showComicsLink: false,
       // 目录相关信息
-      show: false
+      show: false,
+      titleText: ''
     };
   },
   mounted() {
@@ -86,13 +87,22 @@ export default {
       let availableScroll = document.body.scrollHeight - innerHeight;
       let localContents = this.$store.state.reader.localContents;
       let reader_per = 0;
+      const CAPTERID = parseInt(this.$route.query.capterId);
+      const CARTOONID = parseInt(this.$route.query.cartoon_id);
       if (localContents && JSON.stringify(localContents) !== '{}') {
-        const CAPTERID = parseInt(this.$route.query.capterId);
-        const CARTOONID = parseInt(this.$route.query.cartoon_id);
         if (CAPTERID && CARTOONID) reader_per = localContents[CARTOONID][CAPTERID].read_per;
       }
       let percentage = reader_per / 100;
       document.scrollingElement.scrollTop = availableScroll * percentage;
+      // 获取当前阅读漫画章节标题和序号
+      let contentsList = this.$store.state.reader.contentsList;
+      for (let i = 0; i < contentsList.length; i++) {
+        if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
+          this.titleText = contentsList[i].title + contentsList[i].intro;
+          return false;
+        }
+      }
+      console.log(this.$store.state.reader.contentsList);
     },
     back() {
       history.go(-1);

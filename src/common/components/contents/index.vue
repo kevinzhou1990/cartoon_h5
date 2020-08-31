@@ -83,7 +83,7 @@ export default {
         const CAPTERID = item.chapter_id;
         const CARTOON_ID = item.cartoon_id;
         console.log(CARTOON_ID, '----');
-        if (this.$store.state.reader.localContents & JSON.stringify(this.$store.state.reader.localContents !== '{}')) {
+        if (this.$store.state.reader.localContents && JSON.stringify(this.$store.state.reader.localContents !== '{}')) {
           const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
           item.read_per = P ? P.read_per : 0;
         } else {
@@ -95,6 +95,7 @@ export default {
   },
   mounted() {
     this.comicsInfo.sort = this.comicsInfo.sort || 1;
+    this.$store.dispatch('getContentsData', this.$route.query.cartoon_id);
   },
   watch: {
     show(n, o) {
@@ -168,6 +169,7 @@ export default {
       }
     },
     goto(item) {
+      this.$parent.show = false;
       if (this.$route.name !== 'reader') {
         this.$router.push({
           path: '/reader',
