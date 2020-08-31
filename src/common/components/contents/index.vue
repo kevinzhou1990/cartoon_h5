@@ -86,8 +86,13 @@ export default {
       contentsList.map((item) => {
         const CAPTERID = item.chapter_id;
         const CARTOON_ID = item.cartoon_id;
-        const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
-        item.read_per = P ? P.read_per : 0;
+        console.log(CAPTERID, CARTOON_ID);
+        if (this.$store.state.reader.localContents & JSON.stringify(this.$store.state.reader.localContents !== '{}')) {
+          const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
+          item.read_per = P ? P.read_per : 0;
+        } else {
+          item.read_per = 0;
+        }
       });
       return this.$store.state.reader.contentsList;
     }
@@ -169,6 +174,14 @@ export default {
     goto(item) {
       if (this.$route.name !== 'reader') {
         this.$router.push({
+          path: '/reader',
+          query: {
+            cartoon_id: item.cartoon_id,
+            capterId: item.chapter_id
+          }
+        });
+      } else {
+        this.$router.replace({
           path: '/reader',
           query: {
             cartoon_id: item.cartoon_id,

@@ -38,6 +38,8 @@ const reader = {
       if (chapter.code === 0 && chapter.data.data) {
         // 处理本地进度数据，合并到新的数据上
         list = chapter.data.data[0];
+      } else {
+        list = { detail: [] };
       }
       commit('UPDATE_IMAGELIST', list);
     },

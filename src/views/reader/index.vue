@@ -89,7 +89,11 @@ export default {
       this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
       // 计算滚动位置
       let availableScroll = document.body.scrollHeight - innerHeight;
-      let reader_per = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId] ? this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId].read_per : 0;
+      let localContents = this.$store.state.reader.localContents;
+      let reader_per = 0;
+      if (localContents && JSON.stringify(localContents) !== '{}') {
+        reader_per = localContents[parseInt(this.$route.query.cartoon_id)][parseInt(this.$route.query.capterId)].read_per;
+      }
       let percentage = reader_per / 100;
       document.scrollingElement.scrollTop = availableScroll * percentage;
     },
