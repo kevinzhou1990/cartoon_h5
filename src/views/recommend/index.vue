@@ -70,22 +70,8 @@ export default {
 	    bannerHeight: 86
     }
   },
-  computed: {
-    /**
-     * @info: 判断显示的图标
-     * @author: PengGeng
-     * @date: 8/8/20-10:12 上午
-     */
-    showLightBgIcon() {
-      if (this.isLightIcon) {
-        return [this.listBb, this.blockBa]
-      } else {
-        return [this.listBa, this.blockBb]
-      }
-    }
-  },
+  computed: {},
   created() {
-    // this.tabListData = this.$store.state.home.recData
     this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
     this.getData(this.acticeIndex)

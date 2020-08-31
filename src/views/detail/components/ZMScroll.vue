@@ -36,7 +36,7 @@
       </z-m-detail-remark>
       <z-m-comics-scroll :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
       <z-m-comics-scroll :title-content="maybeLikeTitle" :comicsList="yourselfLikeComics" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
-      <z-m-no-data style="padding: 15px 0;"></z-m-no-data>
+      <z-m-no-data></z-m-no-data>
 <!-- -->
     </div>
     <div class="main-foot" v-if="showFootFlag">
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax"></div>
+    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax">......</div>
     <!-- 目录组件 -->
     <z-m-contents :comicsInfo="comicsInfo" :show="show"></z-m-contents>
   </div>
@@ -227,6 +227,7 @@ export default {
       }
       if (height < -100) {
         console.log('进来了。。。。。')
+	      this.bottomAjax = true
         // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
         this.bottomWrapStyle.height = `${Math.abs(height)}px`
       //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
@@ -234,7 +235,10 @@ export default {
       //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
       //   // this.$refs.ohterEl.style.background = 'red'
       //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
+      } else {
+	      this.bottomAjax = false
       }
+      // this.$el.addEventListener('touchend', this.touchEnd, true)
       console.log('touchMove', height)
       console.log('我在滑动中。。。。')
     },
@@ -253,11 +257,6 @@ export default {
       this.topWrapStyle.transition = 'height 200ms'
       this.topWrapStyle.height = `${this.touchDistance}`
       // this.bottomAjax = false
-      if (height < -100){
-        this.bottomAjax = true
-      } else {
-        this.bottomAjax = false
-      }
       this.bottomWrapStyle.transition = 'height 200ms'
       this.bottomWrapStyle.height = '0'
       console.log('我结束滑动了。。。。', height)
@@ -295,7 +294,7 @@ export default {
         this.isShowBgColor = true
       } else {
 	      this.$el.addEventListener('tochstart', this.touchStart, true)
-	      this.$el.addEventListener('touchend', this.touchEnd, true)
+	      // this.$el.addEventListener('touchend', this.touchEnd, true)
 	      this.$el.addEventListener('touchMove', this.touchMove, true)
         this.isShowBgColor = false
       }
@@ -349,6 +348,8 @@ export default {
       height: 50px;
       margin-bottom: -50px;
       line-height: 50px;
+      text-align: center;
+      opacity: 0;
     }
     &-content {
       background: #FFFFFF;
