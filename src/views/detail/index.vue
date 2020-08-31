@@ -45,10 +45,11 @@
       </div>
     </section>
     <z-m-scroll
-        :isChangeHeader.sync="isChangeHeader"
-        :detail-data="ZMDetailData"
-        :textHeight="textHeight"
+      :isChangeHeader.sync="isChangeHeader"
+      :detail-data="ZMDetailData"
+      :textHeight="textHeight"
     ></z-m-scroll>
+    <z-m-contents :comicsInfo="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
 
@@ -56,6 +57,7 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import ZMCollect from '@/views/detail/components/ZMCollect';
 import ZMScroll from '@/views/detail/components/ZMScroll';
+import ZMContents from '@/common/components/contents';
 import { getZMDetail } from '@/common/api/detail';
 import '@/common/filters/home';
 // import utils from '@/lib/utils'
@@ -75,13 +77,16 @@ export default {
       ZMDetailData: {},
       textLength: 50, // 简介默认展示50个字符 刚好占两行
       textContent: '', // 简介两行的内容
-      textHeight: 0 // 简介展开的高度
+      textHeight: 0, // 简介展开的高度
+      show: false, // 显示目录
+      comicsInfo: {}
     };
   },
   components: {
     ZMHeader,
     ZMCollect,
-    ZMScroll
+    ZMScroll,
+    ZMContents
   },
   computed: {
     scrollHeight() {
@@ -89,13 +94,13 @@ export default {
     },
     // 是否显示展开按钮
     isShowUnfold() {
-      return this.textContent.length > this.textLength
+      return this.textContent.length > this.textLength;
     },
     ZMDetailInfo() {
       if (this.isShowUnfold) {
-        return this.textContent.substring(0, this.textLength)
+        return this.textContent.substring(0, this.textLength);
       } else {
-        return this.textContent
+        return this.textContent;
       }
     }
   },
@@ -112,16 +117,16 @@ export default {
     handleClickShare() {
       console.log('click go to share....');
     },
-	  getElHeight() {
-		  this.showMoreFlag = true
-		  const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight
+    getElHeight() {
+      this.showMoreFlag = true;
+      const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
-	      console.log(this.$refs['intro-content'].offsetHeight)
-        const introContentHeight = this.$refs['intro-content'].offsetHeight
-        const marginTop = introContentHeight - 58 - 56 / 2
-        const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop
-	      this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0
-      }, 10)
+        console.log(this.$refs['intro-content'].offsetHeight);
+        const introContentHeight = this.$refs['intro-content'].offsetHeight;
+        const marginTop = introContentHeight - 58 - 56 / 2;
+        const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
+        this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0;
+      }, 10);
     },
     /**
      * @info: 获取漫画详情
@@ -131,18 +136,28 @@ export default {
     async getZMDetail(cartoon_id) {
       const resData = await getZMDetail(cartoon_id);
       if (resData && resData.code === 0) {
-        this.ZMDetailData = resData.data
-        this.headerBgColor = this.mainColor = resData.data.bk_color
-        this.textContent = resData.data.intro
+        const ZMDetailData = resData.data;
+        const comicsInfo = {
+          cartoon_id: this.$route.query.cartoon_id, // 漫画ID
+          status: ZMDetailData.status || 1, // 1=连载中,2=已完结,3=休更中
+          // update_freq: ZMDetailData.update_freq || '', // 更新频率
+          title: (ZMDetailData.last && ZMDetailData.last.title) || '', // 章节编号
+          last_chapter_id: (ZMDetailData.last && ZMDetailData.last.chapter_id) || '', // 当前阅读的章节
+          status_text: ZMDetailData.status_text
+        };
+        this.ZMDetailData = ZMDetailData;
+        this.headerBgColor = this.mainColor = resData.data.bk_color;
+        this.textContent = resData.data.intro;
         this.zmCollectData = {
-	        score: resData.data.score || 0, // 评分
-	        evalNum: resData.data.eval_num || 0, // 评价数
-	        shelfNum: resData.data.shelf_num || 0 // 被加入书架量
-        }
+          score: resData.data.score || 0, // 评分
+          evalNum: resData.data.eval_num || 0, // 评价数
+          shelfNum: resData.data.shelf_num || 0 // 被加入书架量
+        };
+        this.comicsInfo = comicsInfo;
+        this.$store.commit('UPDATE_COMIC', comicsInfo);
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试！');
       }
-      console.log(resData);
     }
   },
   watch: {
@@ -153,7 +168,7 @@ export default {
         this.showNavFlag = false;
       } else {
         this.titleText = '';
-        this.headerBgColor = this.mainColor
+        this.headerBgColor = this.mainColor;
         this.showNavFlag = true;
       }
     }

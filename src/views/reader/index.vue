@@ -52,15 +52,7 @@ export default {
       // 是否显示漫画详情按钮
       showComicsLink: false,
       // 目录相关信息
-      show: false,
-      comicsInfo: {
-        status: 1, // 1=连载中,2=已完结,3=休更中
-        update_freq: '每周六更新', // 更新频率
-        title: '#001', // 章节编号
-        // sort: 2, // 1=正序,2=倒序
-        last_chapter_id: 1, // 当前阅读的章节
-        cartoon_id: ''
-      }
+      show: false
     };
   },
   mounted() {
@@ -72,6 +64,9 @@ export default {
   computed: {
     comicsList: function () {
       return this.$store.state.reader.imagesList.detail;
+    },
+    comicsInfo: function () {
+      return this.$store.state.reader.comic;
     }
   },
   watch: {

@@ -14,11 +14,7 @@
       </span>
     </div>
     <div class="contents-last">
-      <div v-if="comicsInfo.status === 1">
-        更新至
-        <span>{{comicsInfo.title}}</span>
-        话/{{comicsInfo.update_freq}}
-      </div>
+      <div v-if="comicsInfo.status === 1">{{comicsInfo.status_text }}</div>
       <div v-else-if="comicsInfo.status === 2">已完结</div>
       <div v-else>休更中</div>
       <div class="zm-b" @click="switchSort">
@@ -86,7 +82,7 @@ export default {
       contentsList.map((item) => {
         const CAPTERID = item.chapter_id;
         const CARTOON_ID = item.cartoon_id;
-        console.log(CAPTERID, CARTOON_ID);
+        console.log(CARTOON_ID, '----');
         if (this.$store.state.reader.localContents & JSON.stringify(this.$store.state.reader.localContents !== '{}')) {
           const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
           item.read_per = P ? P.read_per : 0;

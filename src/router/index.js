@@ -11,6 +11,7 @@ import Mine from '@/views/mine';
 import Shelf from '@/views/shelf';
 import Ranking from '@/views/ranking';
 import Topic from '@/views/topic';
+import Discovery from '@/views/discovery';
 import store from '../store';
 
 Vue.use(Router);
@@ -84,6 +85,12 @@ const router = new Router({
       name: 'comments',
       component: Comments,
       meta: { title: '评论', transitionIn: 'slide-left' }
+    },
+    {
+      path: '/discovery',
+      name: 'discovery',
+      component: Discovery,
+      meta: { title: '发现', transitionIn: 'slide-left' }
     }
   ]
 });

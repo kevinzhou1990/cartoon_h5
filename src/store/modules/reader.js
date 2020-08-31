@@ -5,7 +5,8 @@ const reader = {
     contentsList: [], // 漫画章节列表
     settingData: {}, // 阅读器设置
     localContents: {}, // 本地章节数据
-    readerProcess: 0
+    readerProcess: 0,
+    comic: {} // 漫画信息
   },
   mutations: {
     UPDATE_IMAGELIST: (state, data) => {
@@ -22,12 +23,16 @@ const reader = {
     },
     UPDATE_READERPROCESS: (state, data) => {
       state.readerProcess = data;
+    },
+    UPDATE_COMIC: (state, data) => {
+      state.comic = data;
     }
   },
   actions: {
     getContentsData: async ({ commit }, cartoon_id) => {
       const list = await getContents(cartoon_id);
-      if (list.code === 0 && list.data.data.length) {
+      console.log(list, '+++');
+      if (list.code === 0) {
         commit('UPDATE_CONTENTSLIST', list.data.data);
       }
     },
