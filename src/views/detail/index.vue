@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     scrollHeight() {
-      return console.log(document.body.scrollTop);
+      return console.log(document.body.scrollTop)
     },
     // 是否显示展开按钮
     isShowUnfold() {
@@ -105,8 +105,8 @@ export default {
     }
   },
   mounted() {
-    this.cartoon_id = this.$route.query.cartoon_id || '';
-    this.getZMDetail(this.cartoon_id);
+    this.cartoon_id = this.$route.query.cartoon_id || ''
+    this.getZMDetail(this.cartoon_id)
   },
   methods: {
     /**
@@ -115,11 +115,16 @@ export default {
      * @date: 8/11/20-3:38 下午
      */
     handleClickShare() {
-      console.log('click go to share....');
+      console.log('click go to share....')
     },
-    getElHeight() {
-      this.showMoreFlag = true;
-      const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
+	  /**
+	   * @info: 获取页面到头部的高度
+	   * @author: PengGeng
+	   * @date: 8/31/20-6:33 下午
+	   */
+	  getElHeight() {
+		  this.showMoreFlag = true
+		  const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight
       setTimeout(() => {
         console.log(this.$refs['intro-content'].offsetHeight);
         const introContentHeight = this.$refs['intro-content'].offsetHeight;
@@ -134,7 +139,7 @@ export default {
      * @date: 8/24/20-4:30 下午
      */
     async getZMDetail(cartoon_id) {
-      const resData = await getZMDetail(cartoon_id);
+      const resData = await getZMDetail(cartoon_id)
       if (resData && resData.code === 0) {
         const ZMDetailData = resData.data;
         const comicsInfo = {
@@ -156,32 +161,28 @@ export default {
         this.comicsInfo = comicsInfo;
         this.$store.commit('UPDATE_COMIC', comicsInfo);
       } else {
-        this.$toast(resData.msg || '系统繁忙请稍后重试！');
+        this.$toast(resData.msg || '系统繁忙请稍后重试！')
       }
     }
   },
   watch: {
     isChangeHeader: function (newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
-        this.titleText = '神灯精灵亚美娜';
-        this.headerBgColor = '#FFFFFF';
-        this.showNavFlag = false;
+        this.titleText = this.ZMDetailData.title
+        this.headerBgColor = '#FFFFFF'
+        this.showNavFlag = false
       } else {
-        this.titleText = '';
-        this.headerBgColor = this.mainColor;
-        this.showNavFlag = true;
+        this.titleText = ''
+        this.headerBgColor = this.mainColor
+        this.showNavFlag = true
       }
     }
   },
   beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave');
+    console.log('beforeRouteLeave')
     document.documentElement.scrollTop = 0;
-    console.log('beforeRouteLeave', document.documentElement.scrollTop);
-    // setTimeout(() => {
-    //   // 让上一个页面回到顶部
-    //   document.documentElement.scrollTop = 0
-    // }, 0)
-    next();
+    console.log('beforeRouteLeave', document.documentElement.scrollTop)
+    next()
   }
 };
 </script>
