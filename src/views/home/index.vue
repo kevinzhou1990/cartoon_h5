@@ -7,7 +7,7 @@
         <z-m-search></z-m-search>
       </div>
       <!-- 首页滑动组件 -->
-      <z-m-swiper :bannerList="bannerList"></z-m-swiper>
+      <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
       <section v-for="item in recList" :key="item.rec_id">
         <!-- 排行与发现 -->
         <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>

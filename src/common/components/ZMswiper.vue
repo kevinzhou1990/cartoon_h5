@@ -5,9 +5,10 @@
 */
 <template>
   <div class="container">
-    <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="banners.length>0">
+    <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="bannerList.length>0">
       <swiper-slide class="swiper-slide" v-for="(item, index) in bannerList" :key="index">
         <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px' }" />
+<!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-// tips 使用vue-awesome-swiper 引入组件必须首字母打下
+// tips 使用vue-awesome-swiper 引入组件必须首字母大写
 import 'swiper/swiper-bundle.css';
 import { Swiper as MySwiperClass, Pagination, Autoplay } from 'swiper/core';
 import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter';
@@ -27,18 +28,22 @@ let vm = null
 export default {
   name: 'ZMswiper',
   props: {
+    // banner 高度
     bannerHeight: {
       type: Number,
       default: 300
     },
+    // 是否现实下标图片 共首页banner
     isBottomImg: {
       type: Boolean,
-      default: true
+      default: false
     },
+    // swiper的配置
     swiperOptionsProps: {
       type: Object,
       default: () => {}
     },
+    // banner 图片
     bannerList: {
       type: Array,
       default: () => []
@@ -46,11 +51,6 @@ export default {
   },
   data() {
     return {
-      banners: [
-        require('../../views/home/images/one.png'),
-        require('../../views/home/images/two.png'),
-        require('../../views/home/images/headerBg.png')
-      ],
       swiperObjOptions: {
         preventClicksPropagation: false,
         // autoplay
@@ -70,7 +70,7 @@ export default {
           el: '.swiper-pagination',
           // type: 'custom',
           clickable: true, //点击分页器的指示点分页器会控制Swiper切换
-          bulletClass: 'point-customs',
+          bulletClass: !this.isBottomImg ? 'point-customs-zero' : 'point-customs',
           bulletActiveClass: 'point-customs-active'
         },
         observer: true,
@@ -148,6 +148,8 @@ export default {
   .swiper-img {
     width: 100%;
     height: 300px;
+    background: url("../../assets/img/defaultBanner.png") no-repeat center;
+    background-size: 100%;
   }
 
   .bannermasek {
@@ -162,7 +164,15 @@ export default {
     background-size: 100%;
   }
 }
-
+.point-customs-zero {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #ffffff;
+  margin: 0 4px;
+  border-radius: 50%;
+  transition: width 0.3s ease-in-out;
+}
 .point-customs {
   display: inline-block;
   width: 6px;
@@ -175,7 +185,7 @@ export default {
 .point-customs-recommend {
   display: inline-block;
   width: 6px;
-  height: 6px;
+  height: 0.1rem;
   border: 1px solid #ffffff;
   margin: -4px 4px;
   border-radius: 50%;
@@ -184,12 +194,11 @@ export default {
 .point-customs-active {
   display: inline-block;
   width: 12px;
-  height: 6px;
+  height: 0.1rem;
   background: #12e079;
   border: 1px solid #ffffff;
   border-radius: 3px;
   opacity: 1;
   transition: width 0.3s ease-in-out;
 }
-
 </style>

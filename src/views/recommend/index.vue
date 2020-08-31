@@ -9,19 +9,15 @@
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click="handleClickLightIcon"></div>
       <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
     </div>
-<!--    <div class="nav-bar">-->
-<!--      <z-m-nav-bar-->
-<!--          :tabListData="tabListData"-->
-<!--          :acticeIndex="acticeIndex"-->
-<!--          @getRecommendData="getData"-->
-<!--      ></z-m-nav-bar>-->
-<!--    </div>-->
     <div class="nav-bar">
       <z-m-nav-bar
           :tabListData="tabListData"
           :acticeIndex="acticeIndex"
           @getRecommendData="getData"
       ></z-m-nav-bar>
+    </div>
+    <div style="position:relative; width: 343px; height: 86px; margin: 16px 16px 0 16px;">
+      <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight"></z-mswiper>
     </div>
     <div>
       <div v-if="dataList.length">
@@ -42,9 +38,10 @@ import ZMNotNetwork from '@/common/components/noNetwork'
 import ZMNavBar from './components/ZMNavBar'
 import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
+import ZMswiper from '@/common/components/ZMswiper'
 import ZMRecLoading from '@/views/recommend/components/ZMRecLoading'
 import { getMoreComics } from '@/common/api/home'
-
+const defaultBanner = require('@/assets/img/defaultBanner.png')
 export default {
   name: 'recommentd',
   components: {
@@ -53,7 +50,8 @@ export default {
     ZMTable,
     ZMList,
     ZMNotNetwork,
-	  ZMRecLoading
+	  ZMRecLoading,
+	  ZMswiper
   },
   data() {
     return {
@@ -67,7 +65,9 @@ export default {
       blockBa: require('./images/block_ba.png'),
       showDataFlag: false, // 显示是否显示没有网络的情况
       dataList: [],
-	    isRecLoading: false
+	    isRecLoading: false,
+	    adBannerList: [defaultBanner, defaultBanner, defaultBanner], // 广告
+	    bannerHeight: 86
     }
   },
   computed: {
@@ -102,7 +102,8 @@ export default {
       const resData = await getMoreComics(val)
       if (resData && resData.code === 0) {
         this.dataList = resData.data.cartoon_list
-        console.log(resData.data)
+	      // this.adBannerList = resData.data.ad_list || []
+	      console.log(resData.data)
 	      this.isRecLoading = false
       } else {
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
@@ -206,4 +207,14 @@ export default {
     height: 56px;
     box-sizing: border-box;
   }
+  .point-customs {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 1px solid #ffffff;
+    margin: 0 4px !important;
+    border-radius: 50%;
+    transition: width 0.3s ease-in-out;
+  }
+
 </style>
