@@ -87,7 +87,9 @@ export default {
       let localContents = this.$store.state.reader.localContents;
       let reader_per = 0;
       if (localContents && JSON.stringify(localContents) !== '{}') {
-        reader_per = localContents[parseInt(this.$route.query.cartoon_id)][parseInt(this.$route.query.capterId)].read_per;
+        const CAPTERID = parseInt(this.$route.query.capterId);
+        const CARTOONID = parseInt(this.$route.query.cartoon_id);
+        if (CAPTERID && CARTOONID) reader_per = localContents[CARTOONID][CAPTERID].read_per;
       }
       let percentage = reader_per / 100;
       document.scrollingElement.scrollTop = availableScroll * percentage;

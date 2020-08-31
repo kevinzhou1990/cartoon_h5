@@ -1,3 +1,8 @@
+/**
+* @info: 头部组件
+* @author: PengGeng
+* @date: 8/31/20-10:24 上午
+*/
 <template>
   <div
     class="header-main h-h title-wrap"

@@ -23,13 +23,9 @@
         :remark-data="detailData && detailData.comment"
       ></z-m-detail-remark>
       <z-m-comics-scroll :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
-      <z-m-comics-scroll
-        :title-content="maybeLikeTitle"
-        :comicsList="yourselfLikeComics"
-        :style="{'padding-bottom': bottomAjax? '0': '20px'}"
-      ></z-m-comics-scroll>
-      <z-m-no-data style="padding: 15px 0;"></z-m-no-data>
-      <!-- -->
+      <z-m-comics-scroll :title-content="maybeLikeTitle" :comicsList="yourselfLikeComics" :style="{'padding-bottom': bottomAjax? '0': '20px'}"></z-m-comics-scroll>
+      <z-m-no-data></z-m-no-data>
+<!-- -->
     </div>
     <div class="main-foot" v-if="showFootFlag">
       <div class="main-catalogue">
@@ -44,12 +40,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="main-bottom"
-      :style="bottomWrapStyle"
-      @transitionend="transitionendBottom"
-      v-show="bottomAjax"
-    ></div>
+    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax">......</div>
     <!-- 目录组件 -->
   </div>
 </template>
@@ -271,13 +262,13 @@ export default {
       // } else if (document.body) {
       //   yScroll = document.body.scrollTop
       // }
-      let yScroll = this.$refs.remarkScroll.scrollTop;
-      console.log('scroll的距离' + yScroll);
-      if (yScroll >= 10) {
-        this.$el.removeEventListener('tochstart', this.touchStart, true);
-        this.$el.removeEventListener('touchend', this.touchEnd, true);
-        this.$el.removeEventListener('touchMove', this.touchMove, true);
-        this.isShowBgColor = true;
+      let yScroll = this.$refs.remarkScroll.scrollTop
+      console.log('scroll的距离' + yScroll)
+      if (yScroll >= 10){
+	      this.$el.removeEventListener('tochstart', this.touchStart, true)
+	      // this.$el.removeEventListener('touchend', this.touchEnd, true)
+        this.$el.removeEventListener('touchMove', this.touchMove, true)
+        this.isShowBgColor = true
       } else {
         this.$el.addEventListener('tochstart', this.touchStart, true);
         this.$el.addEventListener('touchend', this.touchEnd, true);
@@ -323,22 +314,24 @@ export default {
   overflow-scrolling: touch;
   box-sizing: border-box;
 
-  &-height {
-    display: block;
-    height: 50px;
-    margin-top: -50px;
-    line-height: 50px;
-  }
-  &-bottom {
-    display: block;
-    height: 50px;
-    margin-bottom: -50px;
-    line-height: 50px;
-  }
-  &-content {
-    background: #ffffff;
-    opacity: 0;
-  }
+    &-height {
+      display: block;
+      height: 50px;
+      margin-top: -50px;
+      line-height: 50px;
+    }
+    &-bottom {
+      display: block;
+      height: 50px;
+      margin-bottom: -50px;
+      line-height: 50px;
+      text-align: center;
+      opacity: 0;
+    }
+    &-content {
+      background: #FFFFFF;
+      opacity: 0;
+    }
 
   &-catalogue {
     display: flex;

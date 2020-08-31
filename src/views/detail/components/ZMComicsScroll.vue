@@ -8,7 +8,7 @@
           :key="item.cartoon_id"
           @click="handleDetial(item.cartoon_id)"
       >
-        <img class="main-img-content-img" :src="item.cover || comicsImg" alt />
+        <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': '100%'}"></span>
         <span class="main-img-content-title">{{ item.title }}</span>
         <span class="main-img-content-chapter">{{ item.publish_status }}</span>
       </div>
@@ -74,12 +74,19 @@ export default {
         padding: 4px 0;
         width: 90px;
         height: 120px;
+        background-size: 100%;
         border-radius: 4px;
       }
       &-title {
+        display: inline-block;
+        width: 90px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         padding: 4px 0;
         font-size: 14px;
         color: #222222;
+
       }
       &-chapter {
         font-size: 10px;
