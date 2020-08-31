@@ -16,7 +16,7 @@
           @getRecommendData="getData"
       ></z-m-nav-bar>
     </div>
-    <div style="position:relative; width: 343px; height: 86px; margin: 16px 16px 0 16px;">
+    <div style="position:relative; width: 343px; height: 86px; margin: 16px 16px 0 16px;" v-if="dataList.length">
       <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight"></z-mswiper>
     </div>
     <div>

@@ -227,7 +227,6 @@ export default {
       }
       if (height < -100) {
         console.log('进来了。。。。。')
-	      this.bottomAjax = true
         // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
         this.bottomWrapStyle.height = `${Math.abs(height)}px`
       //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
@@ -235,8 +234,6 @@ export default {
       //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
       //   // this.$refs.ohterEl.style.background = 'red'
       //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
-      } else {
-	      this.bottomAjax = false
       }
       // this.$el.addEventListener('touchend', this.touchEnd, true)
       console.log('touchMove', height)
@@ -257,6 +254,11 @@ export default {
       this.topWrapStyle.transition = 'height 200ms'
       this.topWrapStyle.height = `${this.touchDistance}`
       // this.bottomAjax = false
+      if (height < -100){
+        this.bottomAjax = true
+      } else {
+        this.bottomAjax = false
+      }
       this.bottomWrapStyle.transition = 'height 200ms'
       this.bottomWrapStyle.height = '0'
       console.log('我结束滑动了。。。。', height)
@@ -289,12 +291,12 @@ export default {
       console.log('scroll的距离' + yScroll)
       if (yScroll >= 10){
 	      this.$el.removeEventListener('tochstart', this.touchStart, true)
-	      this.$el.removeEventListener('touchend', this.touchEnd, true)
+	      // this.$el.removeEventListener('touchend', this.touchEnd, true)
         this.$el.removeEventListener('touchMove', this.touchMove, true)
         this.isShowBgColor = true
       } else {
 	      this.$el.addEventListener('tochstart', this.touchStart, true)
-	      // this.$el.addEventListener('touchend', this.touchEnd, true)
+	      this.$el.addEventListener('touchend', this.touchEnd, true)
 	      this.$el.addEventListener('touchMove', this.touchMove, true)
         this.isShowBgColor = false
       }
