@@ -8,7 +8,7 @@
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div
         class="like-main-banner"
-        :style="{background: 'url('+likeBannerData.cover+')'}"
+        :style="{background: 'url('+likeBannerData.cover+')', 'background-size': '100%'}"
         @click="handleZMInfo(likeBannerData.cartoon_id)"
     >
       <div class="like-main-banner-img">
@@ -25,7 +25,7 @@
           :key="item.cartoon_id"
           @click="handleZMInfo(item.cartoon_id)"
       >
-        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')'}"></span>
+        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
         <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
         <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
       </div>

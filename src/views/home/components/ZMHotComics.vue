@@ -16,7 +16,7 @@
           :key="item.cartoon_id"
           @click="handleZMInfo(item.cartoon_id)"
       >
-        <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></span>
+        <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
         <span class="hot-main-content-item-title">{{ item.intro || '-' }}</span>
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>

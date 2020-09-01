@@ -16,7 +16,7 @@
         <div class="classics-main-content-item-bg">
           <div
             class="classics-main-content-item-bg-img"
-            :style="{background: 'url('+item.cover+')'}"
+            :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"
           ></div>
           <div class="classics-main-content-item-bg-content">
             <span class="classics-main-content-item-bg-content-title">{{ item.title }}</span>

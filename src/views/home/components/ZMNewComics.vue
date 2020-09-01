@@ -12,7 +12,13 @@
            :key="item.cartoon_id"
            @click="handleZMInfo(item.cartoon_id)"
       >
-        <span class="new-main-content-item-img" :style="{background: 'url('+item.cover+')'}"></span>
+        <div class="new-main-content-item-img" :style="{background: 'url('+item.cover+')', 'background-size': '100%'}">
+          <div class="new-main-content-item-img-text">
+            <div class="content">
+              {{ item.on_time || '待上架' }}
+            </div>
+          </div>
+        </div>
         <span class="new-main-content-item-title">{{ item.title }}</span>
         <span class="new-main-content-item-author">{{ item.author | authorFormate }}</span>
         <span class="new-main-content-item-des">{{ item.intro }}</span>
@@ -72,11 +78,28 @@ export default {
       width: 152px;
       padding: 0 8px;
       &-img {
+        position: relative;
         width: 152px;
         height: 152px;
         background: url("../images/newDefaultBook.png") no-repeat;
         background-size: 100%;
         border-radius: 4px;
+        &-text {
+          display: block;
+          font-family: pingfang-blod;
+          width: 152px;
+          height: 40px;
+          font-size: 14px;
+          color: #FFFFFF;
+          text-align: center;
+          padding-top: 112px;
+          & > .content {
+            display: block; height: 40px;
+            line-height: 50px;
+            background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.72) 100%);
+            border-radius: 0 0 4px 4px;
+          }
+        }
       }
       &-title {
         display: block;

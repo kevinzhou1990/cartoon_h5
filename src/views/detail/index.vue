@@ -104,7 +104,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.cartoon_id = this.$route.query.cartoon_id || ''
     this.getZMDetail(this.cartoon_id)
   },

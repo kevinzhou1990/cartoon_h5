@@ -13,7 +13,7 @@
         @click="handleZMInfo(item.cartoon_id)"
     >
       <div class="maybe-main-content-item">
-        <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')'}"></div>
+        <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
