@@ -5,7 +5,7 @@
 */
 <template>
   <div class="special-main" v-if="specialData" @click="handleSpecialInfo">
-    <div class="speical-bg" :style="{background: 'url('+specialData.banner+')'}">
+    <div class="speical-bg" :style="{background: 'url('+specialData.banner+')', 'background-size': '100%'}">
       <span class="speical-bg-text">{{ specialData.special && specialData.special.title }}</span>
     </div>
   </div>
