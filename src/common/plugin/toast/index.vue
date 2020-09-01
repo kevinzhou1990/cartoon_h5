@@ -1,8 +1,9 @@
 <template>
-  <div class="toast-wrap">
-    <div class="toast-content">
-      <SvgIcon :iconClass="typeMap[type]" class="toast-icon" />
+  <div class="toast-wrap" :class="`toast-wrap-${toastStyle}`">
+    <div class="toast-content" :class="`toast-content-${toastStyle}`" @click="callback">
+      <SvgIcon :iconClass="typeMap[type]" class="toast-icon" v-if="toastStyle === 'fixed'" />
       {{message}}
+      <svg-icon iconClass="more_bb" size="small" v-if="toastStyle === 'free'" class="toast-more" />
     </div>
   </div>
 </template>
@@ -24,7 +25,9 @@ export default {
   props: {
     message: { type: String, default: '' },
     type: { type: String, default: 'fail' },
-    duration: { type: Number, default: 300 }
+    duration: { type: Number, default: 300 },
+    toastStyle: { type: String, default: 'fixed' },
+    callback: { type: Function, default: () => {} }
   },
   mounted() {
     setTimeout(() => {
@@ -44,19 +47,32 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 999;
+  &-free {
+    align-items: flex-end;
+  }
   .toast-content {
-    width: 176px;
-    box-sizing: border-box;
     background: rgba(34, 34, 34, 0.8);
     border-radius: 4px;
     text-align: center;
     color: #fff;
     font-size: 12px;
-    padding: 16px;
     .toast-icon {
       display: block;
       margin: 0 auto;
       margin-bottom: 8px;
+    }
+    .toast-more {
+      margin-top: -2px;
+    }
+    &-fixed {
+      box-sizing: border-box;
+      width: 176px;
+      padding: 16px;
+    }
+    &-free {
+      padding: 11px 24px;
+      margin-bottom: 80px;
+      color: #bbb;
     }
   }
 }

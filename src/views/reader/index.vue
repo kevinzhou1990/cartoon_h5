@@ -89,6 +89,7 @@ export default {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      let contentsList = this.$store.state.reader.contentsList;
       // 计算滚动位置
       let availableScroll = document.body.scrollHeight - innerHeight;
       let localContents = this.$store.state.reader.localContents;
@@ -96,14 +97,21 @@ export default {
       const CAPTERID = parseInt(this.$route.query.capterId);
       const CARTOONID = parseInt(this.$route.query.cartoon_id);
       if (localContents && JSON.stringify(localContents) !== '{}') {
+        // 根据本地数据计算滚动位置
         if (CAPTERID && CARTOONID && localContents[CARTOONID]) {
           reader_per = localContents[CARTOONID][CAPTERID] ? localContents[CARTOONID][CAPTERID].read_per : 0;
+        }
+      } else {
+        // 如果没有本地数据，获取后台返回的
+        for (let i = 0; i < contentsList.length; i++) {
+          if (CAPTERID === contentsList[i].chapter_id) {
+            reader_per = contentsList[i].read_per;
+          }
         }
       }
       let percentage = reader_per / 100;
       document.scrollingElement.scrollTop = availableScroll * percentage;
       // 获取当前阅读漫画章节标题和序号
-      let contentsList = this.$store.state.reader.contentsList;
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
           this.titleText = contentsList[i].title + contentsList[i].intro;

@@ -66,7 +66,9 @@ export default {
       // 实际图片索引
       imgIndex: 0,
       // 显示索引
-      pageIndex: 1
+      pageIndex: 1,
+      // 开始索引
+      startIndex: 1
     };
   },
   watch: {
@@ -107,12 +109,20 @@ export default {
       const CAPTERID = parseInt(this.$route.query.capterId);
       let read_per = 0;
       if (CARTOONID && CAPTERID) {
+        // 读取本地进度，如没有本地进度，获取目录中的京都
         if (this.localContents[CARTOONID]) {
           const p = this.$store.state.reader.localContents[CARTOONID][CAPTERID];
           if (p) read_per = p.read_per;
+        } else {
+          const list = this.$store.state.reader.contentsList;
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].chapter_id === CAPTERID) {
+              read_per = list[i].read_per;
+            }
+          }
         }
       }
-      let index = (read_per / 100) * this.imagesList.detail.length + 1;
+      let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
@@ -128,6 +138,7 @@ export default {
       this.initHeight = Math.round(272 * (this.readerProcess / 100));
       this.touching = 'touch';
       this.$store.commit('UPDATE_READSCROLL');
+      this.startIndex = this.pageIndex;
     },
     handlerTouchMove(e) {
       let posY = Math.round(e.touches[0].clientY);
@@ -152,6 +163,14 @@ export default {
       };
       this.$store.dispatch('saveProcess', localContents);
       this.$store.commit('UPDATE_READSCROLL');
+      this.Toast(`上次所在  ${this.startIndex}/${this.imagesList.detail.length}`, {
+        type: 'success',
+        duration: 1000,
+        toastStyle: 'free',
+        callback: () => {
+          console.log(this);
+        }
+      });
     },
     turnPage(type) {
       let cartoon_id = this.$route.query.cartoon_id;
