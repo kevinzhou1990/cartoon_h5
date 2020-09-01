@@ -79,18 +79,16 @@ export default {
     chapterData() {
       // 同步本地记录阅读进度
       let contentsList = this.$store.state.reader.contentsList;
+      let localContents = this.$store.state.reader.localContents;
       contentsList.map((item) => {
         const CAPTERID = item.chapter_id;
         const CARTOON_ID = item.cartoon_id;
-        console.log(CARTOON_ID, '----');
-        if (this.$store.state.reader.localContents && JSON.stringify(this.$store.state.reader.localContents !== '{}')) {
-          const P = this.$store.state.reader.localContents[CARTOON_ID][CAPTERID];
+        if (localContents[CARTOON_ID]) {
+          const P = localContents[CARTOON_ID][CAPTERID];
           item.read_per = P ? P.read_per : 0;
-        } else {
-          item.read_per = 0;
         }
       });
-      return this.$store.state.reader.contentsList;
+      return contentsList;
     }
   },
   mounted() {
@@ -101,8 +99,10 @@ export default {
     show(n, o) {
       if (n) {
         this.touchPois.y = '50%';
+        document.body.classList.add('overflow-hidden');
       } else {
         this.touchPois.y = '100%';
+        document.body.classList.remove('overflow-hidden');
       }
     },
     'comicsInfo.cartoon_id': function (n, o) {
@@ -193,6 +193,9 @@ export default {
       this.comicsInfo.sort = this.comicsInfo.sort === 1 ? 2 : 1;
       this.chapterData.reverse();
     }
+  },
+  beforeDestroy() {
+    document.body.classList.remove('overflow-hidden');
   }
 };
 </script>

@@ -25,9 +25,21 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.scrollHandle, true);
   },
+  watch: {
+    readscroll(n, o) {
+      if (n) {
+        window.addEventListener('scroll', this.scrollHandle, true);
+      } else {
+        window.removeEventListener('scroll', this.scrollHandle, true);
+      }
+    }
+  },
   computed: {
     imagesList: function () {
       return this.$store.state.reader.imagesList.detail;
+    },
+    readscroll: function () {
+      return this.$store.state.reader.readscroll;
     }
   },
   methods: {

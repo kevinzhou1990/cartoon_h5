@@ -35,6 +35,7 @@ import Navigation from './components/navigation';
 import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
+import { reportReader } from '@/common/api/reader';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -58,6 +59,11 @@ export default {
   },
   mounted() {
     this.pageinit();
+    const reportMsg = {
+      start_time: Math.floor(new Date().getTime() / 1000),
+      last_chapter_id: parseInt(this.$route.query.capterId)
+    };
+    this.$store.commit('UPDATE_REPORTMSG', reportMsg);
   },
   activated() {
     this.pageinit();
@@ -90,7 +96,9 @@ export default {
       const CAPTERID = parseInt(this.$route.query.capterId);
       const CARTOONID = parseInt(this.$route.query.cartoon_id);
       if (localContents && JSON.stringify(localContents) !== '{}') {
-        if (CAPTERID && CARTOONID) reader_per = localContents[CARTOONID][CAPTERID].read_per;
+        if (CAPTERID && CARTOONID && localContents[CARTOONID]) {
+          reader_per = localContents[CARTOONID][CAPTERID] ? localContents[CARTOONID][CAPTERID].read_per : 0;
+        }
       }
       let percentage = reader_per / 100;
       document.scrollingElement.scrollTop = availableScroll * percentage;
@@ -102,7 +110,6 @@ export default {
           return false;
         }
       }
-      console.log(this.$store.state.reader.contentsList);
     },
     back() {
       history.go(-1);
@@ -140,6 +147,30 @@ export default {
       let scrollheight = ele.scrollHeight;
       let scrollAbleHeight = scrollheight - innerHeight;
       ele.scrollTop = scrollAbleHeight * (read_per / 100);
+    }
+  },
+  async beforeDestroy() {
+    const reportMsg = {
+      end_time: Math.floor(new Date().getTime() / 1000)
+    };
+    this.$store.commit('UPDATE_REPORTMSG', reportMsg);
+    let rpdata = this.$store.state.reader.reportMsg;
+    // 组装上报数据
+    const localContents = JSON.parse(JSON.stringify(this.$store.state.reader.localContents));
+    const chapter_info = [];
+    for (let i in localContents) {
+      if (this.$route.query.cartoon_id === i) {
+        const cartoon = localContents[i];
+        for (let k in cartoon) {
+          chapter_info.push({ chapter_id: k, detail_id: cartoon[k].detail_id });
+        }
+      }
+    }
+    rpdata.chapter_info = chapter_info;
+    const rp = await reportReader(parseInt(this.$route.query.cartoon_id), this.$store.state.reader.reportMsg);
+    if (rp.code === 0) {
+      // 上报成功，清除本地数据
+      this.$store.dispatch('saveProcess', {});
     }
   }
 };

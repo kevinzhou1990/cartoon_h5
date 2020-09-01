@@ -23,6 +23,13 @@
           :style="`height:${readerProcess}%;`"
           :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
         ></div>
+        <div class="reader-process-tag">
+          <div>
+            <span>{{pageIndex}}</span>
+            <i></i>
+            <span>{{imagesList.detail.length}}</span>
+          </div>
+        </div>
         <div :class="`tag ${'tag-'+touching}`">{{pageIndex}}/{{imagesList.detail.length}}</div>
       </div>
       <div
@@ -64,9 +71,19 @@ export default {
   },
   watch: {
     $route(to, from) {
-      const p = this.$store.state.reader.localContents[this.$route.query.cartoon_id][this.$route.query.capterId];
-      this.$store.commit('UPDATE_READERPROCESS', p ? p.read_per : 0);
+      this.init();
+    },
+    readerProcess(n, o) {
+      // 计算图片页码
+      let pageIndex = Math.floor((n / 100) * this.imagesList.detail.length);
+      if (pageIndex === 0) {
+        pageIndex = 1;
+      }
+      this.pageIndex = pageIndex;
     }
+  },
+  mounted() {
+    this.init();
   },
   computed: {
     imagesList: function () {
@@ -85,6 +102,20 @@ export default {
     }
   },
   methods: {
+    init() {
+      const CARTOONID = parseInt(this.$route.query.cartoon_id);
+      const CAPTERID = parseInt(this.$route.query.capterId);
+      let read_per = 0;
+      if (CARTOONID && CAPTERID) {
+        if (this.localContents[CARTOONID]) {
+          const p = this.$store.state.reader.localContents[CARTOONID][CAPTERID];
+          if (p) read_per = p.read_per;
+        }
+      }
+      let index = (read_per / 100) * this.imagesList.detail.length + 1;
+      this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
+      this.$store.commit('UPDATE_READERPROCESS', read_per);
+    },
     switchFull() {
       this.$emit('switchFull');
     },
@@ -96,19 +127,15 @@ export default {
       this.initY = Math.round(e.changedTouches[0].clientY);
       this.initHeight = Math.round(272 * (this.readerProcess / 100));
       this.touching = 'touch';
+      this.$store.commit('UPDATE_READSCROLL');
     },
     handlerTouchMove(e) {
       let posY = Math.round(e.touches[0].clientY);
       // 移动距离
       let gap = posY - this.initY;
-      let index = Math.floor(((gap + this.initHeight) / 272) * this.imagesList.detail.length);
       if (gap + this.initHeight > 272 || gap + this.initHeight < 0) return;
       let read_per = ((gap + this.initHeight) / 272) * 100;
       this.$store.commit('UPDATE_READERPROCESS', read_per);
-      // this.readerProgress = read_per;
-      // 计算图片索引
-      this.imgIndex = index === this.imagesList.detail.length ? this.imagesList.detail.length - 1 : index;
-      this.pageIndex = index > 0 ? index : 1;
       this.$parent.scorllPos(read_per);
     },
     handlerTouchEnd(e) {
@@ -124,6 +151,7 @@ export default {
         ...chapter
       };
       this.$store.dispatch('saveProcess', localContents);
+      this.$store.commit('UPDATE_READSCROLL');
     },
     turnPage(type) {
       let cartoon_id = this.$route.query.cartoon_id;
@@ -194,13 +222,13 @@ export default {
       bottom: 0;
     }
   }
-
   .navigation-process {
     height: 160px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     background: rgba(51, 51, 51, 0.7);
     border-radius: 8px;
     margin: 16px 0 16px 0;
+    position: relative;
     &-touch {
       position: absolute;
       top: 0;
@@ -282,6 +310,26 @@ export default {
       transition: left 0.2s;
       &.hidden {
         left: -56px;
+      }
+    }
+  }
+  .reader-process-tag {
+    background: transparent !important;
+    color: #bbbbbb;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    div {
+      i {
+        display: block;
+        width: 12px;
+        height: 4px;
+        background: url('./img/semicolon_line.png') 0 0 transparent;
+        background-size: 100%;
+        margin-left: 1px;
       }
     }
   }

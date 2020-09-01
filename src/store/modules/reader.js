@@ -5,8 +5,15 @@ const reader = {
     contentsList: [], // 漫画章节列表
     settingData: {}, // 阅读器设置
     localContents: {}, // 本地章节数据
-    readerProcess: 0,
-    comic: {} // 漫画信息
+    readerProcess: 0, // 当前章节阅读进度
+    comic: {}, // 漫画信息
+    readscroll: true, // 是否监听滚动事件
+    // 上报数据
+    reportMsg: {
+      start_time: 0, // 开始阅读时间
+      end_time: 0, // 结束时间
+      last_chapter_id: 0 // 最后阅读章节id
+    }
   },
   mutations: {
     UPDATE_IMAGELIST: (state, data) => {
@@ -26,6 +33,12 @@ const reader = {
     },
     UPDATE_COMIC: (state, data) => {
       state.comic = data;
+    },
+    UPDATE_READSCROLL: state => {
+      state.readscroll = !state.readscroll;
+    },
+    UPDATE_REPORTMSG: (state, data) => {
+      state.reportMsg = { ...state.reportMsg, ...data };
     }
   },
   actions: {
@@ -51,14 +64,18 @@ const reader = {
     saveProcess: ({ commit, state }, data) => {
       // 处理更新本地进度数据
       const dataKey = Object.keys(data);
-      const localContents = JSON.parse(JSON.stringify(state.localContents));
-      let d = localContents[dataKey[0]];
-      if (d) {
-        d = { ...d, ...data[dataKey[0]] };
+      let localContents = JSON.parse(JSON.stringify(state.localContents));
+      if (dataKey.length) {
+        let d = localContents[dataKey[0]];
+        if (d) {
+          d = { ...d, ...data[dataKey[0]] };
+        } else {
+          d = data[dataKey[0]];
+        }
+        localContents[dataKey[0]] = d;
       } else {
-        d = data[dataKey[0]];
+        localContents = {};
       }
-      localContents[dataKey[0]] = d;
       commit('UPDATE_LOCALCONTENTS', localContents);
     }
   }

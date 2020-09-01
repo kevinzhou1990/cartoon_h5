@@ -11,7 +11,6 @@ const service = axios.create({
 // let loading = []
 service.interceptors.request.use(
   config => {
-    console.log(config.url);
     const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'));
     // 拦截请求，添加公共头部参数
     const timestamp = new Date().getTime();
