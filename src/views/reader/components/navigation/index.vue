@@ -171,7 +171,7 @@ export default {
         duration: 1000,
         toastStyle: 'free',
         callback: () => {
-          console.log(this, 'message');
+          console.log(this, 'message', 'this');
         }
       });
     },
