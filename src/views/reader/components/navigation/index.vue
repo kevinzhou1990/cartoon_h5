@@ -55,7 +55,6 @@ export default {
   name: 'Navigation',
   components: { SvgIcon },
   props: {
-    funcPos: { type: String, default: 'right', required: true },
     show: { type: Boolean, default: true }
   },
   data() {
@@ -101,6 +100,9 @@ export default {
     },
     readerProcess: function () {
       return this.$store.state.reader.readerProcess;
+    },
+    funcPos: function () {
+      return this.$store.state.reader.settingData.funcPos;
     }
   },
   methods: {
@@ -127,7 +129,8 @@ export default {
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {
-      this.$emit('switchFull');
+      this.$parent.navigationStatus = !this.$parent.navigationStatus;
+      this.$parent.settingStatus = !this.$parent.settingStatus;
     },
     openContents() {
       this.$parent.show = true;

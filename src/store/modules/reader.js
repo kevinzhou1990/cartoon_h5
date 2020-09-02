@@ -23,7 +23,7 @@ const reader = {
       state.contentsList = [...data];
     },
     UPDATE_SETTINGDATA: (state, data) => {
-      state.settingData = { ...data };
+      state.settingData = data;
     },
     UPDATE_LOCALCONTENTS: (state, data) => {
       state.localContents = { ...data };
@@ -77,6 +77,20 @@ const reader = {
         localContents = {};
       }
       commit('UPDATE_LOCALCONTENTS', localContents);
+    },
+
+    updateSetting: ({ commit, state }, data) => {
+      let settingData = JSON.parse(JSON.stringify(state.settingData));
+      settingData = { ...settingData, ...data };
+      if (!data) {
+        settingData = {
+          // 功能栏位置，right:右，left:左，默认：right
+          funcPos: 'right',
+          // 点击翻页，true开启，false关闭
+          clickTurnPage: false
+        };
+      }
+      commit('UPDATE_SETTINGDATA', settingData);
     }
   }
 };

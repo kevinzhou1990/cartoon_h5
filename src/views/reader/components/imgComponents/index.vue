@@ -1,5 +1,5 @@
 <template>
-  <div class="component-img">
+  <div class="component-img" :id="`img${comics.detail_id}`">
     <img :src="src" alt />
   </div>
 </template>

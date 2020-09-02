@@ -8,14 +8,13 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </ZMHeader>
-    <Navigation :funcPos="funcPos" :show="navigationStatus" @switchFull="switchSetting" />
-    <Setting
-      :funcPos="funcPos"
-      :show="settingStatus"
-      @changeFuncPos="changeFuncPos"
-      @switchSetting="switchSetting"
-    />
-    <div class="reader-mask" @click="switchFull"></div>
+    <Navigation :show="navigationStatus" />
+    <Setting :show="settingStatus" />
+    <div class="reader-mask">
+      <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
+      <div class="reader-mask-middle" @click="switchFull"></div>
+      <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
+    </div>
     <div class="reader-img">
       <img-component
         v-for="item in comicsList"
@@ -41,8 +40,6 @@ export default {
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
   data() {
     return {
-      // 功能栏位置，right:右，left:左，默认：right
-      funcPos: 'right',
       // 导航操作栏状态,true不显示，false显示
       navigationStatus: true,
       // 头部状态，true不显示，false显示
@@ -74,6 +71,9 @@ export default {
     },
     comicsInfo: function () {
       return this.$store.state.reader.comic;
+    },
+    settingData() {
+      return this.$store.state.reader.settingData;
     }
   },
   watch: {
@@ -122,10 +122,6 @@ export default {
     back() {
       history.go(-1);
     },
-    // 更改功能栏位置
-    changeFuncPos() {
-      this.funcPos = this.funcPos === 'right' ? 'left' : 'right';
-    },
     // 全屏切换
     switchFull() {
       if (this.settingStatus) {
@@ -140,11 +136,6 @@ export default {
       }
       this.navigationStatus = !this.navigationStatus;
     },
-    switchSetting() {
-      // 设置打开，不显示导航
-      this.navigationStatus = !this.navigationStatus;
-      this.settingStatus = !this.settingStatus;
-    },
     // 目录相关操作
     openContents() {
       this.show = true;
@@ -155,6 +146,18 @@ export default {
       let scrollheight = ele.scrollHeight;
       let scrollAbleHeight = scrollheight - innerHeight;
       ele.scrollTop = scrollAbleHeight * (read_per / 100);
+    },
+    // 图片翻页
+    turnPage(direction) {
+      const process = Math.floor(this.$store.state.reader.readerProcess) / 100;
+      const imgIndex = Math.floor(process * this.comicsList.length);
+      const scolltop = document.scrollingElement.scrollTop;
+      const h = document.getElementById(`img${this.comicsList[imgIndex - 1].detail_id}`).clientHeight;
+      if (direction === 'next') {
+        document.scrollingElement.scrollTo({ top: scolltop + h, behavior: 'smooth' });
+      } else {
+        document.scrollingElement.scrollTo({ top: scolltop - h, behavior: 'smooth' });
+      }
     }
   },
   async beforeDestroy() {
@@ -206,11 +209,16 @@ export default {
   }
   .reader-mask {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     z-index: 888;
+    & > div {
+      flex: 1;
+    }
     // background: red;
   }
 }

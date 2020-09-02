@@ -44,25 +44,33 @@ export default {
   name: 'ReadSetting',
   components: { SvgIcon, SwitchBtn },
   props: {
-    funcPos: { type: String, default: 'right', required: true },
     show: { type: Boolean, default: true }
   },
   data() {
-    return {
-      clickTurnPage: false
-    };
+    return {};
+  },
+  computed: {
+    funcPos() {
+      return this.$store.state.reader.settingData.funcPos;
+    },
+    clickTurnPage() {
+      return this.$store.state.reader.settingData.clickTurnPage;
+    }
   },
   methods: {
     // 点击翻页开关
     changeStatus() {
-      this.clickTurnPage = !this.clickTurnPage;
+      const setting = { clickTurnPage: !this.clickTurnPage };
+      this.$store.dispatch('updateSetting', setting);
     },
     // 更改功能栏位置
     changePos() {
-      this.$emit('changeFuncPos');
+      const setting = this.funcPos === 'right' ? { funcPos: 'left' } : { funcPos: 'right' };
+      this.$store.dispatch('updateSetting', setting);
     },
     switchSetting() {
-      this.$emit('switchSetting');
+      this.$parent.navigationStatus = !this.$parent.navigationStatus;
+      this.$parent.settingStatus = !this.$parent.settingStatus;
     }
   }
 };
