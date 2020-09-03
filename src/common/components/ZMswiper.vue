@@ -62,7 +62,7 @@ export default {
         },
         on: {
           click(swiper, event) {
-          // todo 1,4 第一个 2 第二个  3 第三个 分别跳转不同的链接
+            // todo 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
             vm.goBannerInfo(swiper.realIndex)
           }
         },
@@ -118,22 +118,37 @@ export default {
       console.log(bannerType)
       const JUMP_ADDRESS = {
         1: () => {
+          this.$router.push('/discovery')
           console.log('jump to 标签')
         },
         2: () => {
+	        this.$router.push({
+		        path: '/recommend',
+		        query: {
+			        SEC_ID: BANNER_DATA[index].special_id || 0
+		        }
+	        });
           console.log('jump to 专题')
         },
         3: () => {
+	        this.$router.push({
+		        path: '/detail',
+		        query: {
+			        cartoon_id: BANNER_DATA[index].cartoon_id || ''
+		        }
+	        })
           console.log('jump to 漫画详情页')
         },
         4: () => {
+          window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
           console.log('jump to 内部URL')
         },
         5: () => {
+	        window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
           console.log('jump to 外部URL')
         }
       }
-      console.log(JUMP_ADDRESS[bannerType])
+      console.log(JUMP_ADDRESS[bannerType]())
     }
   }
 };
@@ -154,7 +169,7 @@ export default {
 
   .bannermasek {
     position: absolute;
-    top: 91%;
+    top: 92%;
     left: 0;
     z-index: 1;
     width: 100%;

@@ -86,11 +86,10 @@ export default {
     async getData(val) {
 	    this.isRecLoading = true
       const resData = await getMoreComics(val)
-      if (resData && resData.code === 0) {
-        this.dataList = resData.data.cartoon_list
-	      // this.adBannerList = resData.data.ad_list || []
-	      console.log(resData.data)
+      if (resData && resData.code === 0 && resData.data) {
 	      this.isRecLoading = false
+        this.dataList = resData.data.cartoon_list || []
+	      // this.adBannerList = resData.data.ad_list || []
       } else {
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
       }
