@@ -25,7 +25,7 @@
           :key="item.cartoon_id"
           @click="handleZMInfo(item.cartoon_id)"
       >
-        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
+        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')', 'background-size': 'contain'}"></span>
         <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
         <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
       </div>
