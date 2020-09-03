@@ -105,7 +105,7 @@ export default {
 <style lang="scss" scoped>
   $imgUrl: './images/';
   $imgName: block_bb !default;
-  $xLineLength: 3px!default;
+  $xLineLength: 3px !default;
   @mixin imgSet($imgName) {
     background: url(./images/#{$imgName}.png) no-repeat;
     background-size: 100%;
