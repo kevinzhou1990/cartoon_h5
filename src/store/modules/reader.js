@@ -3,7 +3,7 @@ const reader = {
   state: {
     imagesList: {}, // 当前章节图片列表
     contentsList: [], // 漫画章节列表
-    settingData: {}, // 阅读器设置
+    settingData: { funcPos: 'right' }, // 阅读器设置
     localContents: {}, // 本地章节数据
     readerProcess: 0, // 当前章节阅读进度
     comic: {}, // 漫画信息

@@ -1,13 +1,13 @@
 <template>
   <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`">
-    <ZMHeader :titleText="titleText" :showRight="true" :hasBorder="true" :show="fullRead">
+    <z-m-header :titleText="titleText" :showRight="true" :hasBorder="true" :show="fullRead">
       <div slot="left" @click="back">
         <SvgIcon iconClass="close_ab" class="icon-left" />
       </div>
       <div slot="right" class="header-right">
         <span v-if="showComicsLink">漫画详情</span>
       </div>
-    </ZMHeader>
+    </z-m-header>
     <Navigation :show="navigationStatus" />
     <Setting :show="settingStatus" />
     <div class="reader-mask">
