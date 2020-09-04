@@ -257,6 +257,9 @@ $content-label-fontSize: 10px;
           font-size: $content-author-fontSize;
           color: $content-color;
           opacity: 0.6;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         &-label {
@@ -267,7 +270,7 @@ $content-label-fontSize: 10px;
 
           &-content {
             position: relative;
-            width: 32px;
+            min-width: 32px;
             height: 20px;
             margin: 0 4px;
             text-align: center;

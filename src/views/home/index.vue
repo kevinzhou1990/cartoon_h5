@@ -1,32 +1,34 @@
 <template>
   <div class="main">
     <home-loading v-if="!recList.length"></home-loading>
-    <div v-else>
+    <template v-else>
       <!-- 首页搜索组件 -->
       <div class="main-search">
         <z-m-search></z-m-search>
       </div>
       <!-- 首页滑动组件 -->
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
-      <section v-for="item in recList" :key="item.rec_id">
-        <!-- 排行与发现 -->
-        <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
-        <!-- 首页新漫 -->
-        <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
-        <!-- 首页热番 -->
-        <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
-        <!-- 专题 -->
-        <z-m-special :special-data="item" v-if="item.style_id === 3"></z-m-special>
-        <!-- 经典漫画 -->
-        <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
-        <!-- 推荐喜欢看的 -->
-        <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>
-        <!-- 你可能喜欢的 -->
-        <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>
-      </section>
+      <mt-loadmore :top-method="resfreshPage" :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='50' ref="loadmore">
+        <section v-for="item in recList" :key="item.rec_id">
+          <!-- 排行与发现 -->
+          <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
+          <!-- 首页新漫 -->
+          <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
+          <!-- 首页热番 -->
+          <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
+          <!-- 专题 -->
+          <z-m-special :special-data="item" v-if="item.style_id === 3"></z-m-special>
+          <!-- 经典漫画 -->
+          <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
+          <!-- 推荐喜欢看的 -->
+          <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>
+          <!-- 你可能喜欢的 -->
+          <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>
+        </section>
+      </mt-loadmore>
       <!-- 无数据了 -->
-      <z-m-no-data></z-m-no-data>
-    </div>
+      <z-m-no-data v-if="allLoaded"></z-m-no-data>
+    </template>
   </div>
 </template>
 
@@ -62,7 +64,11 @@ export default {
   data() {
     return {
       bannerList: [], // banner
-      recList: [] // 楼层list
+      recList: [], // 楼层list
+      currentPage: 1, // 当前页
+      pageSize: 10, // 一页多少条
+      totalPages: 0, // 总页数
+	    allLoaded: false // 是否现实下拉刷新
     };
   },
   mounted() {
@@ -89,8 +95,14 @@ export default {
      * @date: 8/18/20-3:16 下午
      */
     async getRecommend() {
-      const resData = await getRecommend();
-      this.recList = resData.data.list || [];
+	    const reqData = {
+		    page: this.currentPage,
+		    page_size: this.pageSize
+	    }
+      const resData = await getRecommend(reqData)
+	    let recList = resData.data.list
+      this.recList.push(...recList)
+      this.totalPages = resData.data.total_pages || 0
       let recData = {};
       this.recList.length &&
         this.recList.map((item, index) => {
@@ -100,7 +112,28 @@ export default {
         });
       sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData));
       this.$store.commit('SET_REC_DATA', recData);
-    }
+    },
+	  resfreshPage() {
+		  console.log('loadTop.......')
+      this.currentPage = 1
+      this.recList = []
+      this.getRecommend()
+      if (this.currentPage < this.totalPages) this.allLoaded = false
+      // this.$refs.loadmore.onTopLoaded()
+	  },
+	  nextPage() {
+		  this.currentPage++
+		  // console.log('loadBottom.....')
+		  // if (this.currentPage > this.totalPages) {
+      //   this.allLoaded = true
+		  // } else {
+      //
+      // }
+		  this.getRecommend()
+      if (this.currentPage >= this.totalPages) this.allLoaded = true
+		  this.$refs.loadmore.onBottomLoaded()
+		  // this.allLoaded = true;// 若数据已全部获取完毕
+	  }
   }
 };
 </script>
@@ -113,7 +146,7 @@ export default {
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
-
+  touch-action: none;
   &::-webkit-scrollbar {
     width: 0 !important;
   }

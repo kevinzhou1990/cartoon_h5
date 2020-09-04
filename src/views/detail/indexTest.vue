@@ -1,17 +1,16 @@
 <template>
-  <div class="scroll-box zm-b-b" ref="scrollBox">
-    <div
-      ref="scrollItem"
-      class="item"
-      :class="{ active: currentIndex == index }"
-      v-for="(item, name, index) in dataList"
-      :key="index"
-      @click.stop="start(index)"
-    >{{ item }}</div>
+  <div class="test-main">
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+      <ul>
+        <li v-for="(item,index) in list" :key="index">{{ item }}</li>
+      </ul>
+  </mt-loadmore>
   </div>
 </template>
 
 <script>
+import { Loadmore } from 'mint-ui';
+
 export default {
   data() {
     return {
@@ -24,10 +23,32 @@ export default {
         '5': '喜欢的人都在看',
         '6': '你可能喜欢 ',
         '7': '2020热播'
-      }
+      },
+	    allLoaded: false
     };
   },
+  components: {
+    Loadmore
+  },
+  computed: {
+	  list (){
+      let num = []
+      for (let i = 1; i < 20; i++){
+	      num.push(i)
+      }
+      return num
+    }
+  },
   methods: {
+	  loadTop() {
+      console.log('loadTop.......')
+		  this.$refs.loadmore.onTopLoaded()
+    },
+	  loadBottom() {
+      console.log('loadBottom.....')
+		  this.allLoaded = true;// 若数据已全部获取完毕
+		  this.$refs.loadmore.onBottomLoaded()
+    },
     start(index) {
       this.currentIndex = index;
       /**
@@ -65,6 +86,13 @@ export default {
 $BORDER_COLOR: red;
 $item-selected-color: #222222;
 $item-color: #bbbbbb;
+.test-main {
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  text-align: center;
+  touch-action: none;
+}
 .scroll-box {
   position: fixed;
   font-family: 'pingfang-blod';
