@@ -7,25 +7,30 @@
   <div class="like-main">
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div
-        class="like-main-banner"
-        :style="{background: 'url('+likeBannerData.cover+')', 'background-size': '100%'}"
-        @click="handleZMInfo(likeBannerData.cartoon_id)"
+      class="like-main-banner"
+      :style="`background-image:url('${likeBannerData.cover}');`"
+      @click="handleZMInfo(likeBannerData.cartoon_id)"
     >
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
           <span>{{ likeBannerData.title || '-' }}</span>
-          <span class="like-main-banner-img-text-l">{{ likeBannerData.author | authorFormate }} | {{ likeBannerData.publish_status || '--'}}</span>
+          <span
+            class="like-main-banner-img-text-l"
+          >{{ likeBannerData.author | authorFormate }} | {{ likeBannerData.publish_status || '--'}}</span>
         </div>
       </div>
     </div>
     <div class="like-main-other">
       <div
-          class="like-main-other-item"
-          v-for="item in likeComicsList"
-          :key="item.cartoon_id"
-          @click="handleZMInfo(item.cartoon_id)"
+        class="like-main-other-item"
+        v-for="item in likeComicsList"
+        :key="item.cartoon_id"
+        @click="handleZMInfo(item.cartoon_id)"
       >
-        <span class="like-main-other-item-img" :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
+        <span
+          class="like-main-other-item-img"
+          :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"
+        ></span>
         <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
         <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
       </div>
@@ -34,9 +39,9 @@
 </template>
 
 <script>
-import '../../../common/filters/home'
-import ZMHomeLabel from './ZMHomeLabel'
-import myMixins from '@/common/mixin/myMixins'
+import '../../../common/filters/home';
+import ZMHomeLabel from './ZMHomeLabel';
+import myMixins from '@/common/mixin/myMixins';
 export default {
   name: 'ZMLikeComics',
   mixins: [myMixins],
@@ -54,28 +59,28 @@ export default {
       bannerTitleName: '玛蒂娜生活日记',
       recId: 5
       // bannerChapterContent: '流失之光工作室  |  更新至06话'
-    }
+    };
   },
   components: {
     ZMHomeLabel
   },
   created() {
-    this.labelName = this.likeComicsData.name
-    this.recId = this.likeComicsData.rec_id || 5
-    this.likeComicsList = this.likeComicsData.cartoon_list
-    this.likeBannerData = this.likeComicsData.top || {}
+    this.labelName = this.likeComicsData.name;
+    this.recId = this.likeComicsData.rec_id || 5;
+    this.likeComicsList = this.likeComicsData.cartoon_list;
+    this.likeBannerData = this.likeComicsData.top || {};
   },
   methods: {}
-}
+};
 </script>
 
 <style scoped lang="scss">
-  $like-fontSize: 18px;
-  $like-color: #222222;
-  $banner-font-color: #FFFFFF;
-  $banner-fontSize: 14px;
-  $banner-l-fontSize: 10px;
-  $chapter-color: #BBBBBB;
+$like-fontSize: 18px;
+$like-color: #222222;
+$banner-font-color: #ffffff;
+$banner-fontSize: 14px;
+$banner-l-fontSize: 10px;
+$chapter-color: #bbbbbb;
 .like-main {
   position: relative;
   padding: 20px 8px;
@@ -87,8 +92,9 @@ export default {
     margin: 12px 8px;
     width: 343px;
     height: 172px;
-    background: url("../../../assets/img/defaultBanner.png") no-repeat;
+    background: url('../../../assets/img/defaultBanner.png') no-repeat;
     background-size: 100%;
+    background-position: center;
     border-radius: 4px;
     &-img {
       position: absolute;
@@ -98,7 +104,7 @@ export default {
       height: 60px;
       bottom: 4px;
       left: -8px;
-      background: url("../images/title_bg.png") no-repeat;
+      background: url('../images/title_bg.png') no-repeat;
       background-size: 100%;
       &-text {
         display: flex;
@@ -116,7 +122,9 @@ export default {
       }
     }
   }
-  ::-webkit-scrollbar { width: 0 !important }
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
   &-other {
     display: flex;
     justify-content: space-between;
@@ -131,7 +139,7 @@ export default {
         height: 145px;
         border-radius: 4px;
         padding: 4px 2px;
-        background: url("../../../assets/img/defaultBook.png") no-repeat;
+        background: url('../../../assets/img/defaultBook.png') no-repeat;
         background-size: 100%;
       }
       &-title {

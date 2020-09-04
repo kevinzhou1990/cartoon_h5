@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="maybe-main-content-item-desc-chapter">
-            <span>{{ item.author | authorFormate }}</span>
+            <span class="maybe-main-content-item-desc-chapter-author">{{ item.author | authorFormate }}</span>
             <span class="p-l10">{{ item.publish_status || '--' }}</span>
           </div>
           <div class="maybe-main-content-item-desc-label">
@@ -160,11 +160,18 @@ export default {
           }
         }
         &-chapter {
+          display: flex;
           padding: 0 2px;
           color: $chapter-color;
           font-size: $chapter-fontSize;
           transform: scale(0.83);
           -webkit-transform-origin-x: 0;
+          &-author {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
         &-label {
           margin: 2px 2px;

@@ -5,18 +5,17 @@
 */
 <template>
   <div class="new-main">
-  <span class="new-main-label">{{ newComicsName }}</span>
+    <span class="new-main-label">{{ newComicsName }}</span>
     <div class="new-main-content">
-      <div class="new-main-content-item"
-           v-for="item in newComicsList"
-           :key="item.cartoon_id"
-           @click="handleZMInfo(item.cartoon_id)"
+      <div
+        class="new-main-content-item"
+        v-for="item in newComicsList"
+        :key="item.cartoon_id"
+        @click="handleZMInfo(item.cartoon_id)"
       >
-        <div class="new-main-content-item-img" :style="{background: 'url('+item.cover+')', 'background-size': '100%'}">
+        <div class="new-main-content-item-img" :style="`background-image: url('${item.cover}'); `">
           <div class="new-main-content-item-img-text">
-            <div class="content">
-              {{ item.on_time || '待上架' }}
-            </div>
+            <div class="content">{{ item.on_time || '待上架' }}</div>
           </div>
         </div>
         <span class="new-main-content-item-title">{{ item.title }}</span>
@@ -28,8 +27,8 @@
 </template>
 
 <script>
-import '../../../common/filters/home'
-import myMixins from '@/common/mixin/myMixins'
+import '../../../common/filters/home';
+import myMixins from '@/common/mixin/myMixins';
 export default {
   name: 'ZMNewComics',
   mixins: [myMixins],
@@ -43,19 +42,19 @@ export default {
     return {
       newComicsName: '新漫即将抵达',
       newComicsList: []
-    }
+    };
   },
   created() {
-    this.newComicsName = this.newCamicsData.name
-    this.newComicsList = this.newCamicsData.cartoon_list
+    this.newComicsName = this.newCamicsData.name;
+    this.newComicsList = this.newCamicsData.cartoon_list;
   },
   methods: {}
-}
+};
 </script>
 
 <style scoped lang="scss">
-  $label-color: #222222;
-  $label-fontSize: 16px;
+$label-color: #222222;
+$label-fontSize: 16px;
 .new-main {
   position: relative;
   width: 100%;
@@ -67,7 +66,9 @@ export default {
     padding: 12px 0 6px 16px;
     letter-spacing: 0;
   }
-  ::-webkit-scrollbar { width: 0 !important }
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
   &-content {
     display: flex;
     margin: 6px 8px 20px 8px;
@@ -81,22 +82,24 @@ export default {
         position: relative;
         width: 152px;
         height: 152px;
-        background: url("../images/newDefaultBook.png") no-repeat;
+        background: url('../images/newDefaultBook.png') no-repeat;
         background-size: 100%;
         border-radius: 4px;
+        background-position: center;
         &-text {
           display: block;
           font-family: pingfang-blod;
           width: 152px;
           height: 40px;
           font-size: 14px;
-          color: #FFFFFF;
+          color: #ffffff;
           text-align: center;
           padding-top: 112px;
           & > .content {
-            display: block; height: 40px;
+            display: block;
+            height: 40px;
             line-height: 50px;
-            background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.72) 100%);
+            background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.72) 100%);
             border-radius: 0 0 4px 4px;
           }
         }
@@ -115,9 +118,12 @@ export default {
         transform: scale(0.83);
         -webkit-transform-origin-x: 0;
         font-size: 10px;
-        color: #BBBBBB;
+        color: #bbbbbb;
         font-weight: bold;
         letter-spacing: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       &-des {
         font-size: 12px;

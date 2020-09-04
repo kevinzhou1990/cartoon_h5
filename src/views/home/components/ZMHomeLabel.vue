@@ -31,6 +31,7 @@ export default {
      */
     hotMore() {
       // this.$emit('hot-more')
+      this.$store.commit('UPDATE_SEC_ID', this.recId);
       this.$router.push({
         path: '/recommend',
         query: {
