@@ -1,15 +1,13 @@
 <template>
   <div class="scroll-box bar-zindex" ref="scrollBox">
     <div
-        ref="scrollItem"
-        class="item"
-        :class="{ active: isSelected == name }"
-        v-for="(item, name, index) in dataList"
-        :key="index"
-        @click.stop="start(name, index)"
-    >
-      {{ item }}
-    </div>
+      ref="scrollItem"
+      class="item"
+      :class="{ active: isSelected == name }"
+      v-for="(item, name, index) in dataList"
+      :key="index"
+      @click.stop="start(name, index)"
+    >{{ item }}</div>
   </div>
 </template>
 
@@ -32,109 +30,108 @@ export default {
       currentIndex: 0, // 选择tab的下标
       isSelected: this.acticeIndex,
       dataList: this.tabListData
-    }
+    };
   },
   methods: {
     start(name, index) {
-      this.isSelected = name
-      this.currentIndex = index
-      this.$emit('getRecommendData', this.isSelected)
+      this.isSelected = name;
+      this.currentIndex = index;
+      this.$emit('getRecommendData', this.isSelected);
       /**
        * 1)先让选中的元素滚到可视区域的最左边 scrollLeft
        * 2)接着向右移动容器一半的距离 containWidth / 2
        * 3)最后向左移动item一半的距离 offsetWidth / 2
        */
-      this.lastSpot = this.$refs.scrollBox.scrollLeft
-      console.log(this.lastSpot)
-      const nextSpace = 7 //每次移动距离
+      this.lastSpot = this.$refs.scrollBox.scrollLeft;
+      const nextSpace = 7; //每次移动距离
       let scrollItemTimer = setInterval(() => {
         this.$nextTick(() => {
-          let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth //item
-          let scrollLeft = this.$refs.scrollItem[this.currentIndex].offsetLeft //选中的元素滚到可视区域的最左边
-          const containWidth = this.$refs.scrollBox.offsetWidth //容器的宽度
-          let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2 //最终要停留的点
+          let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth; //item
+          let scrollLeft = this.$refs.scrollItem[this.currentIndex].offsetLeft; //选中的元素滚到可视区域的最左边
+          const containWidth = this.$refs.scrollBox.offsetWidth; //容器的宽度
+          let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2; //最终要停留的点
           if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
-            clearInterval(scrollItemTimer)
+            clearInterval(scrollItemTimer);
           }
           if (resultSpot >= this.lastSpot) {
-            this.lastSpot = this.lastSpot + nextSpace
+            this.lastSpot = this.lastSpot + nextSpace;
           } else {
-            this.lastSpot = this.lastSpot - nextSpace
+            this.lastSpot = this.lastSpot - nextSpace;
           }
-          this.$refs.scrollBox.scrollTo(this.lastSpot, 0)
-        })
-      }, 15)
+          this.$refs.scrollBox.scrollTo(this.lastSpot, 0);
+        });
+      }, 15);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
-  $BORDER_COLOR: red;
-  $item-selected-color: #222222;
-  $item-color: #BBBBBB;
-  .bar-zindex {
-    position: relative;
+$BORDER_COLOR: red;
+$item-selected-color: #222222;
+$item-color: #bbbbbb;
+.bar-zindex {
+  position: relative;
+  left: 0;
+  top: 44px;
+  z-index: 9;
+  background: #ffffff;
+  &:before {
+    content: ' ';
+    position: absolute;
+    /*display:inline-block;*/
+    min-width: 475px;
+    bottom: 0;
+    height: 1px;
+    color: #eee;
     left: 0;
-    top: 44px;
-    z-index: 9;
-    background: #ffffff;
-    &:before {
-      content: " ";
-      position: absolute;
-      /*display:inline-block;*/
-      min-width: 475px;
-      bottom: 0;
-      height: 1px;
-      color: #eee;
-      left: 0;
-      right: 0;
-      border-bottom: 1px solid #eee;
-      -webkit-transform-origin: 0 100%;
-      transform-origin: 0 100%;
-      -webkit-transform: scaleY(0.5);
-      transform: scaleY(0.5);
-    }
+    right: 0;
+    border-bottom: 1px solid #eee;
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
-  .scroll-box {
-    position: fixed;
-    font-family: 'pingfang-blod';
-    width: 100%;
-    background-color: #FFFFFF;
-    z-index: 9;
+}
+.scroll-box {
+  position: fixed;
+  font-family: 'pingfang-blod';
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 9;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  line-height: 56px;
+  color: $item-color;
+  box-sizing: border-box;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none;
+  }
+  .item {
+    display: inline-block;
+    padding: 0 16px;
     white-space: nowrap;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    line-height: 56px;
-    color: $item-color;
-    box-sizing: border-box;
-    &::-webkit-scrollbar{
-      width:0 !important;
-      height: 0!important;
-      display: none;
-    }
-    .item {
-      display: inline-block;
-      padding: 0 16px;
-      white-space: nowrap;
-      max-width: 80px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .item:nth-last-of-type(1) {
-      margin-right: 0;
-    }
+    max-width: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
-  .active {
-    position: relative;
-    color: $item-selected-color;
-    transition-duration: 0.3s;
-    &:after {
-      content: ' ';
-      display: block;
-      border-bottom: 2px solid $item-selected-color;
-      /*width: 24px;*/
-      margin: 0 8px;
-    }
+  .item:nth-last-of-type(1) {
+    margin-right: 0;
   }
+}
+.active {
+  position: relative;
+  color: $item-selected-color;
+  transition-duration: 0.3s;
+  &:after {
+    content: ' ';
+    display: block;
+    border-bottom: 2px solid $item-selected-color;
+    /*width: 24px;*/
+    margin: 0 8px;
+  }
+}
 </style>
