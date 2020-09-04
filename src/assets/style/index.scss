@@ -25,3 +25,49 @@ body {
 .overflow-hidden {
   overflow: hidden;
 }
+.animation-active-in {
+  animation: fadeIn 0.3s;
+}
+.animation-active-out {
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
+    color: #222222;
+    height: 44px;
+    background: #ffffff;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 0.1;
+    height: 44px;
+    /*background: #2f446f;*/
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    /*background: #2f446f;*/
+    opacity: 1;
+  }
+}

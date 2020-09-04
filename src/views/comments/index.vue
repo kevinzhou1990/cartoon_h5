@@ -4,21 +4,52 @@
       :title-text="titleText"
       :background-color="headerBgColor"
       :show-nav-flag="showNavFlag"
+      :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     />
-    <div class="comments-comics-title">
-      <div class="mask" :style="`background-color:${mainColor}`"></div>
-      <img src="@/assets/img/main_icon.png" alt />
-      <div class="comments-comics-title-bottom"></div>
-      <duv class="comments-comics-title-content">
-        <div class="title">神灯精灵亚美娜</div>
-        <div class="msg">
+    <div class="comments-title" :style="{background:mainColor}" ref="title">
+      <div class="comments-mask"></div>
+      <div class="comments-title-content">
+        <p class="comments-title-substance">神灯精灵亚美娜</p>
+        <p>
           评论区
           <span>（8256条评论）</span>
-        </div>
-      </duv>
+        </p>
+      </div>
     </div>
-    <div class="comments-list">
-      <ul>
+    <div class="comments-contents">
+      <div class="comments-contents-top"></div>
+      <img src="@/assets/img/main_icon.png" class="icon" alt />
+      <ul class="comments-contents-list">
+        <li>
+          <img src="@/assets/img/default.jpeg" alt=" " class="avatar" />
+          <div>
+            <div class="comments-user">多啦C梦爆米花</div>
+            <div class="comments-content">这漫画，他喵的真香。迄今为止，最Cooooo…ol的，没有之一，不服不辩，快来点赞啊！哇咔咔咔～～</div>
+            <div class="comments-operational zm-b-b">
+              <span>1小时前</span>
+              <span>
+                <svg-icon icon-class="like_ba" size="small" />
+                <span>9528</span>
+                <svg-icon icon-class="more_bc" size="small" />
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <img src="@/assets/img/default.jpeg" alt=" " class="avatar" />
+          <div>
+            <div class="comments-user">多啦C梦爆米花</div>
+            <div class="comments-content">这漫画，他喵的真香。迄今为止，最Cooooo…ol的，没有之一，不服不辩，快来点赞啊！哇咔咔咔～～</div>
+            <div class="comments-operational zm-b-b">
+              <span>1小时前</span>
+              <span>
+                <svg-icon icon-class="like_ba" size="small" />
+                <span>9528</span>
+                <svg-icon icon-class="more_bc" size="small" />
+              </span>
+            </div>
+          </div>
+        </li>
         <li>
           <img src="@/assets/img/default.jpeg" alt=" " class="avatar" />
           <div>
@@ -80,8 +111,8 @@
           </div>
         </li>
       </ul>
+      <div class="comments-last">扯到底啦，快来说两句↓↓</div>
     </div>
-    <div class="comments-last">扯到底啦，快来说两句↓↓</div>
     <div class="comments-add">
       <span>
         <svg-icon icon-class="comment_bb" size="small" />
@@ -104,57 +135,91 @@ export default {
       mainColor: '#93416c',
       showNavFlag: true
     };
+  },
+  mounted() {
+    console.log('comments loaded');
+    // 监听滚动事件
+    window.addEventListener('scroll', this.switchHeaderStatus, true);
+  },
+  methods: {
+    switchHeaderStatus(e) {
+      const titleHeight = this.$refs.title.clientHeight - 48;
+      const scollTop = document.scrollingElement.scrollTop;
+      this.showNavFlag = scollTop < titleHeight;
+      this.headerBgColor = scollTop > titleHeight ? '#fff' : 'transparent';
+      this.titleText = scollTop > titleHeight ? '神灯精灵亚美娜' : '';
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .comments-page {
-  .comments-comics-title {
+  .comments-title {
+    position: fixed;
     height: 240px;
-    position: relative;
-    .mask {
-      position: absolute;
-      width: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    .comments-mask {
       height: 100%;
-      opacity: 0.8;
-    }
-    .comments-comics-title-bottom {
-      position: absolute;
       width: 100%;
-      height: 24px;
-      bottom: 0;
-      background: url('./img/bannermask.png') 0 0 transparent;
-      background-size: 100%;
+      background: #fff;
+      opacity: 0.2;
+      z-index: 2;
     }
-    img {
-      width: 109px;
-      height: 110px;
+    .comments-title-content {
       position: absolute;
-      left: 210px;
-      top: 155px;
-    }
-    .comments-comics-title-content {
-      position: fixed;
+      bottom: 40px;
       left: 16px;
-      top: 104px;
-      .title {
+      color: #fff;
+    }
+    .comments-title-substance {
+      font-family: 'pingfang-blod';
+      font-size: 18px;
+      margin-bottom: 8px;
+      & + p {
         font-family: 'pingfang-blod';
-        font-size: 18px;
+        font-size: 14px;
+        span {
+          opacity: 0.6;
+          font-size: 12px;
+        }
       }
     }
   }
-  .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    margin-right: 8px;
+  .comments-contents {
+    position: relative;
+    padding-top: 216px;
+    background: transparent;
+    z-index: 3;
+    img.icon {
+      width: 110px;
+      position: absolute;
+      right: 60px;
+      top: 151px;
+      z-index: 2;
+    }
+    .comments-contents-top {
+      position: relative;
+      height: 24px;
+      width: 100%;
+      background: url('./img/bannermask.png') 0 0 transparent;
+      z-index: 3;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+      margin-right: 8px;
+    }
   }
-  .comments-list {
+  .comments-contents-list {
+    background: #fff;
     padding-left: 16px;
     li {
       display: flex;
-      margin-top: 16px;
+      padding-top: 16px;
     }
     .comments-user {
       font-family: 'pingfang-blod';
@@ -213,10 +278,13 @@ export default {
     font-size: 10px;
     text-align: center;
     color: #bbb;
+    background: #fff;
+    padding-bottom: 8px;
     font-family: 'pingfang-blod';
     position: fixed;
-    bottom: 8px;
+    bottom: 0;
     width: 100%;
+    z-index: 4;
     & > span {
       display: inline-block;
       width: 343px;
