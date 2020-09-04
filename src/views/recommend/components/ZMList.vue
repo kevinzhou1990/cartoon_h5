@@ -10,7 +10,7 @@
     </div>
     <div class="maybe-main-content" v-for="(item, index) in dataList" :key="item.cartoon_id">
       <div class="maybe-main-content-item" @click.stop="handleClickComicsInfo(item.cartoon_id)">
-        <div class="maybe-main-content-item-img" :style="{background: 'url('+item.cover+')'}"></div>
+        <div class="maybe-main-content-item-img" :style="{background: 'url('+item.cover+')', 'background-size': 'contain'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title }}</span>

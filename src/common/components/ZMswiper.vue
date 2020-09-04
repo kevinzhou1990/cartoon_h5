@@ -57,12 +57,12 @@ export default {
         autoplay: {
           delay: 3000,
           stopOnLastSlide: false,
-          // 触摸华滑动后是否继续轮播
+          // 触摸滑动后是否继续轮播
           disableOnInteraction: false
         },
         on: {
           click(swiper, event) {
-            // todo 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
+            // 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
             vm.goBannerInfo(swiper.realIndex)
           }
         },
@@ -77,7 +77,7 @@ export default {
         observerParents: true,
         notNextTick: true,
         // 循环
-        loop: true,
+        loop: this.bannerList.length > 1,
         // setting init index
         initialSlide: 0,
         // 滑动的速度

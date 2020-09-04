@@ -108,11 +108,18 @@ export default {
     line-height: 56px;
     color: $item-color;
     box-sizing: border-box;
-    &::-webkit-scrollbar{ width:0 !important; height: 0!important;}
+    &::-webkit-scrollbar{
+      width:0 !important;
+      height: 0!important;
+      display: none;
+    }
     .item {
       display: inline-block;
       padding: 0 16px;
       white-space: nowrap;
+      max-width: 80px;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .item:nth-last-of-type(1) {
       margin-right: 0;
