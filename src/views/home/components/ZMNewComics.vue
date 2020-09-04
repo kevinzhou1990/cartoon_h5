@@ -118,6 +118,9 @@ export default {
         color: #BBBBBB;
         font-weight: bold;
         letter-spacing: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       &-des {
         font-size: 12px;

@@ -31,7 +31,7 @@
         </div>
         <div
           class="main-content-box-right"
-          :style="{ background: 'url('+ZMDetailData.cover_detail+')'}"
+          :style="{ background: 'url('+ZMDetailData.cover_detail+')', 'background-size': '100%'}"
         ></div>
       </div>
       <div style="padding: 0 32px 24px 32px;" class="content" ref="intro-content">
