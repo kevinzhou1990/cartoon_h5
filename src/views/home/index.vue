@@ -8,8 +8,8 @@
       </div>
       <!-- 首页滑动组件 -->
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
-      <mt-loadmore :top-method="resfreshPage" :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='50' ref="loadmore">
-        <section v-for="item in recList" :key="item.rec_id">
+      <mt-loadmore :top-method="resfreshPage" :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='50' ref="loadmore" :auto-fill="false">
+        <section style="height: 100%; overflow: auto;" v-for="item in recList" :key="item.rec_id">
           <!-- 排行与发现 -->
           <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
           <!-- 首页新漫 -->
@@ -25,10 +25,11 @@
           <!-- 你可能喜欢的 -->
           <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>
         </section>
+        <!-- 无数据了 -->
+        <z-m-no-data v-if="allLoaded"></z-m-no-data>
       </mt-loadmore>
-      <!-- 无数据了 -->
-      <z-m-no-data v-if="allLoaded"></z-m-no-data>
     </template>
+
   </div>
 </template>
 
@@ -115,23 +116,28 @@ export default {
     },
 	  resfreshPage() {
 		  console.log('loadTop.......')
-      this.currentPage = 1
-      this.recList = []
-      this.getRecommend()
-      if (this.currentPage < this.totalPages) this.allLoaded = false
-      // this.$refs.loadmore.onTopLoaded()
+      setTimeout(() => {
+	      this.$refs.loadmore.onTopLoaded()
+	      if (this.$el.getBoundingClientRect().y !== 0) return
+	      this.currentPage = 1
+	      this.recList = []
+	      this.getRecommend()
+	      if (this.currentPage < this.totalPages) this.allLoaded = false
+      }, 2000)
 	  },
 	  nextPage() {
-		  this.currentPage++
-		  // console.log('loadBottom.....')
-		  // if (this.currentPage > this.totalPages) {
-      //   this.allLoaded = true
-		  // } else {
-      //
-      // }
-		  this.getRecommend()
-      if (this.currentPage >= this.totalPages) this.allLoaded = true
-		  this.$refs.loadmore.onBottomLoaded()
+      setTimeout(() => {
+		    this.$refs.loadmore.onBottomLoaded()
+		    this.currentPage++
+		    // console.log('loadBottom.....')
+		    // if (this.currentPage > this.totalPages) {
+		    //   this.allLoaded = true
+		    // } else {
+		    //
+		    // }
+		    this.getRecommend()
+		    if (this.currentPage >= this.totalPages) this.allLoaded = true
+      }, 1000)
 		  // this.allLoaded = true;// 若数据已全部获取完毕
 	  }
   }
@@ -140,7 +146,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;

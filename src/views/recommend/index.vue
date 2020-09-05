@@ -1,5 +1,5 @@
 <template>
-  <div class="box" ref="recommendList">
+  <div class="box" style="touch-action: none;" ref="recommendList">
     <div>
       <z-m-header :title-text="titleText" show-right>
         <div slot="right" class="right-change">
@@ -140,16 +140,18 @@ export default {
     //   console.log('resfreshPage')
     // },
 	  nextPage() {
-      if (this.totalPages === 1) return
-      if (this.currentPage === this.totalPages) {
-	      this.allLoaded = true
-        return
-      }
-      console.log('触发了。。。', this.currentPage, this.totalPages)
-		  // this.$refs.loadmore.onBottomLoaded()
-		  // if (this.currentPage >= this.totalPages) this.allLoaded = true
-		  this.currentPage++
-		  this.getData()
+      setTimeout(() => {
+	      if (this.totalPages === 1) return
+	      if (this.currentPage === this.totalPages) {
+		      this.allLoaded = true
+		      return
+	      }
+	      console.log('触发了。。。', this.currentPage, this.totalPages)
+	      // this.$refs.loadmore.onBottomLoaded()
+	      // if (this.currentPage >= this.totalPages) this.allLoaded = true
+	      this.currentPage++
+	      this.getData()
+      }, 1000)
     }
   }
 }

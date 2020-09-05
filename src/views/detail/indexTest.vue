@@ -33,7 +33,7 @@ export default {
   computed: {
 	  list (){
       let num = []
-      for (let i = 1; i < 20; i++){
+      for (let i = 1; i < 100; i++){
 	      num.push(i)
       }
       return num
