@@ -32,7 +32,7 @@ export default {
      * @date: 8/24/20-2:51 下午
      */
     handleDiscoverInfo() {
-      // todo 去发现页面
+      this.$router.push('/discovery')
       console.log('go to discover info');
     }
   }
