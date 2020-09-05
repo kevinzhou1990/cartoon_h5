@@ -1,5 +1,5 @@
 <template>
-  <div class="box" style="touch-action: none;" ref="recommendList">
+  <div class="box" ref="recommendList">
     <div>
       <z-m-header :title-text="titleText" show-right>
         <div slot="right" class="right-change">

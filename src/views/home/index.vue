@@ -146,7 +146,7 @@ export default {
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
-  touch-action: none;
+  /*touch-action: none;*/
   &::-webkit-scrollbar {
     width: 0 !important;
   }
