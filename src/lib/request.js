@@ -24,18 +24,23 @@ service.interceptors.request.use(
       'APP-SIGN': sign,
       Authorization
     };
-	  /* 判断是否显示loading动画 */
-	  // if (
+    if (config.url === '/api/oauth' && config.method === 'put') {
+      config.data = {
+        refresh_token: TOKEN_DATA.refresh_token
+      };
+    }
+    /* 判断是否显示loading动画 */
+    // if (
     // 	  !config.hasOwnProperty('loading') ||
     // 	  (config.hasOwnProperty('loading') && config.loading)
-	  // ) {
+    // ) {
     //   setTimeout(() => {
     // 	  Prestranining(false)
     //   }, 0)
     //   loading.push(false)
-	  // } else {
+    // } else {
     //   loading.push(false)
-	  // }
+    // }
     return config;
   },
   error => {
@@ -48,15 +53,12 @@ service.interceptors.response.use(
     if (response.data.code === 1003) {
       // TODO 去重新请求token
       return tokenError('get', response);
-      // getTokenByOAuth();
     } else if (response.data.code === 1004) {
       // TODO 去刷新token
       return tokenError('refresh', response);
-      // refreshGetToken();
     } else {
       return response.data;
     }
-    // return response.data;
   },
   error => {
     Promise.reject(error);
@@ -68,15 +70,15 @@ let isGetting = false;
 let isRefreshing = false;
 // type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
 async function tokenError(type, res) {
+  const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData')).refresh_token;
   if (!isGetting || !isRefreshing) {
     type === 'get' ? (isGetting = true) : (isRefreshing = true);
     if (type === 'get') {
       await getTokenByOAuth();
     } else {
-      await refreshGetToken();
+      await refreshGetToken(TOKEN_DATA);
     }
-    const Authorization = JSON.parse(sessionStorage.getItem('tokenData'))
-      .access_token;
+    const Authorization = JSON.parse(sessionStorage.getItem('tokenData')).access_token;
     if (sessionStorage.getItem('tokenData')) {
       requestStock.forEach(cb => cb(Authorization));
       requestStock = [];
