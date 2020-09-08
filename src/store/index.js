@@ -4,23 +4,18 @@ import main from './modules/main';
 import home from './modules/home';
 import reader from './modules/reader';
 import recommend from './modules/recommend';
+import token from './modules/token';
 import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const createPersisted = createPersistedState({
   storage: sessionStorage,
-  paths: ['reader', 'recommend']
+  paths: ['reader', 'recommend', 'token']
 });
 const store = new Vuex.Store({
-  modules: { main, home, reader, recommend },
-  state: {
-    tokenData: {}
-  },
-  mutations: {
-    SET_TOKEN_DATA(state, tokenData) {
-      state.tokenData = tokenData;
-    }
-  },
+  modules: { main, home, reader, recommend, token },
+  state: {},
+  mutations: {},
   actions: {},
   plugins: [createPersisted]
 });

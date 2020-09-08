@@ -24,7 +24,6 @@ async function getTokenByOAuth () {
     console.log(resData.data)
   } else {
     Toast((resData && resData.msg) || '系统出错,请稍后重试')
-    // Toast((resData && resData.msg) || '系统出错,请稍后重试')
   }
 }
 

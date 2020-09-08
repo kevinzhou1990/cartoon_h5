@@ -1,8 +1,7 @@
 import axios from 'axios';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
-import { getTokenByOAuth, refreshGetToken } from 'lib/utils/getTokenByLogin';
-// import Prestranining from '@/common/components/prestrain' todo loading 动画
+import store from '@/store';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -11,7 +10,7 @@ const service = axios.create({
 // let loading = []
 service.interceptors.request.use(
   config => {
-    const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData'));
+    const TOKEN_DATA = store.state.token;
     // 拦截请求，添加公共头部参数
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
@@ -24,23 +23,12 @@ service.interceptors.request.use(
       'APP-SIGN': sign,
       Authorization
     };
-    if (config.url === '/api/oauth' && config.method === 'put') {
+    if (config.url === 'api/oauth' && config.method === 'put') {
       config.data = {
         refresh_token: TOKEN_DATA.refresh_token
       };
     }
-    /* 判断是否显示loading动画 */
-    // if (
-    // 	  !config.hasOwnProperty('loading') ||
-    // 	  (config.hasOwnProperty('loading') && config.loading)
-    // ) {
-    //   setTimeout(() => {
-    // 	  Prestranining(false)
-    //   }, 0)
-    //   loading.push(false)
-    // } else {
-    //   loading.push(false)
-    // }
+    console.log(config.data, '++++', config.url, config.method);
     return config;
   },
   error => {
@@ -64,37 +52,16 @@ service.interceptors.response.use(
     Promise.reject(error);
   }
 );
-// 请求队列，用于token报错后，存储请求
-let requestStock = [];
-let isGetting = false;
-let isRefreshing = false;
+
 // type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
-async function tokenError(type, res) {
-  const TOKEN_DATA = JSON.parse(sessionStorage.getItem('tokenData')).refresh_token;
-  if (!isGetting || !isRefreshing) {
-    type === 'get' ? (isGetting = true) : (isRefreshing = true);
-    if (type === 'get') {
-      await getTokenByOAuth();
-    } else {
-      await refreshGetToken(TOKEN_DATA);
-    }
-    const Authorization = JSON.parse(sessionStorage.getItem('tokenData')).access_token;
-    if (sessionStorage.getItem('tokenData')) {
-      requestStock.forEach(cb => cb(Authorization));
-      requestStock = [];
-      type === 'get' ? (isGetting = false) : (isRefreshing = false);
-      return service(res.config);
+async function tokenError(type, response) {
+  return store.dispatch(type === 'get' ? 'getToken' : 'refreshToken').then(res => {
+    if (res.code === 0) {
+      return service(response.config);
     } else {
       return Promise.reject(res);
     }
-  } else {
-    return new Promise(resolve => {
-      requestStock.push(token => {
-        res.config.headers.Authorization = token;
-        resolve(res.config);
-      });
-    });
-  }
+  });
 }
 
 export default service;
