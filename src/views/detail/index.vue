@@ -30,8 +30,8 @@
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
         <div
+          :style="{ background: 'url('+ZMDetailData.cover+')no-repeat center / contain'}"
           class="main-content-box-right"
-          :style="{ background: 'url('+ZMDetailData.cover_detail+')', 'background-size': '100%'}"
         ></div>
       </div>
       <div style="padding: 0 32px 24px 32px;" class="content" ref="intro-content">
@@ -40,7 +40,7 @@
           href="javascirpt:void(0)"
           style="text-decoration: none; color: rgba(18,224,121,1);"
           v-if="isShowUnfold && !showMoreFlag"
-          @click="getElHeight"
+          @click.prevent="getElHeight"
         >[展开]</a>
       </div>
     </section>
@@ -75,7 +75,7 @@ export default {
       zmCollectData: null,
       cartoon_id: '', // 漫画id
       ZMDetailData: {},
-      textLength: 50, // 简介默认展示50个字符 刚好占两行
+      textLength: 47, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
@@ -104,7 +104,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.cartoon_id = this.$route.query.cartoon_id || '';
     this.getZMDetail(this.cartoon_id);
   },
@@ -281,13 +281,12 @@ $content-label-fontSize: 10px;
       }
 
       &-right {
-        position: relative;
         width: 120px;
         margin-left: 8px;
         height: 160px;
         border-radius: 4px;
-        background: url('../../assets/img/defaultBook.png') no-repeat top;
-        background-size: 100% 160px;
+        background: url('../../assets/img/defaultBook.png') no-repeat;
+        background-size: contain;
       }
     }
   }

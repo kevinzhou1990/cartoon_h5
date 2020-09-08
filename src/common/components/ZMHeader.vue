@@ -76,6 +76,11 @@ export default {
 .header-left {
   flex: 1;
   text-align: center;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;padding-left: 16px;box-sizing: border-box;
 }
 .header-right {
   width: 44px;

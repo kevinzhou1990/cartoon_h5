@@ -4,7 +4,7 @@
 * @date: 8/4/20-4:29 下午
 */
 <template>
-  <div class="hot-main">
+  <div class="hot-main" v-if="hotComicsList.length">
     <z-m-home-label
         :label-name="labelName"
         :rec-id="recId">
@@ -21,7 +21,7 @@
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>
     </div>
-    <div class="hot-main-btn">
+    <div class="hot-main-btn" v-if="hotComicsList.length >= 6">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
   </div>

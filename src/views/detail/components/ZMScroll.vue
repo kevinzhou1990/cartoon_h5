@@ -22,8 +22,13 @@
         :comment-num="detailData.comment_num"
         :remark-data="detailData && detailData.comment"
       ></z-m-detail-remark>
-      <z-m-comics-scroll :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
       <z-m-comics-scroll
+        :comicsType="1"
+        :title-content="authorTitle"
+        :comicsList="authorOhter"
+      ></z-m-comics-scroll>
+      <z-m-comics-scroll
+        :comicsType="2"
         :title-content="maybeLikeTitle"
         :comicsList="yourselfLikeComics"
         :style="{'padding-bottom': bottomAjax? '0': '20px'}"
