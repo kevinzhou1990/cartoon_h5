@@ -9,13 +9,14 @@
     <div class="main-chapter-info" v-if="detailNews">
       <span style="padding: 0 12px 0 16px;">{{ detailNews.title || '--' }}</span>
       <span style="padding: 0 16px 0 12px;">{{ detailNews.intro || '--' }}</span>
-      <span class="main-chapter-info-time">{{ detailNews.updated_at || '--'}}</span>
+      <span class="main-chapter-info-time">{{ updateTimes }}</span>
       <span class="main-chapter-info-r" @click="handleComicsNewChapter">最近更新</span>
     </div>
   </div>
 </template>
 
 <script>
+import { timestampToTime } from '@/lib/utils'
 export default {
   name: 'ZMDetailChapter',
   props: {
@@ -28,6 +29,12 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    updateTimes () {
+      if (!this.detailNews.updated_at) return '--'
+      return timestampToTime(this.detailNews.updated_at, 'date')
+    }
+  },
   methods: {
     /**
      * @info: 点击更新最新章节
@@ -35,6 +42,13 @@ export default {
      * @date: 8/24/20-6:33 下午
      */
     handleComicsNewChapter() {
+      this.$router.push({
+		    path: '/reader',
+		    query: {
+			    cartoon_id: this.detailNews.cartoon_id,
+			    capterId: this.detailNews.chapter_id
+		    }
+      })
       console.log('最新章节点击。。。。。');
     }
   }
@@ -77,7 +91,7 @@ $font-color: #bbbbbb !default;
     line-height: 56px;
     &-time {
       @include font10px(#bbbbbb);
-      padding: 0 19px 0 16px;
+      /*padding: 0 19px 0 16px;*/
     }
     &-r {
       @include font10px(#12e079);

@@ -3,20 +3,25 @@
     <div class="collect-content">
       <div>
         <div class="collect-content-left">
-          <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score }}</span>
-          <div class="collect-content-left-img">
-            <div class="collect-content-left-img-text">{{ zmCollectData && zmCollectData.evalNum }}人评分</div>
-            <div style="display: flex;">
-              <img
-                class="img"
-                v-for="index in 5"
-                :key="index"
-                src="../images/save_start_collect.png"
-                alt
-              />
-              <!--              <span style=" display: inline-block; background: url('../images/save_start_collect.png') no-repeat center;  background-size: 100%;"></span>-->
-            </div>
+          <div style="font-size: 14px; color: rgba(255,255,255,0.60); padding: 5px 8px;" v-if="zmCollectData.evalNum === 0">
+            暂无评分
           </div>
+          <template v-else>
+            <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score }}</span>
+            <div class="collect-content-left-img">
+              <div class="collect-content-left-img-text">{{ zmCollectData && zmCollectData.evalNum }}人评分</div>
+              <div style="display: flex;">
+                <img
+                    class="img"
+                    v-for="index in 5"
+                    :key="index"
+                    src="../images/save_start_collect.png"
+                    alt
+                />
+                <!--              <span style=" display: inline-block; background: url('../images/save_start_collect.png') no-repeat center;  background-size: 100%;"></span>-->
+              </div>
+            </div>
+          </template>
         </div>
         <div class="collect-content-bottom">
           <img class="collect-content-bottom-img" src="../images/save_collect.png" alt />
@@ -82,6 +87,8 @@ export default {
     display: flex;
     z-index: 2;
     &-left {
+      font-family: pingfang-blod;
+      color: #FFFFFF;
       width: 123px;
       display: flex;
       &-p {

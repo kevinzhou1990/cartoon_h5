@@ -10,7 +10,8 @@
       >
         <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': '100%'}"></span>
         <span class="main-img-content-title">{{ item.title }}</span>
-        <span class="main-img-content-chapter">{{ item.publish_status }}</span>
+        <span class="main-img-content-chapter" v-if="comicsType === 1">{{ item.status_text }}</span>
+        <span class="main-img-content-chapter" v-else>{{ item.author | authorFormate }}</span>
       </div>
     </div>
   </div>
@@ -29,6 +30,10 @@ export default {
 	  comicsList: {
       type: Array,
       default: () => []
+    },
+	  comicsType: {
+      type: Number,
+      defatult: 1
     }
   },
   data() {
@@ -64,7 +69,7 @@ export default {
     margin-right: 2px;
     overflow-x: auto;
     &::-webkit-scrollbar {
-      width: 0 !important;
+      display: none;
     }
     &-content {
       display: flex;
@@ -93,6 +98,10 @@ export default {
         color: #bbbbbb;
         transform: scale(0.83);
         -webkit-transform-origin-x: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 90px;
       }
     }
   }
