@@ -275,6 +275,7 @@ $nousecolor: #bbb;
     .process {
       z-index: 1;
       background: $background;
+      position: absolute;
     }
     .contents-list-item {
       width: 100%;
@@ -302,6 +303,7 @@ $nousecolor: #bbb;
       flex: 1;
       padding-left: 24px;
       .chapter-title-content {
+        box-sizing: border-box;
         display: inline-block;
         width: 214px;
         white-space: nowrap;

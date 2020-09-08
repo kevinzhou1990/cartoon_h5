@@ -5,8 +5,7 @@
 */
 <template>
   <div
-    class="header-main h-h title-wrap"
-    :class="[ {hasBorder: 'zm-b-b'}, {isShowHeader : 'header-main-hidden'} ]"
+    :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' :''} ${isShowHeader ? '' :'header-main-hidden'}`"
     :style="{ background: backgroundColor }"
   >
     <div style="display: flex;">
