@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-component"></div>
+  <div class="filter-component">筛选</div>
 </template>
 
 <script>
