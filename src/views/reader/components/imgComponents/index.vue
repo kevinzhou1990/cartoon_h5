@@ -1,6 +1,7 @@
 <template>
   <div class="component-img" :id="`img${comics.detail_id}`">
-    <img :src="src" alt />
+    <img alt :data-src="src" :src="defaultLoad ? src : ''" ref="img" />
+    <!-- <img :src="src" alt=""> -->
   </div>
 </template>
 
@@ -15,7 +16,8 @@ export default {
       default: function () {
         return {};
       }
-    }
+    },
+    defaultLoad: { type: true, default: false }
   },
   data() {
     return {
@@ -45,6 +47,7 @@ export default {
   methods: {
     scrollThrottle() {
       let offset = this.$el.getBoundingClientRect();
+      // 当前图片是否在可见区域
       if (offset.top < innerHeight && offset.top > 0) {
         // 计算进度
         const idList = this.imagesList.map((item) => {
@@ -64,15 +67,24 @@ export default {
         };
         this.$store.dispatch('saveProcess', localContents);
       }
+      // 图片预加载
+      if (offset.top < 2 * innerHeight && this.$refs.img) {
+        this.$refs.img.src = this.$refs.img.dataset.src;
+      }
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandle, true);
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .component-img {
+  min-height: 50px;
   img {
     width: 100%;
+    vertical-align: top;
   }
 }
 </style>

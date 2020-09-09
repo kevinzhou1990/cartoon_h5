@@ -17,10 +17,11 @@
     </div>
     <div class="reader-img">
       <img-component
-        v-for="item in comicsList"
+        v-for="(item,index) in comicsList"
         :key="item.detail_id"
         :src="item.path"
         :comics="item"
+        :default-load="index < pageIndex"
       />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
@@ -51,7 +52,8 @@ export default {
       showComicsLink: false,
       // 目录相关信息
       show: false,
-      titleText: ''
+      titleText: '',
+      pageIndex: 3
     };
   },
   mounted() {
@@ -82,16 +84,21 @@ export default {
       if (this.fullRead) this.navigationStatus = this.fullRead;
     },
     $route: function (to, from) {
-      this.pageinit();
+      this.pageinit(from);
     }
   },
   methods: {
-    async pageinit() {
+    async pageinit(flag) {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
-      this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      if (!this.comicsList.length) {
+        this.Toast(`当前章节无数据`, {
+          type: 'fail',
+          duration: 1000
+        });
+      }
       let contentsList = this.$store.state.reader.contentsList;
       // 计算滚动位置
-      let availableScroll = document.body.scrollHeight - innerHeight;
       let localContents = this.$store.state.reader.localContents;
       let reader_per = 0;
       const CAPTERID = parseInt(this.$route.query.capterId);
@@ -109,12 +116,22 @@ export default {
           }
         }
       }
+      if (flag) {
+        reader_per = 0;
+      }
       let percentage = reader_per / 100;
-      document.scrollingElement.scrollTop = availableScroll * percentage;
+      // 计算图片索引
+      const idx = Math.ceil(percentage * this.comicsList.length);
+      this.pageIndex = idx > 3 ? idx : 3;
+      setTimeout(() => {
+        // 预留图片加载时间
+        let availableScroll = document.body.scrollHeight - innerHeight;
+        document.scrollingElement.scrollTop = availableScroll * percentage;
+      }, 200);
       // 获取当前阅读漫画章节标题和序号
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
-          this.titleText = contentsList[i].title + contentsList[i].intro;
+          this.titleText = contentsList[i].title + '.' + contentsList[i].intro;
           return false;
         }
       }
@@ -197,7 +214,6 @@ export default {
   }
 }
 .page-reader {
-  padding-top: 44px;
   min-height: 100%;
   .header-right {
     font-size: 12px;

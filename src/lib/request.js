@@ -28,7 +28,6 @@ service.interceptors.request.use(
         refresh_token: TOKEN_DATA.refresh_token
       };
     }
-    console.log(config.data, '++++', config.url, config.method);
     return config;
   },
   error => {

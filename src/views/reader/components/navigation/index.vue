@@ -20,7 +20,7 @@
         @touchend="handlerTouchEnd"
       >
         <div
-          :style="`height:${readerProcess}%;`"
+          :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`"
           :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
         ></div>
         <div class="reader-process-tag">
@@ -111,7 +111,7 @@ export default {
       const CAPTERID = parseInt(this.$route.query.capterId);
       let read_per = 0;
       if (CARTOONID && CAPTERID) {
-        // 读取本地进度，如没有本地进度，获取目录中的京都
+        // 读取本地进度，如没有本地进度，获取目录中的进度
         if (this.localContents[CARTOONID]) {
           const p = this.$store.state.reader.localContents[CARTOONID][CAPTERID];
           if (p) read_per = p.read_per;
@@ -126,6 +126,7 @@ export default {
       }
       let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
+      console.log(read_per, index, 'navigation');
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {
@@ -211,6 +212,14 @@ export default {
         left: -56px;
       }
     }
+    .tag {
+      padding-left: 10px;
+      left: 56px;
+      background-size: 100%;
+      background-color: transparent;
+      background-position: 0 0;
+      background-image: url('./img/bubble_bb.png');
+    }
   }
   &-left-hidden {
     left: -56px;
@@ -225,6 +234,14 @@ export default {
       &.touch {
         right: -56px;
       }
+    }
+    .tag {
+      right: 56px;
+      padding-right: 15px;
+      background-size: 100%;
+      background-color: transparent;
+      background-position: 0 0;
+      background-image: url('./img/bubble_aa.png');
     }
   }
   &-right-hidden {
@@ -260,12 +277,10 @@ export default {
       margin: 0;
       height: 272px;
       & > div {
-        background: rgba(255, 255, 255, 1);
         border-radius: 8px 8px 0 0;
       }
     }
     & > div {
-      background: rgba(255, 255, 255, 1);
       border-radius: 8px 8px 0 0;
     }
     .reader-process {
@@ -274,18 +289,12 @@ export default {
     .tag {
       display: none;
       box-sizing: border-box;
-      padding-right: 15px;
       font-family: 'pingfang-blod';
-      background-image: url('./img/bubble_aa.png');
-      background-size: 100%;
-      background-position: 0 0;
       position: absolute;
-      background-color: transparent;
       color: #fff;
       text-align: center;
       line-height: 40px;
       font-size: 18px;
-      right: 56px;
       width: 94px;
       height: 40px;
       &.tag-touch {
