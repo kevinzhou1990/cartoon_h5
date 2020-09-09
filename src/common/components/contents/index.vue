@@ -302,10 +302,10 @@ $nousecolor: #bbb;
     .chapter-title {
       flex: 1;
       padding-left: 24px;
-      .chapter-title-content {
+      &-content {
         box-sizing: border-box;
         display: inline-block;
-        width: 214px;
+        width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
