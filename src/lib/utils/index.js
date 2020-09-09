@@ -88,4 +88,14 @@ function throttle(callback, delay = 200, context, iselapsed = false) {
     }
   };
 }
-export { encry, getRandomStr, timestampToTime, throttle };
+
+/**
+ * 计算漫画章节中的图片索引
+ * @param {Number} readPer 阅读记录百分比
+ * @param {Number} total 当前章节总图片数
+ * @returns {Number} 当前章节图片索引
+ */
+function getIndex(readPer, total) {
+  return Math.ceil((readPer / 100) * total);
+}
+export { encry, getRandomStr, timestampToTime, throttle, getIndex };

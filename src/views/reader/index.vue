@@ -12,7 +12,7 @@
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
-      <div class="reader-mask-middle" @click="switchFull"></div>
+      <div class="reader-mask-middle" @touchstart="switchFull"></div>
       <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
     </div>
     <div class="reader-img">
@@ -36,6 +36,7 @@ import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
+import { getIndex } from '@/lib/utils';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -76,6 +77,9 @@ export default {
     },
     settingData() {
       return this.$store.state.reader.settingData;
+    },
+    readerProcess() {
+      return this.$store.state.reader.readerProcess;
     }
   },
   watch: {
@@ -84,11 +88,11 @@ export default {
       if (this.fullRead) this.navigationStatus = this.fullRead;
     },
     $route: function (to, from) {
-      this.pageinit(from);
+      this.pageinit();
     }
   },
   methods: {
-    async pageinit(flag) {
+    async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
       if (!this.comicsList.length) {
@@ -116,7 +120,7 @@ export default {
           }
         }
       }
-      if (flag) {
+      if (this.$route.query.flag) {
         reader_per = 0;
       }
       let percentage = reader_per / 100;
@@ -158,11 +162,9 @@ export default {
       this.show = true;
       this.navigationStatus = true;
     },
-    scorllPos(read_per) {
-      let ele = document.scrollingElement;
-      let scrollheight = ele.scrollHeight;
-      let scrollAbleHeight = scrollheight - innerHeight;
-      ele.scrollTop = scrollAbleHeight * (read_per / 100);
+    // 导航拉动结束后执行
+    scorllPos() {
+      this.pageIndex = getIndex(this.readerProcess, this.comicsList.length);
     },
     // 图片翻页
     turnPage(direction) {
