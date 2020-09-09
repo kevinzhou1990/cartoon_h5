@@ -6,7 +6,7 @@
           class="main-img-content"
           v-for="item in comicsList"
           :key="item.cartoon_id"
-          @click="handleDetial(item.cartoon_id)"
+          @click.prevent="handleDetial(item.cartoon_id)"
       >
         <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': '100%'}"></span>
         <span class="main-img-content-title">{{ item.title }}</span>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
 	  handleDetial(val) {
-      this.$router.replace(`/detail?cartoon_id=${val}`)
+      this.$router.push(`/detail?cartoon_id=${val}`)
 		  window.location.reload()
 	  }
   }

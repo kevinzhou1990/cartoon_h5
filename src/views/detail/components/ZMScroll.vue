@@ -2,7 +2,7 @@
   <div class="main" ref="remarkScroll">
     <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
     <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>
-    <div class="main-catalogue box-shad">
+    <div class="main-catalogue box-shad" v-if="detailData && detailData.is_online && !detailData.is_coming">
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt />
         <span class="left-text">缓存</span>
@@ -12,6 +12,10 @@
         <img class="left-dn" src="../images/catalog-icon.png" alt />
         <span class="left-text">目录</span>
       </div>
+    </div >
+    <div class="main-catalogue box-shad no-time" v-else>
+        <div class="new-comics">{{ isOnlineText.text }}</div>
+        <div class="new-comics-time" :style="{color: isOnlineText.textColorFlag ? '#BBBBBB': ''}">{{ isOnlineText.timeText }}</div>
     </div>
     <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
       <z-m-detail-chapter
@@ -37,7 +41,7 @@
       <!-- -->
     </div>
     <div class="main-foot" v-if="showFootFlag">
-      <div class="main-catalogue">
+      <div class="main-catalogue" v-if="detailData && detailData.is_online && !detailData.is_coming">
         <div class="left" @click.stop="handleDownload">
           <img class="left-dn" src="../images/download.png" alt />
           <span class="left-text">缓存</span>
@@ -47,6 +51,10 @@
           <img class="left-dn" src="../images/catalog-icon.png" alt />
           <span class="left-text">目录</span>
         </div>
+      </div>
+      <div class="main-catalogue no-time" v-else>
+        <div class="new-comics">{{ isOnlineText.text }}</div>
+        <div class="new-comics-time" :style="{color: isOnlineText.textColorFlag ? '#BBBBBB': ''}">{{ isOnlineText.timeText }}</div>
       </div>
     </div>
     <div
@@ -116,10 +124,26 @@ export default {
   },
   computed: {
     readerChapter() {
-      if (!this.detailData && !this.detailData.last) {
-        return this.detailData.last.title;
+      if (!this.detailData && this.detailData.has_read === 1) {
+        return `继续 ${this.detailData.last.title}`
       } else {
-        return '阅读 第一章';
+        return '阅读 第一话';
+      }
+    },
+    isOnlineText () {
+      if (!this.detailData && this.detailData.is_online) {
+        if (this.detailData.is_coming) {
+          return {
+            text: '新漫即将抵达',
+            timeText: this.detailData.on_time_text || '--'
+          }
+        }
+	    } else {
+        return {
+          text: '很遗憾',
+          timeText: '这本漫画下架了',
+          textColorFlag: true
+        }
       }
     }
   },
@@ -166,10 +190,10 @@ export default {
      * @date: 8/25/20-10:38 上午
      */
     handleCatalog() {
-      this.$parent.show = true;
       this.$el.removeEventListener('tochstart', this.touchStart, true);
-      this.$el.removeEventListener('touchend', this.touchEnd, true);
-      console.log('点击了目录');
+	    this.$el.removeEventListener('touchend', this.touchEnd, true);
+	    this.$parent.show = true;
+	    console.log('点击了目录');
     },
     /**
      * @info: 获取可能喜欢的列表和作者的其他漫画
@@ -200,7 +224,10 @@ export default {
       this.timer = setTimeout(() => {
         if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
         this.$el.addEventListener('touchstart', this.touchStart);
-      }, 500);
+      }, 200);
+      if (this.$refs.remarkScroll.scrollTop > 100){
+	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+      }
       e.stopPropagation();
       this.$el.addEventListener('touchmove', this.touchMove);
       console.log('我开始滑动了。。。。', this.startTouchValue);
@@ -279,10 +306,11 @@ export default {
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
       if (yScroll >= 10) {
-        this.$el.removeEventListener('tochstart', this.touchStart, true);
+	      this.$el.removeEventListener('tochstart', this.touchStart, true);
         // this.$el.removeEventListener('touchend', this.touchEnd, true)
         this.$el.removeEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = true;
+	      this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
         this.$el.addEventListener('tochstart', this.touchStart, true);
         this.$el.addEventListener('touchend', this.touchEnd, true);
@@ -312,6 +340,23 @@ export default {
 .box-shad {
   border-radius: 4px;
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.1);
+}
+.no-time {
+  flex-direction: column;
+  text-align: center;
+}
+.new-comics {
+
+  font-size: 10px;
+  transform: scale(0.83);
+  /*-webkit-transform-origin-x: 0;*/
+  padding: 0 0 2px 0;
+  color: #BBBBBB;
+}
+.new-comics-time {
+  font-family: 'pingfang-blod';
+  font-size: 14px;
+  color: #222222;
 }
 .main {
   /*  overflow-scrolling: touch;*/

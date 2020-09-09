@@ -45,6 +45,7 @@
       </div>
     </section>
     <z-m-scroll
+      :style="{'pointer-events' : 'auto'}"
       :isChangeHeader.sync="isChangeHeader"
       :detail-data="ZMDetailData"
       :textHeight="textHeight"
@@ -123,7 +124,10 @@ export default {
      * @date: 8/31/20-6:33 下午
      */
     getElHeight() {
+      console.log('........')
       this.showMoreFlag = true;
+      console.log(document.getElementsByClassName('main')[1].style)
+	    document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
         console.log(this.$refs['intro-content'].offsetHeight);
@@ -166,6 +170,11 @@ export default {
     }
   },
   watch: {
+    '$route'(to, from) {
+      if (to.query.cartoon_id !== from.query.cartoon_id){
+        this.getZMDetail(to.query.cartoon_id)
+      }
+    },
     isChangeHeader: function (newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
         this.titleText = this.ZMDetailData.title;
@@ -230,7 +239,6 @@ $content-label-fontSize: 10px;
     color: $content-color;
     min-height: 284px;
     z-index: 1;
-
     &-box {
       display: flex;
       padding: 8px 32px 0 32px;

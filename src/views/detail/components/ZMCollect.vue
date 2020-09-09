@@ -3,7 +3,7 @@
     <div class="collect-content">
       <div>
         <div class="collect-content-left">
-          <div style="font-size: 14px; color: rgba(255,255,255,0.60); padding: 5px 8px;" v-if="zmCollectData.evalNum === 0">
+          <div style="font-size: 14px; color: rgba(255,255,255,0.60); padding: 5px 8px;" v-if="zmCollectData && zmCollectData.evalNum === 0">
             暂无评分
           </div>
           <template v-else>

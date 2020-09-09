@@ -32,6 +32,10 @@ export default {
       type: Boolean,
       default: false
     },
+    leftBtnFlag: {
+      type: Boolean,
+      default: false
+    },
     backgroundColor: {
       type: String,
       default: '#ffffff'
@@ -55,7 +59,11 @@ export default {
   },
   methods: {
     goBack() {
-      window.history.go(-1);
+      if (this.leftBtnFlag) {
+        this.$emit('goBack')
+      } else {
+	      window.history.go(-1);
+      }
       // this.$router.back()
     }
   }
