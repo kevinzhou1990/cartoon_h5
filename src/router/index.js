@@ -23,7 +23,7 @@ const router = new Router({
       name: 'main',
       component: Main,
       redirect: 'home',
-	    meta: {keepAlive: false},
+	    meta: {keepAlive: true},
       children: [
         {
           path: '/home',
