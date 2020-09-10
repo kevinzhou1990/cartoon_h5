@@ -133,9 +133,10 @@ export default {
           }
         }
       }
+      console.log(read_per, 'navigation');
       let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
-      console.log(read_per, index, 'navigation');
+      console.log(read_per, index, '-----navigation');
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {

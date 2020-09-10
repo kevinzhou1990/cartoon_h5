@@ -15,7 +15,7 @@
       <div class="reader-mask-middle" @touchstart="switchFull"></div>
       <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
     </div>
-    <div class="reader-img">
+    <div class="reader-img" ref="imgWrap">
       <img-component
         v-for="(item,index) in comicsList"
         :key="item.detail_id"
@@ -36,7 +36,7 @@ import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
-import { getIndex } from '@/lib/utils';
+import { getIndex, getPageHeight, getDistance } from './tools';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -96,13 +96,18 @@ export default {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
       if (!this.comicsList.length) {
+        // 没有图片，回退到上一个页面
         this.Toast(`当前章节无数据`, {
           type: 'fail',
           duration: 1000
         });
+        this.back();
       }
-      let contentsList = this.$store.state.reader.contentsList;
+      // 根据图片宽高比，计算每一张图片高度，设置页面高度
+      const p = getPageHeight(this.comicsList);
+      this.$refs.imgWrap.style.height = p.pageHeight + 'px';
       // 计算滚动位置
+      let contentsList = this.$store.state.reader.contentsList;
       let localContents = this.$store.state.reader.localContents;
       let reader_per = 0;
       const CAPTERID = parseInt(this.$route.query.capterId);
@@ -123,15 +128,12 @@ export default {
       if (this.$route.query.flag) {
         reader_per = 0;
       }
-      let percentage = reader_per / 100;
       // 计算图片索引
-      const idx = Math.ceil(percentage * this.comicsList.length);
+      const idx = getIndex(reader_per, this.comicsList.length);
+      // 根据图片索引，计算滚动高度
+      let scrollDistance = getDistance(idx, p.p);
+      document.scrollingElement.scrollTop = scrollDistance;
       this.pageIndex = idx > 3 ? idx : 3;
-      setTimeout(() => {
-        // 预留图片加载时间
-        let availableScroll = document.body.scrollHeight - innerHeight;
-        document.scrollingElement.scrollTop = availableScroll * percentage;
-      }, 200);
       // 获取当前阅读漫画章节标题和序号
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
@@ -164,7 +166,10 @@ export default {
     },
     // 导航拉动结束后执行
     scorllPos() {
-      this.pageIndex = getIndex(this.readerProcess, this.comicsList.length);
+      const idx = getIndex(this.readerProcess, this.comicsList.length);
+      const p = getPageHeight(this.comicsList);
+      let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx - 1, p.p);
+      document.scrollingElement.scrollTop = scrollDistance - innerHeight / 2;
     },
     // 图片翻页
     turnPage(direction) {

@@ -48,7 +48,7 @@ export default {
     scrollThrottle() {
       let offset = this.$el.getBoundingClientRect();
       // 当前图片是否在可见区域
-      if (offset.top < innerHeight && offset.top > 0) {
+      if (offset.top > 0 && offset.top < innerHeight / 2) {
         // 计算进度
         const idList = this.imagesList.map((item) => {
           return item.detail_id;
@@ -84,7 +84,7 @@ export default {
   min-height: 50px;
   img {
     width: 100%;
-    vertical-align: top;
+    // vertical-align: top;
   }
 }
 </style>
