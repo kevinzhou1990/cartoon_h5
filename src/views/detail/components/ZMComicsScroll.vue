@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="comicsList.length">
     <div class="main-title">{{ titleContent }}</div>
-    <div class="main-img" v-if="comicsList.length">
+    <div class="main-img">
       <div
           class="main-img-content"
           v-for="item in comicsList"
@@ -44,7 +44,7 @@ export default {
   methods: {
 	  handleDetial(val) {
       this.$router.push(`/detail?cartoon_id=${val}`)
-		  window.location.reload()
+		  // window.location.reload()
 	  }
   }
 };

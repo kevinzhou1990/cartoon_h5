@@ -155,7 +155,12 @@ export default {
           status_text: ZMDetailData.status_text
         };
         this.ZMDetailData = ZMDetailData;
-        this.headerBgColor = this.mainColor = resData.data.bk_color || '#222';
+        if (!this.showNavFlag) { // 在详情里面货到了显示title再次点击漫画的时候触发
+	        this.titleText = this.ZMDetailData.title
+	        this.headerBgColor = '#FFFFFF'
+        } else {
+	        this.headerBgColor = this.mainColor = resData.data.bk_color || '#222'
+        }
         this.textContent = resData.data.intro;
         this.zmCollectData = {
           score: resData.data.score || 0, // 评分

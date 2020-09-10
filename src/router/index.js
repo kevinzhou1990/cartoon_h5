@@ -23,30 +23,31 @@ const router = new Router({
       name: 'main',
       component: Main,
       redirect: 'home',
+	    meta: {keepAlive: true},
       children: [
         {
           path: '/home',
           name: 'home',
           component: Home,
-          meta: { title: '首页' }
+          meta: { title: '首页', keepAlive: true }
         },
         {
           path: '/detail/test',
           name: 'test',
           component: Test,
-          meta: { title: '漫画详情', transitionIn: 'slide-left' }
+          meta: { title: '漫画详情', transitionIn: 'slide-left', keepAlive: false }
         },
         {
           path: '/mine',
           name: 'mine',
           component: Mine,
-          meta: { title: '我的', transitionIn: 'slide-left' }
+          meta: { title: '我的', transitionIn: 'slide-left', keepAlive: false }
         },
         {
           path: '/shelf',
           name: 'shelf',
           component: Shelf,
-          meta: { title: '书架', transitionIn: 'slide-left' }
+          meta: { title: '书架', transitionIn: 'slide-left', keepAlive: false }
         }
       ]
     },
@@ -54,43 +55,43 @@ const router = new Router({
       path: '/reader',
       name: 'reader',
       component: Reader,
-      meta: { title: '漫画阅读' }
+      meta: { title: '漫画阅读', keepAlive: false }
     },
     {
       path: '/recommend',
       name: 'recommend',
       component: Recommend,
-      meta: { title: '更多推荐', transitionIn: 'slide-left' }
+      meta: { title: '更多推荐', transitionIn: 'slide-left', keepAlive: false }
     },
     {
       path: '/detail',
       name: 'detail',
       component: Detail,
-      meta: { title: '漫画详情', transitionIn: 'slide-left' }
+      meta: { title: '漫画详情', transitionIn: 'slide-left', keepAlive: false }
     },
     {
       path: '/ranking',
       name: 'ranking',
       component: Ranking,
-      meta: { title: '排行榜', transitionIn: 'slide-left' }
+      meta: { title: '排行榜', transitionIn: 'slide-left', keepAlive: false }
     },
     {
       path: '/topic',
       name: 'topic',
       component: Topic,
-      meta: { title: '专题', transitionIn: 'slide-left' }
+      meta: { title: '专题', transitionIn: 'slide-left', keepAlive: false }
     },
     {
       path: '/comments',
       name: 'comments',
       component: Comments,
-      meta: { title: '评论', transitionIn: 'slide-left' }
+      meta: { title: '评论', transitionIn: 'slide-left', keepAlive: false }
     },
     {
       path: '/discovery',
       name: 'discovery',
       component: Discovery,
-      meta: { title: '发现', transitionIn: 'slide-left' }
+      meta: { title: '发现', transitionIn: 'slide-left', keepAlive: false }
     }
   ]
 });

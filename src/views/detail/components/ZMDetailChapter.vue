@@ -7,8 +7,8 @@
   <div class="main-chapter zm-b-radius">
     <div class="main-chapter-text">{{ statusText }}</div>
     <div class="main-chapter-info" v-if="detailNews">
-      <span style="padding: 0 12px 0 16px;">{{ detailNews.title || '--' }}</span>
-      <span style="padding: 0 16px 0 12px;">{{ detailNews.intro || '--' }}</span>
+      <span class="main-chapter-info-title">{{ detailNews.title || '--' }}</span>
+      <span class="main-chapter-info-content">{{ detailNews.intro || '--' }}</span>
       <span class="main-chapter-info-time">{{ updateTimes }}</span>
       <span class="main-chapter-info-r" @click="handleComicsNewChapter">最近更新</span>
     </div>
@@ -80,6 +80,7 @@ $font-color: #bbbbbb !default;
     -webkit-transform-origin-x: 0;
   }
   &-info {
+    display: flex;
     box-sizing: border-box;
     margin: 16px 0 8px 16px;
     width: 311px;
@@ -89,6 +90,20 @@ $font-color: #bbbbbb !default;
     font-size: 12px;
     color: #222222;
     line-height: 56px;
+    &-title {
+      padding: 0 12px 0 16px;
+      max-width: 47px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    &-content {
+      padding: 0 16px 0 0;
+      max-width: 84px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
     &-time {
       @include font10px(#bbbbbb);
       /*padding: 0 19px 0 16px;*/
