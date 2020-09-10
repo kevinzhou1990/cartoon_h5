@@ -46,7 +46,7 @@
           <img class="left-dn" src="../images/download.png" alt />
           <span class="left-text">缓存</span>
         </div>
-        <div class="center">{{ readerChapter }}</div>
+        <div class="center" @click.stop="handleReader">{{ readerChapter }}</div>
         <div class="left" @click.stop="handleCatalog">
           <img class="left-dn" src="../images/catalog-icon.png" alt />
           <span class="left-text">目录</span>

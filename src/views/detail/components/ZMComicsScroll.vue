@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="comicsList.length">
     <div class="main-title">{{ titleContent }}</div>
-    <div class="main-img" v-if="comicsList.length">
+    <div class="main-img">
       <div
           class="main-img-content"
           v-for="item in comicsList"
