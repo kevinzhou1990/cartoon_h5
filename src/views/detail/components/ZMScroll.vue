@@ -327,6 +327,14 @@ export default {
       return yScroll;
     }
   },
+  watch: {
+	  '$route'(to, from) {
+		  if (to.query.cartoon_id !== from.query.cartoon_id){
+        this.cartoonId = to.query.cartoon_id
+			  this.getAuthorOther()
+		  }
+	  }
+  },
   beforeDestroy() {
     window.removeEventListener('scroll', this.getPageScroll, true);
     window.pageYOffset = 0;

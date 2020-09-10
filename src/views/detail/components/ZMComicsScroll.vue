@@ -44,7 +44,7 @@ export default {
   methods: {
 	  handleDetial(val) {
       this.$router.push(`/detail?cartoon_id=${val}`)
-		  window.location.reload()
+		  // window.location.reload()
 	  }
   }
 };

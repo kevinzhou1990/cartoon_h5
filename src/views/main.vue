@@ -2,8 +2,9 @@
   <div class="home-main">
     <transition :name="transitionName">
       <keep-alive>
-        <router-view/>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
     <div class="tabber zm-b-t flex">
       <div :class="actived === 'home' ? 'active' : ''" @click="switchTab('home')">

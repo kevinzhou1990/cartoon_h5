@@ -62,7 +62,7 @@ export default {
       if (this.leftBtnFlag) {
         this.$emit('goBack')
       } else {
-	      window.history.go(-1);
+	      this.$router.back()
       }
       // this.$router.back()
     }
