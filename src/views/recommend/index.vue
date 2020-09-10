@@ -79,9 +79,9 @@ export default {
   },
   computed: {},
   created() {
-    this.acticeIndex = this.$store.state.recommend.SEC_ID || Number(this.$route.query.SEC_ID) || 1
+    this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
-    this.getData()
+    // this.getData()
   },
   methods: {
   /**
@@ -126,7 +126,7 @@ export default {
 	   * @date: 9/4/20-4:54 下午
 	   */
 	  getComicsList(val) {
-      console.log('.....')
+      console.log('getComicsList.....', val)
 		  this.allLoaded = false
 		  this.$refs.recommendList.scrollTop = 0;
 		  this.acticeIndex = Number(val)

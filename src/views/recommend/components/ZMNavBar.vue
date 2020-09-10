@@ -5,7 +5,7 @@
         class="item"
         :class="{ active: isSelected == name }"
         v-for="(item, name, index) in dataList"
-        :key="index"
+        :key="name"
         @click.stop="start(name, index)"
     >
       {{ item }}
@@ -34,9 +34,16 @@ export default {
       dataList: this.tabListData
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+		  const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '')
+      const key = this.acticeIndex
+		  this.start(key, _index)
+    })
+  },
   methods: {
-    start(name, index) {
-      this.isSelected = name
+    start(key, index) {
+      this.isSelected = key
       this.currentIndex = index
       this.$emit('getRecommendData', this.isSelected)
       /**
