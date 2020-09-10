@@ -55,19 +55,21 @@ export default {
       const nextSpace = 7 //每次移动距离
       let scrollItemTimer = setInterval(() => {
         this.$nextTick(() => {
-          let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth //item
-          let scrollLeft = this.$refs.scrollItem[this.currentIndex].offsetLeft //选中的元素滚到可视区域的最左边
-          const containWidth = this.$refs.scrollBox.offsetWidth //容器的宽度
-          let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2 //最终要停留的点
-          if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
-            clearInterval(scrollItemTimer)
+          if (this.$refs && this.$refs.scrollItem){
+		        let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth //item
+		        let scrollLeft = this.$refs.scrollItem && this.$refs.scrollItem[this.currentIndex].offsetLeft //选中的元素滚到可视区域的最左边
+		        const containWidth = this.$refs.scrollBox.offsetWidth //容器的宽度
+		        let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2 //最终要停留的点
+		        if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
+			        clearInterval(scrollItemTimer)
+		        }
+		        if (resultSpot >= this.lastSpot) {
+			        this.lastSpot = this.lastSpot + nextSpace
+		        } else {
+			        this.lastSpot = this.lastSpot - nextSpace
+		        }
+		        this.$refs.scrollBox.scrollTo(this.lastSpot, 0)
           }
-          if (resultSpot >= this.lastSpot) {
-            this.lastSpot = this.lastSpot + nextSpace
-          } else {
-            this.lastSpot = this.lastSpot - nextSpace
-          }
-          this.$refs.scrollBox.scrollTo(this.lastSpot, 0)
         })
       }, 15)
     }
