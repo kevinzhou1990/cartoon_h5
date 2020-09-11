@@ -32,12 +32,6 @@ const router = new Router({
           meta: { title: '首页', keepAlive: true }
         },
         {
-          path: '/detail/test',
-          name: 'test',
-          component: Test,
-          meta: { title: '漫画详情', transitionIn: 'slide-left', keepAlive: false }
-        },
-        {
           path: '/mine',
           name: 'mine',
           component: Mine,
@@ -69,6 +63,12 @@ const router = new Router({
       component: Detail,
       meta: { title: '漫画详情', transitionIn: 'slide-left', keepAlive: false }
     },
+	  {
+		  path: '/detail/test',
+		  name: 'test',
+		  component: Test,
+		  meta: { title: '漫画详情', transitionIn: 'slide-left', keepAlive: false }
+	  },
     {
       path: '/ranking',
       name: 'ranking',
