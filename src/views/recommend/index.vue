@@ -84,6 +84,7 @@ export default {
   created() {
     this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
+    this.isLightIcon = localStorage.getItem('isLightIcon') || false
     // this.getData()
   },
   methods: {
@@ -121,6 +122,7 @@ export default {
 	   */
     handleClickLightIcon() {
       this.isLightIcon = !this.isLightIcon
+      localStorage.setItem('isLightIcon', this.isLightIcon)
       console.log('to do something。。。。')
     },
 	  /**
