@@ -4,25 +4,26 @@
     <div class="ranking-wrap">
       <ul class="ranking-type">
         <li
-          :class="rank.rank_id === activedRank ? 'actived':''"
+          :class="rank.rank_id === parseInt(activeRank) ? 'actived':''"
           :key="rank.rank_id"
           v-for="rank in rankingList"
           @click="switchRank(rank)"
         >{{rank.name}}</li>
       </ul>
-      <div class="ranking-comics-list">
+      <div class="ranking-comics-list" ref="comicsList">
         <ul>
           <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
             <div
               class="comics-cover"
-              :class="comics.rank > 2 ? 'comics-cover-normal':''"
+              :class="comics.rank > 3 ? 'comics-cover-normal':''"
               :style="`background-image:url(${comics.cover})`"
+              @click="handleZMInfo(comics.cartoon_id)"
             />
             <div class="comics-info">
               <div class="ranking-info">
                 <span
                   :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
-                >{{comics.rank > 10 ? comics.rank : `0${comics.rank}`}}</span>
+                >{{comics.rank >= 10 ? comics.rank : `0${comics.rank}`}}</span>
                 <span
                   class="ranking-occupy"
                   v-if="comics.days >= 7"
@@ -35,40 +36,47 @@
                   {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
                 </span>
               </div>
-              <p class="comics-info-title">{{comics.title}}</p>
-              <p
-                class="comics-info-other"
-              >{{comics.author}}&nbsp;&nbsp;更新至{{comics.last_chapters_id}}话</p>
-              <!-- <p class="comics-info-other">{{comics.}}</p> -->
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <div>
+                <p class="comics-info-other" v-if="comics.author.length > 0">{{comics.author[0]}}</p>
+                <p class="comics-info-other">{{comics.status_text}}</p>
+              </div>
             </div>
           </li>
         </ul>
+        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins';
 import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
+import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
+
 export default {
   name: 'Ranking',
+  mixins: [myMixins],
   components: { ZMHeader, SvgIcon },
   data() {
     return {
-      activedRank: 1,
+      activeRank: this.$route.query.rank,
+      activeName: '',
       comicsList: [
         {
           last_chapters_id: 11,
           cartoon_id: 1,
-          title: '黑色放映机全新复刻经典版',
+          title: '超长长长长长长长长长长长长长长长长黑色放映机全新复刻经典版',
           cover:
             'https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg',
           author_id: 2,
-          author: '福尔马林',
+          author: ['福尔sdfsfsdafadsfsdafsadfsdfsadfsadf马林'],
           rank: 1,
           days: '30',
-          status: 0
+          status: 0,
+          status_text: '更新至第9999911111119999话'
         },
         {
           last_chapters_id: 11,
@@ -166,9 +174,56 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.getRankingCate().then(() => {
+      this.getRankingByCate();
+    });
+  },
   methods: {
     switchRank(rank) {
-      this.activedRank = rank.rank_id;
+      this.activeRank = rank.rank_id;
+      this.activeName = rank.name;
+      this.setQuery();
+      this.getRankingByCate()
+    },
+    //获取排行分类
+    async getRankingCate() {
+      const rankCate = await getRankingCate();
+      if (rankCate.code === 0) {
+        this.rankingList = rankCate.data.data;
+        if (this.rankingList && this.rankingList.length > 0){
+          if (!this.$route.query.rank){
+            this.activeRank = this.rankingList[0].rank_id;
+            this.activeName = this.rankingList[0].name;
+            this.setQuery();
+          } else {
+            this.rankingList.some((item) => {
+              if (this.$route.query.rank === item.rank_id.toString()){
+                this.activeName = item.name;
+                return true
+              }
+            });
+          }
+        }
+      } else {
+        this.$toast(rankCate.msg || '系统出错,请稍后重试');
+      }
+    },
+    //获取排行分类对应漫画
+    async getRankingByCate() {
+      const rankList = await getRankingByCate(this.activeRank);
+      if (rankList.code === 0) {
+        this.comicsList = rankList.data.data;
+      } else {
+        this.$toast(rankList.msg || '系统出错,请稍后重试');
+      }
+    },
+    //选择的rankId更新到路由里
+    setQuery(){
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      query.rank = this.activeRank;
+      this.$router.replace({ path: this.$route.path, query: query });
+      this.$refs.comicsList.scrollTo(0, 0);
     }
   }
 };
@@ -192,7 +247,7 @@ $GRAYFONTCOLOR: #999;
         height: 56px;
         color: $FONTCOLOR;
         font-family: 'pingfang-blod';
-        font-size: 12px;
+        font-size: 10px;
         padding: 30px 28px 12px 22px;
         &.actived {
           color: #fff;
@@ -214,6 +269,14 @@ $GRAYFONTCOLOR: #999;
       li {
         margin-top: 16px;
         display: flex;
+      }
+      .no-more{
+        text-align: center;
+        width: 100%;
+        margin-left: -58px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        color: $FONTCOLOR;
       }
     }
     .comics-cover {
@@ -241,7 +304,7 @@ $GRAYFONTCOLOR: #999;
         align-items: center;
         span {
           display: inline-block;
-          font-size: 12px;
+          font-size: 10px;
           font-weight: bolder;
           text-align: center;
         }
@@ -276,9 +339,20 @@ $GRAYFONTCOLOR: #999;
         flex: 1;
         margin-top: 16px;
         color: #222;
+        overflow: hidden;
+        max-height: 40px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        word-break: break-all;
       }
       .comics-info-other {
         color: $FONTCOLOR;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        word-break: break-all;
       }
     }
   }
