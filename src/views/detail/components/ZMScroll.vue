@@ -131,7 +131,7 @@ export default {
       }
     },
     isOnlineText () {
-      if (!this.detailData && this.detailData.is_online) {
+      if (this.detailData && this.detailData.is_online) {
         if (this.detailData.is_coming) {
           return {
             text: '新漫即将抵达',

@@ -32,6 +32,7 @@
         <div
           :style="{ background: 'url('+ZMDetailData.cover+')no-repeat center / contain'}"
           class="main-content-box-right"
+          v-if="ZMDetailData.cover"
         ></div>
       </div>
       <div style="padding: 0 32px 24px 32px;" class="content" ref="intro-content">
