@@ -126,8 +126,12 @@ export default {
           }
         }
       }
-      if (this.$route.query.flag) {
+      // 上一话下一话跳转的，并且当前话图片数量超过1张，从0开始阅读
+      if (this.$route.query.flag && this.comicsList.length > 1) {
         reader_per = 0;
+      }
+      if (reader_per) {
+        this.Toast('上次读到这', { type: 'tag', duration: 1000 });
       }
       // 计算图片索引
       const idx = getIndex(reader_per, this.comicsList.length);

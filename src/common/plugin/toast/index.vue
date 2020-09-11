@@ -66,7 +66,7 @@ export default {
     }
     &-fixed {
       box-sizing: border-box;
-      width: 176px;
+      max-width: 176px;
       padding: 16px;
     }
     &-free {
