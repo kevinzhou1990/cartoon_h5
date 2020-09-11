@@ -24,6 +24,7 @@
           <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
             <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
             <z-m-list v-else :dataList="dataList"></z-m-list>
+            <z-m-no-data v-if="allLoaded"></z-m-no-data>
           </mt-loadmore>
         </template>
         <div v-else>
@@ -43,6 +44,7 @@ import ZMTable from './components/ZMTable'
 import ZMList from './components/ZMList'
 import ZMswiper from '@/common/components/ZMswiper'
 import ZMRecLoading from '@/views/recommend/components/ZMRecLoading'
+import ZMNoData from '@/common/components/ZMNoData'
 import { getMoreComics } from '@/common/api/home'
 const defaultBanner = require('@/assets/img/defaultBanner.png')
 export default {
@@ -54,7 +56,8 @@ export default {
     ZMList,
     ZMNotNetwork,
 	  ZMRecLoading,
-	  ZMswiper
+	  ZMswiper,
+	  ZMNoData
   },
   data() {
     return {
@@ -79,9 +82,10 @@ export default {
   },
   computed: {},
   created() {
-    this.acticeIndex = this.$store.state.recommend.SEC_ID || Number(this.$route.query.SEC_ID) || 1
+    this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
-    this.getData()
+    this.isLightIcon = localStorage.getItem('isLightIcon') || false
+    // this.getData()
   },
   methods: {
   /**
@@ -118,6 +122,7 @@ export default {
 	   */
     handleClickLightIcon() {
       this.isLightIcon = !this.isLightIcon
+      localStorage.setItem('isLightIcon', this.isLightIcon)
       console.log('to do something。。。。')
     },
 	  /**
@@ -126,7 +131,7 @@ export default {
 	   * @date: 9/4/20-4:54 下午
 	   */
 	  getComicsList(val) {
-      console.log('.....')
+      console.log('getComicsList.....', val)
 		  this.allLoaded = false
 		  this.$refs.recommendList.scrollTop = 0;
 		  this.acticeIndex = Number(val)

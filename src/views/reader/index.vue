@@ -12,15 +12,16 @@
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
-      <div class="reader-mask-middle" @click="switchFull"></div>
+      <div class="reader-mask-middle" @touchstart="switchFull"></div>
       <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
     </div>
-    <div class="reader-img">
+    <div class="reader-img" ref="imgWrap">
       <img-component
-        v-for="item in comicsList"
+        v-for="(item,index) in comicsList"
         :key="item.detail_id"
         :src="item.path"
         :comics="item"
+        :default-load="index < pageIndex"
       />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
@@ -35,6 +36,7 @@ import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
+import { getIndex, getPageHeight, getDistance } from './tools';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -51,7 +53,8 @@ export default {
       showComicsLink: false,
       // 目录相关信息
       show: false,
-      titleText: ''
+      titleText: '',
+      pageIndex: 3
     };
   },
   mounted() {
@@ -74,6 +77,9 @@ export default {
     },
     settingData() {
       return this.$store.state.reader.settingData;
+    },
+    readerProcess() {
+      return this.$store.state.reader.readerProcess;
     }
   },
   watch: {
@@ -88,10 +94,20 @@ export default {
   methods: {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
-      this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
-      let contentsList = this.$store.state.reader.contentsList;
+      await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      if (!this.comicsList.length) {
+        // 没有图片，回退到上一个页面
+        this.Toast(`当前章节无数据`, {
+          type: 'fail',
+          duration: 1000
+        });
+        this.back();
+      }
+      // 根据图片宽高比，计算每一张图片高度，设置页面高度
+      const p = getPageHeight(this.comicsList);
+      this.$refs.imgWrap.style.height = p.pageHeight + 'px';
       // 计算滚动位置
-      let availableScroll = document.body.scrollHeight - innerHeight;
+      let contentsList = this.$store.state.reader.contentsList;
       let localContents = this.$store.state.reader.localContents;
       let reader_per = 0;
       const CAPTERID = parseInt(this.$route.query.capterId);
@@ -109,12 +125,19 @@ export default {
           }
         }
       }
-      let percentage = reader_per / 100;
-      document.scrollingElement.scrollTop = availableScroll * percentage;
+      if (this.$route.query.flag) {
+        reader_per = 0;
+      }
+      // 计算图片索引
+      const idx = getIndex(reader_per, this.comicsList.length);
+      // 根据图片索引，计算滚动高度
+      let scrollDistance = getDistance(idx, p.p);
+      document.scrollingElement.scrollTop = scrollDistance;
+      this.pageIndex = idx > 3 ? idx : 3;
       // 获取当前阅读漫画章节标题和序号
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
-          this.titleText = contentsList[i].title + contentsList[i].intro;
+          this.titleText = contentsList[i].title + '.' + contentsList[i].intro;
           return false;
         }
       }
@@ -141,11 +164,12 @@ export default {
       this.show = true;
       this.navigationStatus = true;
     },
-    scorllPos(read_per) {
-      let ele = document.scrollingElement;
-      let scrollheight = ele.scrollHeight;
-      let scrollAbleHeight = scrollheight - innerHeight;
-      ele.scrollTop = scrollAbleHeight * (read_per / 100);
+    // 导航拉动结束后执行
+    scorllPos() {
+      const idx = getIndex(this.readerProcess, this.comicsList.length);
+      const p = getPageHeight(this.comicsList);
+      let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx - 1, p.p);
+      document.scrollingElement.scrollTop = scrollDistance - innerHeight / 2;
     },
     // 图片翻页
     turnPage(direction) {
@@ -197,7 +221,6 @@ export default {
   }
 }
 .page-reader {
-  padding-top: 44px;
   min-height: 100%;
   .header-right {
     font-size: 12px;

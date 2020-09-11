@@ -73,8 +73,12 @@ export default {
     };
   },
   mounted() {
+    console.log('进来了吗？。。。。。mounted')
     this.getBanner();
     this.getRecommend();
+  },
+  activated() {
+    console.log('执行了。。。。。activated')
   },
   methods: {
     /**

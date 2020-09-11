@@ -88,4 +88,5 @@ function throttle(callback, delay = 200, context, iselapsed = false) {
     }
   };
 }
+
 export { encry, getRandomStr, timestampToTime, throttle };

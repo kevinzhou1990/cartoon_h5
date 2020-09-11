@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`navigation-wrap navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`"
+    :class="`navigation-wrap navigation-wrap${show ? '-hidden' : ''} navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`"
   >
     <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
       <div :class="`navigation-contents ${touching}`" @click="openContents">
@@ -20,7 +20,7 @@
         @touchend="handlerTouchEnd"
       >
         <div
-          :style="`height:${readerProcess}%;`"
+          :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`"
           :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
         ></div>
         <div class="reader-process-tag">
@@ -46,6 +46,10 @@
         <SvgIcon iconClass="set_ba" size="small" />
       </div>
     </div>
+    <div class="toast" @click="goIndex" v-show="lastTag">
+      上次所在 {{startIndex}}/{{imagesList.detail.length}}
+      <svg-icon iconClass="more_bb" size="small" class="toast-more" />
+    </div>
   </div>
 </template>
 
@@ -67,12 +71,17 @@ export default {
       // 显示索引
       pageIndex: 1,
       // 开始索引
-      startIndex: 1
+      startIndex: 1,
+      // 显示上次阅读标签
+      lastTag: false
     };
   },
   watch: {
     $route(to, from) {
       this.init();
+    },
+    show(n, o) {
+      if (n) this.lastTag = false;
     },
     readerProcess(n, o) {
       // 计算图片页码
@@ -111,7 +120,7 @@ export default {
       const CAPTERID = parseInt(this.$route.query.capterId);
       let read_per = 0;
       if (CARTOONID && CAPTERID) {
-        // 读取本地进度，如没有本地进度，获取目录中的京都
+        // 读取本地进度，如没有本地进度，获取目录中的进度
         if (this.localContents[CARTOONID]) {
           const p = this.$store.state.reader.localContents[CARTOONID][CAPTERID];
           if (p) read_per = p.read_per;
@@ -124,11 +133,14 @@ export default {
           }
         }
       }
+      console.log(read_per, 'navigation');
       let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
+      console.log(read_per, index, '-----navigation');
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {
+      console.log('switchfull');
       this.$parent.navigationStatus = !this.$parent.navigationStatus;
       this.$parent.settingStatus = !this.$parent.settingStatus;
     },
@@ -150,7 +162,7 @@ export default {
       if (gap + this.initHeight > 272 || gap + this.initHeight < 0) return;
       let read_per = ((gap + this.initHeight) / 272) * 100;
       this.$store.commit('UPDATE_READERPROCESS', read_per);
-      this.$parent.scorllPos(read_per);
+      // this.$parent.scorllPos(read_per);
     },
     handlerTouchEnd(e) {
       this.touching = '';
@@ -164,27 +176,24 @@ export default {
       localContents[this.$route.query.cartoon_id] = {
         ...chapter
       };
+      this.lastTag = true;
+      this.$parent.scorllPos();
       this.$store.dispatch('saveProcess', localContents);
       this.$store.commit('UPDATE_READSCROLL');
-      this.Toast(`上次所在  ${this.startIndex}/${this.imagesList.detail.length}`, {
-        type: 'success',
-        duration: 1000,
-        toastStyle: 'free',
-        callback: () => {
-          console.log(this, 'message', 'this');
-        }
-      });
     },
     turnPage(type) {
       let cartoon_id = this.$route.query.cartoon_id;
       let idx = this.contentsList.indexOf(parseInt(this.$route.query.capterId));
       if (type) {
         // 下一话
-        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx + 1] } });
+        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx + 1], flag: 'next' } });
       } else {
         // 上一话
-        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx - 1] } });
+        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx - 1], flag: 'prev' } });
       }
+    },
+    goIndex() {
+      console.log(this.startIndex);
     }
   }
 };
@@ -211,6 +220,14 @@ export default {
         left: -56px;
       }
     }
+    .tag {
+      padding-left: 10px;
+      left: 56px;
+      background-size: 100%;
+      background-color: transparent;
+      background-position: 0 0;
+      background-image: url('./img/bubble_bb.png');
+    }
   }
   &-left-hidden {
     left: -56px;
@@ -226,9 +243,22 @@ export default {
         right: -56px;
       }
     }
+    .tag {
+      right: 56px;
+      padding-right: 15px;
+      background-size: 100%;
+      background-color: transparent;
+      background-position: 0 0;
+      background-image: url('./img/bubble_aa.png');
+    }
   }
   &-right-hidden {
     right: -56px;
+  }
+  &-hidden {
+    .toast {
+      bottom: -50px !important;
+    }
   }
   .navigation-content-touch {
     position: relative;
@@ -260,12 +290,10 @@ export default {
       margin: 0;
       height: 272px;
       & > div {
-        background: rgba(255, 255, 255, 1);
         border-radius: 8px 8px 0 0;
       }
     }
     & > div {
-      background: rgba(255, 255, 255, 1);
       border-radius: 8px 8px 0 0;
     }
     .reader-process {
@@ -274,18 +302,12 @@ export default {
     .tag {
       display: none;
       box-sizing: border-box;
-      padding-right: 15px;
       font-family: 'pingfang-blod';
-      background-image: url('./img/bubble_aa.png');
-      background-size: 100%;
-      background-position: 0 0;
       position: absolute;
-      background-color: transparent;
       color: #fff;
       text-align: center;
       line-height: 40px;
       font-size: 18px;
-      right: 56px;
       width: 94px;
       height: 40px;
       &.tag-touch {
@@ -353,6 +375,22 @@ export default {
         background-size: 100%;
         margin-left: 1px;
       }
+    }
+  }
+  .toast {
+    width: 170px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 40px;
+    color: #fff;
+    padding: 11px 24px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+    height: 40px;
+    left: calc(50% - 85px);
+    text-align: center;
+    .toast-more {
+      display: inline-block;
     }
   }
 }
