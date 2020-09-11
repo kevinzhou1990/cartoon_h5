@@ -14,9 +14,7 @@
       </span>
     </div>
     <div class="contents-last">
-      <div v-if="comicsInfo.status === 1">{{comicsInfo.status_text }}</div>
-      <div v-else-if="comicsInfo.status === 2">已完结</div>
-      <div v-else>休更中</div>
+      <div>{{comicsInfo.status_text }}</div>
       <div class="zm-b" @click="switchSort">
         <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
         <span>{{`${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}`}}</span>
@@ -25,14 +23,14 @@
     <ul class="contents-list" ref="chapter">
       <li @click="goto(item)" v-for="(item) in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
-        <span class="contents-current" v-if="item.chapter_id === parseInt($route.query.capterId)" />
-        <div :class="`contents-list-item ${item.read_per === 100 ? 'done' : ''}`">
+        <span class="contents-current" v-if="item.chapter_id === comicsInfo.last_chapter_id" />
+        <div :class="`contents-list-item ${parseInt(item.read_per) === 100 ? 'done' : ''}`">
           <span>{{item.title}}</span>
           <div class="chapter-title">
             <span class="chapter-title-content">{{item.intro}}</span>
             <span
               class="read-process"
-              v-if="item.read_per !== 100 && item.read_per !== 0"
+              v-if="parseInt(item.read_per) !== 100 && parseInt(item.read_per) !== 0"
             >{{`${item.read_per}%`}}</span>
           </div>
           <div>
@@ -86,7 +84,9 @@ export default {
         const CARTOON_ID = item.cartoon_id;
         if (localContents[CARTOON_ID]) {
           const P = localContents[CARTOON_ID][CAPTERID];
-          item.read_per = P ? P.read_per : 0;
+          if (P) {
+            item.read_per = P.read_per;
+          }
         }
       });
       return contentsList;
@@ -270,6 +270,7 @@ $nousecolor: #bbb;
         background: #000;
         background: url('../../../assets/img/markBa@3x.png') 0 0 transparent;
         background-size: 100%;
+        z-index: 9;
       }
     }
     .process {

@@ -8,7 +8,7 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </z-m-header>
-    <Navigation :show="navigationStatus" />
+    <Navigation :show="navigationStatus" :imagesList.sync="$store.state.reader.imagesList" />
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
@@ -94,6 +94,7 @@ export default {
   methods: {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
+      this.comicsInfo.last_chapter_id = parseInt(this.$route.query.capterId);
       await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
       if (!this.comicsList.length) {
         // 没有图片，回退到上一个页面

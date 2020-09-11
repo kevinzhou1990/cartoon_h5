@@ -50,7 +50,7 @@
       :detail-data="ZMDetailData"
       :textHeight="textHeight"
     ></z-m-scroll>
-    <z-m-contents :comicsInfo="comicsInfo" :show="show"></z-m-contents>
+    <z-m-contents :comicsInfo.sync="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
 

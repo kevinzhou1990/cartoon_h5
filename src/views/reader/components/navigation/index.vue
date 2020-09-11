@@ -55,11 +55,13 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
+import { getPageHeight, getDistance } from '../../tools';
 export default {
   name: 'Navigation',
   components: { SvgIcon },
   props: {
-    show: { type: Boolean, default: true }
+    show: { type: Boolean, default: true },
+    imagesList: { type: Object }
   },
   data() {
     return {
@@ -96,9 +98,6 @@ export default {
     this.init();
   },
   computed: {
-    imagesList: function () {
-      return this.$store.state.reader.imagesList;
-    },
     contentsList: function () {
       return this.$store.state.reader.contentsList.map((item) => {
         return item.chapter_id;
@@ -193,7 +192,9 @@ export default {
       }
     },
     goIndex() {
-      console.log(this.startIndex);
+      const p = getPageHeight(this.imagesList.detail);
+      const dis = getDistance(this.startIndex - 1, p.p);
+      document.scrollingElement.scrollTop = dis;
     }
   }
 };
