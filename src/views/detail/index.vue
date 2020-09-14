@@ -152,7 +152,7 @@ export default {
           status: ZMDetailData.status || 1, // 1=连载中,2=已完结,3=休更中
           // update_freq: ZMDetailData.update_freq || '', // 更新频率
           title: (ZMDetailData.last && ZMDetailData.last.title) || '', // 章节编号
-          last_chapter_id: (ZMDetailData.last && ZMDetailData.last.chapter_id) || '', // 当前阅读的章节
+          last_chapter_id: (ZMDetailData.last && ZMDetailData.last.chapter_id && ZMDetailData.last.has_read) || '', // 当前阅读的章节
           status_text: ZMDetailData.status_text
         };
         this.ZMDetailData = ZMDetailData;
