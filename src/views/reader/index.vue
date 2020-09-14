@@ -21,7 +21,8 @@
         :key="item.detail_id"
         :src="item.path"
         :comics="item"
-        :default-load="index < pageIndex"
+        :default-load="index < 3"
+        :height="imgHeight[index]"
       />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
@@ -54,7 +55,9 @@ export default {
       // 目录相关信息
       show: false,
       titleText: '',
-      pageIndex: 3
+      pageIndex: 3,
+      // 每张图片的高度
+      imgHeight: []
     };
   },
   mounted() {
@@ -107,6 +110,7 @@ export default {
       // 根据图片宽高比，计算每一张图片高度，设置页面高度
       const p = getPageHeight(this.comicsList);
       this.$refs.imgWrap.style.height = p.pageHeight + 'px';
+      this.imgHeight = p.p;
       // 计算滚动位置
       let contentsList = this.$store.state.reader.contentsList;
       let localContents = this.$store.state.reader.localContents;
@@ -174,7 +178,7 @@ export default {
       const idx = getIndex(this.readerProcess, this.comicsList.length);
       const p = getPageHeight(this.comicsList);
       let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx - 1, p.p);
-      document.scrollingElement.scrollTop = scrollDistance - innerHeight / 2;
+      document.scrollingElement.scrollTo({ top: scrollDistance - innerHeight / 2 });
     },
     // 图片翻页
     turnPage(direction) {

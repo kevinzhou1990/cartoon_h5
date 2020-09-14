@@ -1,5 +1,5 @@
 <template>
-  <div class="component-img" :id="`img${comics.detail_id}`">
+  <div class="component-img" :id="`img${comics.detail_id}`" :style="`height:${height}px`">
     <img alt :data-src="src" :src="defaultLoad ? src : ''" ref="img" />
     <!-- <img :src="src" alt=""> -->
   </div>
@@ -17,7 +17,8 @@ export default {
         return {};
       }
     },
-    defaultLoad: { type: true, default: false }
+    defaultLoad: { type: true, default: false },
+    height: { type: Number }
   },
   data() {
     return {
@@ -46,9 +47,10 @@ export default {
   },
   methods: {
     scrollThrottle() {
+      console.log('event scroll');
       let offset = this.$el.getBoundingClientRect();
       // 当前图片是否在可见区域
-      if (offset.top > 0 && offset.top < innerHeight / 2) {
+      if (offset.top > innerHeight / 3 && offset.top < innerHeight) {
         // 计算进度
         const idList = this.imagesList.map((item) => {
           return item.detail_id;
@@ -67,8 +69,8 @@ export default {
         };
         this.$store.dispatch('saveProcess', localContents);
       }
-      // 图片预加载
-      if (offset.top < 2 * innerHeight && this.$refs.img) {
+      // 图片预加载,加载负一屏和下一屏的图片
+      if (offset.top > -innerHeight && offset.top < 2 * innerHeight && this.$refs.img) {
         this.$refs.img.src = this.$refs.img.dataset.src;
       }
     }
