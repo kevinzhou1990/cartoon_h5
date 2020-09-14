@@ -20,9 +20,11 @@ export default {
     SvgIcon,
     DiscoveryFilter
   },
+
   data() {
     return { titleText: '发现' };
-  }
+  },
+  mounted() {}
 };
 </script>
 

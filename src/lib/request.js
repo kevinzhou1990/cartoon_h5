@@ -28,6 +28,13 @@ service.interceptors.request.use(
         refresh_token: TOKEN_DATA.refresh_token
       };
     }
+    if (navigator.userAgent.search('isApp') !== -1) {
+      // 手机app端获取注入到ua的token
+      const reg = new RegExp(/token=.*$/gim);
+      const t = reg.exec(navigator.userAgent)[0].split('=')[1];
+      config.Authorization = t;
+    }
+
     return config;
   },
   error => {

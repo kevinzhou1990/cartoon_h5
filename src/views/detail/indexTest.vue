@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {throttle} from '@/lib/utils'
+// import {throttle} from '@/lib/utils'
 export default {
   props: {
     bottomAjax: { // 是否现实下拉加载

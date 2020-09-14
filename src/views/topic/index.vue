@@ -1,33 +1,34 @@
 <template>
-  <div class="topic-page">
-    <z-m-header titleText=" " :showRight="true" :hasBorder="true">
+  <div class="topic-page" :style="`${isApp ? 'padding-top:0':''}`">
+    <z-m-header titleText=" " :showRight="true" :hasBorder="true" v-if="!isApp">
       <div slot="right" class="topic-share">
         <SvgIcon iconClass="share_ab" size="default" />
       </div>
     </z-m-header>
-    <div class="topic-title">开了个汉服店的日常，艾特戈壁电玩店失败第4天，求艾特教学</div>
+    <div class="topic-title">{{special.title}}</div>
     <section class="topic-author">
       <div class="topic-author-info">
         <img class="avatar" src="./img/default_head.png" alt />
         <div>
           <div class="topic-author-name">哇卡漫画官方小飞鸡本鸡</div>
-          <div class="topic-gray">08-20 18:08</div>
+          <div class="topic-gray">{{special.created_at_text}}</div>
         </div>
       </div>
-      <div class="topic-gray">
-        <svg-icon icon-class="view_ba" size="small" />12.5万阅读
+      <div class="topic-gray topic-read">
+        <svg-icon icon-class="view_ba" size="small" />
+        {{special.read_num}}阅读
       </div>
     </section>
-    <article>{{special.detail}}</article>
+    <article v-html="special.detail"></article>
     <div class="topic-zan">
       <span>
         <i />赞一个
       </span>
     </div>
-    <div class="topic-comment">
-      <div class="topic-comment-title">专题评论（1）</div>
+    <div class="topic-comment" v-if="!isApp && commentsList.length">
+      <div class="topic-comment-title">专题评论（{{commentsList.length}}）</div>
       <ul>
-        <li>
+        <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" src="./img/default_head.png" alt />
           </div>
@@ -45,7 +46,7 @@
         </li>
       </ul>
     </div>
-    <div class="topic-tips">
+    <div class="topic-tips" v-if="!isApp && commentsList.length">
       <span>不说点什么吗？点它 →</span>
       <div class="write-comment">
         <svg-icon size="default" icon-class="comment_aa" />
@@ -57,6 +58,7 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
+import { getTopic, getTopicComments } from '@/common/api/topic';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
@@ -67,13 +69,22 @@ export default {
         title: '开了个汉服店的日常，艾特戈壁电玩店失败第4天，求艾特教学',
         intro: '简介',
         can_comment: 1,
-        detail:
-          '各位老哥早呀，一下子就周三了，一周过去快一半了。昨天有事艾特失败隔壁电玩店的日子，有没有老哥来叫我一下怎么艾特，之前我前面空了后面@9528 这样不行啊，是不是复制的来着。好了回归正题，关注我的老哥都知道，我店里前几天成功收获了一个黑粉，今天来给各位讲讲到底咋回事。先说起因吧，周一我的合作伙伴在我们的专门说事情的微信群里说了之前有没有和客户聊过天什么的，我就很懵逼，微信这个玩意儿除了我之前开店期间就上了一次，就没上过微信了。🌚不过不得不吐槽微信这个聊天记录不同设备不能同步是真的骚。😰然后我女友也出现了，就说这个客户没喝她说过啥。接着我合作伙伴就很神奇的说恭喜我们收到了一个黑粉。😓😓😓',
+        detail: '',
         praise_num: 121212123121212,
         comment_num: 12988766212,
-        created_at: 1597999717
-      }
+        created_at_text: 1597999717
+      },
+      commentsList: [],
+      isApp: false
     };
+  },
+  async mounted() {
+    const topic = await getTopic(this.$route.query.id);
+    const comments = await getTopicComments(this.$route.query.id);
+    let special = { ...this.special, ...topic.data };
+    this.special = special;
+    this.commentsList = comments.data.data;
+    this.isApp = navigator.userAgent.search('isApp') !== -1;
   }
 };
 </script>
@@ -133,8 +144,7 @@ $DEEPGRAY: #999;
       height: 24px;
       width: 24px;
       vertical-align: middle;
-      background: url('../../assets/img/likeAa@3x.png') 0 0 no-repeat
-        transparent;
+      background: url('../../assets/img/likeAa@3x.png') 0 0 no-repeat transparent;
       background-size: 100%;
       margin: -4px 8px 0 0;
     }
@@ -148,6 +158,11 @@ $DEEPGRAY: #999;
       font-size: 14px;
       text-align: center;
       line-height: 44px;
+    }
+  }
+  .topic-read {
+    svg {
+      margin-top: -2px;
     }
   }
   .topic-comment {
