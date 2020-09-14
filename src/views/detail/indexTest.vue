@@ -1,132 +1,223 @@
 <template>
-  <div class="test-main">
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
-      <ul>
-        <li v-for="(item,index) in list" :key="index">{{ item }}</li>
-      </ul>
-  </mt-loadmore>
+  <div class="main">
+    <div class="main-scroll" ref="refreshScroll" style="transform: translate3d(0px, 0px, 0px)">
+      <div
+          style="text-align: center; color: #222222; line-height: 50px; margin-top: -50px; transition: .2s; z-index: 99;"
+          @transitionend="transitionend"
+          v-show="topAjax"
+          :style="topWrapStyle"
+      >
+        <span>{{ topTips }}</span>
+      </div>
+      <div style="overflow: auto;">
+        <ul v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="100">
+          <li class="srcoll-content">1</li>
+          <li class="srcoll-content">2</li>
+          <li class="srcoll-content">3</li>
+          <li class="srcoll-content">4</li>
+          <li class="srcoll-content">5</li>
+          <li class="srcoll-content">6</li>
+          <li class="srcoll-content">7</li>
+          <li class="srcoll-content">8</li>
+          <li class="srcoll-content">9</li>
+          <li class="srcoll-content">10</li>
+          <li class="srcoll-content">2</li>
+          <li class="srcoll-content">3</li>
+          <li class="srcoll-content">4</li>
+          <li class="srcoll-content">5</li>
+          <li class="srcoll-content">6</li>
+          <li class="srcoll-content">7</li>
+          <li class="srcoll-content">8</li>
+          <li class="srcoll-content">9</li>
+          <li class="srcoll-content">10</li>
+        </ul>
+      </div>
+      <div
+          style="text-align: center; color: #222222; line-height: 50px; height: 50px; transition: .2s;"
+          v-show="bottomAjax"
+      >
+        <span>{{ bottomTips }}</span>
+      </div>
+    </div>
+    <div class="main-bottom">
+      bottom
+    </div>
   </div>
 </template>
 
 <script>
-import { Loadmore } from 'mint-ui';
-
+import {throttle} from '@/lib/utils'
 export default {
-  data() {
-    return {
-      lastSpot: 0,
-      currentIndex: 0,
-      dataList: {
-        '2': '热播',
-        '3': '专题 ',
-        '4': '经典漫画',
-        '5': '喜欢的人都在看',
-        '6': '你可能喜欢 ',
-        '7': '2020热播'
-      },
-	    allLoaded: false
-    };
+  props: {
+    bottomAjax: { // 是否现实下拉加载
+      type: Boolean,
+      default: false
+    }
   },
   components: {
-    Loadmore
   },
-  computed: {
-	  list (){
-      let num = []
-      for (let i = 1; i < 100; i++){
-	      num.push(i)
-      }
-      return num
+  data() {
+    return {
+	    topTips: '1111',
+	    topAjax: true, // 是否可以往下拉
+	    startY: 0, // 手指点击屏幕的到顶部的距离
+      move: 0, // 手指滑动的距离
+      topScrollLength: 50, // 手指滑动超过50 开始请求
+	    topWrapStyle: {
+		    height: 50 + 'px',
+		    transition: 'none'
+	    },
+      bottomTips: '数据加载中...',
+	    loading: false
     }
+  },
+  mounted() {
+    this.$refs['refreshScroll'].addEventListener('touchstart', this.touchStart, true)
+    this.$refs['refreshScroll'].addEventListener('touchend', this.touchEnd, true)
+    this.$el.addEventListener('scroll', this.scroll, true)
   },
   methods: {
-	  loadTop() {
-      console.log('loadTop.......')
-		  this.$refs.loadmore.onTopLoaded()
+	  touchStart(e) {
+		  if (document.getElementsByClassName('main-scroll')[0].scrollTop > 0) {
+			  e.stopPropagation()
+		  }
+		  let touch = e.changedTouches[0]
+		  this.topTips = '下拉刷新';//下拉提示文字
+		  this.startY = touch.clientY;//获得当前按下点的纵坐标
+      console.log('touchStart.......', this.startY)
+		  this.$refs['refreshScroll'].addEventListener('touchmove', this.touchMove, true)
     },
-	  loadBottom() {
-      console.log('loadBottom.....')
-		  this.allLoaded = true;// 若数据已全部获取完毕
-		  this.$refs.loadmore.onBottomLoaded()
+	  touchMove(e) {
+      let touch = e.changedTouches[0]
+		  this.move = touch.clientY - this.startY // 滑动的距离
+      if (this.move > 5 && this.move < 100){ // 滑动到多少距离后显示什么文字
+        this.topTips = '下拉刷新'
+	      this.$refs['refreshScroll'].style.transform = `translate3d(0px, ${this.move}px, 0px)`
+	      this.topWrapStyle.height = `${this.move}px`
+        this.topWrapStyle.marginTop = `${this.move - 50}px`
+      }
+		  if (this.move > this.topScrollLength){
+			  this.topTips = '释放更新'
+		  }
+		  console.log('touchMove.....', this.move)
     },
-    start(index) {
-      this.currentIndex = index;
-      /**
-       * 1)先让选中的元素滚到可视区域的最左边 scrollLeft
-       * 2)接着向右移动容器一半的距离 containWidth / 2
-       * 3)最后向左移动item一半的距离 offsetWidth / 2
-       */
-      this.lastSpot = this.$refs.scrollBox.scrollLeft;
-      console.log(this.lastSpot);
-      const nextSpace = 7; //每次移动距离
-      let scrollItemTimer = setInterval(() => {
-        this.$nextTick(() => {
-          let offsetWidth = this.$refs.scrollItem[this.currentIndex]
-            .offsetWidth; //item
-          let scrollLeft = this.$refs.scrollItem[this.currentIndex].offsetLeft; //选中的元素滚到可视区域的最左边
-          const containWidth = this.$refs.scrollBox.offsetWidth; //容器的宽度
-          let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2; //最终要停留的点
-          if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
-            clearInterval(scrollItemTimer);
-          }
-          if (resultSpot >= this.lastSpot) {
-            this.lastSpot = this.lastSpot + nextSpace;
-          } else {
-            this.lastSpot = this.lastSpot - nextSpace;
-          }
-          this.$refs.scrollBox.scrollTo(this.lastSpot, 0);
-        });
-      }, 15);
+	  touchEnd() {
+		  let timer = ''
+      if (timer) {
+        clearTimeout(timer)
+      }
+		  this.$refs['refreshScroll'].style.transition = 'ease 0.5s'
+		  this.$refs['refreshScroll'].style.transform = `translate3d(0px, 0px, 0px)`
+      console.log('this.move', this.move)
+		  this.topWrapStyle.height = `50px`
+		  this.topWrapStyle.transition = 'height 500ms'
+		  if (this.move >= this.topScrollLength && this.topAjax){
+			  this.topTips = '更新中...'
+			  console.log('响应父组件的方法')
+			  timer = setTimeout(() => {
+				  console.log('进来了。。。。')
+				  // 触发上拉加载的动作。。。。。TODO
+			  }, 500)
+		  }
+      console.log('touchEnd.....')
+    },
+	  transitionend () {
+      console.log('transitionend')
+		  this.$refs['refreshScroll'].style.transition = 'height 200ms'
+		  this.topWrapStyle.transition = 'none'
+      this.topWrapStyle.marginTop = '-50px'
+    },
+    // 获取滚动条当前的位置
+    getScrollTop() {
+      let scrollTop = 0
+      if (document.getElementsByClassName('main-scroll') && document.getElementsByClassName('main-scroll')[0].scrollTop) {
+	      scrollTop = document.getElementsByClassName('main-scroll')[0].scrollTop
+      } else {
+	      scrollTop = document.body.scrollTop
+      }
+      return scrollTop
+    },
+    // 获取当前可是范围的高度
+    getClientHeight() {
+      let clientHeight = 0
+      if (document.body.clientHeight && this.$refs['refreshScroll'].clientHeight) {
+	      clientHeight = Math.min(document.body.clientHeight, this.$refs['refreshScroll'].clientHeight)
+      } else {
+        clientHeight = Math.max(document.body.clientHeight, this.$refs['refreshScroll'].clientHeight)
+      }
+      return clientHeight
+    },
+    // 获取文本内容完整的高度
+    getContentScrollHeight() {
+      return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+    },
+	  scroll() {
+      console.log('.....scroll')
+      if (this.getScrollTop()){
+        this.topAjax = false
+	      this.$refs['refreshScroll'].removeEventListener('tochstart', this.touchStart, false)
+	      this.$refs['refreshScroll'].removeEventListener('touchend', this.touchend, false)
+      } else {
+	      this.topAjax = true
+	      this.topWrapStyle.transition = 'none'
+	      this.topWrapStyle.marginTop = '-50px'
+	      this.$refs['refreshScroll'].addEventListener('tochstart', this.touchStart, false)
+	      this.$refs['refreshScroll'].addEventListener('touchend', this.touchend, false)
+      }
+      if (this.getScrollTop() + this.getClientHeight() >= this.getContentScrollHeight()) {
+	      // this.bottomAjax = true
+	      // throttle(function () {
+        //   console.log('触发了吗？')
+	      // }, 200)
+        // TODO 还是请求上拉翻页的数据
+      }
+		  // setTimeout(() => {
+      //   this.bottomAjax = false
+		  // }, 2000)
+    },
+	  loadMore() {
+      console.log('加载更多。。。。')
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
-$BORDER_COLOR: red;
-$item-selected-color: #222222;
-$item-color: #bbbbbb;
-.test-main {
+.main {
   position: relative;
-  overflow: auto;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
   width: 100%;
-  text-align: center;
-  touch-action: none;
-}
-.scroll-box {
-  position: fixed;
-  font-family: 'pingfang-blod';
-  width: 100%;
-  background-color: #ffffff;
-  white-space: nowrap;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  /*height: 56px;*/
-  line-height: 56px;
-  color: $item-color;
-  &::-webkit-scrollbar {
-    width: 0 !important;
+  padding-bottom: 44px;
+  box-sizing: border-box;
+  .main-scroll {
+    position: relative;
+    overflow-y: auto;
+    height: 100%;
+    .srcoll-content {
+      position: relative;
+      text-align: center;
+      height: 55px;
+      margin: 10px auto;
+      line-height: 50px;
+      color: red;
+      border-bottom: 1px solid #eeeeee;
+    }
   }
-  .item {
-    display: inline-block;
-    padding: 0 16px;
-    white-space: nowrap;
-  }
-  .item:nth-last-of-type(1) {
-    margin-right: 0;
-  }
-}
-.active {
-  position: relative;
-  color: $item-selected-color;
-  transition-duration: 0.3s;
-  &:after {
-    content: ' ';
-    display: block;
-    border-bottom: 2px solid $item-selected-color;
-    /*width: 24px;*/
-    margin: 0 8px;
-    transition: linear 3s ease-out;
+  .main-bottom {
+    position: fixed;
+    height: 44px;
+    line-height: 44px;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #cccccc;
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

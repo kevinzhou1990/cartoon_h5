@@ -53,40 +53,21 @@ function timestampToTime(timestamp, type) {
     return Y + M + D + h + m + s; //时分秒可以根据自己的需求加上
   }
 }
-
-/**
- * 函数节流
- * @param {*} callback 回调函数
- * @param {*} delay 等待时间
- * @param {*} context 上下文
- * @param {Boolean} iselapsed 是否等待上一次执行完成
- * @returns {Function}
- */
-function throttle(callback, delay = 200, context, iselapsed = false) {
-  let timeout = null;
-  let lastRun = 0;
+/*
+ * @info 函数节流, 固定时间调取一次
+ * @fn {function} 要执行的函数
+ * @wait {number | ms} 要等待的毫秒数
+ * */
+function throttle(fn, wait = 300) {
+  let canRun = true
   return function() {
-    if (timeout) {
-      if (iselapsed) {
-        return '';
-      } else {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-    }
-    let elapsed = Date.now() - lastRun;
-    let args = arguments;
-    if (iselapsed && elapsed >= delay) {
-      execCallback();
-    } else {
-      timeout = setTimeout(execCallback, delay);
-    }
-    function execCallback() {
-      lastRun = Date.now();
-      timeout = false;
-      callback.apply(context, args);
-    }
-  };
+    if (!canRun) return
+    canRun = false
+    setTimeout(() => {
+      fn.apply(this, arguments)
+      canRun = true
+    }, wait)
+  }
 }
 
 export { encry, getRandomStr, timestampToTime, throttle };
