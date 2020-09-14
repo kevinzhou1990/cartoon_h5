@@ -60,8 +60,7 @@ export default {
   name: 'Navigation',
   components: { SvgIcon },
   props: {
-    show: { type: Boolean, default: true },
-    imagesList: { type: Object }
+    show: { type: Boolean, default: true }
   },
   data() {
     return {
@@ -80,10 +79,15 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.init();
+      setTimeout(() => {
+        this.init();
+      }, 500);
     },
     show(n, o) {
       if (n) this.lastTag = false;
+    },
+    'imagesList.detail': function (n) {
+      this.init();
     },
     readerProcess(n, o) {
       // 计算图片页码
@@ -111,6 +115,9 @@ export default {
     },
     funcPos: function () {
       return this.$store.state.reader.settingData.funcPos;
+    },
+    imagesList: function () {
+      return this.$store.state.reader.imagesList;
     }
   },
   methods: {
@@ -132,10 +139,8 @@ export default {
           }
         }
       }
-      console.log(read_per, 'navigation');
       let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
-      console.log(read_per, index, '-----navigation');
       this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {

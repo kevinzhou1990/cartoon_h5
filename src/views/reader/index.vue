@@ -8,7 +8,7 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </z-m-header>
-    <Navigation :show="navigationStatus" :imagesList.sync="$store.state.reader.imagesList" />
+    <Navigation :show="navigationStatus" />
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
