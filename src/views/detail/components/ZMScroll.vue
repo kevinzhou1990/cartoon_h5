@@ -33,7 +33,7 @@
       ></z-m-comics-scroll>
       <z-m-comics-scroll
         :comicsType="2"
-        :title-content="maybeLikeTitle"
+        :title-content="maybeTitle"
         :comicsList="yourselfLikeComics"
         :style="{'padding-bottom': bottomAjax? '0': '20px'}"
       ></z-m-comics-scroll>
@@ -145,20 +145,34 @@ export default {
           textColorFlag: true
         }
       }
+    },
+    maybeTitle() {
+      let titleContext = ''
+      if (this.detailData && this.detailData.title) {
+        if (this.detailData.title.length > 5){
+          titleContext = this.detailData.title.substring(0, 4) + '...'
+        } else {
+	        titleContext = this.detailData.title
+        }
+        return `喜欢《${titleContext}》的也会喜欢`
+      } else {
+        return '--'
+      }
     }
   },
   // beforeMount() {
   //   document.body.scrollTop = document.documentElement.scrollTop = 0
   // },
   created() {
-    console.log(this.detailData);
-    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+    console.log(this.detailData)
+    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || ''
     this.getAuthorOther();
+	  this.maybeLikeTitle = this.detailData && this.detailData.title
   },
   mounted() {
-    this.scrolOnEventChange();
-    this.$el.addEventListener('touchstart', this.touchStart, true);
-    this.$el.addEventListener('touchend', this.touchEnd, true);
+    this.scrolOnEventChange()
+    this.$el.addEventListener('touchstart', this.touchStart, true)
+    this.$el.addEventListener('touchend', this.touchEnd, true)
   },
   methods: {
     /**

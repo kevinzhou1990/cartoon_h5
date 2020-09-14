@@ -92,20 +92,21 @@ $font-color: #bbbbbb !default;
     line-height: 56px;
     &-title {
       padding: 0 12px 0 16px;
-      max-width: 47px;
+      width: 47px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     &-content {
       padding: 0 16px 0 0;
-      max-width: 84px;
+      width: 84px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     &-time {
       @include font10px(#bbbbbb);
+      width: 52px;
       /*padding: 0 19px 0 16px;*/
     }
     &-r {
