@@ -114,8 +114,11 @@ export default {
       const commentList = await getCommentList(1, this.cartoonId, params);
       if (commentList.code === 0) {
         if (this.dataNumber > commentList.data.count && isRefresh){
-          let diff = commentList.data.count - this.dataNumber
-          this.$toast('更新' + diff + '条评论')
+          let diff = commentList.data.count - this.dataNumber;
+          this.Toast('更新' + diff + '条评论', {
+            type: 'success',
+            duration: 1000
+          });
         }
         this.dataNumber = commentList.data.count;
         let comments = commentList.data.data;
