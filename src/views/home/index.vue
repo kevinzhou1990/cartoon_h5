@@ -163,48 +163,14 @@ export default {
     },
 	  resfreshPage() {
       this.currentPage = 1
-      this.loading = true
+      this.isNoMoreData = false
       this.recList = []
 		  this.getRecommend()
-		  // if (this.currentPage < this.totalPages) this.allLoaded = false
     },
-	  // resfreshPage() {
-    //   console.log('loadTop.......')
-    //   setTimeout(() => {
-	  //     this.$refs.loadmore.onTopLoaded()
-	  //     if (this.$el.getBoundingClientRect().y !== 0) return
-	  //     this.currentPage = 1
-	  //     this.recList = []
-	  //     this.getRecommend()
-	  //     if (this.currentPage < this.totalPages) this.allLoaded = false
-    //   }, 2000)
-	  // },
 	  nextPage() {
       this.bottomAjax = true
 		  this.currentPage++
 		  this.getRecommend()
-      /*setTimeout(() => {
-	      // console.log('nextPage......')
-        // if (this.currentPage === this.totalPages){
-	      //   this.bottomAjax = false
-        // }
-	      this.currentPage++
-	      this.getRecommend()
-      }, 2500)*/
-      // console.log('1111')
-      // setTimeout(() => {
-		  //   this.$refs.loadmore.onBottomLoaded()
-		  //   this.currentPage++
-		  //   // console.log('loadBottom.....')
-		  //   // if (this.currentPage > this.totalPages) {
-		  //   //   this.allLoaded = true
-		  //   // } else {
-		  //   //
-		  //   // }
-		  //   this.getRecommend()
-		  //   if (this.currentPage >= this.totalPages) this.allLoaded = true
-      // }, 1000)
-		  // this.allLoaded = true;// 若数据已全部获取完毕
 	  }
   }
 };

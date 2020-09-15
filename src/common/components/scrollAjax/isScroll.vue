@@ -44,7 +44,7 @@ export default {
       topAjax: true, // 是否可以往下拉
       startY: 0, // 手指点击屏幕的到顶部的距离
       move: 0, // 手指滑动的距离
-      topScrollLength: 50, // 手指滑动超过50 开始请求
+      topScrollLength: 40, // 手指滑动超过50 开始请求
       topWrapStyle: {
         height: 50 + 'px',
         transition: 'none'
@@ -72,7 +72,7 @@ export default {
     touchMove(e) {
       let touch = e.changedTouches[0]
       this.move = touch.clientY - this.startY // 滑动的距离
-      if (this.move > 20 && this.move < 80){ // 滑动到多少距离后显示什么文字
+      if (this.move > 20 && this.move < 50){ // 滑动到多少距离后显示什么文字
         this.topTips = '下拉刷新'
         this.$refs['refreshScroll'].style.transform = `translate3d(0px, ${this.move}px, 0px)`
         this.topWrapStyle.height = `${this.move}px`
@@ -91,7 +91,7 @@ export default {
       this.$refs['refreshScroll'].style.transition = 'ease 0.5s'
       this.$refs['refreshScroll'].style.transform = `translate3d(0px, 0px, 0px)`
       console.log('this.move', this.move)
-      this.topWrapStyle.transition = 'height 500ms'
+      this.topWrapStyle.transition = 'height 0.5s'
 	    this.topWrapStyle.height = `50px`
       if (this.move >= this.topScrollLength && this.topAjax && this.getScrollTop() <= 30){
         this.topTips = '更新中...'
