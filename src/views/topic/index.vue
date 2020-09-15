@@ -98,7 +98,6 @@ $DEEPGRAY: #999;
   font-family: 'pingfang-blod';
   padding-top: 44px;
   color: $DARK;
-  min-height: 100%;
   background: #f5f5f5;
   > * {
     background: #fff;
