@@ -28,7 +28,7 @@
                   class="ranking-occupy"
                   v-if="comics.days >= 7"
                 >连续霸榜{{Math.floor(comics.days/7)}}周</span>
-                <span class="comics-info-other" v-else>
+                <span class="comics-info-other" v-else-if="comics.status !== 0">
                   <SvgIcon
                     :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
                     size="small"
