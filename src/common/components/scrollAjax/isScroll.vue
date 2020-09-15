@@ -29,14 +29,18 @@
 import {throttle} from 'lib/utils'
 export default {
   props: {
-    bottomAjax: { // 是否现实下拉加载
+    bottomAjax: { // 是否现实上拉加载
+      type: Boolean,
+      default: false
+    },
+	  isBottomAjax: { // 是否可以触发上拉加载
       type: Boolean,
       default: false
     }
   },
   data() {
     return {
-      topTips: '1111',
+      topTips: '下拉刷新数据',
       topAjax: true, // 是否可以往下拉
       startY: 0, // 手指点击屏幕的到顶部的距离
       move: 0, // 手指滑动的距离
@@ -45,16 +49,13 @@ export default {
         height: 50 + 'px',
         transition: 'none'
       },
-      bottomTips: '数据加载中...',
-      isBottomAjax: false // 是否可以触发上拉加载
+      bottomTips: '上拉加载数据'
     }
   },
   mounted() {
-	  this.$el.addEventListener('scroll', this.scroll)
-	  // document.documentElement.addEventListener('scroll', this.scroll)
 	  this.$refs['refreshScroll'].addEventListener('touchstart', this.touchStart, true)
 	  this.$refs['refreshScroll'].addEventListener('touchend', this.touchEnd, true)
-	  // document.body.addEventListener('scroll', this.scroll, true)
+    // document.getElementsByClassName('main')[0].addEventListener('scroll', this.scroll, true)
   },
   methods: {
     touchStart(e) {
@@ -62,8 +63,9 @@ export default {
         e.stopPropagation()
       }
       let touch = e.changedTouches[0]
-      this.topTips = '下拉刷新';//下拉提示文字
-      this.startY = touch.clientY;//获得当前按下点的纵坐标
+      this.bottomTips = '上拉加载'
+      this.topTips = '下拉刷新' // 下拉提示文字
+      this.startY = touch.clientY // 获得当前按下点的纵坐标
       console.log('touchStart.......', this.startY)
       this.$refs['refreshScroll'].addEventListener('touchmove', this.touchMove, true)
     },
@@ -91,13 +93,24 @@ export default {
       console.log('this.move', this.move)
       this.topWrapStyle.transition = 'height 500ms'
 	    this.topWrapStyle.height = `50px`
-      if (this.move >= this.topScrollLength && this.topAjax && this.getScrollTop() === 0){
+      if (this.move >= this.topScrollLength && this.topAjax && this.getScrollTop() <= 30){
         this.topTips = '更新中...'
-	      this.$emit('on-top-ajax')
+	      throttle(this.$emit('on-top-ajax'), 500)
+        // timer = setTimeout(() => {
+        //   console.log('进来了。。。。')
+        //
+        //
+        //   // 触发上拉加载的动作。。。。。TODO
+        // }, 500)
+      }
+      if (this.getContentScrollHeight() - this.getScrollTop() - this.getClientHeight() <= 50){
+        console.log('进来了。。。。')
         timer = setTimeout(() => {
-          console.log('进来了。。。。')
-          // 触发上拉加载的动作。。。。。TODO
-        }, 500)
+          if (this.isBottomAjax) {
+            this.bottomTips = '数据加载中...'
+	          this.$emit('to-bottom-ajax')
+          }
+        })
       }
       console.log('touchEnd.....')
     },
@@ -146,7 +159,6 @@ export default {
       }
       if (this.getScrollTop() + this.getClientHeight() >= this.getContentScrollHeight()) {
         console.log('scroll进来了。。。。。')
-	      this.isBottomAjax = true
 	      this.$emit('to-bottom-ajax')
         // throttle(function () {
         //   console.log('触发了吗？')
@@ -156,6 +168,14 @@ export default {
       // setTimeout(() => {
       //   this.bottomAjax = false
       // }, 2000)
+    },
+    // 初始化滑动数据
+    resetInit() {
+      if (this.topWrapStyle.height > 50) {
+        this.topWrapStyle.transition = 'hhight 500ms'
+        this.topWrapStyle.height = '50px'
+        this.topTips = '下拉刷新'
+      }
     }
   }
 }

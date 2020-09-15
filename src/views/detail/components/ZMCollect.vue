@@ -13,12 +13,11 @@
               <div style="display: flex;">
                 <img
                     class="img"
-                    v-for="index in 5"
+                    v-for="(name,index) in starts"
                     :key="index"
-                    src="../images/save_start_collect.png"
+                    :src="name"
                     alt
                 />
-                <!--              <span style=" display: inline-block; background: url('../images/save_start_collect.png') no-repeat center;  background-size: 100%;"></span>-->
               </div>
             </div>
           </template>
@@ -50,7 +49,27 @@ export default {
   data() {
     return {
       collected: require('@/assets/img/save_bb.png'),
-      collect: require('@/assets/img/save_ba.png')
+      collect: require('@/assets/img/save_ba.png'),
+      startBG: require('../images/star-bg.png'),
+      startHalf: require('../images/start-half.png'),
+      start: require('../images/start.png')
+    }
+  },
+  computed: {
+    starts() {
+      // 1 实心 2 半心 3 空心 共 5 个
+      let startArr = [this.start, this.start, this.start, this.start, this.start]
+      let startNum = 0
+      if (this.zmCollectData && this.zmCollectData.score){
+	      startNum = Math.round(this.zmCollectData.score) / 2
+        if ((startNum - Math.floor(startNum)) === 0.5) {
+          startArr[Math.floor(startNum)] = this.startHalf
+        }
+        for (let i = 0; i < Math.floor(startNum); i++) {
+	        startArr[i] = this.startBG
+        }
+      }
+      return startArr
     }
   },
   methods: {

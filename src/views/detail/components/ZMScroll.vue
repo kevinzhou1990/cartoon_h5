@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     readerChapter() {
-      if (!this.detailData && this.detailData.has_read === 1) {
+      if (this.detailData && this.detailData.last.has_read === 1) {
         return `继续 ${this.detailData.last.title}`
       } else {
         return '阅读 第一话';
@@ -238,7 +238,7 @@ export default {
       this.timer = setTimeout(() => {
         if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
         this.$el.addEventListener('touchstart', this.touchStart);
-      }, 200);
+      }, 500);
       if (this.$refs.remarkScroll.scrollTop > 100){
 	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       }

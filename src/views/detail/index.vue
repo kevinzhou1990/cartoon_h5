@@ -46,7 +46,6 @@
       </div>
     </section>
     <z-m-scroll
-      :style="{'pointer-events' : 'auto'}"
       :isChangeHeader.sync="isChangeHeader"
       :detail-data="ZMDetailData"
       :textHeight="textHeight"
