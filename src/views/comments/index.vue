@@ -19,7 +19,8 @@
     <div class="comments-contents" ref="commentContainer">
       <div class="comments-contents-top"></div>
       <img src="@/assets/img/main_icon.png" class="icon" alt />
-        <mt-loadmore :top-method="refreshPage" :bottomDistance='50' ref="loadmore" :auto-fill="false">
+      <mt-loadmore :top-method="refreshPage" :bottomDistance='50' ref="loadmore" :auto-fill="false" style="background: white">
+        <div v-if="commentsList.length > 0">
           <ul class="comments-contents-list">
             <li v-for="comment in commentsList" :key="comment.comment_id">
               <img :src="comment.avatar" alt=" " class="avatar" />
@@ -38,7 +39,10 @@
             </li>
           </ul>
           <div class="comments-last" v-if="allLoaded && commentsList.length > 0">扯到底啦，快来说两句↓↓</div>
-        </mt-loadmore>
+        </div>
+
+        <no-data-view v-else type="comment" textContent="发表一条评论，沙发就是你的了～"></no-data-view>
+      </mt-loadmore>
     </div>
 
     <div class="comments-add">
@@ -52,20 +56,17 @@
 
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
+import noDataView from '@/common/components/noDataView';
 import SvgIcon from '@/common/components/svg';
 import { getCommentList } from '@/common/api/comments';
 export default {
   name: 'Comments',
-  components: { ZMHeader, SvgIcon },
+  components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
       cartoonId: this.$route.query.cartoon_id || '',
       //漫画信息
-      details: {
-        title: '测试漫画（需要对接字段）',
-        bk_color: '#776B75',
-        cover: 'http://bookwine.leimans.com/ebook/image/2020-08-17/23426_cover_gjsqjsqu.jpg'
-      },
+      details: {},
       titleText: '',
       headerBgColor: 'transparent',
       showNavFlag: true,
@@ -84,7 +85,6 @@ export default {
     };
   },
   mounted() {
-    console.log('comments loaded');
     // 监听滚动事件
     window.addEventListener('scroll', this.switchHeaderStatus, true);
     this.getCommentsList()
@@ -114,13 +114,17 @@ export default {
       const commentList = await getCommentList(1, this.cartoonId, params);
       if (commentList.code === 0) {
         if (this.dataNumber > commentList.data.count && isRefresh){
-          let diff = commentList.data.count - this.dataNumber
-          this.$toast('更新' + diff + '条评论')
+          let diff = commentList.data.count - this.dataNumber;
+          this.Toast('更新' + diff + '条评论', {
+            type: 'success',
+            duration: 1000
+          });
         }
         this.dataNumber = commentList.data.count;
         let comments = commentList.data.data;
-        this.commentsList.push(...comments);
-        // this.details = commentList.data.cartoon;
+        //如果是刷新列表，那就直接赋值，视图才不会先跳到没数据的页面
+        isRefresh ? this.commentsList = comments : this.commentsList.push(...comments);
+        this.details = commentList.data.cartoon;
         this.totalPages = commentList.data.total_pages || 0;
         this.isLoadNext = true;
         if (this.currentPage >= this.totalPages) {
@@ -132,12 +136,10 @@ export default {
       }
     },
     refreshPage() {
-      console.log('loadTop.......')
       setTimeout(() => {
         this.$refs.loadmore.onTopLoaded()
         if (this.$el.getBoundingClientRect().y !== 0) return;
         this.currentPage = 1;
-        this.commentsList = [];
         this.getCommentsList(true);
       }, 1000)
     },
