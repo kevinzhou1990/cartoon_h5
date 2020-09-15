@@ -200,6 +200,7 @@ export default {
       const p = getPageHeight(this.imagesList.detail);
       const dis = getDistance(this.startIndex - 1, p.p);
       document.scrollingElement.scrollTop = dis;
+      this.$parent.switchFull();
     }
   }
 };
