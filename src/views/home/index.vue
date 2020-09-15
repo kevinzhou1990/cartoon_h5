@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <home-loading v-if="!recList.length"></home-loading>
+    <home-loading v-if="!bannerList.length"></home-loading>
     <template v-else>
       <!-- 首页搜索组件 -->
       <div class="main-search">

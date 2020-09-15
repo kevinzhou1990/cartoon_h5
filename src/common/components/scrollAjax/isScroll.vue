@@ -72,7 +72,7 @@ export default {
     touchMove(e) {
       let touch = e.changedTouches[0]
       this.move = touch.clientY - this.startY // 滑动的距离
-      if (this.move > 5 && this.move < 100){ // 滑动到多少距离后显示什么文字
+      if (this.move > 20 && this.move < 80){ // 滑动到多少距离后显示什么文字
         this.topTips = '下拉刷新'
         this.$refs['refreshScroll'].style.transform = `translate3d(0px, ${this.move}px, 0px)`
         this.topWrapStyle.height = `${this.move}px`
