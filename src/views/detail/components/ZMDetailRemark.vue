@@ -5,7 +5,7 @@
 */
 <template>
   <div class="main-remark">
-    <div class="remark-title">
+    <div class="remark-title" @click="handleClickInfo">
       <span style="font-size: 18px;">漫画评论区</span>
       <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
@@ -56,6 +56,20 @@ export default {
     }
   },
   methods: {
+	  /**
+	   * @info: 去评论详情
+	   * @author: PengGeng
+	   * @date: 9/16/20-10:32 上午
+	   */
+	  handleClickInfo() {
+      const cartoonId = (this.$store.state.reader && this.$store.state.reader.comic && this.$store.state.reader.comic.cartoon_id) || this.$route.query.cartoon_id
+      this.$router.push({
+        path: '/comments',
+        query: {
+	        cartoonId
+        }
+      })
+    },
     /**
      * @info: TODO 点击我要评论
      * @author: PengGeng
