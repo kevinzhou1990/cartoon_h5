@@ -9,7 +9,11 @@
       <span style="font-size: 18px;">漫画评论区</span>
       <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
-    <div class="remark-content zm-b-radius" v-if="remarkData">
+    <div
+        class="remark-content zm-b-radius"
+        v-if="remarkData"
+        @click="handleClickInfo"
+    >
         <div class="remark-content-top">
           <img :src="userIcon" class="remark-content-top-img">
           <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname || '--' }}</span>
