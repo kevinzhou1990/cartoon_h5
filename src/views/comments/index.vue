@@ -64,7 +64,7 @@ export default {
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
-      cartoonId: this.$route.query.cartoon_id || '',
+      cartoonId: this.$route.query.cartoonId || '',
       //漫画信息
       details: {},
       titleText: '',
@@ -89,16 +89,20 @@ export default {
     window.addEventListener('scroll', this.switchHeaderStatus, true);
     this.getCommentsList()
   },
+  destroyed() {
+    //销毁监听滚动事件
+    window.removeEventListener('scroll', this.switchHeaderStatus, true);
+  },
   methods: {
     switchHeaderStatus(e) {
       const titleHeight = this.$refs.title.clientHeight - 48;
-      const scollTop = document.scrollingElement.scrollTop;
+      const scrollTop = document.scrollingElement.scrollTop;
       const containerHeight = this.$refs.commentContainer.clientHeight;
       const windowHeight = document.documentElement.clientHeight;
-      this.showNavFlag = scollTop < titleHeight;
-      this.headerBgColor = scollTop > titleHeight ? '#fff' : 'transparent';
-      this.titleText = scollTop > titleHeight ? '评论区（' + this.dataNumber + '）' : '';
-      if (windowHeight + scollTop >= containerHeight - 150) {
+      this.showNavFlag = scrollTop < titleHeight;
+      this.headerBgColor = scrollTop > titleHeight ? '#fff' : 'transparent';
+      this.titleText = scrollTop > titleHeight ? '评论区（' + this.dataNumber + '）' : '';
+      if (windowHeight + scrollTop >= containerHeight - 150) {
         if (this.isLoadNext){
           this.isLoadNext = false;
           this.nextPage()
