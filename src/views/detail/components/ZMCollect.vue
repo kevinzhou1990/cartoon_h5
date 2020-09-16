@@ -8,7 +8,7 @@
           </div>
           <template v-else>
             <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score }}</span>
-            <div class="collect-content-left-img">
+            <div class="collect-content-left-img" @click="handleScoreInfo">
               <div class="collect-content-left-img-text">{{ zmCollectData && zmCollectData.evalNum }}人评分</div>
               <div style="display: flex;">
                 <img
