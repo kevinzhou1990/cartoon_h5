@@ -8,3 +8,11 @@ export const getCommentList = function(type, cartoonId, data = {}) {
     params: data
   });
 };
+//评分接口
+export const getEvalList = function(cartoonId, data = {}) {
+  return request({
+    url: `/api/cartoon/eval/${cartoonId}`,
+    method: 'get',
+    params: data
+  });
+};

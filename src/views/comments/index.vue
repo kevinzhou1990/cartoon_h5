@@ -1,3 +1,7 @@
+<!--评论页和评分页-->
+
+<!--根据query的remarkType（0：评论页面；1：评分页面）判断页面显示内容-->
+
 <template>
   <div class="comments-page">
     <z-m-header
@@ -10,10 +14,26 @@
       <div class="comments-mask" :style="{background:'url(' + details.cover + ') center center', backgroundSize: '100% 100%'}"></div>
       <div class="comments-title-content">
         <p class="comments-title-substance">{{details.title}}</p>
-        <p>
+        <p v-if="remarkType === 0">
           评论区
           <span>（{{dataNumber}}条评论）</span>
         </p>
+        <!--评分页面--评分显示-->
+        <div v-else-if="remarkType === 1" class="collect-container">
+          <span class="collect-content-left-p">{{details.score}}</span>
+          <div class="collect-content-left-img">
+            <div class="collect-content-left-img-text">{{dataNumber}}人评分</div>
+            <div style="display: flex;">
+              <img
+                class="starts-img"
+                v-for="(name,index) in starts(details.score)"
+                :key="index"
+                :src="name"
+                alt
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="comments-contents" ref="commentContainer">
@@ -24,10 +44,22 @@
           <ul class="comments-contents-list">
             <li v-for="comment in commentsList" :key="comment.comment_id">
               <img :src="comment.avatar" alt=" " class="avatar" />
-              <div class="main-container">
+              <!--评分页面-->
+              <div :class="[remarkType === 1 ? 'eval-main-container' : '', 'main-container zm-b-b']">
                 <div class="comments-user">{{comment.nickname}}</div>
+                <!--评分页面--星星-->
+                <div v-if="remarkType === 1" class="starts-container">
+                  <img
+                    class="starts-img"
+                    v-for="(name,index) in starts(comment.score)"
+                    :key="index"
+                    :src="name"
+                    alt
+                  />
+                </div>
                 <div class="comments-content">{{comment.content}}</div>
-                <div class="comments-operational zm-b-b">
+                <!--只有评论页面有-->
+                <div class="comments-operational" v-if="remarkType === 0">
                   <span>{{comment.created_at_text}}</span>
                   <span>
                     <svg-icon :icon-class="comment.has_praise ? 'like_bb' : 'like_ba'" size="small" />
@@ -41,11 +73,12 @@
           <div class="comments-last" v-if="allLoaded && commentsList.length > 0">扯到底啦，快来说两句↓↓</div>
         </div>
 
-        <no-data-view v-else type="comment" textContent="发表一条评论，沙发就是你的了～"></no-data-view>
+        <!--只有评论页面有-->
+        <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="发表一条评论，沙发就是你的了～"></no-data-view>
       </mt-loadmore>
     </div>
-
-    <div class="comments-add">
+    <!--只有评论页面有-->
+    <div class="comments-add" v-if="remarkType === 0">
       <span>
         <svg-icon icon-class="comment_bb" size="small" />
         <span>说点什么？</span>
@@ -58,13 +91,21 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
 import SvgIcon from '@/common/components/svg';
-import { getCommentList } from '@/common/api/comments';
+import { getCommentList, getEvalList } from '@/common/api/comments';
 export default {
   name: 'Comments',
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
+      //星星数量
+      bgStarts: {
+        startBG: require('@/views/detail/images/star-bg.png'),
+        startHalf: require('@/views/detail/images/start-half.png'),
+        start: require('@/views/detail/images/start.png')
+      },
       cartoonId: this.$route.query.cartoonId || '',
+      //1: 评分详情； 0: 评论详情
+      remarkType: parseInt(this.$route.query.remarkType),
       //漫画信息
       details: {},
       titleText: '',
@@ -89,6 +130,23 @@ export default {
     window.addEventListener('scroll', this.switchHeaderStatus, true);
     this.getCommentsList()
   },
+  computed: {
+    starts() {
+      return function(count){
+        // 1 实心 2 半心 3 空心 共 5 个
+        let startArr = [this.bgStarts.start, this.bgStarts.start, this.bgStarts.start, this.bgStarts.start, this.bgStarts.start];
+        let startNum = 0;
+        startNum = Math.round(count) / 2;
+        if ((startNum - Math.floor(startNum)) === 0.5) {
+          startArr[Math.floor(startNum)] = this.bgStarts.startHalf
+        }
+        for (let i = 0; i < Math.floor(startNum); i++) {
+          startArr[i] = this.bgStarts.startBG
+        }
+        return startArr
+      }
+    }
+  },
   destroyed() {
     //销毁监听滚动事件
     window.removeEventListener('scroll', this.switchHeaderStatus, true);
@@ -101,7 +159,7 @@ export default {
       const windowHeight = document.documentElement.clientHeight;
       this.showNavFlag = scrollTop < titleHeight;
       this.headerBgColor = scrollTop > titleHeight ? '#fff' : 'transparent';
-      this.titleText = scrollTop > titleHeight ? '评论区（' + this.dataNumber + '）' : '';
+      this.titleText = scrollTop > titleHeight ? this.remarkType === 1 ? '评分' + this.details.score + ' (' + this.dataNumber + '人评分)' : '评论区（' + this.dataNumber + '）' : '';
       if (windowHeight + scrollTop >= containerHeight - 150) {
         if (this.isLoadNext){
           this.isLoadNext = false;
@@ -115,7 +173,7 @@ export default {
         page: this.currentPage,
         page_size: this.pageSize
       };
-      const commentList = await getCommentList(1, this.cartoonId, params);
+      let commentList = this.remarkType === 0 ? await getCommentList(1, this.cartoonId, params) : this.remarkType === 1 ? await getEvalList(this.cartoonId, params) : '';
       if (commentList.code === 0) {
         if (this.dataNumber > commentList.data.count && isRefresh){
           let diff = commentList.data.count - this.dataNumber;
@@ -159,6 +217,7 @@ export default {
 <style lang="scss" scoped>
 .comments-page {
   .comments-title {
+    font-family: PingFangSC-Semibold;
     position: fixed;
     height: 240px;
     width: 100%;
@@ -176,6 +235,28 @@ export default {
       bottom: 40px;
       left: 16px;
       color: #fff;
+      .collect-container {
+        display: flex;
+        z-index: 2;
+
+        .collect-content-left-p {
+          font-size: 20px;
+          color: #ffffff;
+          padding: 4px 8px;
+        }
+
+        .collect-content-left-img {
+          padding: 4px 0;
+          font-size: 10px;
+          transform: scale(0.83);
+          -webkit-transform-origin-x: 0;
+          letter-spacing: 0;
+          white-space: nowrap;
+          .collect-content-left-img-text {
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+      }
     }
     .comments-title-substance {
       font-family: 'pingfang-blod';
@@ -190,6 +271,10 @@ export default {
         }
       }
     }
+  }
+  .starts-img {
+    width: 10px;
+    height: 10px;
   }
   .comments-contents {
     position: relative;
@@ -227,6 +312,9 @@ export default {
     }
     .main-container{
       width: 100%;
+      .starts-container{
+        margin-bottom: 11px;
+      }
       .comments-user {
         font-family: 'pingfang-blod';
         min-height: 17px;
@@ -239,6 +327,7 @@ export default {
         font-size: 14px;
         color: #222;
         padding-right: 16px;
+        word-break: break-all;
       }
       .comments-operational {
         display: flex;
@@ -270,6 +359,14 @@ export default {
         svg {
           vertical-align: top;
         }
+      }
+    }
+    .eval-main-container{
+      .comments-user {
+        margin-bottom: 4px;
+      }
+      .comments-content {
+        margin-bottom: 17px;
       }
     }
   }
