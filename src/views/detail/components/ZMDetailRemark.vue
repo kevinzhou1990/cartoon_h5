@@ -64,13 +64,15 @@ export default {
 	   * @info: 去评论详情
 	   * @author: PengGeng
 	   * @date: 9/16/20-10:32 上午
+     * @params remarkType 0 评论  1 评分
 	   */
 	  handleClickInfo() {
       const cartoonId = (this.$store.state.reader && this.$store.state.reader.comic && this.$store.state.reader.comic.cartoon_id) || this.$route.query.cartoon_id
       this.$router.push({
         path: '/comments',
         query: {
-	        cartoonId
+	        cartoonId,
+	        remarkType: 0
         }
       })
     },
