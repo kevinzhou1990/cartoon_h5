@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-component">
+  <div class="filter-component" ref="filter">
     <div class="filter-tags zm-b-b">
       <span
         @click="updateFilter('tag',item)"
@@ -97,6 +97,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('getFilterItem');
+    this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
   },
   methods: {
     /**
@@ -143,6 +144,9 @@ export default {
 <style lang="scss" scoped>
 .filter-component {
   font-family: 'pingfang-blod';
+  position: fixed;
+  background: #fff;
+  z-index: 1;
   span {
     display: inline-block;
     padding: 4px 8px;
@@ -169,7 +173,7 @@ export default {
     }
   }
   & > div {
-    padding: 16px 24px;
+    padding: 16px 24px 8px 24px;
     position: relative;
   }
 }

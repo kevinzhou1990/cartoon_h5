@@ -306,7 +306,7 @@ $nousecolor: #bbb;
       &-content {
         box-sizing: border-box;
         display: inline-block;
-        width: 200px;
+        width: 180px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

@@ -44,7 +44,49 @@
             </div>
           </li>
         </ul>
-        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
+        <div
+          class="no-more"
+          v-if="comicsList && comicsList.length > 0"
+        >{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
+      </div>
+      <div class="ranking-comics-list ranking-comics-list-back" ref="comicsListBack">
+        <ul>
+          <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
+            <div
+              class="comics-cover"
+              :class="comics.rank > 3 ? 'comics-cover-normal':''"
+              :style="`background-image:url(${comics.cover})`"
+              @click="handleZMInfo(comics.cartoon_id)"
+            />
+            <div class="comics-info">
+              <div class="ranking-info">
+                <span
+                  :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
+                >{{comics.rank >= 10 ? comics.rank : `0${comics.rank}`}}</span>
+                <span
+                  class="ranking-occupy"
+                  v-if="comics.days >= 7"
+                >连续霸榜{{Math.floor(comics.days/7)}}周</span>
+                <span class="comics-info-other" v-else-if="comics.status !== 0">
+                  <SvgIcon
+                    :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
+                    size="small"
+                  />
+                  {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
+                </span>
+              </div>
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <div>
+                <p class="comics-info-other" v-if="comics.author.length > 0">{{comics.author[0]}}</p>
+                <p class="comics-info-other">{{comics.status_text}}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div
+          class="no-more"
+          v-if="comicsList && comicsList.length > 0"
+        >{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
       </div>
     </div>
   </div>
@@ -78,23 +120,23 @@ export default {
       this.activeRank = rank.rank_id;
       this.activeName = rank.name;
       this.setQuery();
-      this.getRankingByCate()
+      this.getRankingByCate();
     },
     //获取排行分类
     async getRankingCate() {
       const rankCate = await getRankingCate();
       if (rankCate.code === 0) {
         this.rankingList = rankCate.data.data;
-        if (this.rankingList && this.rankingList.length > 0){
-          if (!this.$route.query.rank){
+        if (this.rankingList && this.rankingList.length > 0) {
+          if (!this.$route.query.rank) {
             this.activeRank = this.rankingList[0].rank_id;
             this.activeName = this.rankingList[0].name;
             this.setQuery();
           } else {
             this.rankingList.some((item) => {
-              if (this.$route.query.rank === item.rank_id.toString()){
+              if (this.$route.query.rank === item.rank_id.toString()) {
                 this.activeName = item.name;
-                return true
+                return true;
               }
             });
           }
@@ -113,7 +155,7 @@ export default {
       }
     },
     //选择的rankId更新到路由里
-    setQuery(){
+    setQuery() {
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.rank = this.activeRank;
       this.$router.replace({ path: this.$route.path, query: query });
@@ -131,8 +173,11 @@ $GRAYFONTCOLOR: #999;
   padding-top: 44px;
   font-family: 'pingfang-blod';
   height: calc(100% - 44px);
+  width: 100%;
+  overflow: hidden;
   .ranking-wrap {
-    display: flex;
+    position: relative;
+    width: 100%;
     height: 100%;
     .ranking-type {
       width: 86px;
@@ -153,10 +198,15 @@ $GRAYFONTCOLOR: #999;
       }
     }
     .ranking-comics-list {
-      flex: 1;
       padding-left: 30px;
-
+      height: 100%;
       overflow: auto;
+      position: absolute;
+      left: 86px;
+      top: 0;
+      &-back {
+        left: 386px;
+      }
       li:first-child {
         margin-top: 17px;
       }
@@ -164,7 +214,7 @@ $GRAYFONTCOLOR: #999;
         margin-top: 16px;
         display: flex;
       }
-      .no-more{
+      .no-more {
         text-align: center;
         width: 100%;
         margin-left: -58px;

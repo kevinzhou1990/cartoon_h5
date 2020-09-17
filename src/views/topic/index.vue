@@ -20,7 +20,7 @@
       </div>
     </section>
     <article v-html="special.detail"></article>
-    <div class="topic-zan">
+    <div class="topic-zan" v-if="!isApp">
       <span>
         <i />赞一个
       </span>
@@ -30,15 +30,16 @@
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
-            <img class="avatar" src="./img/default_head.png" alt />
+            <img class="avatar" :src="item.avatar || './img/default_head.png'" alt />
           </div>
           <div>
-            <div class="topic-comment-user">多啦C梦爆米花</div>
-            <div class="topic-comment-content">这漫画，他喵的真香。迄今为止，最Cooooo…ol的，没有之一，不服不辩，快来点赞啊！哇咔咔咔～～</div>
+            <div class="topic-comment-user">{{item.nickname || '默认'}}</div>
+            <div class="topic-comment-content">{{item.data_title}}</div>
             <div class="topic-gray">
-              <span>08-20 18:08</span>
+              <span>{{item.created_at_text}}</span>
               <span class="option">
-                <svg-icon icon-class="like_ba" size="small" />9528
+                <svg-icon icon-class="like_ba" size="small" />
+                {{item.praise_num}}
                 <svg-icon icon-class="more_bc" size="small" />
               </span>
             </div>
@@ -197,7 +198,7 @@ $DEEPGRAY: #999;
     }
     .option {
       svg {
-        vertical-align: middle;
+        vertical-align: bottom;
       }
       svg:first-child {
         margin-right: 4px;

@@ -12,7 +12,8 @@ const discovery = {
       status: 1,
       sort: 1
     },
-    comicsList: []
+    comicsList: [],
+    totalPage: 1
   },
   mutations: {
     UPDATESTATE: (state, data) => {
@@ -32,6 +33,9 @@ const discovery = {
     },
     UPDATECOMICSLIST: (state, data) => {
       state.comicsList = data;
+    },
+    UPDATETOTALPAGE: (state, data) => {
+      state.totalPage = data;
     }
   },
   actions: {
@@ -44,7 +48,6 @@ const discovery = {
     getComicsList: async ({ commit, state }, data) => {
       const res = await getComicsList(data);
       if (res.code === 0) {
-        console.log('page', data.page);
         let list = JSON.parse(JSON.stringify(state.comicsList));
         const page = data.page;
         const resdata = res.data;
@@ -54,6 +57,7 @@ const discovery = {
           list = [...list, ...resdata.data];
         }
         commit('UPDATECOMICSLIST', list);
+        commit('UPDATETOTALPAGE', resdata.total_pages);
       } else {
         console.log('错误信息', res);
       }
