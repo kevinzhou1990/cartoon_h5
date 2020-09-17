@@ -1,101 +1,81 @@
 <template>
   <div>
-    <Button type="pramary" @click="dialog">弹窗</Button>
-    <Button type="pramary" @click="toast">toast</Button>
-    <Button type="pramary" @click="openContents">目录</Button>
-    <Contents
-      @close="closeConents"
-      @switch="changeSort"
-      :show="show"
-      :comicsInfo="comicsInfo"
-      :chapterData="chapterData"
-    />
+    <div class="header-container zm-b-b">
+      <ul class="tab-container">
+        <li v-for="item in tab" :key="item.id">
+          <span class="tab-btn" :class="[item.name === active ? 'on' : '']" @click="switchTab(item.name)">{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-container">
+      <div>
+        <z-m-history v-if="active === '历史'"></z-m-history>
+        <z-m-favorites v-else></z-m-favorites>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Contents from '@/common/components/contents';
+import ZMFavorites from '@/views/shelf/favorites';
+import ZMHistory from '@/views/shelf/history';
+
 export default {
-  components: {
-    Contents
-  },
+  name: 'Shelf',
+  components: { ZMFavorites, ZMHistory },
   data() {
     return {
-      show: false,
-      comicsInfo: {
-        status: 2, // 1=连载中,2=已完结,3=休更中
-        update_freq: '每周六更新', // 更新频率
-        title: '#001', // 章节编号
-        sort: 2, // 1=正序,2=倒序
-        last_chapter_id: 1 // 当前阅读的章节
-      },
-      chapterData: [
-        { chapter_id: 1, title: '#000', intro: '序章', read_per: 100 },
+      active: this.$route.query.tab || '收藏',
+      tab: [
         {
-          chapter_id: 2,
-          title: '#001',
-          intro:
-            '魔神降临上篇：黑盒的原罪之另有乾坤魔神降临上篇：黑盒的原罪之另有乾坤',
-          read_per: 100
-        },
-        { chapter_id: 3, title: '#002', intro: '谁叫你背书了', read_per: 25 },
-        {
-          chapter_id: 4,
-          title: '#003',
-          intro: '进入魔道馆（1）',
-          read_per: 79
+          id: 0,
+          name: '收藏'
         },
         {
-          chapter_id: 5,
-          title: '#004',
-          intro: '进入魔道馆（2）',
-          read_per: 20
-        },
-        { chapter_id: 6, title: '#005', intro: '没那么容易', read_per: 0 },
-        { chapter_id: 7, title: '#006', intro: '拜师', read_per: 0 },
-        { chapter_id: 8, title: '#007', intro: '八旗降临', read_per: 0 },
-        { chapter_id: 9, title: '#008', intro: '戈壁最后的夜晚', read_per: 0 },
-        { chapter_id: 10, title: '#009', intro: '前往覆满山', read_per: 0 },
-        { chapter_id: 11, title: '#0010', intro: '月岭一战', read_per: 0 },
-        { chapter_id: 12, title: '#0011', intro: '结拜', read_per: 0 }
+          id: 1,
+          name: '历史'
+        }
       ]
     };
   },
   methods: {
-    dialog() {
-      this.$dialog('取消收藏后，将不再展示在我的书架中', 'alert', {
-        confirm: {
-          text: '取消收藏',
-          callback: () => {
-            return false;
-          }
-        }
-      });
-    },
-    toast() {
-      this.Toast('收藏成功，可在书架中查看', {
-        type: 'success',
-        duration: 1000
-      });
-      // this.$toast('收藏成功，可在书架中查看', {
-      //   type: 'success',
-      //   duration: 1000
-      // });
-    },
-    openContents() {
-      console.log('打开目录');
-      this.show = true;
-    },
-    closeConents() {
-      console.log('关闭目录');
-      this.show = false;
-    },
-    changeSort() {
-      this.comicsInfo.sort = this.comicsInfo.sort === 1 ? 2 : 1;
+    switchTab(name){
+      this.active = name;
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      query.tab = this.active;
+      this.$router.replace({ path: this.$route.path, query: query });
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+  $HEADERHEIGHT: 44px;
+  .header-container{
+    position: fixed;
+    width: 100%;
+    height: $HEADERHEIGHT;
+    background: white;
+    z-index: 2;
+    .tab-container {
+      li{
+        font-family: PingFangSC-Semibold;
+        display: inline-block;
+        overflow: hidden;
+        text-align: center;
+        color: #bbbbbb;
+        font-size: 18px;
+        padding: 0 16px;
+        line-height: $HEADERHEIGHT;
+        transition:  all .2s ease-in-out;
+        .tab-btn.on{
+          color: #222222;
+        }
+      }
+    }
+  }
+  .main-container{
+    padding-top: $HEADERHEIGHT;
+  }
 </style>

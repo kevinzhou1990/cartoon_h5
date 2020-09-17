@@ -6,15 +6,16 @@ import reader from './modules/reader';
 import recommend from './modules/recommend';
 import token from './modules/token';
 import discovery from './modules/discovery';
+import collect from './modules/collect';
 import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const createPersisted = createPersistedState({
   storage: sessionStorage,
-  paths: ['reader', 'recommend', 'token']
+  paths: ['reader', 'recommend', 'token', 'collect']
 });
 const store = new Vuex.Store({
-  modules: { main, home, reader, recommend, token, discovery },
+  modules: { main, home, reader, recommend, token, discovery, collect },
   state: {},
   mutations: {},
   actions: {},
