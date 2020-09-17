@@ -6,11 +6,11 @@
 <template>
   <div class="main-chapter zm-b-radius">
     <div class="main-chapter-text">{{ statusText }}</div>
-    <div class="main-chapter-info" v-if="detailNews">
+    <div class="main-chapter-info" v-if="detailNews" @click="handleComicsNewChapter">
       <span class="main-chapter-info-title">{{ detailNews.title || '--' }}</span>
       <span class="main-chapter-info-content">{{ detailNews.intro || '--' }}</span>
       <span class="main-chapter-info-time">{{ updateTimes }}</span>
-      <span class="main-chapter-info-r" @click="handleComicsNewChapter">最近更新</span>
+      <span class="main-chapter-info-r">最近更新</span>
     </div>
   </div>
 </template>

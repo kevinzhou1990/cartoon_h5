@@ -5,11 +5,15 @@
 */
 <template>
   <div class="main-remark">
-    <div class="remark-title">
+    <div class="remark-title" @click="handleClickInfo">
       <span style="font-size: 18px;">漫画评论区</span>
       <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
-    <div class="remark-content zm-b-radius" v-if="remarkData">
+    <div
+        class="remark-content zm-b-radius"
+        v-if="remarkData"
+        @click="handleClickInfo"
+    >
         <div class="remark-content-top">
           <img :src="userIcon" class="remark-content-top-img">
           <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname || '--' }}</span>
@@ -19,7 +23,7 @@
             <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
           </div>
         </div>
-        <div style="padding: 0 16px 0 53px;">
+        <div style="padding: 0 16px 0 53px; word-break: break-word;">
           {{ remarkData.content }}
         </div>
     </div>
@@ -56,6 +60,22 @@ export default {
     }
   },
   methods: {
+	  /**
+	   * @info: 去评论详情
+	   * @author: PengGeng
+	   * @date: 9/16/20-10:32 上午
+     * @params remarkType 0 评论  1 评分
+	   */
+	  handleClickInfo() {
+      const cartoonId = (this.$store.state.reader && this.$store.state.reader.comic && this.$store.state.reader.comic.cartoon_id) || this.$route.query.cartoon_id
+      this.$router.push({
+        path: '/comments',
+        query: {
+	        cartoonId,
+	        remarkType: 0
+        }
+      })
+    },
     /**
      * @info: TODO 点击我要评论
      * @author: PengGeng
@@ -110,7 +130,7 @@ export default {
   .remark-content {
     display: inline-block;
     width: 343px;
-    height: 98px;
+    /*height: 98px;*/
     margin: 12px 16px 0 16px;
     &-top {
       display: flex;

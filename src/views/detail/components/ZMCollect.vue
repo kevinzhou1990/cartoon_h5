@@ -8,7 +8,7 @@
           </div>
           <template v-else>
             <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score }}</span>
-            <div class="collect-content-left-img">
+            <div class="collect-content-left-img" @click="handleScoreInfo">
               <div class="collect-content-left-img-text">{{ zmCollectData && zmCollectData.evalNum }}人评分</div>
               <div style="display: flex;">
                 <img
@@ -77,9 +77,17 @@ export default {
 	   * @info: 去评分详情
 	   * @author: PengGeng
 	   * @date: 8/26/20-10:21 上午
+     * @params remarkType 0 评论  1 评分
 	   */
 	  handleScoreInfo() {
-      console.log('go to score info')
+		  const cartoonId = (this.$store.state.reader && this.$store.state.reader.comic && this.$store.state.reader.comic.cartoon_id) || this.$route.query.cartoon_id
+      this.$router.push({
+        path: '/comments',
+        query: {
+	        cartoonId,
+          remarkType: 1
+        }
+      })
     },
 	  /**
 	   * @info: 点击了收藏

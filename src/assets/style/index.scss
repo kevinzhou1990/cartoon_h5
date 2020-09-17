@@ -9,6 +9,8 @@ li {
 }
 li {
   list-style: none;
+  /*去除点击阴影*/
+  -webkit-tap-highlight-color: transparent;
 }
 html,
 body {
