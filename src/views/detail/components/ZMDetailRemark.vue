@@ -23,7 +23,7 @@
             <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
           </div>
         </div>
-        <div style="padding: 0 16px 0 53px;">
+        <div style="padding: 0 16px 0 53px; word-break: break-word;">
           {{ remarkData.content }}
         </div>
     </div>
