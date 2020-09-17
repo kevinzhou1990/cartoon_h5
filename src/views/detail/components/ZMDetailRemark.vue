@@ -130,7 +130,7 @@ export default {
   .remark-content {
     display: inline-block;
     width: 343px;
-    height: 98px;
+    /*height: 98px;*/
     margin: 12px 16px 0 16px;
     &-top {
       display: flex;
