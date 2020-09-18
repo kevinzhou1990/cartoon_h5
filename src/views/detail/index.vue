@@ -76,7 +76,7 @@ export default {
       zmCollectData: null,
       cartoon_id: '', // 漫画id
       ZMDetailData: {},
-      textLength: 47, // 简介默认展示47个字符 刚好占两行
+      textLength: 41, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
@@ -99,7 +99,14 @@ export default {
     },
     ZMDetailInfo() {
       if (this.isShowUnfold) {
-        return this.textContent.substring(0, this.textLength);
+        const clienWidth = document.getElementsByClassName('content') && document.getElementsByClassName('content')[0].clientWidth
+        let textWrods = this.textLength
+        if (clienWidth >= 375) {
+	        textWrods = 46
+        } else {
+	        textWrods = 41
+        }
+        return this.textContent.substring(0, textWrods);
       } else {
         return this.textContent;
       }
