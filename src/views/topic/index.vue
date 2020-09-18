@@ -132,7 +132,7 @@ $DEEPGRAY: #999;
     color: $GRAY;
   }
   article {
-    font-family: 'pingfang-regular';
+    // font-family: 'pingfang-regular';
     color: $DARK;
     padding: 0 16px;
   }

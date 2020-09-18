@@ -149,6 +149,7 @@ export default {
     async getRankingByCate() {
       const rankList = await getRankingByCate(this.activeRank);
       if (rankList.code === 0) {
+        // 切换动画效果
         this.comicsList = rankList.data.data;
       } else {
         this.$toast(rankList.msg || '系统出错,请稍后重试');
@@ -160,6 +161,7 @@ export default {
       query.rank = this.activeRank;
       this.$router.replace({ path: this.$route.path, query: query });
       this.$refs.comicsList.scrollTo(0, 0);
+      this.$refs.comicsListBack.scrollTo(0, 0);
     }
   }
 };
@@ -204,8 +206,11 @@ $GRAYFONTCOLOR: #999;
       position: absolute;
       left: 86px;
       top: 0;
+      opacity: 1;
+      transition: left opacity, 0.4s, ease-in-out;
       &-back {
         left: 386px;
+        opacity: 0;
       }
       li:first-child {
         margin-top: 17px;
