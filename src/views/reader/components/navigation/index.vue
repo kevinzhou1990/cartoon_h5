@@ -55,7 +55,7 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
-import { getPageHeight, getDistance } from '../../tools';
+import { getPageHeight, getDistance, localReadProcess } from '../../tools';
 export default {
   name: 'Navigation',
   components: { SvgIcon },
@@ -87,6 +87,7 @@ export default {
       if (n) this.lastTag = false;
     },
     'imagesList.detail': function (n) {
+      console.log(n, '+++++');
       this.init();
     },
     readerProcess(n, o) {
@@ -122,26 +123,8 @@ export default {
   },
   methods: {
     init() {
-      const CARTOONID = parseInt(this.$route.query.cartoon_id);
-      const CAPTERID = parseInt(this.$route.query.capterId);
-      let read_per = 0;
-      if (CARTOONID && CAPTERID) {
-        // 读取本地进度，如没有本地进度，获取目录中的进度
-        if (this.localContents[CARTOONID]) {
-          const p = this.$store.state.reader.localContents[CARTOONID][CAPTERID];
-          if (p) read_per = p.read_per;
-        } else {
-          const list = this.$store.state.reader.contentsList;
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].chapter_id === CAPTERID) {
-              read_per = list[i].read_per;
-            }
-          }
-        }
-      }
-      let index = Math.floor((read_per / 100) * this.imagesList.detail.length + 1);
+      let index = Math.floor((this.readerProcess / 100) * this.imagesList.detail.length + 1);
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
-      this.$store.commit('UPDATE_READERPROCESS', read_per);
     },
     switchFull() {
       console.log('switchfull');
@@ -170,19 +153,9 @@ export default {
     },
     handlerTouchEnd(e) {
       this.touching = '';
-      // 存阅读进度
-      const localContents = JSON.parse(JSON.stringify(this.localContents));
-      const chapter = {};
-      chapter[this.imagesList.chapter_id] = {
-        read_per: Math.round(this.readerProcess),
-        detail_id: this.imagesList.detail[this.imgIndex].detail_id
-      };
-      localContents[this.$route.query.cartoon_id] = {
-        ...chapter
-      };
       this.lastTag = true;
+      localReadProcess(this, this.imagesList);
       this.$parent.scorllPos();
-      this.$store.dispatch('saveProcess', localContents);
       this.$store.commit('UPDATE_READSCROLL');
     },
     turnPage(type) {

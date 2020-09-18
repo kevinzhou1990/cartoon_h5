@@ -150,6 +150,10 @@ export default {
       const rankList = await getRankingByCate(this.activeRank);
       if (rankList.code === 0) {
         // 切换动画效果
+        const listClass = this.$refs.comicsList.classList;
+        const backClass = this.$refs.comicsListBack.classList;
+        listClass.contains('ranking-comics-list-back') ? listClass.remove('ranking-comics-list-back') : listClass.add('ranking-comics-list-back');
+        backClass.contains('ranking-comics-list-back') ? backClass.remove('ranking-comics-list-back') : backClass.add('ranking-comics-list-back');
         this.comicsList = rankList.data.data;
       } else {
         this.$toast(rankList.msg || '系统出错,请稍后重试');
@@ -200,14 +204,18 @@ $GRAYFONTCOLOR: #999;
       }
     }
     .ranking-comics-list {
+      box-sizing: border-box;
       padding-left: 30px;
+      width: calc(100% - 86px);
       height: 100%;
       overflow: auto;
       position: absolute;
       left: 86px;
       top: 0;
       opacity: 1;
-      transition: left opacity, 0.4s, ease-in-out;
+      transition-property: left, opacity;
+      transition-duration: 0.4s;
+      transition-timing-function: ease-in;
       &-back {
         left: 386px;
         opacity: 0;

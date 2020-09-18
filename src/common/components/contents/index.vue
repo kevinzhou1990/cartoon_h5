@@ -156,7 +156,7 @@ export default {
       if (this.moved) {
         const classList = this.$refs.contents.classList;
         const y = this.$refs.contents.getBoundingClientRect().top;
-        const quarter = window.outerHeight / 4;
+        const quarter = window.innerHeight / 4;
         classList.add('contents-transition');
         if (y < quarter) {
           this.touchPois.y = '0';

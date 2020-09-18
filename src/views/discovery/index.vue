@@ -70,8 +70,11 @@ export default {
   watch: {
     checked: {
       handler: function (n, o) {
+        console.log(n, o);
         if (n.tag_id !== '' && n.place_id !== '' && n.status !== '' && n.sort !== '') {
+          console.log('getcomics,start', new Date().getTime());
           this.getComics(n, 1);
+          console.log('getcomics,end', new Date().getTime());
           const s = this.$store.state.discovery.status.filter((item) => {
             return item.id === n.status;
           });

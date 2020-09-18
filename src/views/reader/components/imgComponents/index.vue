@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     scrollThrottle() {
-      console.log('event scroll');
       let offset = this.$el.getBoundingClientRect();
       // 当前图片是否在可见区域
       if (offset.top > innerHeight / 3 && offset.top < innerHeight) {
@@ -73,7 +72,8 @@ export default {
       if (offset.top > -innerHeight && offset.top < 2 * innerHeight && this.$refs.img) {
         this.$refs.img.src = this.$refs.img.dataset.src;
       }
-    }
+    },
+    updateLocalData() {}
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.scrollHandle, true);

@@ -96,7 +96,9 @@ export default {
     };
   },
   async mounted() {
+    console.log('get filter,start', new Date().getTime());
     await this.$store.dispatch('getFilterItem');
+    console.log('get filter ,end', new Date().getTime());
     this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
   },
   methods: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="comics-component">
+  <div class="comics-component" @click="goDetail">
     <div class="comics-component-cover" :style="`background-image:url(${comics.cover})`"></div>
     <div class="comics-component-title">{{comics.title}}</div>
     <div class="comics-component-update">
@@ -16,6 +16,14 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    goDetail() {
+      this.$router.push({
+        path: '/detail',
+        query: { cartoon_id: this.comics.cartoon_id }
+      });
+    }
   }
 };
 </script>
