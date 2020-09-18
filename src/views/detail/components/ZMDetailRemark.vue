@@ -5,14 +5,14 @@
 */
 <template>
   <div class="main-remark">
-    <div class="remark-title" @click="handleClickInfo">
+    <div class="remark-title" @click.stop="handleClickInfo">
       <span style="font-size: 18px;">漫画评论区</span>
       <span class="remark-title-num">{{ commentNum || 0 }}</span>
     </div>
     <div
         class="remark-content zm-b-radius"
         v-if="remarkData"
-        @click="handleClickInfo"
+        @click.stop="handleClickInfo"
     >
         <div class="remark-content-top">
           <img :src="userIcon" class="remark-content-top-img">

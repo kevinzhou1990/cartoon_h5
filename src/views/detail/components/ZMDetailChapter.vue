@@ -4,9 +4,9 @@
 * @date: 8/12/20-5:25 下午
 */
 <template>
-  <div class="main-chapter zm-b-radius">
+  <div class="main-chapter zm-b-radius" @click.prevent="handleComicsNewChapter">
     <div class="main-chapter-text">{{ statusText }}</div>
-    <div class="main-chapter-info" v-if="detailNews" @click="handleComicsNewChapter">
+    <div class="main-chapter-info" v-if="detailNews">
       <span class="main-chapter-info-title">{{ detailNews.title || '--' }}</span>
       <span class="main-chapter-info-content">{{ detailNews.intro || '--' }}</span>
       <span class="main-chapter-info-time">{{ updateTimes }}</span>
@@ -98,15 +98,16 @@ $font-color: #bbbbbb !default;
       text-overflow: ellipsis;
     }
     &-content {
+      box-sizing: content-box;
       padding: 0 16px 0 0;
-      width: 84px;
+      width: 48px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     &-time {
       @include font10px(#bbbbbb);
-      width: 52px;
+      /*max-width: 50px;*/
       /*padding: 0 19px 0 16px;*/
     }
     &-r {
