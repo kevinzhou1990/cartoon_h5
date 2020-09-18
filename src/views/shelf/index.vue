@@ -41,6 +41,9 @@ export default {
   },
   methods: {
     switchTab(name){
+      if (this.active === name) {
+        return
+      }
       this.active = name;
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.tab = this.active;
@@ -57,8 +60,9 @@ export default {
     width: 100%;
     height: $HEADERHEIGHT;
     background: white;
-    z-index: 2;
+    z-index: 10;
     .tab-container {
+      background: white;
       li{
         font-family: PingFangSC-Semibold;
         display: inline-block;

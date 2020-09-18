@@ -1,6 +1,6 @@
 <template>
-  <div class="main-content">
-    <div class="main-content-img" :class="[type === 'comment' ? 'main-content-comment-img' : '']"></div>
+  <div class="main-content" :class="[type === 'comment' ? 'comment-content' : type === 'collect' ? 'collect-content' : '']">
+    <div class="img"></div>
     <span class="main-content-text">{{ textContent }}</span>
   </div>
 </template>
@@ -23,19 +23,8 @@ export default {
 
 <style scoped lang="scss">
   .main-content {
-    height: 500px;
     text-align: center;
     overflow: hidden;
-    &-img {
-      width: 180px;
-      height: 180px;
-      margin: 0 auto;
-    }
-    &-comment-img {
-      background: url("../../assets/img/no_comment.png") no-repeat;
-      margin-top: 80px;
-      background-size: 100%;
-    }
 
     &-text {
       padding: 16px 0;
@@ -44,6 +33,28 @@ export default {
       color: #999999;
       letter-spacing: 0;
       text-align: center;
+    }
+  }
+
+  .comment-content {
+    height: 500px;
+
+    .img {
+      background: url("../../assets/img/no_comment.png") no-repeat;
+      background-size: 100%;
+      width: 180px;
+      height: 180px;
+      margin: 80px auto;
+    }
+  }
+
+  .collect-content {
+    .img {
+      background: url("../../assets/img/no_collect.png") no-repeat;
+      background-size: 100%;
+      width: 120px;
+      height: 120px;
+      margin: 16px auto;
     }
   }
 </style>
