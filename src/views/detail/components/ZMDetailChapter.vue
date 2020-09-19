@@ -4,7 +4,8 @@
 * @date: 8/12/20-5:25 下午
 */
 <template>
-  <div class="main-chapter zm-b-radius" @click.prevent="handleComicsNewChapter">
+  <div class="main-chapter zm-b-radius"
+       @click.prevent="handleComicsNewChapter">
     <div class="main-chapter-text">{{ statusText }}</div>
     <div class="main-chapter-info" v-if="detailNews">
       <span class="main-chapter-info-title">{{ detailNews.title || '--' }}</span>
@@ -108,7 +109,7 @@ $font-color: #bbbbbb !default;
     &-time {
       @include font10px(#bbbbbb);
       /*max-width: 50px;*/
-      /*padding: 0 19px 0 16px;*/
+      padding: 0 19px 0 16px;
     }
     &-r {
       @include font10px(#12e079);

@@ -10,6 +10,7 @@
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
 <!--      <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='100' ref="loadmore" :auto-fill="false">-->
       <is-scroll
+          ref="zm-scroll"
           @on-top-ajax="resfreshPage"
           :bottom-ajax="bottomAjax"
           :is-bottom-ajax="isBottomAjax"
@@ -162,6 +163,7 @@ export default {
       this.$store.commit('SET_REC_DATA', recData);
     },
 	  resfreshPage() {
+      this.$refs['zm-scroll'].resetInit()
       this.currentPage = 1
       this.isNoMoreData = false
       this.recList = []

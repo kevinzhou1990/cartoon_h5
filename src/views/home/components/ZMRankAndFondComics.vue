@@ -6,10 +6,10 @@
 <template>
   <div class="label-main">
     <div class="label-main-left">
-      <span class="label-main-cont" @click="handleRankInfo">排行</span>
+      <span class="label-main-cont" @click.prevent="handleRankInfo">排行</span>
     </div>
     <div class="label-main-right">
-      <span class="label-main-cont" @click="handleDiscoverInfo">发现</span>
+      <span class="label-main-cont" @click.prevent="handleDiscoverInfo">发现</span>
     </div>
   </div>
 </template>

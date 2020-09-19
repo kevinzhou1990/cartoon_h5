@@ -117,7 +117,7 @@ export default {
       // 当前页
       currentPage: 1,
       // 一页多少条
-      pageSize: 20,
+      pageSize: 30,
       allLoaded: false,
       //总页数
       totalPages: 0,
