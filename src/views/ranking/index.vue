@@ -214,7 +214,7 @@ $GRAYFONTCOLOR: #999;
       top: 0;
       opacity: 1;
       transition-property: left, opacity;
-      transition-duration: 0.4s;
+      transition-duration: 0.3s;
       transition-timing-function: ease-in;
       &-back {
         left: 386px;

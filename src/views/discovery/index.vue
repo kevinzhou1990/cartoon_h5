@@ -10,6 +10,8 @@
       class="discovery-comics-list"
       :style="{marginTop:`${listTop}px`}"
       :class="scrollToTop ? 'discovery-comics-list-top' : ''"
+      @touchstart="handlerTouchstart"
+      @touchend="handlerTouchend"
     >
       <div class="discovery-filter-result">
         <span>当前筛选：{{filterText}}</span>
@@ -70,11 +72,8 @@ export default {
   watch: {
     checked: {
       handler: function (n, o) {
-        console.log(n, o);
         if (n.tag_id !== '' && n.place_id !== '' && n.status !== '' && n.sort !== '') {
-          console.log('getcomics,start', new Date().getTime());
           this.getComics(n, 1);
-          console.log('getcomics,end', new Date().getTime());
           const s = this.$store.state.discovery.status.filter((item) => {
             return item.id === n.status;
           });
@@ -82,13 +81,30 @@ export default {
             return item.id === n.sort;
           });
           const p = this.$store.state.discovery.places.filter((item) => {
-            return item.tag_id === n.place_id;
+            if (item) {
+              return item.tag_id === n.place_id;
+            }
           });
           const t = this.$store.state.discovery.tags.filter((item) => {
-            return item.tag_id === n.tag_id;
+            if (item) {
+              return item.tag_id === n.tag_id;
+            }
           });
           this.page = 1;
-          this.filterText = `${t[0].name}·${p[0].name}·${s[0].name}·${sort[0].name}`;
+          // 筛选出全部，合并
+          let allText = '全部';
+          let otherText = '';
+          if (t[0].tag_id !== 0) {
+            otherText += `·${t[0].name}`;
+          }
+          if (p[0].tag_id !== 0) {
+            otherText += `·${p[0].name}`;
+          }
+          if (s[0].id !== 0) {
+            otherText += `·${s[0].name}`;
+          }
+          otherText += `·${sort[0].name}`;
+          this.filterText = `${allText}${otherText}`;
         }
       },
       deep: true
@@ -107,6 +123,7 @@ export default {
       this.scrollToTop = scrollTop <= 94;
       // 当加载下一页提示在可见区域，加载下一页
       const loading = this.$refs.loading.getClientRects()[0].top;
+      console.log(document.scrollingElement.classList);
       if (loading < innerHeight + 40) {
         const page = this.page + 1;
         if (page > this.totalPage) {
@@ -115,7 +132,16 @@ export default {
         }
         this.getComics(this.checked, page);
       }
-    }
+    },
+    handlerTouchstart() {
+      const scrollTop = this.$refs.fliterResult.getClientRects()[0].top;
+      console.log(scrollTop, this.listTop);
+      // if (scrollTop > this.listTop + 48) {
+      //   event.preventDefault();
+      // }
+      // event.preventDefault();
+    },
+    handlerTouchend() {}
   }
 };
 </script>
@@ -124,6 +150,7 @@ export default {
 .discovery-page {
   padding-top: 44px;
   .discovery-comics-list {
+    // touch-action: none;
     padding: 0 16px;
     background: #fff;
     position: relative;
