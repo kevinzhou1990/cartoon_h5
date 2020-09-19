@@ -37,7 +37,7 @@ import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
-import { getIndex, getPageHeight, getDistance } from './tools';
+import { getIndex, getPageHeight, getDistance, localReadProcess } from './tools';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -137,6 +137,8 @@ export default {
       if (reader_per) {
         this.Toast('上次读到这', { type: 'tag', duration: 1000 });
       }
+      localReadProcess(this, { chapter_id: parseInt(this.$route.query.capterId), detail: this.comicsList });
+      this.$store.commit('UPDATE_READERPROCESS', reader_per);
       // 计算图片索引
       const idx = getIndex(reader_per, this.comicsList.length);
       // 根据图片索引，计算滚动高度
@@ -216,6 +218,7 @@ export default {
       // 上报成功，清除本地数据
       this.$store.dispatch('saveProcess', {});
     }
+    console.log(rp, 'report data');
   }
 };
 </script>

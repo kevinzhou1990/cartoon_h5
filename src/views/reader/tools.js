@@ -5,7 +5,7 @@
  * @returns {Number} 当前章节图片索引
  */
 export const getIndex = function(readPer, total) {
-  return Math.ceil((readPer / 100) * total);
+  return Math.floor((readPer / 100) * total) - 1;
 };
 
 /**
@@ -36,4 +36,22 @@ export const getDistance = function(index, imgHeightList) {
     scrollDistance += item;
   });
   return scrollDistance;
+};
+
+/**
+ * 更新本地阅读记录
+ * @param {Object} context 上下文
+ * @param {Object} imglist 当前阅读章节图片对象
+ */
+export const localReadProcess = function(context, imglist) {
+  const localContents = JSON.parse(JSON.stringify(context.$store.state.reader.localContents));
+  const chapter = {};
+  chapter[imglist.chapter_id] = {
+    read_per: Math.round(context.readerProcess),
+    detail_id: imglist.detail[context.imgIndex || 0].detail_id
+  };
+  localContents[context.$route.query.cartoon_id] = {
+    ...chapter
+  };
+  context.$store.dispatch('saveProcess', localContents);
 };

@@ -1,32 +1,52 @@
 <template>
   <div>
-    <div class="button-container">
-      <ul>
-        <li v-for="item in tab" :key="item.value" @click="switchTab(item.value)" :class="[active === item.value ? 'on' : '']">{{item.name}}</li>
-      </ul>
+    <no-data-view type="collect" textContent="还没有收藏呢？"></no-data-view>
+
+    <div class="hot-recommend">
+      <div class="main-comtainer">
+        <div class="content">
+          <div class="img-container">
+            <div class="img1 img" :style="{background: 'url('+cover[0].cover+')','background-size': '100%'}"></div>
+            <div class="img2 img" :style="{background: 'url('+cover[1].cover+')','background-size': '100%'}"></div>
+            <div class="img3 img" :style="{background: 'url('+cover[2].cover+')','background-size': '100%'}"></div>
+          </div>
+
+          <div class="text">
+            <span>查看热门推荐</span>
+            <svg-icon icon-class="more_collect" size="small" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="main-container">
-      <collect-table type="myCollect" :dataList="collectList" v-if="collectList.length > 0"></collect-table>
-      <no-collect v-else></no-collect>
+
+    <div class="hot-collect">
+      <div class="title">热门收藏</div>
+      <collect-table type="hotCollect" :dataList="collectList"></collect-table>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import collectTable from './components/collectTable'
-import noCollect from './components/noCollect'
+import noDataView from '@/common/components/noDataView';
+import collectTable from './collectTable'
+import SvgIcon from '@/common/components/svg';
 export default {
+  name: 'noCollect',
+  components: { noDataView, SvgIcon, collectTable },
   data() {
     return {
-      tab: [
+      cover: [
         {
-          name: '默认收藏',
-          value: 'default'
+          id: 1,
+          cover: 'http://bookwine.leimans.com/1600257100264-360*480.jpeg'
         },
         {
-          name: '自定义收藏',
-          value: 'custom'
+          id: 2,
+          cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png'
+        },
+        {
+          id: 3,
+          cover: 'http://bookwine.leimans.com/1599015032515-%E4%B8%A4%E6%83%85%E7%9B%B8%E6%81%8B%E5%B0%81%E9%9D%A2.png'
         }
       ],
       collectList: [
@@ -128,79 +148,79 @@ export default {
         }
       ]
     };
-  },
-  components: { collectTable, noCollect },
-  mounted() {
-    console.log(this.$store.state.collect.active)
-  },
-  computed: {
-    ...mapState({ active: (state) => state.collect.active })
-  },
-  methods: {
-    ...mapMutations(['updateActive']),
-    switchTab(value){
-      if (this.active === value) {
-        return false;
-      }
-      this.updateActive(value)
-    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  $BUTTONHEIGHT: 36px;
-  $BUTTONPADDING: 16px;
-  .button-container{
-    text-align: center;
-    padding: 16px;
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%);
-    background: #FFFFFF;
-    width: 100%;
-    height: $BUTTONHEIGHT;
-    z-index: 10;
-    ul{
-      font-family: PingFangSC-Semibold;
-      position: fixed;
-      left: 50%;
-      transform: translate(-50%);
-      width: 200px;
-      background: #f5f5f5;
+  $HEIGHT: 56px;
+  $FONEFAMILY: PingFangSC-Semibold;
+  .hot-recommend{
+    height: $HEIGHT;
+    margin-top: 40px;
+    padding: 0 16px;
+    font-family: $FONEFAMILY;
+
+    .main-comtainer{
+      background: #12e079;
+      height: $HEIGHT;
+      line-height: $HEIGHT;
       border-radius: 4px;
-      li {
-        color: #bbbbbb;
-        display: inline-block;
-        width: 100px;
-        height: $BUTTONHEIGHT;
-        background: #f5f5f5;
-        line-height: $BUTTONHEIGHT;
-        border-radius: 4px;
-        transition:  all .2s ease-in-out;
-      }
-      li.on{
-        color: #222222;
-        background: #FFFFFF;
-        position: relative;
-        &:before {
-          content: " ";
+      position: relative;
+
+      .content {
+        padding: 0 16px;
+
+        .text {
+          color: #FFFFFF;
+          float: right;
+        }
+
+        .img-container{
+          height: 80px;
           position: absolute;
-          left: 0;
-          top: 0;
-          width: 200%;
-          border: 1px solid #eeeeee;
-          height: 194%;
-          -webkit-transform-origin: left top;
-          transform-origin: left top;
-          -webkit-transform: scale(0.5);
-          transform: scale(0.5);
-          border-radius: 8px;
+          bottom: 0;
+          .img {
+            background: url('../../../../assets/img/defaultBook.png') no-repeat;
+            background-size: 100%;
+            display: inline-block;
+            border-radius: 4px;
+            position: relative;
+          }
+
+          .img1 {
+            width: 60px;
+            height: 80px;
+            z-index: 3;
+          }
+
+          .img2 {
+            width: 56px;
+            height: 74px;
+            margin-left: -14px;
+            z-index: 2;
+          }
+
+          .img3 {
+            width: 50px;
+            height: 66px;
+            margin-left: -14px;
+            z-index: 1;
+          }
         }
       }
     }
   }
-  .main-container{
-    padding-top: calc(#{$BUTTONHEIGHT} + #{$BUTTONPADDING * 2});
+
+  .hot-collect{
+    margin-top: 40px;
+    .title {
+      padding: 0 16px;
+      color: #222222;
+      font-family: $FONEFAMILY;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
   }
+
 </style>
