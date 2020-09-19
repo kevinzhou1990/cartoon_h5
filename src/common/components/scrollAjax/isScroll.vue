@@ -171,10 +171,13 @@ export default {
     },
     // 初始化滑动数据
     resetInit() {
-      if (this.topWrapStyle.height > 50) {
-        this.topWrapStyle.transition = 'hhight 500ms'
+      if (this.move > 0 || this.topWrapStyle.height > 50) {
+        this.topWrapStyle.transition = 'height 500ms'
         this.topWrapStyle.height = '50px'
-        this.topTips = '下拉刷新'
+        // this.topTips = ''
+	      this.topAjax = true // 是否可以往下拉
+        this.startY = 0 // 手指点击屏幕的到顶部的距离
+        this.move = 0 // 手指滑动的距离
       }
     }
   }
