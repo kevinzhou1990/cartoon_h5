@@ -86,7 +86,7 @@
         <div
           class="no-more"
           v-if="comicsList && comicsList.length > 0"
-        >{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
+        >{{activeName}}Top50都在这里啦～</div>
       </div>
     </div>
   </div>
