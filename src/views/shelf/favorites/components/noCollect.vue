@@ -3,7 +3,7 @@
     <no-data-view type="collect" textContent="还没有收藏呢？"></no-data-view>
 
     <div class="hot-recommend">
-      <div class="main-comtainer">
+      <div class="main-container">
         <div class="content">
           <div class="img-container">
             <div class="img1 img" :style="{background: 'url('+cover[0].cover+')','background-size': '100%'}"></div>
@@ -161,7 +161,7 @@ export default {
     padding: 0 16px;
     font-family: $FONEFAMILY;
 
-    .main-comtainer{
+    .main-container{
       background: #12e079;
       height: $HEIGHT;
       line-height: $HEIGHT;

@@ -5,12 +5,15 @@
         <li v-for="item in tab" :key="item.id">
           <span class="tab-btn" :class="[item.name === active ? 'on' : '']" @click="switchTab(item.name)">{{item.name}}</span>
         </li>
+
+        <li class="edit">编辑</li>
       </ul>
     </div>
 
     <div class="main-container">
       <div>
         <z-m-history v-if="active === '历史'"></z-m-history>
+        <z-m-cache v-else-if="active === '缓存'"></z-m-cache>
         <z-m-favorites v-else></z-m-favorites>
       </div>
     </div>
@@ -20,10 +23,11 @@
 <script>
 import ZMFavorites from '@/views/shelf/favorites';
 import ZMHistory from '@/views/shelf/history';
+import ZMCache from '@/views/shelf/cache';
 
 export default {
   name: 'Shelf',
-  components: { ZMFavorites, ZMHistory },
+  components: { ZMFavorites, ZMHistory, ZMCache },
   data() {
     return {
       active: this.$route.query.tab || '收藏',
@@ -34,6 +38,10 @@ export default {
         },
         {
           id: 1,
+          name: '缓存'
+        },
+        {
+          id: 2,
           name: '历史'
         }
       ]
@@ -56,6 +64,7 @@ export default {
 <style lang="scss" scoped>
   $HEADERHEIGHT: 44px;
   .header-container{
+    font-family: PingFangSC-Semibold;
     position: fixed;
     width: 100%;
     height: $HEADERHEIGHT;
@@ -63,8 +72,8 @@ export default {
     z-index: 10;
     .tab-container {
       background: white;
+      height: 100%;
       li{
-        font-family: PingFangSC-Semibold;
         display: inline-block;
         overflow: hidden;
         text-align: center;
@@ -76,6 +85,12 @@ export default {
         .tab-btn.on{
           color: #222222;
         }
+      }
+      .edit{
+        color: #222222;
+        position: absolute;
+        right: 0;
+        font-size: 12px;
       }
     }
   }
