@@ -12,7 +12,7 @@
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
-      <div class="reader-mask-middle" @touchstart="switchFull"></div>
+      <div class="reader-mask-middle" @click="switchFull"></div>
       <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
     </div>
     <div class="reader-img" ref="imgWrap">
@@ -26,6 +26,9 @@
       />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
+    <div class="reader-first" v-if="!firstUse" @click="updateFirstReader">
+      <img src="@/assets/img/tips_aa@3x.png" alt="引导图" />
+    </div>
   </div>
 </template>
 
@@ -57,7 +60,8 @@ export default {
       titleText: '',
       pageIndex: 3,
       // 每张图片的高度
-      imgHeight: []
+      imgHeight: [],
+      firstUse: sessionStorage.getItem('firstUse')
     };
   },
   mounted() {
@@ -193,6 +197,10 @@ export default {
       } else {
         document.scrollingElement.scrollTo({ top: scolltop - h, behavior: 'smooth' });
       }
+    },
+    updateFirstReader() {
+      sessionStorage.setItem('firstUse', 'no');
+      this.firstUse = 'no';
     }
   },
   async beforeDestroy() {
@@ -218,7 +226,6 @@ export default {
       // 上报成功，清除本地数据
       this.$store.dispatch('saveProcess', {});
     }
-    console.log(rp, 'report data');
   }
 };
 </script>
@@ -255,6 +262,22 @@ export default {
       flex: 1;
     }
     // background: red;
+  }
+  .reader-first {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    z-index: 999;
+    align-items: center;
+    img {
+      width: 100%;
+    }
   }
 }
 </style>

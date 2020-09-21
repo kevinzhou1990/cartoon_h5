@@ -86,7 +86,7 @@ export default {
   min-height: 50px;
   img {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     vertical-align: top;
   }
 }

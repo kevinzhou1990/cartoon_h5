@@ -1,5 +1,10 @@
 <template>
-  <div class="discovery-page">
+  <div
+    class="discovery-page"
+    @touchstart="handlerTouchstart"
+    @touchend="handlerTouchend"
+    @touchmove="handlerTouchMove"
+  >
     <z-m-header :title-text="titleText" show-right has-border>
       <div slot="right" class="title-right">
         <svg-icon size="default" icon-class="search_aa" />
@@ -10,17 +15,21 @@
       class="discovery-comics-list"
       :style="{marginTop:`${listTop}px`}"
       :class="scrollToTop ? 'discovery-comics-list-top' : ''"
-      @touchstart="handlerTouchstart"
-      @touchend="handlerTouchend"
     >
-      <div class="discovery-filter-result">
+      <div class="discovery-filter-result" ref="filterText">
+        <span v-if="loadingStatus">动画</span>
         <span>当前筛选：{{filterText}}</span>
       </div>
-      <ul ref="fliterResult">
-        <li v-for="(item,index) in comicsList" :key="index">
-          <comics :comics="item" />
-        </li>
-      </ul>
+      <div class="discovery-filter-list" :style="`transform:translate(0, ${touchPos.moveY}px)`">
+        <!-- <div class="discovery-update">
+          <span>下拉刷新</span>
+        </div>-->
+        <ul ref="fliterResult">
+          <li v-for="(item,index) in comicsList" :key="index">
+            <comics :comics="item" />
+          </li>
+        </ul>
+      </div>
       <div class="loading" ref="loading">
         <span>{{loadingTxt}}</span>
       </div>
@@ -62,7 +71,13 @@ export default {
       scrollHandler: throttle(this.handlerScroll, 100, this),
       // 是否滚动到了顶部
       scrollToTop: false,
-      loadingTxt: '加载中······'
+      loadingTxt: '加载中······',
+      // 手指touch
+      touchPos: {
+        startY: 0,
+        moveY: 0
+      },
+      loadingStatus: false
     };
   },
   mounted() {
@@ -111,8 +126,10 @@ export default {
     }
   },
   methods: {
-    getComics(filter, page) {
-      this.$store.dispatch('getComicsList', { ...filter, page });
+    async getComics(filter, page) {
+      this.loadingStatus = true;
+      await this.$store.dispatch('getComicsList', { ...filter, page });
+      this.loadingStatus = false;
       this.page = this.page + 1;
     },
     getFilterHeight(height) {
@@ -123,7 +140,6 @@ export default {
       this.scrollToTop = scrollTop <= 94;
       // 当加载下一页提示在可见区域，加载下一页
       const loading = this.$refs.loading.getClientRects()[0].top;
-      console.log(document.scrollingElement.classList);
       if (loading < innerHeight + 40) {
         const page = this.page + 1;
         if (page > this.totalPage) {
@@ -134,14 +150,25 @@ export default {
       }
     },
     handlerTouchstart() {
-      const scrollTop = this.$refs.fliterResult.getClientRects()[0].top;
-      console.log(scrollTop, this.listTop);
-      // if (scrollTop > this.listTop + 48) {
-      //   event.preventDefault();
-      // }
-      // event.preventDefault();
+      const t = document.scrollingElement.scrollTop;
+      const scrollTop = this.$refs.filterText.getClientRects()[0].top;
+      if (t <= 0) {
+        console.log(scrollTop);
+        this.touchPos.startY = event.changedTouches[0].pageY;
+      }
     },
-    handlerTouchend() {}
+    handlerTouchMove() {
+      const m = event.changedTouches[0].pageY - this.touchPos.startY;
+      if (m <= 70) {
+        this.touchPos.moveY = m;
+      } else {
+        this.touchPos.moveY = 0;
+      }
+    },
+    handlerTouchend() {
+      this.touchPos.moveY = 0;
+      this.getComics(this.checked, 1);
+    }
   }
 };
 </script>
@@ -150,7 +177,6 @@ export default {
 .discovery-page {
   padding-top: 44px;
   .discovery-comics-list {
-    // touch-action: none;
     padding: 0 16px;
     background: #fff;
     position: relative;
@@ -191,6 +217,20 @@ export default {
         color: #bbb;
       }
     }
+    .discovery-update {
+      width: 100%;
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
+      margin-top: -30px;
+      z-index: 1;
+      span {
+        display: inline-block;
+        font-size: 10px;
+        transform: scale(0.83);
+        transform-origin: 0;
+      }
+    }
   }
   .discovery-filter-result {
     height: 46px;
@@ -200,6 +240,8 @@ export default {
     font-family: 'pingfang-blod';
     text-align: center;
     color: #999;
+    position: relative;
+    z-index: 3;
     span {
       display: inline-block;
       font-size: 10px;

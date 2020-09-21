@@ -1,8 +1,8 @@
 <template>
   <div class="ranking">
-    <ZMHeader titleText="排行榜" />
+    <ZMHeader titleText="排行榜" ref="header" />
     <div class="ranking-wrap">
-      <ul class="ranking-type">
+      <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
           :class="rank.rank_id === parseInt(activeRank) ? 'actived':''"
           :key="rank.rank_id"
@@ -10,7 +10,7 @@
           @click="switchRank(rank)"
         >{{rank.name}}</li>
       </ul>
-      <div class="ranking-comics-list" ref="comicsList">
+      <div class="ranking-comics-list" ref="comicsList" :style="{display:isback? 'block':'none'}">
         <ul>
           <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
             <div
@@ -49,7 +49,11 @@
           v-if="comicsList && comicsList.length > 0"
         >{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
       </div>
-      <div class="ranking-comics-list ranking-comics-list-back" ref="comicsListBack">
+      <div
+        class="ranking-comics-list ranking-comics-list-back"
+        :style="{display:isback?'none':'block'}"
+        ref="comicsListBack"
+      >
         <ul>
           <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
             <div
@@ -83,10 +87,7 @@
             </div>
           </li>
         </ul>
-        <div
-          class="no-more"
-          v-if="comicsList && comicsList.length > 0"
-        >{{activeName}}Top50都在这里啦～</div>
+        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top50都在这里啦～</div>
       </div>
     </div>
   </div>
@@ -107,13 +108,16 @@ export default {
       activeRank: this.$route.query.rank,
       activeName: '',
       comicsList: [],
-      rankingList: []
+      rankingList: [],
+      typeH: 0,
+      isback: true
     };
   },
   mounted() {
     this.getRankingCate().then(() => {
       this.getRankingByCate();
     });
+    this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
   },
   methods: {
     switchRank(rank) {
@@ -154,6 +158,9 @@ export default {
         const backClass = this.$refs.comicsListBack.classList;
         listClass.contains('ranking-comics-list-back') ? listClass.remove('ranking-comics-list-back') : listClass.add('ranking-comics-list-back');
         backClass.contains('ranking-comics-list-back') ? backClass.remove('ranking-comics-list-back') : backClass.add('ranking-comics-list-back');
+        setTimeout(() => {
+          this.isback = !this.isback;
+        }, 300);
         this.comicsList = rankList.data.data;
       } else {
         this.$toast(rankList.msg || '系统出错,请稍后重试');
@@ -164,8 +171,7 @@ export default {
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.rank = this.activeRank;
       this.$router.replace({ path: this.$route.path, query: query });
-      this.$refs.comicsList.scrollTo(0, 0);
-      this.$refs.comicsListBack.scrollTo(0, 0);
+      document.scrollingElement.scrollTop = 0;
     }
   }
 };
@@ -178,15 +184,14 @@ $GRAYFONTCOLOR: #999;
 .ranking {
   padding-top: 44px;
   font-family: 'pingfang-blod';
-  height: calc(100% - 44px);
   width: 100%;
-  overflow: hidden;
   .ranking-wrap {
     position: relative;
-    width: 100%;
-    height: 100%;
     .ranking-type {
       width: 86px;
+      position: fixed;
+      left: 0;
+      top: 44px;
       li {
         box-sizing: border-box;
         height: 56px;
@@ -205,11 +210,10 @@ $GRAYFONTCOLOR: #999;
     }
     .ranking-comics-list {
       box-sizing: border-box;
-      padding-left: 30px;
-      width: calc(100% - 86px);
-      height: 100%;
-      overflow: auto;
       position: absolute;
+      padding-left: 30px;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
       left: 86px;
       top: 0;
       opacity: 1;
