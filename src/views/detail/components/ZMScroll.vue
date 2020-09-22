@@ -250,6 +250,7 @@ export default {
     },
     // touch 开始中
     touchMove(e) {
+      e.preventDefault()
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
