@@ -9,6 +9,7 @@ import Main from '@/views/main';
 import Reader from '@/views/reader';
 import Mine from '@/views/mine';
 import Shelf from '@/views/shelf';
+import CFavorites from '@/views/shelf/favorites/customize/tableList';
 import Ranking from '@/views/ranking';
 import Topic from '@/views/topic';
 import Discovery from '@/views/discovery';
@@ -44,6 +45,12 @@ const router = new Router({
           meta: { title: '书架', transitionIn: 'slide-left', keepAlive: false }
         }
       ]
+    },
+    {
+      path: '/favorites/:favorite_id',
+      name: 'customize',
+      component: CFavorites,
+      meta: { title: '自定义收藏', keepAlive: false }
     },
     {
       path: '/reader',
