@@ -43,7 +43,7 @@
         <div v-if="commentsList.length > 0">
           <ul class="comments-contents-list">
             <li v-for="comment in commentsList" :key="comment.comment_id">
-              <img :src="comment.avatar" alt=" " class="avatar" />
+              <img :src="comment.avatar || defaultHead" alt=" " class="avatar" />
               <!--评分页面-->
               <div :class="[remarkType === 1 ? 'eval-main-container' : '', 'main-container zm-b-b']">
                 <div class="comments-user">{{comment.nickname}}</div>
@@ -97,6 +97,7 @@ export default {
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
+      defaultHead: require('@/assets/img/default_head.png'),
       //星星数量
       bgStarts: {
         startBG: require('@/views/detail/images/star-bg.png'),

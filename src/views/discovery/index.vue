@@ -17,21 +17,24 @@
       :class="scrollToTop ? 'discovery-comics-list-top' : ''"
     >
       <div class="discovery-filter-result" ref="filterText">
-        <span v-if="loadingStatus">动画</span>
+        <i class="discovery-filter-icon-loading" v-if="loadingStatus" />
         <span>当前筛选：{{filterText}}</span>
       </div>
       <div class="discovery-filter-list" :style="`transform:translate(0, ${touchPos.moveY}px)`">
         <!-- <div class="discovery-update">
           <span>下拉刷新</span>
         </div>-->
-        <ul ref="fliterResult">
+        <ul ref="fliterResult" v-if="comicsList.length">
           <li v-for="(item,index) in comicsList" :key="index">
             <comics :comics="item" />
           </li>
         </ul>
+        <div class="discovery-nodata" v-else>
+          <img src="@/assets/img/network.png" alt="无数据" />
+        </div>
       </div>
       <div class="loading" ref="loading">
-        <span>{{loadingTxt}}</span>
+        <span>{{comicsList.length ? loadingTxt : '没有找到这样的漫画~'}}</span>
       </div>
     </div>
   </div>
@@ -129,24 +132,26 @@ export default {
     async getComics(filter, page) {
       this.loadingStatus = true;
       await this.$store.dispatch('getComicsList', { ...filter, page });
-      this.loadingStatus = false;
       this.page = this.page + 1;
+      setTimeout(() => {
+        this.loadingStatus = false;
+      }, 300);
     },
     getFilterHeight(height) {
       this.listTop = height;
     },
     handlerScroll() {
-      const scrollTop = this.$refs.fliterResult.getClientRects()[0].top;
+      const scrollTop = this.$refs.fliterResult.getBoundingClientRect().top;
       this.scrollToTop = scrollTop <= 94;
       // 当加载下一页提示在可见区域，加载下一页
-      const loading = this.$refs.loading.getClientRects()[0].top;
+      const loading = this.$refs.loading.getBoundingClientRect().top;
       if (loading < innerHeight + 40) {
-        const page = this.page + 1;
-        if (page > this.totalPage) {
+        // const page = this.page + 1;
+        if (this.page > this.totalPage) {
           this.loadingTxt = '不要在扯拉，真的没有了～～～～';
           return false;
         }
-        this.getComics(this.checked, page);
+        this.getComics(this.checked, this.page);
       }
     },
     handlerTouchstart() {
@@ -167,8 +172,12 @@ export default {
     },
     handlerTouchend() {
       this.touchPos.moveY = 0;
+      this.page = 1;
       this.getComics(this.checked, 1);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandler, false);
   }
 };
 </script>
@@ -246,6 +255,33 @@ export default {
       display: inline-block;
       font-size: 10px;
       transform: scale(0.83);
+    }
+  }
+  .discovery-filter-icon-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url('../../assets/img/load_ba.png') no-repeat 0 0 transparent;
+    background-size: 100%;
+    vertical-align: middle;
+    animation: roates 1s linear infinite;
+    position: relative;
+    left: 15px;
+  }
+  @keyframes roates {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .discovery-nodata {
+    img {
+      width: 100%;
     }
   }
 }
