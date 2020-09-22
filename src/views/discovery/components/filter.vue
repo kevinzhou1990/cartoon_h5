@@ -164,7 +164,7 @@ export default {
       border-radius: 4px;
       box-sizing: border-box;
       width: 40px;
-      height: 25px;
+      height: 20px;
       background: #12e079;
       transition-property: width, left, top;
       transition-duration: 0.3s;
