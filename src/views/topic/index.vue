@@ -8,9 +8,9 @@
     <div class="topic-title">{{special.title}}</div>
     <section class="topic-author">
       <div class="topic-author-info">
-        <img class="avatar" src="./img/default_head.png" alt />
+        <img class="avatar" :src="special.avatar" alt />
         <div>
-          <div class="topic-author-name">哇卡漫画官方小飞鸡本鸡</div>
+          <div class="topic-author-name">{{special.nickname}}</div>
           <div class="topic-gray">{{special.created_at_text}}</div>
         </div>
       </div>
