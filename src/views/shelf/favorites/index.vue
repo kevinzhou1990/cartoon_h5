@@ -22,7 +22,7 @@
 import { mapState, mapMutations } from 'vuex';
 import collectTable from './components/collectTable'
 import noCollect from './components/noCollect'
-import customize from './components/customize'
+import customize from './customize/index'
 export default {
   name: 'favorite',
   data() {
@@ -139,9 +139,6 @@ export default {
     };
   },
   components: { collectTable, noCollect, customize },
-  mounted() {
-    console.log(this.$store.state.collect.active)
-  },
   computed: {
     ...mapState({ active: (state) => state.collect.active })
   },
@@ -151,7 +148,8 @@ export default {
       if (this.active === value) {
         return false;
       }
-      this.updateActive(value)
+      this.updateActive(value);
+      document.documentElement.scrollTop = 0;
     }
   }
 };

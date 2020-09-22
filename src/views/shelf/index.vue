@@ -90,6 +90,7 @@ export default {
         color: #222222;
         position: absolute;
         right: 0;
+        top: 2px;
         font-size: 12px;
       }
     }

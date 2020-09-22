@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.id">
+    <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.id" @click="jumpDetails(item.id)">
       <div class="item-img bg" :style="{background: item.bg ? 'url('+item.bg+')' : '','background-size': '100%'}"></div>
       <div class="item-container">
-        <div class="name">{{item.name}}</div>
-        <div class="collect-tip">{{item.count}}本收藏</div>
+        <div class="name ellipsis">{{item.name}}</div>
+        <div class="collect-tip ellipsis">{{item.count}}本收藏</div>
       </div>
-      <div class="more">
+      <div class="more" @click.stop="more">
         <svg-icon icon-class="more_bc" size="small" />
       </div>
     </div>
@@ -41,12 +41,24 @@ export default {
         {
           id: 1,
           name: '自定义1',
-          count: 2,
+          count: 99999999999999,
           bg: ''
         },
         {
           id: 2,
-          name: '自定义2',
+          name: '超长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长自定义2',
+          count: 20,
+          bg: ''
+        },
+        {
+          id: 3,
+          name: '超gggggggggggggggggggggggggggggggg自定义3',
+          count: 20,
+          bg: ''
+        },
+        {
+          id: 4,
+          name: '自定义4',
           count: 20,
           bg: ''
         }
@@ -55,7 +67,13 @@ export default {
     };
   },
   methods: {
-
+    //跳转自定义收藏详情
+    jumpDetails(id){
+      this.$router.push({ path: '/favorites/' + id });
+    },
+    more(){
+      console.log('跳转引导页')
+    }
   }
 };
 </script>
@@ -105,14 +123,22 @@ export default {
       top: 50%;
       left: calc(#{$PADDING} * 2 + #{$IMGWIDTH});
       transform: translate(0%, -50%);
+      .ellipsis {
+        max-width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+      }
       .name {
         font-size: 14px;
         color: #222222;
       }
       .collect-tip{
+        width: 230px;
         color: #BBBBBB;
         margin-top: 8px;
-        margin-left: -0.1408rem;
+        margin-left: -20px;
         transform: scale(0.83);
       }
     }
