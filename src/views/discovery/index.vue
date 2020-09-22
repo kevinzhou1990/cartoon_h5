@@ -175,6 +175,9 @@ export default {
       this.page = 1;
       this.getComics(this.checked, 1);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandler, false);
   }
 };
 </script>

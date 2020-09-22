@@ -8,7 +8,7 @@
     <div class="topic-title">{{special.title}}</div>
     <section class="topic-author">
       <div class="topic-author-info">
-        <img class="avatar" :src="special.avatar" alt />
+        <img class="avatar" :src="special.avatar" alt="头像" />
         <div>
           <div class="topic-author-name">{{special.nickname}}</div>
           <div class="topic-gray">{{special.created_at_text}}</div>
@@ -30,7 +30,7 @@
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
-            <img class="avatar" :src="item.avatar || './img/default_head.png'" alt />
+            <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
           <div>
             <div class="topic-comment-user">{{item.nickname || '默认'}}</div>
@@ -81,7 +81,8 @@ export default {
       page: 1,
       totalPage: 1,
       count: 1,
-      scrollHandler: throttle(this.handlerScroll, 100, this)
+      scrollHandler: throttle(this.handlerScroll, 100, this),
+      defaultHead: 'this.src="' + require('./img/default_head.png') + '"'
     };
   },
   async mounted() {
@@ -115,6 +116,9 @@ export default {
         await this.getComments(this.page);
       }
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandler, false);
   }
 };
 </script>
