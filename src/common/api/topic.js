@@ -10,6 +10,6 @@ export const reportRead = specialId => {
   return request.post(`/api/special/read/${specialId}`);
 };
 
-export const getTopicComments = id => {
-  return request.get(`/api/comment/2/${id}`);
+export const getTopicComments = (id, page) => {
+  return request.get(`/api/comment/2/${id}`, { params: { page_size: 15, page } });
 };

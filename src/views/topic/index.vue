@@ -16,17 +16,17 @@
       </div>
       <div class="topic-gray topic-read">
         <svg-icon icon-class="view_ba" size="small" />
-        {{special.read_num}}阅读
+        {{special.read_num_text}}阅读
       </div>
     </section>
     <article v-html="special.detail"></article>
-    <div class="topic-zan" v-if="!isApp">
+    <div class="topic-zan" ref="tp" v-if="!isApp">
       <span>
         <i />赞一个
       </span>
     </div>
     <div class="topic-comment" v-if="!isApp && commentsList.length">
-      <div class="topic-comment-title">专题评论（{{commentsList.length}}）</div>
+      <div class="topic-comment-title">专题评论（{{count}}）</div>
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
@@ -47,8 +47,8 @@
         </li>
       </ul>
     </div>
-    <div class="topic-tips" v-if="!isApp && commentsList.length">
-      <span>不说点什么吗？点它 →</span>
+    <div class="topic-tips" v-if="!isApp">
+      <span ref="nextPage">不说点什么吗？点它 →</span>
       <div class="write-comment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
@@ -60,6 +60,7 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import { getTopic, getTopicComments } from '@/common/api/topic';
+import { throttle } from '@/lib/utils';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
@@ -76,16 +77,44 @@ export default {
         created_at_text: 1597999717
       },
       commentsList: [],
-      isApp: false
+      isApp: false,
+      page: 1,
+      totalPage: 1,
+      count: 1,
+      scrollHandler: throttle(this.handlerScroll, 100, this)
     };
   },
   async mounted() {
     const topic = await getTopic(this.$route.query.id);
-    const comments = await getTopicComments(this.$route.query.id);
     let special = { ...this.special, ...topic.data };
     this.special = special;
-    this.commentsList = comments.data.data;
     this.isApp = navigator.userAgent.search('isApp') !== -1;
+    window.addEventListener('scroll', this.scrollHandler, false);
+  },
+  methods: {
+    async getComments(page) {
+      if (page > this.totalPage) {
+        return false;
+      }
+      let comments = await getTopicComments(this.$route.query.id, page);
+      let list = comments.data.data;
+      if (page === 1) {
+        this.commentsList = list;
+      } else {
+        this.commentsList = [...this.commentsList, ...list];
+      }
+      this.totalPage = comments.data.total_pages;
+      this.count = comments.data.count;
+      this.page += 1;
+    },
+    async handlerScroll() {
+      // 处理滚动
+      const t = this.$refs.nextPage.getBoundingClientRect().top;
+      // console.log(this.$refs.tp);
+      if (t < innerHeight) {
+        await this.getComments(this.page);
+      }
+    }
   }
 };
 </script>
@@ -215,9 +244,9 @@ $DEEPGRAY: #999;
     border-radius: 28px;
     text-align: center;
     line-height: 56px;
-    position: absolute;
+    position: fixed;
     right: 16px;
-    top: 20px;
+    bottom: 20px;
   }
   .topic-tips {
     color: $GRAY;
