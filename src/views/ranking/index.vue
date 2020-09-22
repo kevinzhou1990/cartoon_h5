@@ -186,6 +186,7 @@ export default {
 $FONTCOLOR: #bbb;
 $MAINCOLOR: #12e079;
 $GRAYFONTCOLOR: #999;
+$SIDEWIDTH: 86px;
 .ranking {
   padding-top: 44px;
   font-family: 'pingfang-blod';
@@ -193,7 +194,7 @@ $GRAYFONTCOLOR: #999;
   .ranking-wrap {
     position: relative;
     .ranking-type {
-      width: 86px;
+      width: $SIDEWIDTH;
       position: fixed;
       left: 0;
       top: 44px;
@@ -214,6 +215,7 @@ $GRAYFONTCOLOR: #999;
       }
     }
     .ranking-comics-list {
+      width: calc(100% - #{$SIDEWIDTH});
       box-sizing: border-box;
       position: absolute;
       padding-left: 30px;
