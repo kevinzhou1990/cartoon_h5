@@ -137,7 +137,7 @@ export default {
       if (rankCate.code === 0) {
         this.rankingList = rankCate.data.data;
         if (this.rankingList && this.rankingList.length > 0) {
-          if (!this.$route.query.rank) {
+          if (!this.$route.query.rank || this.$route.query.rank === 'ALL') {
             this.activeRank = this.rankingList[0].rank_id;
             this.activeName = this.rankingList[0].name;
             this.setQuery();
