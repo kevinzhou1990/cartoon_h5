@@ -97,7 +97,7 @@ export default {
     this.timer = null; // 定时器 用于点击事件的穿透
     this.startTouchValue = 0; // 手指触摸到屏幕距离顶部的距离
     this.touchDistance = '1.33333333rem'; // 滑动的距离
-    this.startTouchDistance = 310; // 手指触摸到屏幕多少距离才能出发滑动时间
+    this.startTouchDistance = 310; // 手指触摸到屏幕多少距离才能触发滑动事件
     this.marginTop = 284;
     return {
       topWrapStyle: {

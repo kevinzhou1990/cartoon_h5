@@ -8,7 +8,6 @@
       </div>
       <!-- 首页滑动组件 -->
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
-<!--      <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='100' ref="loadmore" :auto-fill="false">-->
       <is-scroll
           ref="zm-scroll"
           @on-top-ajax="resfreshPage"
@@ -22,6 +21,8 @@
             <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>
             <!-- 首页新漫 -->
             <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>
+            <!-- 榜单 -->
+            <z-m-rank :rank-data='item' v-if="item.style_id === 7"></z-m-rank>
             <!-- 首页热番 -->
             <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>
             <!-- 专题 -->
@@ -37,39 +38,18 @@
           <z-m-no-data v-if="isNoMoreData" ></z-m-no-data>
         </div>
       </is-scroll>
-<!--      </mt-loadmore>-->
-<!--      <mt-loadmore :top-method="resfreshPage" :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :bottomDistance='50' ref="loadmore" :auto-fill="false">-->
-<!--        <section style="height: 100%; overflow: auto;" v-for="item in recList" :key="item.rec_id">-->
-<!--          &lt;!&ndash; 排行与发现 &ndash;&gt;-->
-<!--          <z-m-rank-and-fond-comics v-if="item.style_id === 0"></z-m-rank-and-fond-comics>-->
-<!--          &lt;!&ndash; 首页新漫 &ndash;&gt;-->
-<!--          <z-m-new-comics :new-camics-data="item" v-if="item.style_id === 1"></z-m-new-comics>-->
-<!--          &lt;!&ndash; 首页热番 &ndash;&gt;-->
-<!--          <z-m-hot-comics :hot-comics-data="item" v-if="item.style_id === 2"></z-m-hot-comics>-->
-<!--          &lt;!&ndash; 专题 &ndash;&gt;-->
-<!--          <z-m-special :special-data="item" v-if="item.style_id === 3"></z-m-special>-->
-<!--          &lt;!&ndash; 经典漫画 &ndash;&gt;-->
-<!--          <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>-->
-<!--          &lt;!&ndash; 推荐喜欢看的 &ndash;&gt;-->
-<!--          <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>-->
-<!--          &lt;!&ndash; 你可能喜欢的 &ndash;&gt;-->
-<!--          <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6 "></z-m-maybe-like-comics>-->
-<!--        </section>-->
-<!--        &lt;!&ndash; 无数据了 &ndash;&gt;-->
-<!--        <z-m-no-data v-if="allLoaded"></z-m-no-data>-->
-<!--      </mt-loadmore>-->
     </template>
 
   </div>
 </template>
 
 <script>
-// import { InfiniteScroll } from 'mint-ui'
 import isScroll from '@/common/components/scrollAjax/index'
 import ZMSearch from './components/search';
 import ZMSwiper from '@/common/components/ZMswiper';
 import ZMRankAndFondComics from '@/views/home/components/ZMRankAndFondComics';
 import ZMNewComics from './components/ZMNewComics';
+import ZMRank from '@/views/home/components/ZMRank'
 import ZMHotComics from './components/ZMHotComics';
 import ZMClassicsComics from './components/ZMClassicsComics';
 import ZMLikeComics from './components/ZMLikeComics';
@@ -87,6 +67,7 @@ export default {
     ZMSwiper,
     ZMRankAndFondComics,
     ZMNewComics,
+	  ZMRank,
     ZMHotComics,
     ZMClassicsComics,
     ZMLikeComics,

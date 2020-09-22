@@ -1,7 +1,7 @@
 <template>
   <div class="ranking">
     <ZMHeader titleText="排行榜" ref="header" />
-    <div class="ranking-wrap">
+    <div class="ranking-wrap" v-if="rankingList.length > 0">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
           :class="rank.rank_id === parseInt(activeRank) ? 'actived':''"
@@ -47,7 +47,7 @@
         <div
           class="no-more"
           v-if="comicsList && comicsList.length > 0"
-        >{{activeName}}Top{{comicsList.length}}都在这里啦～</div>
+        >{{activeName}}Top50都在这里啦～</div>
       </div>
       <div
         class="ranking-comics-list ranking-comics-list-back"
@@ -90,6 +90,8 @@
         <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top50都在这里啦～</div>
       </div>
     </div>
+
+    <no-data-view v-else type="ranking" textContent="还没有排行榜诞生～"></no-data-view>
   </div>
 </template>
 
@@ -97,12 +99,13 @@
 import myMixins from '@/common/mixin/myMixins';
 import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
+import noDataView from '@/common/components/noDataView';
 import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
 
 export default {
   name: 'Ranking',
   mixins: [myMixins],
-  components: { ZMHeader, SvgIcon },
+  components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
       activeRank: this.$route.query.rank,
@@ -115,7 +118,9 @@ export default {
   },
   mounted() {
     this.getRankingCate().then(() => {
-      this.getRankingByCate();
+      if (this.rankingList && this.rankingList.length > 0) {
+        this.getRankingByCate()
+      }
     });
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
   },
@@ -132,7 +137,7 @@ export default {
       if (rankCate.code === 0) {
         this.rankingList = rankCate.data.data;
         if (this.rankingList && this.rankingList.length > 0) {
-          if (!this.$route.query.rank) {
+          if (!this.$route.query.rank || this.$route.query.rank === 'ALL') {
             this.activeRank = this.rankingList[0].rank_id;
             this.activeName = this.rankingList[0].name;
             this.setQuery();
@@ -181,6 +186,7 @@ export default {
 $FONTCOLOR: #bbb;
 $MAINCOLOR: #12e079;
 $GRAYFONTCOLOR: #999;
+$SIDEWIDTH: 86px;
 .ranking {
   padding-top: 44px;
   font-family: 'pingfang-blod';
@@ -188,7 +194,7 @@ $GRAYFONTCOLOR: #999;
   .ranking-wrap {
     position: relative;
     .ranking-type {
-      width: 86px;
+      width: $SIDEWIDTH;
       position: fixed;
       left: 0;
       top: 44px;
@@ -209,6 +215,7 @@ $GRAYFONTCOLOR: #999;
       }
     }
     .ranking-comics-list {
+      width: calc(100% - #{$SIDEWIDTH});
       box-sizing: border-box;
       position: absolute;
       padding-left: 30px;
