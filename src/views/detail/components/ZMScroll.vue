@@ -99,6 +99,7 @@ export default {
     this.touchDistance = '1.33333333rem'; // 滑动的距离
     this.startTouchDistance = 310; // 手指触摸到屏幕多少距离才能触发滑动事件
     this.marginTop = 284;
+    this.height = 0;
     return {
       topWrapStyle: {
         height: this.touchDistance,
@@ -234,12 +235,12 @@ export default {
       this.startTouchValue = touch.pageY;
       if (this.startTouchValue < this.startTouchDistance) {
         this.$refs.remarkScroll.style['pointer-events'] = 'none';
-        this.$el.removeEventListener('touchstart', this.touchStart);
+        // this.$el.removeEventListener('touchstart', this.touchStart);
       }
       this.timer = setTimeout(() => {
         if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-        this.$el.addEventListener('touchstart', this.touchStart);
-      }, 500);
+        // this.$el.addEventListener('touchstart', this.touchStart);
+      }, 300);
       if (this.$refs.remarkScroll.scrollTop > 100){
 	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       }
@@ -252,22 +253,23 @@ export default {
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
-      let height = touch - this.startTouchValue;
-      if (height > 44 && height < 180) {
-        this.topWrapStyle.height = `${height}px`;
-        this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + height - 56 + 'px';
+      this.height = touch - this.startTouchValue;
+	    // if (this.height < -200 || this.height > 100) return
+      if (this.height > 10 && this.height < 200) {
+        this.topWrapStyle.height = `${this.height}px`;
+        this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + this.height - 56 + 'px';
       }
-      if (height < -100) {
+      if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');
         // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
-        this.bottomWrapStyle.height = `${Math.abs(height)}px`;
+        this.bottomWrapStyle.height = `${Math.abs(this.height)}px`;
         //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
         //   console.log('this.otherHeight', document.getElementsByClassName('main-other')[0].getBoundingClientRect().y)
         //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
         //   // this.$refs.ohterEl.style.background = 'red'
         //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
       }
-      console.log('touchMove', height);
+      console.log('touchMove', this.height);
       console.log('我在滑动中。。。。');
     },
     // touch 结束
@@ -279,20 +281,21 @@ export default {
       //   this.startTouchValue = touch
       //   return
       // }
-      let height = touch - this.startTouchValue;
+      this.height = touch - this.startTouchValue;
       this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
       // this.$parent.$refs['intro-content'].style.height = this.textHeight
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
       // this.bottomAjax = false
-      if (height < -100) {
+      if (this.height < -100) {
         this.bottomAjax = true;
       } else {
         this.bottomAjax = false;
       }
       this.bottomWrapStyle.transition = 'height 200ms';
       this.bottomWrapStyle.height = '0';
-      console.log('我结束滑动了。。。。', height);
+      this.height = 0;
+      console.log('我结束滑动了。。。。', this.height);
     },
     // 清除下拉动画
     transitionend() {
@@ -321,15 +324,15 @@ export default {
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
       if (yScroll >= 10) {
-	      this.$el.removeEventListener('tochstart', this.touchStart, true);
-        // this.$el.removeEventListener('touchend', this.touchEnd, true)
-        this.$el.removeEventListener('touchMove', this.touchMove, true);
+	      // this.$el.removeEventListener('tochstart', this.touchStart, true);
+        // // this.$el.removeEventListener('touchend', this.touchEnd, true)
+        // this.$el.removeEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = true;
 	      this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
-        this.$el.addEventListener('tochstart', this.touchStart, true);
-        this.$el.addEventListener('touchend', this.touchEnd, true);
-        this.$el.addEventListener('touchMove', this.touchMove, true);
+        // this.$el.addEventListener('tochstart', this.touchStart, true);
+        // this.$el.addEventListener('touchend', this.touchEnd, true);
+        // this.$el.addEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = false;
       }
       if (yScroll > 260) {
@@ -404,6 +407,7 @@ export default {
   }
   &-bottom {
     display: block;
+    touch-action: none;
     height: 50px;
     margin-bottom: -50px;
     line-height: 50px;

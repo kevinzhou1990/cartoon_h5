@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="show"
     :class="`${show ? 'contents-wrap contents-transition' : 'contents-wrap contents-transition contents-wrap-close'}`"
     ref="contents"
     @touchstart.stop="handlerStart"
@@ -215,6 +216,7 @@ $nousecolor: #bbb;
   top: 50%;
   z-index: 999;
   background: #fff;
+  overflow: hidden;
   font-family: 'pingfang-blod';
   .contents-title {
     background: $background;
