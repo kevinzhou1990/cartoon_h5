@@ -47,7 +47,7 @@
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel'
-import '../../../common/filters/home'
+import '@/common/filters/home'
 import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMPossibale',
