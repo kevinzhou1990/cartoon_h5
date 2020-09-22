@@ -1,6 +1,6 @@
 <template>
   <div class="ranking">
-    <ZMHeader titleText="排行榜" ref="header" />
+    <ZMHeader titleText="排行榜" ref="header" :has-border="hasBoder" />
     <div class="ranking-wrap" v-if="rankingList.length > 0">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
@@ -44,10 +44,7 @@
             </div>
           </li>
         </ul>
-        <div
-          class="no-more"
-          v-if="comicsList && comicsList.length > 0"
-        >{{activeName}}Top50都在这里啦～</div>
+        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top50都在这里啦～</div>
       </div>
       <div
         class="ranking-comics-list ranking-comics-list-back"
@@ -101,6 +98,7 @@ import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
 import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
+import { throttle } from '@/lib/utils';
 
 export default {
   name: 'Ranking',
@@ -113,16 +111,19 @@ export default {
       comicsList: [],
       rankingList: [],
       typeH: 0,
-      isback: true
+      isback: true,
+      hasBoder: false,
+      scrollHandler: throttle(this.handlerScroll, 100, this)
     };
   },
   mounted() {
     this.getRankingCate().then(() => {
       if (this.rankingList && this.rankingList.length > 0) {
-        this.getRankingByCate()
+        this.getRankingByCate();
       }
     });
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
+    window.addEventListener('scroll', this.scrollHandler, false);
   },
   methods: {
     switchRank(rank) {
@@ -177,7 +178,14 @@ export default {
       query.rank = this.activeRank;
       this.$router.replace({ path: this.$route.path, query: query });
       document.scrollingElement.scrollTop = 0;
+    },
+    handlerScroll() {
+      // 处理滚动
+      this.hasBoder = document.scrollingElement.scrollTop !== 0;
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandler, false);
   }
 };
 </script>
