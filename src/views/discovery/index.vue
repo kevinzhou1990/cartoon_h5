@@ -1,31 +1,22 @@
 <template>
-  <div
-    class="discovery-page"
-    @touchstart="handlerTouchstart"
-    @touchend="handlerTouchend"
-    @touchmove="handlerTouchMove"
-  >
+  <div class="discovery-page" @touchstart="handlerTouchstart" @touchend="handlerTouchend" @touchmove="handlerTouchMove">
     <z-m-header :title-text="titleText" show-right has-border>
       <div slot="right" class="title-right">
         <svg-icon size="default" icon-class="search_aa" />
       </div>
     </z-m-header>
     <discovery-filter ref="discoveryFilter" />
-    <div
-      class="discovery-comics-list"
-      :style="{marginTop:`${listTop}px`}"
-      :class="scrollToTop ? 'discovery-comics-list-top' : ''"
-    >
+    <div class="discovery-comics-list" ref="list" :style="{ marginTop: `${listTop}px` }" :class="scrollToTop ? 'discovery-comics-list-top' : ''">
       <div class="discovery-filter-result" ref="filterText">
         <i class="discovery-filter-icon-loading" v-if="loadingStatus" />
-        <span>当前筛选：{{filterText}}</span>
+        <span>当前筛选：{{ filterText }}</span>
       </div>
       <div class="discovery-filter-list" :style="`transform:translate(0, ${touchPos.moveY}px)`">
         <!-- <div class="discovery-update">
           <span>下拉刷新</span>
         </div>-->
         <ul ref="fliterResult" v-if="comicsList.length">
-          <li v-for="(item,index) in comicsList" :key="index">
+          <li v-for="(item, index) in comicsList" :key="index">
             <comics :comics="item" />
           </li>
         </ul>
@@ -34,7 +25,7 @@
         </div>
       </div>
       <div class="loading" ref="loading">
-        <span>{{comicsList.length ? loadingTxt : '没有找到这样的漫画~'}}</span>
+        <span>{{ comicsList.length ? loadingTxt : '没有找到这样的漫画~' }}</span>
       </div>
     </div>
   </div>
@@ -156,15 +147,18 @@ export default {
     },
     handlerTouchstart() {
       const t = document.scrollingElement.scrollTop;
-      const scrollTop = this.$refs.filterText.getClientRects()[0].top;
+      const scrollTop = this.$refs.filterText.getBoundingClientRect().top;
       if (t <= 0) {
-        console.log(scrollTop);
+        console.log(scrollTop, 'touchstart');
         this.touchPos.startY = event.changedTouches[0].pageY;
       }
     },
     handlerTouchMove() {
       const m = event.changedTouches[0].pageY - this.touchPos.startY;
-      if (m <= 70) {
+      const scrollTop = this.$refs.list.getBoundingClientRect().top;
+      const fh = this.$refs.discoveryFilter.$el.clientHeight;
+      console.log(scrollTop, '------', fh, m, this.touchPos.startY);
+      if (m <= 70 && m > 0) {
         this.touchPos.moveY = m;
       } else {
         this.touchPos.moveY = 0;
@@ -172,8 +166,14 @@ export default {
     },
     handlerTouchend() {
       this.touchPos.moveY = 0;
-      this.page = 1;
-      this.getComics(this.checked, 1);
+      const scrollTop = this.$refs.list.getBoundingClientRect().top;
+      const fh = this.$refs.discoveryFilter.$el.clientHeight;
+      if (scrollTop >= fh + 48) {
+        if (event.changedTouches[0].pageY - this.touchPos.startY > 0) {
+          this.page = 1;
+          this.getComics(this.checked, 1);
+        }
+      }
     }
   },
   beforeDestroy() {
