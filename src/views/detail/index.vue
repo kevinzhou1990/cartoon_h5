@@ -170,7 +170,7 @@ export default {
         }
         this.textContent = resData.data.intro;
         this.zmCollectData = {
-          score: resData.data.score || 0, // 评分
+          score: resData.data.score ? resData.data.score.toFixed(1) : 0, // 评分
           evalNum: resData.data.eval_num || 0, // 评价数
           shelfNum: resData.data.shelf_num || 0 // 被加入书架量
         };

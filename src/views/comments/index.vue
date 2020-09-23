@@ -188,6 +188,9 @@ export default {
         //如果是刷新列表，那就直接赋值，视图才不会先跳到没数据的页面
         isRefresh ? this.commentsList = comments : this.commentsList.push(...comments);
         this.details = commentList.data.cartoon;
+        if (this.details.score){
+          this.details.score = this.details.score.toFixed(1)
+        }
         this.totalPages = commentList.data.total_pages || 0;
         this.isLoadNext = true;
         if (this.currentPage >= this.totalPages) {
