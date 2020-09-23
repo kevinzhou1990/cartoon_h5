@@ -3,7 +3,7 @@
     <div class="header-container zm-b-b">
       <ul class="tab-container">
         <li v-for="item in tab" :key="item.id">
-          <span class="tab-btn" :class="[item.name === active ? 'on' : '']" @click="switchTab(item.name)">{{item.name}}</span>
+          <span class="tab-btn red-point" :class="[item.name === active ? 'on' : '']" @click="switchTab(item.name)">{{item.name}}</span>
         </li>
 
         <li class="edit">编辑</li>
@@ -47,6 +47,9 @@ export default {
       ]
     };
   },
+  mounted() {
+    document.documentElement.scrollTop = 0;
+  },
   methods: {
     switchTab(name){
       if (this.active === name) {
@@ -73,6 +76,20 @@ export default {
     .tab-container {
       background: white;
       height: 100%;
+      //红点
+      .red-point{
+        position: relative;
+        &:after {
+          content: ' ';
+          background: #ff3456;
+          width: 8px;
+          height: 8px;
+          position: absolute;
+          border-radius: 8px;
+          top: 0;
+          right: -3px;
+        }
+      }
       li{
         display: inline-block;
         overflow: hidden;

@@ -184,12 +184,13 @@ export default {
         background: #f5f5f5;
         line-height: $BUTTONHEIGHT;
         border-radius: 4px;
-        transition:  all .2s ease-in-out;
+        transition: background-color .2s, color .2s;
       }
       li.on{
         color: #222222;
-        background: #FFFFFF;
         position: relative;
+        background: #FFFFFF;
+        transition: background-color .4s, color .3s;
         &:before {
           content: " ";
           position: absolute;

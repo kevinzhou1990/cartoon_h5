@@ -8,7 +8,7 @@
         <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
         <span>首页</span>
       </div>
-      <div :class="actived === 'shelf' ? 'active' : ''" @click="switchTab('shelf')">
+      <div :class="actived === 'shelf' ? 'active' : ''" @click="switchTab('shelf')" class="red-point">
         <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
         <span>书架</span>
       </div>
@@ -60,6 +60,19 @@ export default {
     background-clip: padding-box;
     background-color: #fff;
     height: 49px;
+    .red-point{
+      position: relative;
+      &:after {
+        content: ' ';
+        background: #ff3456;
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        border-radius: 8px;
+        top: 2px;
+        left: calc(50% + 8px);
+      }
+    }
     a {
       color: #222;
       text-decoration: none;
