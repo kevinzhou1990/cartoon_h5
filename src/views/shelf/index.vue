@@ -59,6 +59,7 @@ export default {
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.tab = this.active;
       this.$router.replace({ path: this.$route.path, query: query });
+      document.documentElement.scrollTop = 0;
     }
   }
 };
