@@ -66,7 +66,7 @@ export default {
             },
             {
               id: 2,
-              cover: 'http://bookwine.leimans.com/360*480.jpeg',
+              cover: '',
               title: '测试超长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
               author: '测试作者长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
               status: '更新至2910话长长长长长长长长长长长长长长长长长长长长长长长长长长',
@@ -233,7 +233,7 @@ export default {
           height: $COVERHEIGHT;
           width: $COVERWIDTH;
           border-radius: 4px;
-          background: #eeeeee;
+          background: url("../../../assets/img/defaultBook.png") no-repeat;
         }
 
         .info {

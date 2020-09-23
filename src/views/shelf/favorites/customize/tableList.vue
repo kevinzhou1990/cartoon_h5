@@ -39,7 +39,7 @@ export default {
         },
         {
           cartoon_id: 3,
-          cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
+          cover: '',
           title: '测试3',
           publish_status: '更新至第3话都十分好看就是大恢复会计啊还是对方空间哈的空间发挥圣诞节啊',
           isUpdate: false,

@@ -60,7 +60,7 @@ export default {
         },
         {
           cartoon_id: 2,
-          cover: 'http://bookwine.leimans.com/1600336891080-360_480.png',
+          cover: '',
           title: '测试2是粉红色空间的回复即可收到回房间啊水电费接受的',
           publish_status: '更新至第2话',
           isUpdate: true,

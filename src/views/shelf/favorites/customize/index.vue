@@ -110,7 +110,7 @@ export default {
       }
     }
     .bg {
-      background: #f5f5f5;
+      background: url("../../../../assets/img/defaultBook.png") no-repeat;
     }
     .add {
       position: absolute;

@@ -10,7 +10,7 @@
         <div class="update-tip" v-if="item.isUpdate && type === 'myCollect'">更新</div>
         <span
           class="main-content-item-img"
-          :style="{background: 'url('+item.cover+')','background-size': '100%'}"
+          :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"
         ></span>
         <span class="main-content-item-title">{{ item.title }}</span>
         <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
