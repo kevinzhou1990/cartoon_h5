@@ -1,7 +1,14 @@
 <template>
-  <div class="main-content" :class="[type === 'comment' ? 'comment-content' : type === 'collect' ? 'collect-content' : type === 'ranking' ? 'chapter-content' : '']">
+  <div
+    class="main-content"
+    :class="[type === 'comment' ?
+    'comment-content' : type === 'collect' ?
+    'collect-content' : type === 'ranking' ?
+    'chapter-content' : type === 'history' ?
+    'history-content' : '']"
+  >
     <div class="img"></div>
-    <span class="main-content-text">{{ textContent }}</span>
+    <p class="main-content-text">{{ textContent }}</p>
   </div>
 </template>
 
@@ -27,8 +34,8 @@ export default {
   overflow: hidden;
 
   &-text {
-    padding: 16px 0;
-    font-weight: bold;
+    margin-top: 8px;
+    font-family: PingFangSC-Semibold;
     font-size: 12px;
     color: #999999;
     letter-spacing: 0;
@@ -44,7 +51,7 @@ export default {
     background-size: 100%;
     width: 180px;
     height: 180px;
-    margin: 80px auto;
+    margin: 80px auto 8px;
   }
 }
 
@@ -54,7 +61,7 @@ export default {
     background-size: 100%;
     width: 120px;
     height: 120px;
-    margin: 16px auto;
+    margin: 16px auto 0;
   }
 }
 
@@ -64,7 +71,17 @@ export default {
     background-size: 100%;
     width: 120px;
     height: 120px;
-    margin: 120px auto 8px;
+    margin: 120px auto 0;
+  }
+}
+
+.history-content {
+  .img {
+    background: url('../../assets/img/no_collect.png') no-repeat;
+    background-size: 100%;
+    width: 120px;
+    height: 120px;
+    margin: 144px auto 0;
   }
 }
 </style>

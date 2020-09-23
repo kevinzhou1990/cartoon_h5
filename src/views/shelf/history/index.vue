@@ -1,38 +1,45 @@
 <template>
   <div class="container">
-    <div class="main-container" v-for="(history, index) in historyList" :key="index">
-      <div class="date scale">{{ history.date }}</div>
+    <div v-if="historyList.length > 0">
+      <div class="main-container" v-for="(history, index) in historyList" :key="index">
+        <div class="date scale">{{ history.date }}</div>
 
-      <div class="content zm-b-b" v-for="item in history.items" :key="item.id" @click="handleClickInfo(item.id)">
-        <div class="cover" :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"></div>
+        <div class="content zm-b-b" v-for="item in history.items" :key="item.id" @click="handleClickInfo(item.id)">
+          <div class="cover" :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"></div>
 
-        <div class="info">
-          <div class="title ellipsis">{{ item.title }}</div>
+          <div class="info">
+            <div class="title ellipsis">{{ item.title }}</div>
 
-          <div class="other scale">
-            <div class="author ellipsis">{{ item.author }}</div>
-            <div class="status ellipsis">{{ item.status }}</div>
-          </div>
+            <div class="other scale">
+              <div class="author ellipsis">{{ item.author }}</div>
+              <div class="status ellipsis">{{ item.status }}</div>
+            </div>
 
-          <div class="tag scale">
-            <span class="tag-item" v-for="itemTag in item.tag" :key="itemTag.id">{{ itemTag.name }}</span>
-          </div>
+            <div class="tag scale">
+              <span class="tag-item" v-for="itemTag in item.tag" :key="itemTag.id">{{ itemTag.name }}</span>
+            </div>
 
-          <div class="last-status">
-            <div class="publish scale ellipsis">{{ item.publish }}</div>
-            <div class="last-read scale ellipsis">{{ item.last_update }}</div>
+            <div class="last-status">
+              <div class="publish scale ellipsis">{{ item.publish }}</div>
+              <div class="last-read scale ellipsis">{{ item.last_update }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <no-data-view v-else type="history" textContent="暂无历史～"></no-data-view>
   </div>
 </template>
 
 <script>
+import noDataView from '@/common/components/noDataView';
 export default {
   name: 'history',
+  components: { noDataView },
   data() {
     return {
+      // historyList: []
       historyList: [
         {
           date: '今天',
