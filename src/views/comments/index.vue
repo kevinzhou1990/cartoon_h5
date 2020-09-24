@@ -40,7 +40,7 @@
       <div class="comments-contents-top"></div>
       <img src="@/assets/img/main_icon.png" class="icon" alt />
       <mt-loadmore :top-method="refreshPage" :bottomDistance='50' ref="loadmore" :auto-fill="false" style="background: white">
-        <div v-if="commentsList.length > 0">
+        <div v-if="commentsList.length > 0" class="comment-container">
           <ul class="comments-contents-list">
             <li v-for="comment in commentsList" :key="comment.comment_id">
               <img :src="comment.avatar || defaultHead" alt=" " class="avatar" />
@@ -307,70 +307,73 @@ export default {
       margin-right: 8px;
     }
   }
-  .comments-contents-list {
-    background: #fff;
-    padding-left: 16px;
-    li {
-      display: flex;
-      padding-top: 16px;
-    }
-    .main-container{
-      width: 100%;
-      .starts-container{
-        margin-bottom: 11px;
-      }
-      .comments-user {
-        font-family: 'pingfang-blod';
-        min-height: 17px;
-        font-size: 12px;
-        color: #999;
-        margin-bottom: 8px;
-      }
-      .comments-content {
-        font-family: 'pingfang-regular';
-        font-size: 14px;
-        color: #222;
-        padding-right: 16px;
-        word-break: break-all;
-      }
-      .comments-operational {
+  .comment-container{
+    min-height: calc(100vh - 240px);
+    .comments-contents-list {
+      background: #fff;
+      padding-left: 16px;
+      li {
         display: flex;
-        justify-content: space-between;
-        padding: 9px 16px 18px 0;
-        background: #fff;
-        & > span {
-          color: #bbb;
-          font-size: 10px;
+        padding-top: 16px;
+      }
+      .main-container{
+        width: 100%;
+        .starts-container{
+          margin-bottom: 11px;
+        }
+        .comments-user {
           font-family: 'pingfang-blod';
-          svg:first-child {
-            margin-right: 8px;
-            vertical-align: top;
-          }
-
-          svg:last-child {
-            margin-left: 24px;
-          }
-          span {
+          min-height: 17px;
+          font-size: 12px;
+          color: #999;
+          margin-bottom: 8px;
+        }
+        .comments-content {
+          font-family: 'pingfang-regular';
+          font-size: 14px;
+          color: #222;
+          padding-right: 16px;
+          word-break: break-all;
+        }
+        .comments-operational {
+          display: flex;
+          justify-content: space-between;
+          padding: 9px 16px 18px 0;
+          background: #fff;
+          & > span {
+            color: #bbb;
             font-size: 10px;
+            font-family: 'pingfang-blod';
+            svg:first-child {
+              margin-right: 8px;
+              vertical-align: top;
+            }
+
+            svg:last-child {
+              margin-left: 24px;
+            }
+            span {
+              font-size: 10px;
+              transform: scale(0.84);
+              transform-origin: 0;
+            }
+          }
+          & > span:first-child {
             transform: scale(0.84);
             transform-origin: 0;
           }
-        }
-        & > span:first-child {
-          transform: scale(0.84);
-          transform-origin: 0;
-        }
-        svg {
-          vertical-align: top;
+          svg {
+            vertical-align: top;
+          }
         }
       }
-    }
-    .eval-main-container{
-      .comments-user {
-        margin-bottom: 4px;
-      }
-      .comments-content {
-        margin-bottom: 17px;
+      .eval-main-container{
+        .comments-user {
+          margin-bottom: 4px;
+        }
+        .comments-content {
+          margin-bottom: 17px;
+        }
       }
     }
   }
