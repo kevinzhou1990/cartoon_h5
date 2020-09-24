@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.id" @click="jumpDetails(item.id)">
-      <div class="item-img bg" :style="{background: item.bg ? 'url('+item.bg+')' : '','background-size': '100%'}"></div>
+    <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.group_id" @click="jumpDetails(item.group_id)" v-if="item.group_id">
+      <div class="item-img bg" :style="{background: item.cover_url ? 'url('+item.cover_url+')' : '','background-size': '100%'}"></div>
       <div class="item-container">
         <div class="name ellipsis">{{item.name}}</div>
-        <div class="collect-tip ellipsis">{{item.count}}本收藏</div>
+        <div class="collect-tip ellipsis">{{item.shelf_num}}本收藏</div>
       </div>
       <div class="more" @click.stop="more">
         <svg-icon icon-class="more_bc" size="small" />
@@ -26,50 +26,31 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
+import { getGroupList } from '@/common/api/shelf'
 export default {
   name: 'customize',
   components: { SvgIcon },
   data() {
     return {
-      customizeList: [
-        {
-          id: 0,
-          name: '我的最爱',
-          count: 10,
-          bg: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png'
-        },
-        {
-          id: 1,
-          name: '自定义1',
-          count: 99999999999999,
-          bg: ''
-        },
-        {
-          id: 2,
-          name: '超长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长自定义2',
-          count: 20,
-          bg: ''
-        },
-        {
-          id: 3,
-          name: '超gggggggggggggggggggggggggggggggg自定义3',
-          count: 20,
-          bg: ''
-        },
-        {
-          id: 4,
-          name: '自定义4',
-          count: 20,
-          bg: ''
-        }
-      ]
-
+      customizeList: []
     };
+  },
+  mounted() {
+    this.getGroup()
   },
   methods: {
     //跳转自定义收藏详情
     jumpDetails(id){
       this.$router.push({ path: '/favorites/' + id });
+    },
+    //获取自定义收藏列表
+    async getGroup(){
+      const data = await getGroupList();
+      if (data.code === 0) {
+        this.customizeList = data.data.list;
+      } else {
+        this.$toast(data.msg || '系统出错,请稍后重试');
+      }
     },
     more(){
       console.log('跳转引导页')

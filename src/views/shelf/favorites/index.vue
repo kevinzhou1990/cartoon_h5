@@ -8,7 +8,7 @@
     <div class="main-container">
       <div v-if="active === 'default'">
         <collect-table type="myCollect" :dataList="collectList" v-if="collectList.length > 0"></collect-table>
-        <no-collect v-else></no-collect>
+        <no-collect v-else :dataList="hotList"></no-collect>
       </div>
 
       <div v-if="active === 'customize'">
@@ -23,6 +23,7 @@ import { mapState, mapMutations } from 'vuex';
 import collectTable from './components/collectTable'
 import noCollect from './components/noCollect'
 import customize from './customize/index'
+import { getCartoonByGroup } from '@/common/api/shelf'
 export default {
   name: 'favorite',
   data() {
@@ -37,110 +38,16 @@ export default {
           value: 'customize'
         }
       ],
-      collectList: []
-      // collectList: [
-      //   {
-      //     cartoon_id: 1,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试1hfkshdkfhasdkjfhsdjkhfkjsdahfjkhsadfjkhsdajklfs',
-      //     publish_status: '更新至第1话',
-      //     isUpdate: true,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 2,
-      //     cover: 'http://bookwine.leimans.com/1600336891080-360_480.png',
-      //     title: '测试2是粉红色空间的回复即可收到回房间啊水电费接受的',
-      //     publish_status: '更新至第2话',
-      //     isUpdate: true,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 3,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试3',
-      //     publish_status: '更新至第3话都十分好看就是大恢复会计啊还是对方空间哈的空间发挥圣诞节啊',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 4,
-      //     cover: 'http://bookwine.leimans.com/1600336891080-360_480.png',
-      //     title: '测试4',
-      //     publish_status: '更新至第4话sdfsdfjhsdfhsadlkjfhaksjdhfljskdhflkjsdfs',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 5,
-      //     cover: 'http://bookwine.leimans.com/1600336891080-360_480.png',
-      //     title: '测试1hfkshdkfhasdkjfhsdjkhfkjsdahfjkhsadfjkhsdajklfs',
-      //     publish_status: '更新至第1话',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 6,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试2是粉红色空间的回复即可收到回房间啊水电费接受的',
-      //     publish_status: '更新至第2话',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 7,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试3',
-      //     publish_status: '更新至第3话都十分好看就是大恢复会计啊还是对方空间哈的空间发挥圣诞节啊',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 8,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试4',
-      //     publish_status: '更新至第4话sdfsdfjhsdfhsadlkjfhaksjdhfljskdhflkjsdfs',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 9,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试2是粉红色空间的回复即可收到回房间啊水电费接受的',
-      //     publish_status: '更新至第2话',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 10,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试3',
-      //     publish_status: '更新至第3话都十分好看就是大恢复会计啊还是对方空间哈的空间发挥圣诞节啊',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 11,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试4',
-      //     publish_status: '更新至第4话sdfsdfjhsdfhsadlkjfhaksjdhfljskdhflkjsdfs',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   },
-      //   {
-      //     cartoon_id: 12,
-      //     cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-      //     title: '测试4',
-      //     publish_status: '更新至第4话sdfsdfjhsdfhsadlkjfhaksjdhfljskdhflkjsdfs',
-      //     isUpdate: false,
-      //     total: '22.5万'
-      //   }
-      // ]
+      collectList: [],
+      hotList: []
     };
   },
   components: { collectTable, noCollect, customize },
   computed: {
     ...mapState({ active: (state) => state.collect.active })
+  },
+  mounted() {
+    this.getDefaultCollect()
   },
   methods: {
     ...mapMutations(['updateActive']),
@@ -149,7 +56,19 @@ export default {
         return false;
       }
       this.updateActive(value);
+      this.getDefaultCollect();
       document.documentElement.scrollTop = 0;
+    },
+    async getDefaultCollect(){
+      if (this.active === 'default'){
+        const data = await getCartoonByGroup(0);
+        if (data.code === 0) {
+          this.collectList = data.data.cartoon_list;
+          this.hotList = data.data.hot_list;
+        } else {
+          this.$toast(data.msg || '系统出错,请稍后重试');
+        }
+      }
     }
   }
 };

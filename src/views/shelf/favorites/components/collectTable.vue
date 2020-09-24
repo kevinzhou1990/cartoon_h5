@@ -5,16 +5,16 @@
         class="main-content-item"
         v-for="item in dataList"
         :key="item.cartoon_id"
-        @click.stop="handleClickInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id)"
       >
-        <div class="update-tip" v-if="item.isUpdate && type === 'myCollect'">更新</div>
+        <div class="update-tip" v-if="item.has_new && type === 'myCollect'">更新</div>
         <span
           class="main-content-item-img"
           :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"
         ></span>
         <span class="main-content-item-title">{{ item.title }}</span>
         <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
-        <span class="main-content-item-status" v-else>收藏 {{item.total}}</span>
+        <span class="main-content-item-status" v-else>收藏 {{item.shelf_num}}</span>
       </div>
       <div class="container-end" v-if="dataList.length > 0">不要再扯了，真的没有了～</div>
     </div>
@@ -22,8 +22,10 @@
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'collectTable',
+  mixins: [ myMixins ],
   props: {
     type: {
       type: String,
@@ -33,15 +35,9 @@ export default {
       type: Array
     }
   },
-  methods: {
-    handleClickInfo(val) {
-      this.$router.push({
-        path: '/detail',
-        query: {
-          cartoon_id: val
-        }
-      });
-    }
+  data() {
+    return {
+    };
   }
 };
 </script>
