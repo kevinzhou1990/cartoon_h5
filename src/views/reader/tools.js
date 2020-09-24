@@ -5,7 +5,8 @@
  * @returns {Number} 当前章节图片索引
  */
 export const getIndex = function(readPer, total) {
-  return Math.floor((readPer / 100) * total) - 1;
+  const idx = Math.floor((readPer / 100) * total) - 1;
+  return idx < 0 ? 0 : idx;
 };
 
 /**

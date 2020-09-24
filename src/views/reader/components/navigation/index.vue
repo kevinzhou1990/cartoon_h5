@@ -1,53 +1,32 @@
 <template>
-  <div
-    :class="`navigation-wrap navigation-wrap${show ? '-hidden' : ''} navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`"
-  >
+  <div :class="`navigation-wrap navigation-wrap${show ? '-hidden' : ''} navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`">
     <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
       <div :class="`navigation-contents ${touching}`" @click="openContents">
         <SvgIcon iconClass="catalog_ba" size="small" />
       </div>
-      <div
-        :class="`navigation-next ${touching}`"
-        v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0"
-        @click="turnPage(0)"
-      >
+      <div :class="`navigation-next ${touching}`" v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0" @click="turnPage(0)">
         <span>上一话</span>
       </div>
-      <div
-        :class="`navigation-process ${touching ? 'navigation-process-touch': ''}`"
-        @touchstart="handlerTouchStart"
-        @touchmove="handlerTouchMove"
-        @touchend="handlerTouchEnd"
-      >
-        <div
-          :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`"
-          :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
-        ></div>
+      <div :class="`navigation-process ${touching ? 'navigation-process-touch' : ''}`" @touchstart="handlerTouchStart" @touchmove="handlerTouchMove" @touchend="handlerTouchEnd">
+        <div :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`" :class="`${readerProcess > 97 ? 'reader-process' : ''}`"></div>
         <div class="reader-process-tag">
           <div>
-            <span>{{pageIndex}}</span>
+            <span>{{ pageIndex }}</span>
             <i></i>
-            <span>{{imagesList.detail.length}}</span>
+            <span>{{ imagesList.detail.length }}</span>
           </div>
         </div>
-        <div :class="`tag ${'tag-'+touching}`">{{pageIndex}}/{{imagesList.detail.length}}</div>
+        <div :class="`tag ${'tag-' + touching}`">{{ pageIndex }}/{{ imagesList.detail.length }}</div>
       </div>
-      <div
-        :class="`navigation-next ${touching}`"
-        v-if="contentsList.indexOf(parseInt($route.query.capterId)) !== contentsList.length - 1"
-        @click="turnPage(1)"
-      >
+      <div :class="`navigation-next ${touching}`" v-if="contentsList.indexOf(parseInt($route.query.capterId)) !== contentsList.length - 1" @click="turnPage(1)">
         <span>下一话</span>
       </div>
-      <div
-        :class="`setting-icon ${funcPos} ${show || touching ? 'hidden' : ''}`"
-        @click="switchFull"
-      >
+      <div :class="`setting-icon ${funcPos} ${show || touching ? 'hidden' : ''}`" @click="switchFull">
         <SvgIcon iconClass="set_ba" size="small" />
       </div>
     </div>
     <div class="toast" @click="goIndex" v-show="lastTag">
-      上次所在 {{startIndex}}/{{imagesList.detail.length}}
+      上次所在 {{ startIndex }}/{{ imagesList.detail.length }}
       <svg-icon iconClass="more_bb" size="small" class="toast-more" />
     </div>
   </div>
@@ -87,7 +66,6 @@ export default {
       if (n) this.lastTag = false;
     },
     'imagesList.detail': function (n) {
-      console.log(n, '+++++');
       this.init();
     },
     readerProcess(n, o) {
@@ -127,7 +105,6 @@ export default {
       this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
     },
     switchFull() {
-      console.log('switchfull');
       this.$parent.navigationStatus = !this.$parent.navigationStatus;
       this.$parent.settingStatus = !this.$parent.settingStatus;
     },
@@ -159,6 +136,7 @@ export default {
       this.$store.commit('UPDATE_READSCROLL');
     },
     turnPage(type) {
+      this.$parent.switchFull();
       let cartoon_id = this.$route.query.cartoon_id;
       let idx = this.contentsList.indexOf(parseInt(this.$route.query.capterId));
       if (type) {

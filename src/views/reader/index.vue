@@ -16,14 +16,7 @@
       <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
     </div>
     <div class="reader-img" ref="imgWrap">
-      <img-component
-        v-for="(item,index) in comicsList"
-        :key="item.detail_id"
-        :src="item.path"
-        :comics="item"
-        :default-load="index < 3"
-        :height="imgHeight[index]"
-      />
+      <img-component v-for="(item, index) in comicsList" :key="item.detail_id" :src="item.path" :comics="item" :default-load="index < 3" :height="imgHeight[index]" />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
     <div class="reader-first" v-if="!firstUse" @click="updateFirstReader">
@@ -95,6 +88,7 @@ export default {
       if (this.fullRead) this.navigationStatus = this.fullRead;
     },
     $route: function (to, from) {
+      console.log(to, '+++++reader', from);
       this.pageinit();
     }
   },
@@ -149,6 +143,7 @@ export default {
       let scrollDistance = getDistance(idx, p.p);
       document.scrollingElement.scrollTop = scrollDistance;
       this.pageIndex = idx > 3 ? idx : 3;
+      console.log(idx, 'reader++++++', reader_per);
       // 获取当前阅读漫画章节标题和序号
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
@@ -269,7 +264,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
     justify-items: center;
