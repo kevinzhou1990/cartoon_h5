@@ -4,24 +4,24 @@
       <div class="main-container" v-for="(history, index) in historyList" :key="index">
         <div class="date scale">{{ history.date }}</div>
 
-        <div class="content zm-b-b" v-for="item in history.items" :key="item.id" @click="handleClickInfo(item.id)">
+        <div class="content zm-b-b" v-for="item in history.items" :key="item.cartoon_id" @click="handleZMInfo(item.cartoon_id)">
           <div class="cover" :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"></div>
 
           <div class="info">
             <div class="title ellipsis">{{ item.title }}</div>
 
             <div class="other scale">
-              <div class="author ellipsis">{{ item.author }}</div>
-              <div class="status ellipsis">{{ item.status }}</div>
+              <div class="author ellipsis">{{ item.author[0] || '--' }}</div>
+              <div class="status ellipsis">{{ item.publish_status }}</div>
             </div>
 
             <div class="tag scale">
-              <span class="tag-item" v-for="itemTag in item.tag" :key="itemTag.id">{{ itemTag.name }}</span>
+              <span class="tag-item" v-for="itemTag in item.tag" :key="itemTag">{{ itemTag }}</span>
             </div>
 
             <div class="last-status">
-              <div class="publish scale ellipsis">{{ item.publish }}</div>
-              <div class="last-read scale ellipsis">{{ item.last_update }}</div>
+              <div class="publish scale ellipsis">{{ item.publish_name }}</div>
+              <div class="last-read scale ellipsis">{{ item.last_chapter }}</div>
             </div>
           </div>
         </div>
@@ -34,169 +34,29 @@
 
 <script>
 import noDataView from '@/common/components/noDataView';
+import { getHistory } from '@/common/api/shelf';
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'history',
+  mixins: [ myMixins ],
   components: { noDataView },
   data() {
     return {
-      // historyList: []
-      historyList: [
-        {
-          date: '今天',
-          items: [
-            {
-              id: 1,
-              cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-              title: '测试',
-              author: '测试作者',
-              status: '更新至2910话',
-              tag: [
-                {
-                  id: 1,
-                  name: '悬疑'
-                },
-                {
-                  id: 2,
-                  name: '暗黑系'
-                },
-                {
-                  id: 3,
-                  name: '暗黑系'
-                },
-                {
-                  id: 4,
-                  name: '暗黑系'
-                }
-              ],
-              publish: '小刀刀工作室',
-              last_update: '上次读到213话'
-            },
-            {
-              id: 2,
-              cover: '',
-              title: '测试超长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              author: '测试作者长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              status: '更新至2910话长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              tag: [
-                {
-                  id: 1,
-                  name: '悬疑'
-                },
-                {
-                  id: 2,
-                  name: '暗黑系'
-                },
-                {
-                  id: 3,
-                  name: '暗黑系'
-                },
-                {
-                  id: 4,
-                  name: '暗黑系'
-                }
-              ],
-              publish: '小刀刀工作室长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              last_update: '上次读到213话长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长'
-            }
-          ]
-        },
-        {
-          date: '昨天',
-          items: [
-            {
-              id: 1,
-              cover: 'http://bookwine.leimans.com/1600338798174-360_480.png',
-              title: '测试',
-              author: '测试作者',
-              status: '更新至2910话',
-              tag: [
-                {
-                  id: 1,
-                  name: '悬疑'
-                },
-                {
-                  id: 2,
-                  name: '暗黑系'
-                },
-                {
-                  id: 3,
-                  name: '暗黑系'
-                },
-                {
-                  id: 4,
-                  name: '暗黑系'
-                }
-              ],
-              publish: '小刀刀工作室',
-              last_update: ''
-            },
-            {
-              id: 2,
-              cover: 'http://bookwine.leimans.com/1599200425300-%E6%9F%AF%E5%8D%97%E5%B0%81%E9%9D%A2.png',
-              title: '测试超长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              author: '测试作者长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长',
-              status: '',
-              tag: [
-                {
-                  id: 1,
-                  name: '悬疑'
-                },
-                {
-                  id: 2,
-                  name: '暗黑系'
-                },
-                {
-                  id: 3,
-                  name: '暗黑系'
-                },
-                {
-                  id: 4,
-                  name: '暗黑系'
-                }
-              ],
-              publish: '',
-              last_update: '上次读到213话长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长'
-            },
-            {
-              id: 3,
-              cover: 'http://bookwine.leimans.com/1600338798174-360_480.png',
-              title: '测试',
-              author: '测试作者',
-              status: '更新至2910话',
-              tag: [
-                {
-                  id: 1,
-                  name: '悬疑'
-                },
-                {
-                  id: 2,
-                  name: '暗黑系'
-                },
-                {
-                  id: 3,
-                  name: '暗黑系'
-                },
-                {
-                  id: 4,
-                  name: '暗黑系'
-                }
-              ],
-              publish: '',
-              last_update: ''
-            }
-          ]
-        }
-      ]
+      historyList: []
     };
   },
+  mounted() {
+    this.getHistoryList()
+  },
   methods: {
-    handleClickInfo(val) {
-      this.$router.push({
-        path: '/detail',
-        query: {
-          cartoon_id: val
-        }
-      });
+    //获取历史列表
+    async getHistoryList(){
+      const data = await getHistory();
+      if (data.code === 0) {
+        this.historyList = data.data.list;
+      } else {
+        this.$toast(data.msg || '系统出错,请稍后重试');
+      }
     }
   }
 };
