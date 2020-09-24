@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animation-active-in">
     <z-m-header :title-text="title" show-right has-border>
       <div slot="right" class="title-right">
         <span class="edit">编辑</span>

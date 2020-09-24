@@ -12,8 +12,8 @@
 
     <div class="main-container">
       <div>
-        <z-m-history v-if="active === '历史'"></z-m-history>
-        <z-m-cache v-else-if="active === '缓存'"></z-m-cache>
+        <z-m-history v-if="active === '历史'" :class="active === '历史' ? 'animation-active-in' : 'animation-active-out'"></z-m-history>
+        <z-m-cache v-else-if="active === '缓存'" :class="active === '缓存' ? 'animation-active-in' : 'animation-active-out'"></z-m-cache>
         <z-m-favorites v-else></z-m-favorites>
       </div>
     </div>
