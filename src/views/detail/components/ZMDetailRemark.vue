@@ -11,13 +11,13 @@
     </div>
     <div
         class="remark-content zm-b-radius"
-        v-if="remarkData"
+        v-if="commentNum"
         @click.stop="handleClickInfo"
     >
         <div class="remark-content-top">
           <img :src="userIcon" class="remark-content-top-img">
           <span style="padding: 0 16px; white-space: nowrap;">{{ remarkData.nickname || '--' }}</span>
-          <span class="remark-content-top-time">{{ updateTime }}</span>
+          <span class="remark-content-top-time">{{ remarkData.created_at_text }}</span>
           <div style="position: absolute; right: 12px; top: 16px; height: 24px;">
             <img class="remark-content-top-like" src="../images/glike.png" alt="">
             <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
