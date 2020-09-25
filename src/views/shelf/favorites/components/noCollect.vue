@@ -61,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
   $HEIGHT: 56px;
-  $FONEFAMILY: PingFangSC-Semibold;
+  $FONEFAMILY: 'pingfang-blod';
   .hot-recommend{
     height: $HEIGHT;
     margin-top: 40px;

@@ -51,7 +51,7 @@ export default {
       display: flex;
       flex-flow: row wrap;
       .main-content-item {
-        font-family: PingFangSC-Semibold;
+        font-family: 'pingfang-blod';
         display: flex;
         flex-direction: column;
         width: 109px;

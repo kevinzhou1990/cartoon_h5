@@ -35,7 +35,7 @@ export default {
 
   &-text {
     margin-top: 8px;
-    font-family: PingFangSC-Semibold;
+    font-family: 'pingfang-blod';
     font-size: 12px;
     color: #999999;
     letter-spacing: 0;

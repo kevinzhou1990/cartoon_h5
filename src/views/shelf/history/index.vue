@@ -81,7 +81,7 @@ export default {
 
   .container {
     padding-top: 16px;
-    font-family: PingFangSC-Semibold;
+    font-family: 'pingfang-blod';
 
     .main-container {
       padding-left: $PADDINGLEFT;

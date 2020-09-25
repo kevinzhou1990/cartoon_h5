@@ -88,7 +88,7 @@ export default {
     height: $BUTTONHEIGHT;
     z-index: 10;
     ul{
-      font-family: PingFangSC-Semibold;
+      font-family: 'pingfang-blod';
       position: fixed;
       left: 50%;
       transform: translate(-50%);

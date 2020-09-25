@@ -67,7 +67,7 @@ export default {
   .main-container{
     position: relative;
     padding: $PADDING;
-    font-family: PingFangSC-Semibold;
+    font-family: 'pingfang-blod';
     height: calc(#{$CONTAINERHEIGHT} - #{$PADDING * 2});
     .item-img{
       width: $IMGWIDTH;

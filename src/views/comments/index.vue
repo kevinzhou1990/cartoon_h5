@@ -221,7 +221,7 @@ export default {
 <style lang="scss" scoped>
 .comments-page {
   .comments-title {
-    font-family: PingFangSC-Semibold;
+    font-family: 'pingfang-blod';
     position: fixed;
     height: 240px;
     width: 100%;

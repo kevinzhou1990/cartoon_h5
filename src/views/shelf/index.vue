@@ -68,7 +68,7 @@ export default {
 <style lang="scss" scoped>
   $HEADERHEIGHT: 44px;
   .header-container{
-    font-family: PingFangSC-Semibold;
+    font-family: 'pingfang-blod';
     position: fixed;
     width: 100%;
     height: $HEADERHEIGHT;
