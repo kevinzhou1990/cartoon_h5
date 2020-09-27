@@ -19,7 +19,7 @@
               :style="`background-image:url(${comics.cover})`"
               @click="handleZMInfo(comics.cartoon_id)"
             />
-            <div class="comics-info">
+            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
               <div class="ranking-info">
                 <span
                   :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
@@ -37,9 +37,13 @@
                 </span>
               </div>
               <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
-              <div>
-                <p class="comics-info-other" v-if="comics.author.length > 0">{{comics.author[0]}}</p>
-                <p class="comics-info-other">{{comics.status_text}}</p>
+              <div style="position: relative">
+                <div class="other-container">
+                  <p class="comics-info-other" v-if="comics.author.length > 0">
+                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{ author }}</span>
+                  </p>
+                  <p class="comics-info-other">{{comics.status_text}}</p>
+                </div>
               </div>
             </div>
           </li>
@@ -59,7 +63,7 @@
               :style="`background-image:url(${comics.cover})`"
               @click="handleZMInfo(comics.cartoon_id)"
             />
-            <div class="comics-info">
+            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
               <div class="ranking-info">
                 <span
                   :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
@@ -77,9 +81,13 @@
                 </span>
               </div>
               <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
-              <div>
-                <p class="comics-info-other" v-if="comics.author.length > 0">{{comics.author[0]}}</p>
-                <p class="comics-info-other">{{comics.status_text}}</p>
+              <div style="position: relative">
+                <div class="other-container">
+                  <p class="comics-info-other" v-if="comics.author.length > 0">
+                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{ author }}</span>
+                  </p>
+                  <p class="comics-info-other">{{comics.status_text}}</p>
+                </div>
               </div>
             </div>
           </li>
@@ -195,6 +203,9 @@ $FONTCOLOR: #bbb;
 $MAINCOLOR: #12e079;
 $GRAYFONTCOLOR: #999;
 $SIDEWIDTH: 86px;
+.pt-0 {
+  padding-top: 0!important;
+}
 .ranking {
   padding-top: 44px;
   font-family: 'pingfang-blod';
@@ -253,6 +264,7 @@ $SIDEWIDTH: 86px;
         margin-top: 40px;
         margin-bottom: 40px;
         color: $FONTCOLOR;
+        transform: scale(0.82);
       }
     }
     .comics-cover {
@@ -291,7 +303,7 @@ $SIDEWIDTH: 86px;
         background: url('./img/topAa@3x.png') 0 0 no-repeat transparent;
         background-size: contain;
         color: #fff;
-        line-height: 2.6;
+        line-height: 32px;
       }
       .ranking-serial-bottom {
         height: 24px;
@@ -314,6 +326,7 @@ $SIDEWIDTH: 86px;
         font-size: 14px;
         flex: 1;
         margin-top: 16px;
+        margin-bottom: 6px;
         color: #222;
         overflow: hidden;
         max-height: 40px;
@@ -322,6 +335,10 @@ $SIDEWIDTH: 86px;
         -webkit-line-clamp: 2;
         word-break: break-all;
       }
+      .other-container{
+        position: absolute;
+        width: calc(100% + 16px);
+      }
       .comics-info-other {
         color: $FONTCOLOR;
         overflow: hidden;
@@ -329,6 +346,13 @@ $SIDEWIDTH: 86px;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         word-break: break-all;
+        transform: scale(0.82);
+        transform-origin: 0;
+        .author:not(:last-child) {
+          &:after {
+            content: '/';
+          }
+        }
       }
     }
   }
