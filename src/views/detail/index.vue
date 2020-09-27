@@ -99,9 +99,6 @@ export default {
     isShowUnfold() {
 	    if (this.textContent) {
 		    const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '')
-        // const clientWidth = document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('content')[0]).width.replace('px', '')
-		    // debugger
-        // console.log(clientHeight, clientWidth)
         if ((clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44)){
 	        return true
         } else {
