@@ -310,9 +310,9 @@ export default {
   .loadmore-container{
     background: white;
     margin-top: -1px;
+    min-height: calc(100vh - 240px);
   }
   .comment-container{
-    min-height: calc(100vh - 240px);
     .comments-contents-list {
       background: #fff;
       padding-left: 16px;
