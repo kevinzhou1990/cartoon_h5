@@ -2,22 +2,32 @@
 const path = require('path');
 const utils = require('./utils');
 const config = require('../config');
-const vueLoaderConfig = require('./vue-loader.conf');
+const webpack = require('webpack');
+// const vueLoaderConfig = require('./vue-loader.conf');
+
+// ssr相关插件和配置
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const vueloader = require('vue-loader');
+const isProd = process.env.NODE_ENV === 'production';
+const extractCSS = new ExtractTextPlugin({ filename: 'common.[chunkhash].css', disable: false, allChunks: true });
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
 
-const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
-});
+console.log(vueloader);
+
+// const createLintingRule = () => ({
+//   test: /\.(js|vue)$/,
+//   loader: 'eslint-loader',
+//   enforce: 'pre',
+//   include: [resolve('src'), resolve('test')],
+//   options: {
+//     formatter: require('eslint-friendly-formatter'),
+//     emitWarning: !config.dev.showEslintErrorsInOverlay
+//   }
+// });
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -27,35 +37,59 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath:
-      process.env.NODE_ENV === 'production'
-        ? config.build.assetsPublicPath
-        : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-	    'lib': resolve('src/lib')
+      lib: resolve('src/lib')
     }
   },
   module: {
     rules: [
-      ...(config.dev.useEslint ? [createLintingRule()] : []),
+      // ...(config.dev.useEslint ? [createLintingRule()] : []),
+      {
+        test: /\.css$/,
+        use: isProd
+          ? extractCSS.extract({
+              fallback: 'style-loader',
+              use: 'css-loader?minimize'
+            })
+          : ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: isProd
+          ? extractCSS.extract({
+              fallback: 'style-loader',
+              use: ['css-loader?minimize', 'sass-loader', 'postcss-loader']
+            })
+          : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+      },
+      {
+        test: /\.sass$/,
+        use: isProd
+          ? extractCSS.extract({
+              fallback: 'style-loader',
+              use: ['css-loader?minimize', 'sass-loader', 'postcss-loader']
+            })
+          : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        // options: vueLoaderConfig
+        options: {
+          scss: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+          sass: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
+        }
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [
-          resolve('src'),
-          resolve('test'),
-          resolve('node_modules/webpack-dev-server/client')
-        ]
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
@@ -101,5 +135,25 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  performance: {
+    hints: false
+  },
+  devtool: isProd ? false : '#cheap-module-source-map'
+  // plugins: [VueLoaderPlugin()]
 };
+
+if (isProd) {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    extractCSS
+  ]);
+} else {
+  module.exports.plugins = (module.exports.plugins || []).concat([new FriendlyErrorsPlugin()]);
+}
