@@ -156,6 +156,7 @@ export default {
 			  // if (this.currentPage >= this.totalPages) this.allLoaded = true
 			  this.currentPage++
 			  this.getData()
+	      this.$refs.loadmore.onTopLoaded()
       }, 1000)
     }
   }
