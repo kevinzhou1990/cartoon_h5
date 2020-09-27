@@ -35,7 +35,7 @@
           v-if="ZMDetailData.cover"
         ></div>
       </div>
-      <div style="padding: 0 32px 24px 32px;" class="content" ref="intro-content">
+      <div style="padding: 0 32px 24px 32px;" class="info-content" ref="intro-content">
         {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
         <a
           href="javascirpt:void(0)"
@@ -76,11 +76,13 @@ export default {
       zmCollectData: null,
       cartoon_id: '', // 漫画id
       ZMDetailData: {},
-      textLength: 41, // 简介默认展示47个字符 刚好占两行
+      textLength: 44, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
-      comicsInfo: {}
+      comicsInfo: {},
+	    infoHeight: 0,
+	    infoWidth: 0
     };
   },
   components: {
@@ -95,18 +97,29 @@ export default {
     },
     // 是否显示展开按钮
     isShowUnfold() {
-      return this.textContent.length > this.textLength;
+	    if (this.textContent) {
+		    const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '')
+        // const clientWidth = document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('content')[0]).width.replace('px', '')
+		    // debugger
+        // console.log(clientHeight, clientWidth)
+        if ((clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44)){
+	        return true
+        } else {
+          return false
+        }
+      }
+      return false
     },
     ZMDetailInfo() {
       if (this.isShowUnfold) {
-        const clienWidth = document.getElementsByClassName('content') && document.getElementsByClassName('content')[0].clientWidth
+	      const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))
         let textWrods = this.textLength
-        if (clienWidth >= 375) {
-	        textWrods = 46
+        if (clientHeight > 32 && this.infoWidth >= 311 && (this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g)[0].length > 20)) {
+	        textWrods = 95
+	        return this.textContent.substring(0, textWrods);
         } else {
-	        textWrods = 41
+	        return this.textContent.substring(0, textWrods);
         }
-        return this.textContent.substring(0, textWrods);
       } else {
         return this.textContent;
       }
@@ -115,6 +128,11 @@ export default {
   mounted() {
     this.cartoon_id = this.$route.query.cartoon_id || '';
     this.getZMDetail(this.cartoon_id);
+    setTimeout(() => {
+	    this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))
+	    this.infoWidth = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).width.replace('px', ''))
+	    console.log(this.infoHeight)
+    }, 0)
   },
   methods: {
     /**
@@ -231,10 +249,11 @@ $content-label-fontSize: 10px;
   background-size: 100%;
 }
 
-.content {
+.info-content {
   display: block;
   width: 311px;
   overflow: hidden;
+  word-break: break-word;
   text-overflow: ellipsis;
   /*display: -webkit-box;*/
   height: 100%;
