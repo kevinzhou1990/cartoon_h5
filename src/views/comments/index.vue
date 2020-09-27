@@ -11,7 +11,7 @@
       :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     />
     <div class="comments-title" :style="{background:details.bk_color}" ref="title">
-      <div class="comments-mask" :style="{background:'url(' + details.cover + ') center center', backgroundSize: '100% 100%'}"></div>
+      <div class="comments-mask" :style="{background: details.cover_detail ? 'url(' + details.cover_detail + ') center center' : 'url(' + details.cover + ') center center', backgroundSize: '100% 100%'}"></div>
       <div class="comments-title-content">
         <p class="comments-title-substance">{{details.title}}</p>
         <p v-if="remarkType === 0">
@@ -39,7 +39,7 @@
     <div class="comments-contents" ref="commentContainer">
       <div class="comments-contents-top"></div>
       <img src="@/assets/img/main_icon.png" class="icon" alt />
-      <mt-loadmore :top-method="refreshPage" :bottomDistance='50' ref="loadmore" :auto-fill="false" style="background: white">
+      <mt-loadmore :top-method="refreshPage" :bottomDistance='50' ref="loadmore" :auto-fill="false" class="loadmore-container">
         <div v-if="commentsList.length > 0" class="comment-container">
           <ul class="comments-contents-list">
             <li v-for="comment in commentsList" :key="comment.comment_id">
@@ -306,6 +306,10 @@ export default {
       border-radius: 16px;
       margin-right: 8px;
     }
+  }
+  .loadmore-container{
+    background: white;
+    margin-top: -1px;
   }
   .comment-container{
     min-height: calc(100vh - 240px);
