@@ -98,8 +98,8 @@ export default {
     // 是否显示展开按钮
     isShowUnfold() {
 	    if (this.textContent) {
-		    const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '')
-        if ((clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44)){
+        const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '')
+        if ((clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44) || (this.textContent.match(/\w+/g) && this.textContent.length > 95)){
 	        return true
         } else {
           return false
@@ -111,11 +111,14 @@ export default {
       if (this.isShowUnfold) {
 	      const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))
         let textWrods = this.textLength
-        if (clientHeight > 32 && this.infoWidth >= 311 && (this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g)[0].length > 20)) {
+        if ((clientHeight > 32 && this.infoWidth >= 311) || (this.textContent.match(/\w+/g) && this.textContent.length > 95)) {
 	        textWrods = 95
 	        return this.textContent.substring(0, textWrods);
-        } else {
+        } else if (this.textContent.match(/\W+/g) && this.textContent.length > 44) {
+	        textWrods = 46
 	        return this.textContent.substring(0, textWrods);
+        } else {
+	        return this.textContent;
         }
       } else {
         return this.textContent;
