@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive" />
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!-- <keep-alive> -->
+    <router-view />
+    <!-- </keep-alive> -->
+    <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 export default {
   name: 'App',
   mounted() {
-    console.log(this.$route.meta.keepAlive, this.$route.name)
+    console.log(this.$route.meta.keepAlive, this.$route.name);
   }
 };
 </script>

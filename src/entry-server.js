@@ -11,7 +11,7 @@ export default context => {
 
     // 等到router将可能的异步组件和钩子函数解析完
     router.onReady(() => {
-      console.log('服务端渲染实例', router);
+      // console.log(router, router.getMatchedComponents());
 
       const matchedComponents = router.getMatchedComponents();
       // 匹配不到的路由，执行reject函数，并返回404

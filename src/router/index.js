@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../store';
+// import store from '../store';
 import routers from './routers';
 Vue.use(Router);
 
@@ -14,11 +14,12 @@ export function createRouter() {
     mode: 'history',
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
-    routers
+    routes: routers
   });
-  router.afterEach((to, from) => {
-    store.commit('updateActived', to.name);
-  });
+  return router;
+  // router.afterEach((to, from) => {
+  //   store.commit('updateActived', to.name);
+  // });
 }
 // const router = new Router({
 //   mode: 'history',
