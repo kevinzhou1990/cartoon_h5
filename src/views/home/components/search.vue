@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" @click.stop="handleClickSearch">
     <div class="search-label">
       <img class="search-label-img" src="../images/search.png" />
 <!--      <input class="search-label-input" v-model="searchValue" :placeholder="placeholderValue" />-->
@@ -39,6 +39,14 @@ export default {
     })
   },
   methods: {
+	  /**
+	   * @info: jump search page
+	   * @author: PengGeng
+	   * @date: 9/29/20-4:17 下午
+	   */
+	  handleClickSearch() {
+      console.log('jump search page')
+    },
     async getData() {
       const resData = await searchWroldList()
       if (resData && resData.code === 0){
