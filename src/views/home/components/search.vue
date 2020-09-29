@@ -126,12 +126,14 @@ $search-color: #fff;
       border-radius: 4px;
       overflow: hidden;
       ul {
+        font-family: 'PingFangSC-Semibold';
         line-height: 36px;
         padding-left: 40px;
+        color: #FFFFFF;
+        opacity: 0.6;
+        font-size: 12px;
         li {
-          font-family: 'PingFangSC-Semibold';
-          color: #FFFFFF;
-          opacity: 0.6;
+
         }
       }
     }
