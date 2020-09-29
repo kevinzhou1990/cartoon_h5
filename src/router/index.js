@@ -99,7 +99,12 @@ const router = new Router({
       name: 'discovery',
       component: Discovery,
       meta: { title: '发现', transitionIn: 'slide-left', keepAlive: false }
-    }
+    }, {
+      path: '/ZMSearch',
+		  name: 'ZMSearch',
+		  component: () => import(/* webpackChunkName: ZMSearch */ '@/views/search/index'),
+		  meta: { title: '搜索', transitionIn: 'slide-left', keepAlive: true }
+	  }
   ]
 });
 

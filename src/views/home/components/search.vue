@@ -46,6 +46,7 @@ export default {
 	   */
 	  handleClickSearch() {
       console.log('jump search page')
+      this.$router.push('/ZMSearch')
     },
     async getData() {
       const resData = await searchWroldList()
