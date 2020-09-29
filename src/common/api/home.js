@@ -30,3 +30,11 @@ export const getMoreComics = function (recId, data = {}) {
     params: data
   })
 }
+// 轮播热词
+export const searchWroldList = function(data = {}) {
+  return request({
+    url: 'api/search/home',
+    method: 'get',
+    params: data
+  })
+}
