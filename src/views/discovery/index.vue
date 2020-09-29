@@ -139,7 +139,7 @@ export default {
       if (loading < innerHeight + 40) {
         // const page = this.page + 1;
         if (this.page > this.totalPage) {
-          this.loadingTxt = '不要在扯拉，真的没有了～～～～';
+          this.loadingTxt = '不要再扯了，真的没有了～';
           return false;
         }
         this.getComics(this.checked, this.page);
