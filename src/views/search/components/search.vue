@@ -1,15 +1,32 @@
 <template>
   <div class="search zm-b-b">
       <div class="content">
-        <input class="content-input" placeholder="黑白放音机 第二季">
+        <input v-model="searchValue" class="content-input" :placeholder="placeholderValue" maxlength="20"/>
+        <span class="content-clear" v-show="searchValue.length" @click.stop="searchValue = ''"></span>
       </div>
-      <div class="cancel">取消</div>
+      <div class="cancel" @click.stop="handleClickCancel">取消</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'search'
+  name: 'search',
+  data() {
+    return {
+      placeholderValue: '黑白放音机 第二季',
+      searchValue: ''
+    }
+  },
+  methods: {
+	  /**
+	   * @info: 点击了取消
+	   * @author: PengGeng
+	   * @date: 9/30/20-2:16 下午
+	   */
+	  handleClickCancel() {
+      console.log('back to path....')
+    }
+  }
 }
 </script>
 
@@ -53,6 +70,16 @@ input::-webkit-input-placeholder {
       left: 16px;
       transform: translateY(-50%);
       background: url("../images/search.png") no-repeat center;
+      background-size: 100%;
+    }
+    &-clear {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 16px;
+      width: 16px;
+      height: 16px;
+      background: url("../images/delete.png") no-repeat center;
       background-size: 100%;
     }
   }

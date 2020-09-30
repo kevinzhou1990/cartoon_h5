@@ -1,12 +1,17 @@
 <template>
   <div class="history-main">
     <div class="label">
-      <span>历史记录</span>
-      <span>删除</span>
+      <span>{{ wordsData.leftName }}</span>
+      <span>{{ wordsData.rightName }}</span>
     </div>
-    <div class="content">
-      <div class="content-bg" v-for="index in 6" :key="index">
-        <span>抢爷异闻录</span>
+    <div class="content" v-if="wordsData && wordsData.wordsList.length">
+      <div
+          class="content-bg"
+          v-for="(item, index) in wordsData.wordsList"
+          :key="index"
+          @click="handleClickInfo(item)"
+      >
+        <span>{{ item }}</span>
       </div>
     </div>
   </div>
@@ -14,7 +19,23 @@
 
 <script>
 export default {
-  name: 'ZMHistoryList'
+  name: 'ZMHistoryList',
+  props: {
+    wordsData: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+	  /**
+	   * @info: go to comics detail
+	   * @author: PengGeng
+	   * @date: 9/30/20-2:20 下午
+	   */
+	  handleClickInfo(val) {
+      console.log('go to comics detail', val)
+    }
+  }
 }
 </script>
 
