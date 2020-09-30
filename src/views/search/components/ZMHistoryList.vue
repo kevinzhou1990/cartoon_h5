@@ -2,8 +2,8 @@
   <div class="history-main">
     <div class="label">
       <span>{{ wordsData.leftName }}</span>
-      <span @click.stop="handleClickDel" v-if="!isShowActiveFlag">{{ wordsData.rightName }}</span>
-      <z-m-clear-histroy v-else></z-m-clear-histroy>
+      <span class="right-cancel" @click.stop="handleClickDel" v-if="!isShowActiveFlag && wordsData.rightFlag"></span>
+      <z-m-clear-histroy v-if="isShowActiveFlag"></z-m-clear-histroy>
     </div>
     <div
         class="content"
@@ -88,6 +88,15 @@ export default {
     line-height: 32px;
     padding: 0 8px;
     justify-content: space-between;
+    .right-cancel {
+      /*line-height: 32px;*/
+      display: block;
+      margin: 6px;
+      width: 16px;
+      height: 16px;
+      background: url("../images/cancel.png") no-repeat center;
+      background-size: 100%;
+    }
   }
   .content {
     display: flex;
