@@ -2,11 +2,16 @@
   <div class="history-main">
     <div class="label">
       <span>{{ wordsData.leftName }}</span>
-      <span>{{ wordsData.rightName }}</span>
+      <span @click.stop="handleClickDel" v-if="!isShowActiveFlag">{{ wordsData.rightName }}</span>
+      <z-m-clear-histroy v-else></z-m-clear-histroy>
     </div>
-    <div class="content" v-if="wordsData && wordsData.wordsList.length">
+    <div
+        class="content"
+        v-if="wordsData && wordsData.wordsList.length"
+    >
       <div
           class="content-bg"
+          :class="{dl: isShowActiveFlag}"
           v-for="(item, index) in wordsData.wordsList"
           :key="index"
           @click="handleClickInfo(item)"
@@ -14,10 +19,13 @@
         <span>{{ item }}</span>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import ZMClearHistroy from '@/views/search/components/ZMClearHistroy'
+
 export default {
   name: 'ZMHistoryList',
   props: {
@@ -26,7 +34,28 @@ export default {
       default: () => {}
     }
   },
+  data() {
+    return {
+		  // delFlag:
+	    isShowActiveFlag: false
+    }
+  },
+  components: {
+	  ZMClearHistroy
+  },
   methods: {
+	  /**
+	   * @info: delete all history wrods
+	   * @author: PengGeng
+	   * @date: 9/30/20-2:28 下午
+	   */
+	  handleClickDel() {
+      // this.delFlag = false
+      this.isShowActiveFlag = true
+    },
+	  handleClickClearFlag(val) {
+		  this.isShowActiveFlag = val
+    },
 	  /**
 	   * @info: go to comics detail
 	   * @author: PengGeng
@@ -43,6 +72,9 @@ export default {
   $label-fontSize: 12px;
   $label-color: #999999;
   $content-color: #222222;
+  .dl {
+    color: #BBBBBB !important;
+  }
 .history-main {
   position: relative;
   overflow: hidden;
@@ -52,6 +84,8 @@ export default {
   color: $label-color;
   .label {
     display: flex;
+    height: 32px;
+    line-height: 32px;
     padding: 0 8px;
     justify-content: space-between;
   }
@@ -67,6 +101,8 @@ export default {
       background: #F5F5F5;
       border-radius: 18px;
       text-align: center;
+      color: $content-color;
+      font-size: $label-fontSize;
       span {
         display: block;
         box-sizing: content-box;
@@ -76,8 +112,6 @@ export default {
         overflow: hidden;
         word-break: break-word;
         white-space: nowrap;
-        color: $content-color;
-        font-size: $label-fontSize;
       }
     }
   }
