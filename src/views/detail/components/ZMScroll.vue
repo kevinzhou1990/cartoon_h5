@@ -250,7 +250,7 @@ export default {
     },
     // touch 开始中
     touchMove(e) {
-      e.preventDefault()
+      // e.preventDefault()
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
@@ -270,6 +270,15 @@ export default {
         //   // this.$refs.ohterEl.style.background = 'red'
         //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
       }
+	    // if (this.height < 0) {
+	    //   this.$refs['main-detail'].style.marginTop = 0
+	    //   this.$refs['remarkScroll'].style.top = (265 + 56 + Number(this.textHeight)) - Math.abs(this.height) + 'px'
+		  //   this.$refs['remarkScroll'].style.backgroundColor = '#ffffff'
+	    // } else {
+		  //   this.$refs['main-detail'].style.marginTop = (265 + 56 + Number(this.textHeight)) - Math.abs(this.height) + 'px'
+		  //   this.$refs['remarkScroll'].style.top = 0
+		  //   this.$refs['remarkScroll'].style.backgroundColor = '#ffffff'
+      // }
       console.log('touchMove', this.height);
       console.log('我在滑动中。。。。');
     },
@@ -392,7 +401,7 @@ export default {
 }
 .main {
   /*  overflow-scrolling: touch;*/
-  /*-webkit-overflow-scrolling: touch;*/
+  -webkit-overflow-scrolling: touch;
   position: absolute;
   font-weight: bold;
   margin: 0 auto;
@@ -413,7 +422,7 @@ export default {
   }
   &-bottom {
     display: block;
-    touch-action: none;
+    /*touch-action: none;*/
     height: 50px;
     margin-bottom: -50px;
     line-height: 50px;
