@@ -32,6 +32,7 @@
           </div>
           <div>
             <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
+            <div class="top-flag" v-if="item.is_top">置顶</div>
             <div class="topic-comment-content">{{ item.content }}</div>
             <div class="topic-gray">
               <span>{{ item.created_at_text }}</span>
@@ -241,6 +242,7 @@ $DEEPGRAY: #999;
     }
     li {
       display: flex;
+      position: relative;
       > div {
         &:last-child {
           flex: 1 1;
@@ -251,6 +253,17 @@ $DEEPGRAY: #999;
       color: $DEEPGRAY;
       font-size: 12px;
       margin-bottom: 8px;
+    }
+    .top-flag {
+      position: absolute;
+      top: -2px;
+      right: 0;
+      padding: 2px 8px;
+      transform: scale(0.84);
+      font-family: 'pingfang-blod';
+      color: #ffffff;
+      background: #12e079;
+      border-radius: 4px;
     }
     .topic-comment-content {
       font-family: 'pingfang-regular';
