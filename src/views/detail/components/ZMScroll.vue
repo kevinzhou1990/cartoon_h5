@@ -1,8 +1,8 @@
 <template>
-  <div class="main" ref="remarkScroll">
+  <div class="main" ref="remarkScroll" :style="{'top': 265+58+textHeight+'px'}">
     <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
-    <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>
-    <div class="main-catalogue box-shad" v-if="detailData && detailData.is_online && !detailData.is_coming">
+<!--    <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>-->
+    <div class="main-catalogue box-shad" ref="main-detail" v-if="detailData && detailData.is_online && !detailData.is_coming">
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt />
         <span class="left-text">缓存</span>
@@ -19,7 +19,7 @@
     </div>
     <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
       <z-m-detail-chapter
-        v-if="detailData && detailData.is_coming !=1"
+        v-if="detailData && detailData.is_online ==1"
         :status-text="detailData.status_text"
         :detail-news="detailData && detailData.news"
       ></z-m-detail-chapter>
@@ -233,17 +233,17 @@ export default {
       }
       const touch = e.changedTouches[0];
       this.startTouchValue = touch.pageY;
-      if (this.startTouchValue < this.startTouchDistance) {
-        this.$refs.remarkScroll.style['pointer-events'] = 'none';
-        // this.$el.removeEventListener('touchstart', this.touchStart);
-      }
-      this.timer = setTimeout(() => {
-        if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-        // this.$el.addEventListener('touchstart', this.touchStart);
-      }, 300);
-      if (this.$refs.remarkScroll.scrollTop > 100){
-	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-      }
+      // if (this.startTouchValue < this.startTouchDistance) {
+      //   this.$refs.remarkScroll.style['pointer-events'] = 'none';
+      //   // this.$el.removeEventListener('touchstart', this.touchStart);
+      // }
+      // this.timer = setTimeout(() => {
+      //   if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+      //   // this.$el.addEventListener('touchstart', this.touchStart);
+      // }, 400);
+      // if (this.$refs.remarkScroll.scrollTop > 100){
+	    //   if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+      // }
       e.stopPropagation();
       this.$el.addEventListener('touchmove', this.touchMove);
       console.log('我开始滑动了。。。。', this.startTouchValue);
@@ -284,7 +284,7 @@ export default {
       // }
       this.height = touch - this.startTouchValue;
       this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
-      // this.$parent.$refs['intro-content'].style.height = this.textHeight
+      this.$parent.$refs['intro-content'].style.minHeight = '58px' // 初始化简介的高度
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
       // this.bottomAjax = false
@@ -324,17 +324,22 @@ export default {
       // }
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
-      if (yScroll >= 10) {
+      if (yScroll >= 5) {
 	      // this.$el.removeEventListener('tochstart', this.touchStart, true);
         // // this.$el.removeEventListener('touchend', this.touchEnd, true)
         // this.$el.removeEventListener('touchMove', this.touchMove, true);
+      // :style="{'margin-top': 265+textHeight+'px'}"
+        this.$refs['main-detail'].style.marginTop = 265 + this.textHeight + 'px'
+	      this.$refs['remarkScroll'].style.top = 0
         this.isShowBgColor = true;
-	      this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+	      // this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
         // this.$el.addEventListener('tochstart', this.touchStart, true);
         // this.$el.addEventListener('touchend', this.touchEnd, true);
         // this.$el.addEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = false;
+	      this.$refs['main-detail'].style.marginTop = 0
+	      this.$refs['remarkScroll'].style.top = (265 + 56 + Number(this.textHeight)) - yScroll + 'px'
       }
       if (yScroll > 260) {
         this.showFootFlag = true;
@@ -388,7 +393,7 @@ export default {
 .main {
   /*  overflow-scrolling: touch;*/
   /*-webkit-overflow-scrolling: touch;*/
-  /*position: absolute;*/
+  position: absolute;
   font-weight: bold;
   margin: 0 auto;
   color: #222222;

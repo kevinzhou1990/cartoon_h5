@@ -150,9 +150,9 @@ export default {
      */
     getElHeight() {
       console.log('........')
+	    console.log(document.getElementsByClassName('main')[1].style)
+	    // document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       this.showMoreFlag = true;
-      console.log(document.getElementsByClassName('main')[1].style)
-	    document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
         console.log(this.$refs['intro-content'].offsetHeight);
@@ -203,6 +203,7 @@ export default {
     '$route'(to, from) {
       if (to.query.cartoon_id !== from.query.cartoon_id){
         this.getZMDetail(to.query.cartoon_id)
+        window.location.reload()
       }
     },
     isChangeHeader: function (newVal, oldVal) {
@@ -256,7 +257,7 @@ $content-label-fontSize: 10px;
   word-break: break-word;
   text-overflow: ellipsis;
   /*display: -webkit-box;*/
-  height: 100%;
+  /*height: 100%;*/
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

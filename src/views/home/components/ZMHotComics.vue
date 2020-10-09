@@ -21,7 +21,7 @@
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>
     </div>
-    <div class="hot-main-btn" v-if="hotComicsList.length >= 6">
+    <div class="hot-main-btn" v-if="hotComicsList.length">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
   </div>
@@ -45,7 +45,7 @@ export default {
       labelName: '热番',
       hotComicsList: [],
       recId: 2,
-      currentPage: 1,
+      currentPage: 2,
       pageSize: 6,
       totalPages: 1
     }

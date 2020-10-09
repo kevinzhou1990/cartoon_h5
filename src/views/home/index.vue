@@ -58,6 +58,7 @@ import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial'
 import homeLoading from '@/views/home/components/homeLoading'
 import { getBanner, getRecommend } from '@/common/api/home';
+import {getTabs} from '@/common/api/recommend'
 
 export default {
   name: 'home',
@@ -92,11 +93,32 @@ export default {
     console.log('进来了吗？。。。。。mounted')
     this.getBanner();
     this.getRecommend();
+    this.getTabListData();
   },
   activated() {
     console.log('执行了。。。。。activated')
   },
   methods: {
+	  /**
+	   * @info: 获取tabbar的数据
+	   * @author: PengGeng
+	   * @date: 10/9/20-2:44 下午
+	   */
+	  async getTabListData() {
+		  let tabListData = {}
+		  const resData = await getTabs()
+		  if (resData && resData.code === 0 && resData.data) {
+			  let recList = resData.data.data
+			  recList.length && recList.map(item => {
+				  tabListData[item.rec_id] = item.name
+			  })
+			  console.log(this.tabListData)
+			  sessionStorage.setItem('SET_REC_DATA', JSON.stringify(tabListData));
+			  this.$store.commit('SET_REC_DATA', tabListData);
+		  } else {
+			  this.$toast(resData.msg)
+		  }
+	  },
     /**
      * @info: 获取banner的数据
      * @author: PengGeng
@@ -124,13 +146,13 @@ export default {
 	    let recList = resData.data.list
       this.recList.push(...recList)
       this.totalPages = resData.data.total_pages || 0
-      let recData = {};
-      this.recList.length &&
-        this.recList.map((item, index) => {
-          if (item.rec_id > 1) {
-            recData[item.rec_id] = item.name;
-          }
-        });
+      // let recData = {};
+      // this.recList.length &&
+      //   this.recList.map((item, index) => {
+      //     if (item.rec_id > 1) {
+      //       recData[item.rec_id] = item.name;
+      //     }
+      //   });
       if (this.currentPage < resData.data.total_pages) {
         this.bottomAjax = true
         this.isBottomAjax = true
@@ -140,8 +162,6 @@ export default {
 	      this.bottomAjax = false
 	      this.isNoMoreData = true
       }
-      sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData));
-      this.$store.commit('SET_REC_DATA', recData);
     },
 	  resfreshPage() {
       this.$refs['zm-scroll'].resetInit()

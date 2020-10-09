@@ -5,9 +5,9 @@
  */
 import request from 'lib/request'
 
-export const getBanner = function (data = {}) {
+export const getTabs = function (data = {}) {
   return request({
-    url: '',
+    url: '/api/cartoon/recommend/tabs',
     method: 'get',
     data
   })

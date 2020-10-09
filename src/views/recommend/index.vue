@@ -6,8 +6,8 @@
           <div class="icon-bg" :class="isLightIcon ? 'trl-l': 'trl-r' "></div>
         </div>
       </z-m-header>
-      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click="handleClickLightIcon"></div>
-      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click="handleClickLightIcon"></div>
+      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g': 'icon-l-g-l' " @click.stop="handleClickLightIcon"></div>
+      <div style="z-index: 999;" :class="isLightIcon ? 'icon-l-g-r': 'icon-r-g' " @click.stop="handleClickLightIcon"></div>
     </div>
     <div class="nav-bar">
       <z-m-nav-bar
@@ -16,7 +16,7 @@
           @getRecommendData="getComicsList"
       ></z-m-nav-bar>
     </div>
-      <div style="position:relative; width: 343px; height: 86px; margin: 16px 16px 0 16px;" v-if="dataList.length">
+      <div class="ba" v-if="dataList.length && !isLightIcon">
         <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight"></z-mswiper>
       </div>
       <div>
@@ -84,7 +84,7 @@ export default {
   created() {
     this.acticeIndex = Number(this.$route.query.SEC_ID) || 1
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
-    this.isLightIcon = localStorage.getItem('isLightIcon') || false
+    this.isLightIcon = localStorage.getItem('isLightIcon') === 'true'
     // this.getData()
   },
   methods: {
@@ -183,6 +183,13 @@ export default {
   @mixin trans($xLineLength: 3px) {
     transition: transform .3s;
     transform: translateX(#{$xLineLength}px);
+  }
+  .ba{
+    position:relative;
+    width: auto;
+    /*width: 343px;*/
+    height: 86px;
+    margin: 16px 16px 0 16px;
   }
   .right-change {
     overflow: hidden;

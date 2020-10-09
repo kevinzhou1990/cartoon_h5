@@ -7,7 +7,7 @@
   <div class="main-remark">
     <div class="remark-title" @click.stop="handleClickInfo">
       <span style="font-size: 18px;">漫画评论区</span>
-      <span class="remark-title-num">{{ commentNum || 0 }}</span>
+      <span class="remark-title-num">{{ remarkCount }}</span>
     </div>
     <div
         class="remark-content zm-b-radius"
@@ -20,7 +20,7 @@
           <span class="remark-content-top-time">{{ remarkData.created_at_text }}</span>
           <div style="position: absolute; right: 12px; top: 16px; height: 24px;">
             <img class="remark-content-top-like" src="../images/glike.png" alt="">
-            <span class="remark-content-top-num">{{ remarkData.praise_num }}</span>
+            <span class="remark-content-top-num">{{ remarkData.praise_num_text }}</span>
           </div>
         </div>
         <div style="padding: 0 16px 0 53px; word-break: break-word;">
@@ -48,15 +48,24 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+	  updateTime() {
+		  return timestampToTime(this.remarkData.created_at, 'date')
+	  },
+	  remarkCount() {
+      if (this.commentNum > 9999) {
+        return `评论区${this.commentNum}+`
+      } else if (this.commentNum === 0) {
+        return '暂无评论'
+      } else {
+        return `评论区${this.commentNum}`
+      }
+	  }
+  },
   data() {
     return {
       isRemarkData: false,
       userIcon: require('../images/default-icon.png')
-    }
-  },
-  computed: {
-    updateTime() {
-      return timestampToTime(this.remarkData.created_at, 'date')
     }
   },
   methods: {

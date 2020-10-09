@@ -68,6 +68,7 @@ $label-fontSize: 16px;
   }
   ::-webkit-scrollbar {
     width: 0 !important;
+    display: none;
   }
   &-content {
     display: flex;
