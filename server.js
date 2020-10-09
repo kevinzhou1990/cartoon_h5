@@ -9,6 +9,8 @@ const resolve = file => path.resolve(__dirname, file);
 const { createBundleRenderer } = require('vue-server-renderer');
 const cookieParser = require('cookie-parser');
 
+const { v4: uuidv4 } = require('uuid');
+
 const isProd = process.env.NODE_ENV === 'production';
 const useMicroCache = process.env.MICRO_CACHE !== 'false';
 const serverInfo = `express/${require('express/package.json').version} ` + `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
@@ -69,7 +71,6 @@ app.use('/assets', serve('./assets', true));
 app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl));
-
 function render(req, res) {
   const s = Date.now();
   res.setHeader('Content-Type', 'text/html');
@@ -96,6 +97,12 @@ function render(req, res) {
     if (err) {
       return handleError(err);
     }
+    const uuid = uuidv4();
+    // 没有uuid的情况下，设置cookie uuid参数
+    console.log(req.cookies.uuid, '----- uuid');
+    if (!(req.cookies && req.cookies.uuid)) {
+      res.cookie('uuid', uuid, { path: '/' });
+    }
     res.send(html);
     if (!isProd) {
       console.log(`whole request: ${Date.now() - s}ms`);
@@ -108,7 +115,8 @@ app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
-
+  console.log(req.cookies, '---- 请求cookie', req.url, '--- url');
+  console.log('reqdata----', req.headers);
   // 跨域请求CORS中的预请求
   if (req.method === 'OPTIONS') {
     res.send(200); //让options请求快速返回
@@ -132,7 +140,6 @@ app.get(
   isProd
     ? render
     : (req, res) => {
-        // console.log('cookie:', req.cookies);
         readyPromise.then(() => render(req, res));
       }
 );

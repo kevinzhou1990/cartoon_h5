@@ -82,7 +82,7 @@ export default {
     };
   },
   asyncData({ store, route }) {
-    console.log(this);
+    store.dispatch('getBanner');
   },
 
   mounted() {

@@ -59,15 +59,42 @@ function timestampToTime(timestamp, type) {
  * @wait {number | ms} 要等待的毫秒数
  * */
 function throttle(fn, wait = 300) {
-  let canRun = true
+  let canRun = true;
   return function() {
-    if (!canRun) return
-    canRun = false
+    if (!canRun) return;
+    canRun = false;
     setTimeout(() => {
-      fn.apply(this, arguments)
-      canRun = true
-    }, wait)
+      fn.apply(this, arguments);
+      canRun = true;
+    }, wait);
+  };
+}
+
+/**
+ * @info 获取指定key的cookie
+ * @param { String } key cookie key
+ * @returns value 返回对应值
+ */
+function getCookie(key) {
+  let arr;
+  let reg = new RegExp(`(^| )${key}=([^;]*)(;|$)`);
+  if ((arr = document.cookie.match(reg))) {
+    return unescape(arr[2]);
+  } else {
+    return null;
   }
 }
 
-export { encry, getRandomStr, timestampToTime, throttle };
+/**
+ * @info 设置cookie
+ * @param { String } key cookie key
+ * @param { String } value cookie value
+ */
+function setCookie(key, value) {
+  let days = 30;
+  let exp = new Date();
+  exp.setTime(exp.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${key}=${escape(value)};expires=${exp.toUTCString()}`;
+}
+
+export { encry, getRandomStr, timestampToTime, throttle, getCookie, setCookie };
