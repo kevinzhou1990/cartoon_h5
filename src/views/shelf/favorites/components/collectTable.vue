@@ -16,8 +16,8 @@
         <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
         <span class="main-content-item-status" v-else>收藏 {{item.shelf_num}}</span>
       </div>
-      <div class="container-end" v-if="dataList.length > 0">不要再扯了，真的没有了～</div>
     </div>
+    <div class="container-end" v-if="dataList.length > 0">不要再扯了，真的没有了～</div>
   </div>
 </template>
 
@@ -96,12 +96,12 @@ export default {
           white-space: nowrap;
         }
       }
-      .container-end{
-        color: #BBBBBB;
-        margin: 40px auto;
-        text-align: center;
-        transform: scale(0.83);
-      }
+    }
+    .container-end{
+      color: #BBBBBB;
+      margin: 40px auto;
+      text-align: center;
+      transform: scale(0.83);
     }
   }
 </style>
