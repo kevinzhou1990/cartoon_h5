@@ -7,6 +7,7 @@ const compression = require('compression');
 const microcache = require('route-cache');
 const resolve = file => path.resolve(__dirname, file);
 const { createBundleRenderer } = require('vue-server-renderer');
+const cookieParser = require('cookie-parser');
 
 const isProd = process.env.NODE_ENV === 'production';
 const useMicroCache = process.env.MICRO_CACHE !== 'false';
@@ -61,6 +62,7 @@ const serve = (path, cache) =>
   express.static(resolve(path), {
     maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
   });
+app.use(cookieParser());
 app.use(compression({ threshold: 0 }));
 app.use('/dist', serve('./dist', true));
 app.use('/assets', serve('./assets', true));
@@ -70,7 +72,6 @@ app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl));
 
 function render(req, res) {
   const s = Date.now();
-
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Server', serverInfo);
 
@@ -122,9 +123,7 @@ app.use(
   proxyMiddleWare({
     target: 'http://10.1.15.99:9501/',
     changeOrigin: true,
-    pathRewrite: {
-      // "^/api": "/"
-    }
+    pathRewrite: {}
   })
 );
 
@@ -133,10 +132,10 @@ app.get(
   isProd
     ? render
     : (req, res) => {
+        // console.log('cookie:', req.cookies);
         readyPromise.then(() => render(req, res));
       }
 );
-//
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

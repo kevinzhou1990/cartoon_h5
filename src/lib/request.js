@@ -10,6 +10,7 @@ const service = axios.create({
 // let loading = []
 service.interceptors.request.use(
   config => {
+    console.log('request', '-------------');
     // const TOKEN_DATA = store.state.token;
     // 拦截请求，添加公共头部参数
     const timestamp = new Date().getTime();
@@ -27,12 +28,6 @@ service.interceptors.request.use(
       config.data = {
         // refresh_token: TOKEN_DATA.refresh_token
       };
-    }
-    if (navigator.userAgent.search('isApp') !== -1) {
-      // 手机app端获取注入到ua的token
-      const reg = new RegExp(/token=.*$/gim);
-      const t = reg.exec(navigator.userAgent)[0].split('=')[1];
-      config.Authorization = t;
     }
 
     return config;

@@ -81,13 +81,13 @@ export default {
       isNoMoreData: false // 是否还有更多数据
     };
   },
-  mounted() {
-    console.log('进来了吗？。。。。。mounted');
-    this.getBanner();
-    this.getRecommend();
+  asyncData({ store, route }) {
+    console.log(this);
   },
-  activated() {
-    console.log('执行了。。。。。activated');
+
+  mounted() {
+    // this.getBanner();
+    this.getRecommend();
   },
   methods: {
     /**
