@@ -115,6 +115,11 @@ export default {
       let reader_per = 0;
       const CAPTERID = parseInt(this.$route.query.capterId);
       const CARTOONID = parseInt(this.$route.query.cartoon_id);
+      if (!this.firstUse) {
+        // 首次进入阅读器
+        this.navigationStatus = false;
+        document.body.classList.add('overflow-hidden');
+      }
       if (localContents && JSON.stringify(localContents) !== '{}') {
         // 根据本地数据计算滚动位置
         if (CAPTERID && CARTOONID && localContents[CARTOONID]) {
@@ -143,7 +148,6 @@ export default {
       let scrollDistance = getDistance(idx, p.p);
       document.scrollingElement.scrollTop = scrollDistance;
       this.pageIndex = idx > 3 ? idx : 3;
-      console.log(idx, 'reader++++++', reader_per);
       // 获取当前阅读漫画章节标题和序号
       for (let i = 0; i < contentsList.length; i++) {
         if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
@@ -195,6 +199,7 @@ export default {
     },
     updateFirstReader() {
       sessionStorage.setItem('firstUse', 'no');
+      document.body.classList.remove('overflow-hidden');
       this.firstUse = 'no';
     }
   },

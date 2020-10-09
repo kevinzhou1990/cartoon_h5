@@ -7,7 +7,7 @@
     </z-m-header>
     <discovery-filter ref="discoveryFilter" />
     <div class="discovery-comics-list" ref="list" :style="{ marginTop: `${listTop}px` }" :class="scrollToTop ? 'discovery-comics-list-top' : ''">
-      <div class="discovery-filter-result" ref="filterText">
+      <div class="discovery-filter-result" ref="filterText" @click="handlerScrollToTop">
         <i class="discovery-filter-icon-loading" v-if="loadingStatus" />
         <span>当前筛选：{{ filterText }}</span>
       </div>
@@ -113,7 +113,7 @@ export default {
             otherText += `·${s[0].name}`;
           }
           otherText += `·${sort[0].name}`;
-          this.filterText = `${allText}${otherText}`;
+          this.filterText = `${t[0].tag_id !== 0 && p[0].tag_id !== 0 && s[0].id !== 0 ? '' : allText}${otherText}`;
         }
       },
       deep: true
@@ -122,7 +122,7 @@ export default {
   methods: {
     async getComics(filter, page) {
       this.loadingStatus = true;
-      await this.$store.dispatch('getComicsList', { ...filter, page });
+      await this.$store.dispatch('getComicsList', { ...filter, page, page_size: 30 });
       this.page = this.page + 1;
       setTimeout(() => {
         this.loadingStatus = false;
@@ -173,6 +173,13 @@ export default {
           this.page = 1;
           this.getComics(this.checked, 1);
         }
+      }
+    },
+    handlerScrollToTop() {
+      const scrollTop = document.scrollingElement.scrollTop;
+      const filterHeight = this.$refs.discoveryFilter.$el.clientHeight;
+      if (scrollTop >= filterHeight) {
+        document.scrollingElement.scrollTop = 0;
       }
     }
   },

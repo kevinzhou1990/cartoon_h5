@@ -1,6 +1,6 @@
 <template>
   <div class="ranking">
-    <ZMHeader titleText="排行榜" ref="header" :has-border="hasBoder" />
+    <ZMHeader :titleText="activeName" ref="header" :has-border="hasBoder" />
     <div class="ranking-wrap" v-if="rankingList.length > 0">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
@@ -223,13 +223,13 @@ $SIDEWIDTH: 86px;
         color: $FONTCOLOR;
         font-family: 'pingfang-blod';
         font-size: 10px;
-        padding: 30px 28px 12px 22px;
+        padding: 30px 14px 12px 22px;
         &.actived {
           color: #fff;
           background-image: url('./img/rankbgCa@3x.png');
           background-repeat: no-repeat;
           background-position: 0 0;
-          background-size: 100%;
+          background-size: 103%;
         }
       }
     }
