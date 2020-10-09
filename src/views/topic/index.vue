@@ -1,45 +1,43 @@
 <template>
-  <div class="topic-page" :style="`${isApp ? 'padding-top:0':''}`">
-    <z-m-header titleText=" " :showRight="true" :hasBorder="true" v-if="!isApp">
+  <div class="topic-page">
+    <z-m-header :titleText="titleText" :showRight="true" :hasBorder="true">
       <div slot="right" class="topic-share">
         <SvgIcon iconClass="share_ab" size="default" />
       </div>
     </z-m-header>
-    <div class="topic-title">{{special.title}}</div>
+    <div class="topic-title">{{ special.title }}</div>
     <section class="topic-author">
       <div class="topic-author-info">
         <img class="avatar" :src="special.avatar" alt="头像" />
         <div>
-          <div class="topic-author-name">{{special.nickname}}</div>
-          <div class="topic-gray">{{special.created_at_text}}</div>
+          <div class="topic-author-name">{{ special.nickname }}</div>
+          <div class="topic-gray">{{ special.created_at_text }}</div>
         </div>
       </div>
       <div class="topic-gray topic-read">
         <svg-icon icon-class="view_ba" size="small" />
-        {{special.read_num_text}}阅读
+        {{ special.read_num_text }}阅读
       </div>
     </section>
-    <article v-html="special.detail"></article>
-    <div class="topic-zan" ref="tp" v-if="!isApp">
-      <span>
-        <i />赞一个
-      </span>
+    <article v-html="special.detail" ref="article"></article>
+    <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
+      <span> <i />赞一个 </span>
     </div>
-    <div class="topic-comment" v-if="!isApp && commentsList.length">
-      <div class="topic-comment-title">专题评论（{{count}}）</div>
+    <div class="topic-comment" v-if="commentsList.length">
+      <div class="topic-comment-title">专题评论（{{ count }}）</div>
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
           <div>
-            <div class="topic-comment-user">{{item.nickname || '默认'}}</div>
-            <div class="topic-comment-content">{{item.data_title}}</div>
+            <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
+            <div class="topic-comment-content">{{ item.content }}</div>
             <div class="topic-gray">
-              <span>{{item.created_at_text}}</span>
+              <span>{{ item.created_at_text }}</span>
               <span class="option">
                 <svg-icon icon-class="like_ba" size="small" />
-                {{item.praise_num}}
+                {{ item.praise_num_text }}
                 <svg-icon icon-class="more_bc" size="small" />
               </span>
             </div>
@@ -47,9 +45,9 @@
         </li>
       </ul>
     </div>
-    <div class="topic-tips" v-if="!isApp">
-      <span ref="nextPage">不说点什么吗？点它 →</span>
-      <div class="write-comment">
+    <div class="topic-tips">
+      <span ref="nextPage">{{ special.can_comment === 1 ? '不说点什么吗？点它 →' : '加载完成' }}</span>
+      <div class="write-comment" v-if="showAddComment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
     </div>
@@ -77,19 +75,19 @@ export default {
         created_at_text: 1597999717
       },
       commentsList: [],
-      isApp: false,
       page: 1,
       totalPage: 1,
       count: 1,
       scrollHandler: throttle(this.handlerScroll, 100, this),
-      defaultHead: 'this.src="' + require('./img/default_head.png') + '"'
+      defaultHead: 'this.src="' + require('./img/default_head.png') + '"',
+      titleText: '',
+      showAddComment: false
     };
   },
   async mounted() {
     const topic = await getTopic(this.$route.query.id);
     let special = { ...this.special, ...topic.data };
     this.special = special;
-    this.isApp = navigator.userAgent.search('isApp') !== -1;
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   methods: {
@@ -111,9 +109,20 @@ export default {
     async handlerScroll() {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
-      // console.log(this.$refs.tp);
-      if (t < innerHeight) {
+      if (t <= innerHeight) {
         await this.getComments(this.page);
+      }
+      if (document.scrollingElement.scrollTop > 86) {
+        this.titleText = this.special.title;
+      } else {
+        this.titleText = '';
+      }
+      // 是否显示添加评论按钮
+      const articleHeight = this.$refs.article.clientHeight;
+      if (document.scrollingElement.scrollTop - articleHeight > -370 && this.special.can_comment === 1) {
+        this.showAddComment = true;
+      } else {
+        this.showAddComment = false;
       }
     }
   },
@@ -132,7 +141,6 @@ $DEEPGRAY: #999;
   font-family: 'pingfang-blod';
   padding-top: 44px;
   color: $DARK;
-  background: #f5f5f5;
   > * {
     background: #fff;
   }
@@ -140,6 +148,7 @@ $DEEPGRAY: #999;
     width: 36px;
     height: 36px;
     margin-right: 8px;
+    border-radius: 18px;
   }
   .topic-title {
     font-size: 18px;
@@ -160,6 +169,10 @@ $DEEPGRAY: #999;
   }
   .topic-author-name {
     color: $GREEN;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .topic-gray {
     color: $GRAY;
@@ -172,6 +185,21 @@ $DEEPGRAY: #999;
   .topic-zan {
     padding: 32px 0;
     text-align: center;
+    &.has-praise {
+      span {
+        background: #f5f5f5;
+        color: $GRAY;
+      }
+      i {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+        vertical-align: middle;
+        background: url('../../assets/img/like_ab.png') 0 0 no-repeat transparent;
+        background-size: 100%;
+        margin: -4px 8px 0 0;
+      }
+    }
     i {
       display: inline-block;
       height: 24px;
