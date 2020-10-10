@@ -4,15 +4,28 @@
       <router-view/>
     </transition>
     <div class="tabber zm-b-t flex">
-      <div :class="actived === 'home' ? 'active' : ''" @click="switchTab('home')">
+      <div
+          :class="actived === 'home' ? 'active' : ''"
+          @dblclick="handleDoubleScrollTOP"
+          @click="switchTab('home')"
+        >
         <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
         <span>首页</span>
       </div>
-      <div :class="actived === 'shelf' ? 'active' : ''" @click="switchTab('shelf')" class="red-point">
+      <div
+          :class="actived === 'shelf' ? 'active' : ''"
+          @click="switchTab('shelf')"
+          @dblclick="handleDoubleScrollTOP"
+          class="red-point"
+        >
         <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
         <span>书架</span>
       </div>
-      <div :class="actived === 'mine' ? 'active' : ''" @click="switchTab('mine')">
+      <div
+          :class="actived === 'mine' ? 'active' : ''"
+          @click="switchTab('mine')"
+          @dblclick="handleDoubleScrollTOP"
+        >
         <svgIcon :iconClass="`my_${actived === 'mine' ? 'aa' : 'ab'}`" />
         <span>我的</span>
       </div>
@@ -42,6 +55,18 @@ export default {
       }
       this.updateActived(name);
       this.$router.push(`/${name}`);
+    },
+	  /**
+	   * @info: 双击底部tab栏页面scrollTop 为 0
+	   * @author: PengGeng
+	   * @date: 10/10/20-2:33 下午
+	   */
+	  handleDoubleScrollTOP() {
+      if (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) {
+			  document.documentElement.scrollTop = 0
+			  document.body.scrollTop = 0
+			  document.getElementsByClassName('home-main')[0].scrollTop = 0
+      }
     }
   },
   mounted() {
