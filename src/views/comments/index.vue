@@ -19,7 +19,7 @@
         <p class="comments-title-substance">{{ details.title }}</p>
         <p v-if="remarkType === 0">
           评论区
-          <span>（{{ commentCount }}条评论）</span>
+          <span>（{{ dataNumber }}条评论）</span>
         </p>
         <!--评分页面--评分显示-->
         <div v-else-if="remarkType === 1" class="collect-container">
@@ -55,7 +55,7 @@
                   <span>{{ comment.created_at_text }}</span>
                   <span>
                     <svg-icon :icon-class="comment.has_praise ? 'like_bb' : 'like_ba'" size="small" />
-                    <span>{{ comment.praise_num }}</span>
+                    <span>{{ comment.praise_num_text }}</span>
                     <svg-icon icon-class="more_bc" size="small" />
                   </span>
                 </div>
@@ -111,8 +111,6 @@ export default {
       commentsList: [],
       //记录上次评论总数
       dataNumber: 0,
-      //评论总数text
-      commentCount: 0,
       //评价总数
       evalNum: 0,
       // 当前页
@@ -160,7 +158,7 @@ export default {
       const windowHeight = document.documentElement.clientHeight;
       this.showNavFlag = this.scrollTop < titleHeight;
       this.headerBgColor = this.scrollTop > titleHeight ? '#fff' : 'transparent';
-      this.titleText = this.scrollTop > titleHeight ? (this.remarkType === 1 ? '评分' + this.details.score + ' (' + this.evalNum + '人评分)' : '评论区（' + this.commentCount + '）') : '';
+      this.titleText = this.scrollTop > titleHeight ? (this.remarkType === 1 ? '评分' + this.details.score + ' (' + this.evalNum + '人评分)' : '评论区（' + this.dataNumber + '）') : '';
       if (windowHeight + this.scrollTop >= containerHeight - 150) {
         if (this.isLoadNext) {
           this.isLoadNext = false;
@@ -183,8 +181,7 @@ export default {
             duration: 1000
           });
         }
-        this.commentCount = commentList.data.count ? commentList.data.count > 1000 ? '999+' : commentList.data.count : '';
-        this.evalNum = commentList.data.cartoon.eval_num ? commentList.data.cartoon.eval_num > 1000 ? '999+' : commentList.data.cartoon.eval_num : '';
+        this.evalNum = commentList.data.cartoon.eval_num;
         this.dataNumber = commentList.data.count;
         let comments = commentList.data.data;
         //如果是刷新列表，那就直接赋值，视图才不会先跳到没数据的页面
