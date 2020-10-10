@@ -221,6 +221,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     console.log('beforeRouteLeave');
     document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     console.log('beforeRouteLeave', document.documentElement.scrollTop);
     next();
   }

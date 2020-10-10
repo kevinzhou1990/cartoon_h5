@@ -57,6 +57,12 @@ export default {
 	  this.$refs['refreshScroll'].addEventListener('touchend', this.touchEnd, true)
     // document.getElementsByClassName('main')[0].addEventListener('scroll', this.scroll, true)
   },
+  activated() {
+	  // document.getElementsByClassName('main-scroll')[0].scrollTop = 0
+	  // document.documentElement.scrollTop = 0
+    // document.body.scrollTop = 0
+	  // console.log('activated')
+  },
   methods: {
     touchStart(e) {
       if (document.getElementsByClassName('main-scroll')[0].scrollTop > 0) {
@@ -70,6 +76,7 @@ export default {
       this.$refs['refreshScroll'].addEventListener('touchmove', this.touchMove, true)
     },
     touchMove(e) {
+	    this.getScrollTop()
       let touch = e.changedTouches[0]
       this.move = touch.clientY - this.startY // 滑动的距离
       if (this.move > 20 && this.move < 50){ // 滑动到多少距离后显示什么文字
@@ -88,20 +95,9 @@ export default {
       if (timer) {
         clearTimeout(timer)
       }
-      this.$refs['refreshScroll'].style.transition = 'ease 0.5s'
-      this.$refs['refreshScroll'].style.transform = `translate3d(0px, 0px, 0px)`
-      console.log('this.move', this.move)
-      this.topWrapStyle.transition = 'height 0.5s'
-	    this.topWrapStyle.height = `50px`
-      if (this.move >= this.topScrollLength && this.topAjax && this.getScrollTop() <= 30){
+      if (this.move >= this.topScrollLength && this.topAjax){
         this.topTips = '更新中...'
 	      throttle(this.$emit('on-top-ajax'), 500)
-        // timer = setTimeout(() => {
-        //   console.log('进来了。。。。')
-        //
-        //
-        //   // 触发上拉加载的动作。。。。。TODO
-        // }, 500)
       }
       if (this.getContentScrollHeight() - this.getScrollTop() - this.getClientHeight() <= 50){
         console.log('进来了。。。。')
@@ -110,8 +106,14 @@ export default {
             this.bottomTips = '数据加载中...'
 	          this.$emit('to-bottom-ajax')
           }
-        })
+        }, 500)
       }
+	    this.$refs['refreshScroll'].style.transition = 'ease 0.5s'
+	    this.$refs['refreshScroll'].style.transform = `translate3d(0px, 0px, 0px)`
+	    console.log('this.move', this.move)
+	    // this.topWrapStyle.transition = 'height 0.5s'
+	    // this.topWrapStyle.height = `50px`
+      this.topWrapStyle.marginTop = '-50px'
       console.log('touchEnd.....')
     },
     transitionend () {
@@ -123,11 +125,17 @@ export default {
     // 获取滚动条当前的位置
     getScrollTop() {
       let scrollTop = 0
-      if (document.getElementsByClassName('main-scroll') && document.getElementsByClassName('main-scroll')[0].scrollTop) {
-        scrollTop = document.getElementsByClassName('main-scroll')[0].scrollTop
+      // if (document.getElementsByClassName('main-scroll') && document.getElementsByClassName('main-scroll')[0].scrollTop) {
+      //   scrollTop = document.getElementsByClassName('main-scroll')[0].scrollTop
+      // } else {
+      scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      // }
+      if (scrollTop <= 150){
+	      this.topAjax = true
       } else {
-        scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+	      this.topAjax = false
       }
+      console.log('scrollTop', scrollTop)
       return scrollTop
     },
     // 获取当前可是范围的高度
@@ -174,10 +182,13 @@ export default {
       if (this.move > 0 || this.topWrapStyle.height > 50) {
         this.topWrapStyle.transition = 'height 500ms'
         this.topWrapStyle.height = '50px'
-        // this.topTips = ''
+        // this.topTips = '下拉刷新'
 	      this.topAjax = true // 是否可以往下拉
         this.startY = 0 // 手指点击屏幕的到顶部的距离
         this.move = 0 // 手指滑动的距离
+	      this.topWrapStyle.marginTop = '-50px'
+	      // this.topScrollLength = 40
+	      // this.topWrapStyle.transition = 'none'
       }
     }
   }
@@ -218,6 +229,13 @@ export default {
       background: #cccccc;
       width: 100%;
       text-align: center;
+    }
+    .main-scroll{
+      -webkit-overflow-scrolling: touch;
+    }
+    .main-bottom, .main-scroll{
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
   }
 </style>

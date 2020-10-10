@@ -164,17 +164,22 @@ export default {
       }
     },
 	  resfreshPage() {
-      this.$refs['zm-scroll'].resetInit()
+      console.log('resfreshPage')
       this.currentPage = 1
       this.isNoMoreData = false
       this.recList = []
 		  this.getRecommend()
+		  this.$refs['zm-scroll'].resetInit()
     },
 	  nextPage() {
       this.bottomAjax = true
 		  this.currentPage++
 		  this.getRecommend()
 	  }
+  },
+  beforeRouteLeave(to, from, next) {
+	  this.$refs['zm-scroll'].resetInit()
+	  next()
   }
 };
 </script>
@@ -190,6 +195,7 @@ export default {
   /*touch-action: none;*/
   &::-webkit-scrollbar {
     width: 0 !important;
+    display: none;
   }
 
   &-search {
