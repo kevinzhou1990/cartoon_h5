@@ -53,8 +53,8 @@ export default {
 		  return timestampToTime(this.remarkData.created_at, 'date')
 	  },
 	  remarkCount() {
-      if (this.commentNum > 9999) {
-        return `评论区${this.commentNum}+`
+      if (this.commentNum > 999) {
+        return `评论区999+`
       } else if (this.commentNum === 0) {
         return '暂无评论'
       } else {

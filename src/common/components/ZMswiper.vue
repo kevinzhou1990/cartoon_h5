@@ -7,7 +7,7 @@
   <div class="container">
     <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="bannerList.length>0">
       <swiper-slide class="swiper-slide" v-for="(item, index) in bannerList" :key="index">
-        <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px' }" />
+        <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px', width: bannerWidth+ 'px'}" />
 <!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
@@ -32,6 +32,10 @@ export default {
     bannerHeight: {
       type: Number,
       default: 300
+    },
+    bannerWidth: {
+      type: Number,
+      default: 375
     },
     // 是否现实下标图片 共首页banner
     isBottomImg: {

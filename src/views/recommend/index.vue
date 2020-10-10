@@ -16,22 +16,24 @@
           @getRecommendData="getComicsList"
       ></z-m-nav-bar>
     </div>
+    <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
       <div class="ba" v-if="dataList.length && !isLightIcon">
-        <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight"></z-mswiper>
+        <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight" :banner-width="343"></z-mswiper>
       </div>
       <div>
-        <template v-if="dataList.length">
+        <section v-if="dataList.length">
           <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
             <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
             <z-m-list v-else :dataList="dataList"></z-m-list>
             <z-m-no-data v-if="allLoaded"></z-m-no-data>
           </mt-loadmore>
-        </template>
+        </section>
         <div v-else>
           <z-m-rec-loading v-if="isRecLoading"></z-m-rec-loading>
           <z-m-not-network></z-m-not-network>
         </div>
       </div>
+    </div>
 
   </div>
 </template>
@@ -77,7 +79,8 @@ export default {
       currentPage: 1,
 	    totalPages: 0,
       pageSize: 30,
-	    allLoaded: false
+	    allLoaded: false,
+	    wrapperHeight: 0
     }
   },
   computed: {},
@@ -86,6 +89,11 @@ export default {
     this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'))
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true'
     // this.getData()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.wrapperHeight = document.documentElement.clientHeight - 90;
+    })
   },
   methods: {
   /**
@@ -140,10 +148,6 @@ export default {
       this.dataList = []
       this.getData()
     },
-	  // resfreshPage() {
-    //   this.$ref.loadmore.onTopLoaded()
-    //   console.log('resfreshPage')
-    // },
 	  nextPage() {
       setTimeout(() => {
 			  if (this.totalPages === 1) return
@@ -152,12 +156,10 @@ export default {
 				  return
 			  }
 			  console.log('触发了。。。', this.currentPage, this.totalPages)
-			  // this.$refs.loadmore.onBottomLoaded()
-			  // if (this.currentPage >= this.totalPages) this.allLoaded = true
 			  this.currentPage++
 			  this.getData()
 	      this.$refs.loadmore.onTopLoaded()
-      }, 1000)
+      }, 500)
     }
   }
 }
@@ -184,10 +186,16 @@ export default {
     transition: transform .3s;
     transform: translateX(#{$xLineLength}px);
   }
+  .loadmore-se {
+    position: relative;
+    /*height: 100vh;*/
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+  }
   .ba{
     position:relative;
-    width: auto;
-    /*width: 343px;*/
+    /*width: auto;*/
+    width: 343px;
     height: 86px;
     margin: 16px 16px 0 16px;
   }
@@ -258,7 +266,7 @@ export default {
     position: relative;
     width: 100%;
     height: 56px;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
   }
   .point-customs {
     display: inline-block;
