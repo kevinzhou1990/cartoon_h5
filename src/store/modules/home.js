@@ -14,9 +14,13 @@ const home = {
   },
   actions: {
     getBanner() {
-      getBanner().then(res => {
-        console.log(res);
-      });
+      getBanner()
+        .then(res => {
+          console.log('res======', res);
+        })
+        .catch(error => {
+          console.log('error=====', error);
+        });
     }
   }
 };

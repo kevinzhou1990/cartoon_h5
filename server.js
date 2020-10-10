@@ -99,7 +99,6 @@ function render(req, res) {
     }
     const uuid = uuidv4();
     // 没有uuid的情况下，设置cookie uuid参数
-    console.log(req.cookies.uuid, '----- uuid');
     if (!(req.cookies && req.cookies.uuid)) {
       res.cookie('uuid', uuid, { path: '/' });
     }
@@ -115,8 +114,6 @@ app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
-  console.log(req.cookies, '---- 请求cookie', req.url, '--- url');
-  console.log('reqdata----', req.headers);
   // 跨域请求CORS中的预请求
   if (req.method === 'OPTIONS') {
     res.send(200); //让options请求快速返回
@@ -131,7 +128,11 @@ app.use(
   proxyMiddleWare({
     target: 'http://10.1.15.99:9501/',
     changeOrigin: true,
-    pathRewrite: {}
+    pathRewrite: {},
+    onProxyReq: (proxyReq, req, res) => {
+      console.log('接口请求url-----', req.url);
+      // proxyReq.setHeader('Authorization', req.cookies.token);
+    }
   })
 );
 

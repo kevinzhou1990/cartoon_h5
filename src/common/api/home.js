@@ -7,11 +7,7 @@ import request from '@/lib/request';
 
 // 获取banner广告
 export const getBanner = function(data = {}) {
-  return request({
-    url: '/api/home/banner',
-    method: 'get',
-    params: data
-  });
+  return request.get('/api/home/banner', { params: { ...data } });
 };
 
 // 获取楼层
