@@ -1,0 +1,14 @@
+import request from '@/lib/request'
+
+/**
+ * @info: 搜索联想词
+ * @author: PengGeng
+ * @date: 10/10/20-5:43 下午
+ */
+export const searchResult = function (keywords, data = {}) {
+  return request({
+    methods: 'get',
+	  url: `/api/search/asocial/${keywords}`,
+	  data
+  })
+}

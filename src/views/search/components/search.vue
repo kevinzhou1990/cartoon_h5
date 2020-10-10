@@ -1,14 +1,19 @@
 <template>
-  <div class="search zm-b-b">
+  <div>
+    <div class="search">
       <div class="content">
-        <input v-model="searchValue" class="content-input" :placeholder="placeholderValue" maxlength="20"/>
+        <input v-model="searchValue" class="content-input" :placeholder="placeholderValue" maxlength="20" />
         <span class="content-clear" v-show="searchValue.length" @click.stop="searchValue = ''"></span>
       </div>
       <div class="cancel" @click.stop="handleClickCancel">取消</div>
+    </div>
+    <div class="zm-b-b"></div>
   </div>
+
 </template>
 
 <script>
+import { searchResult } from '@/common/api/search'
 export default {
   name: 'search',
   data() {
@@ -25,7 +30,30 @@ export default {
 	   */
 	  handleClickCancel() {
       console.log('back to path....')
+    },
+    async getData() {
+      const resData = await searchResult(this.searchValue)
+      if (resData && resData.code === 0) {
+        return new Promise(resolve => {
+	        return resolve(resData.data)
+        })
+      } else {
+        this.$toast(resData.msg || '系统出错请稍后重试')
+      }
     }
+
+  },
+  watch: {
+    searchValue: function (val, oldValue) {
+      if (val !== oldValue && val.length > 0) {
+	      this.getData().then(res => {
+          const searchResult = res
+		      this.$emit('change', true, searchResult)
+        })
+      } else {
+	      this.$emit('change', false)
+      }
+	  }
   }
 }
 </script>
@@ -37,11 +65,14 @@ input::-webkit-input-placeholder {
   color: #BBBBBB;
   font-size: 12px;
 }
+input[type="text"]{
+  font-size: inherit;
+}
 .search {
   /*position: relative;*/
   display: flex;
   height: 52px;
-  margin: 0 auto;
+  margin: 8px auto;
   font-family: 'pingfang-blod';
   .content {
     position: relative;
@@ -58,7 +89,7 @@ input::-webkit-input-placeholder {
     &-input {
       border: none;
       width: 248px;
-      height: 34px;
+      /*height: 32px;*/
       outline: none;
     }
     &:before {

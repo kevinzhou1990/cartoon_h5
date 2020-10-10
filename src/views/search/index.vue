@@ -1,19 +1,28 @@
 <template>
   <div class="main">
-    <z-m-search></z-m-search>
-    <z-m-history-list :words-data="histroyData"></z-m-history-list>
-    <z-m-history-list :words-data="everyoneData"></z-m-history-list>
+    <z-m-search @change="showSearchResult"></z-m-search>
+    <z-m-search-result
+        :searchResultList='searchResultList'
+        v-if="showSRFlag"
+    >
+    </z-m-search-result>
+    <section v-else>
+      <z-m-history-list :words-data="histroyData"></z-m-history-list>
+      <z-m-history-list :words-data="everyoneData"></z-m-history-list>
+    </section>
   </div>
 </template>
 
 <script>
 import ZMSearch from './components/search'
 import ZMHistoryList from './components/ZMHistoryList'
+import ZMSearchResult from '@/views/search/components/ZMSearchResult'
 export default {
   name: 'search-index',
   components: {
 	  ZMSearch,
-	  ZMHistoryList
+	  ZMHistoryList,
+	  ZMSearchResult
   },
   data() {
     return {
@@ -26,7 +35,15 @@ export default {
         leftName: '大家都在搜',
 	      rightFlag: false,
 	      wordsList: ['桃花运是冒险', '桃花运是冒险1', '桃花运是冒险2', '桃花运是冒险3', '桃花运是冒险4']
-      }
+      },
+      showSRFlag: false,
+      searchResultList: []
+    }
+  },
+  methods: {
+	  async showSearchResult(val, resultValue = []) {
+      this.showSRFlag = val
+      if (val) this.searchResultList = resultValue.list
     }
   }
 }
