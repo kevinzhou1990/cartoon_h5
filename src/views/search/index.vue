@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-	  async showSearchResult(val, resultValue = []) {
+	  showSearchResult(val, resultValue = []) {
       this.showSRFlag = val
       if (val) this.searchResultList = resultValue.list
     }
