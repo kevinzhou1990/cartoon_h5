@@ -2,7 +2,7 @@
   <div class="main">
     <z-m-search @change="showSearchResult"></z-m-search>
     <z-m-search-result
-        :searchResultList='searchResultList'
+        v-model='searchResultList'
         v-if="showSRFlag"
     >
     </z-m-search-result>
@@ -36,8 +36,8 @@ export default {
 	      rightFlag: false,
 	      wordsList: ['桃花运是冒险', '桃花运是冒险1', '桃花运是冒险2', '桃花运是冒险3', '桃花运是冒险4']
       },
-      showSRFlag: false,
-      searchResultList: []
+      showSRFlag: false, // 是否现实搜索结果
+      searchResultList: [] // 搜索的结果数据
     }
   },
   methods: {

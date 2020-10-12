@@ -104,6 +104,13 @@ const router = new Router({
 		  name: 'ZMSearch',
 		  component: () => import(/* webpackChunkName: ZMSearch */ '@/views/search/index'),
 		  meta: { title: '搜索', transitionIn: 'slide-left', keepAlive: true }
+	  }, {
+      path: '/ZMSearchResult',
+		  name: 'ZMSearchResult',
+		  component: () => import(/* webpackChunkName: ZMSearchResult */ '@/views/search/searchResult'),
+		  meta: {
+        title: '搜索结果', transitionIn: 'slide-left', keepAlive: false
+		  }
 	  }
   ]
 });

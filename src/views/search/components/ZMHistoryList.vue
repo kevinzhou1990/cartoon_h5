@@ -1,13 +1,12 @@
 <template>
-  <div class="history-main">
+  <div class="history-main" v-if="wordsData && wordsData.wordsList.length">
     <div class="label">
       <span>{{ wordsData.leftName }}</span>
       <span class="right-cancel" @click.stop="handleClickDel" v-if="!isShowActiveFlag && wordsData.rightFlag"></span>
-      <z-m-clear-histroy v-if="isShowActiveFlag"></z-m-clear-histroy>
+      <z-m-clear-histroy v-if="isShowActiveFlag" @handle_click_clear="handleClear"></z-m-clear-histroy>
     </div>
     <div
         class="content"
-        v-if="wordsData && wordsData.wordsList.length"
     >
       <div
           class="content-bg"
@@ -52,6 +51,9 @@ export default {
 	  handleClickDel() {
       // this.delFlag = false
       this.isShowActiveFlag = true
+    },
+	  handleClear() {
+      this.wordsData.wordsList = []
     },
 	  handleClickClearFlag(val) {
 		  this.isShowActiveFlag = val

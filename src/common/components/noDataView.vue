@@ -18,7 +18,7 @@ export default {
   props: {
     textContent: {
       type: String,
-      default: ''
+      default: '没有找到匹配的结果～'
     },
     type: {
       type: String,

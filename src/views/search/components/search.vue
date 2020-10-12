@@ -2,21 +2,32 @@
   <div>
     <div class="search">
       <div class="content">
-        <input v-model="searchValue" class="content-input" :placeholder="placeholderValue" maxlength="20" />
-        <span class="content-clear" v-show="searchValue.length" @click.stop="searchValue = ''"></span>
+        <input
+            v-model="searchValue"
+            class="content-input"
+            :placeholder="placeholderValue"
+            maxlength="20"
+            @focus="goToHistroy"
+        />
+        <span class="content-clear" v-show="searchValue.length" @click.stop="handleClickClearInput"></span>
       </div>
       <div class="cancel" @click.stop="handleClickCancel">取消</div>
     </div>
     <div class="zm-b-b"></div>
   </div>
-
 </template>
 
 <script>
 import { searchResult } from '@/common/api/search'
-import {EventBus} from 'lib/utils/eventBus'
+import { EventBus } from 'lib/utils/eventBus'
 export default {
   name: 'search',
+  props: {
+	  searchVal: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       placeholderValue: '黑白放音机 第二季',
@@ -27,6 +38,12 @@ export default {
 	  EventBus.$on('searchResultContent', (val) => {
       this.searchValue = val
 	  })
+	  this.$nextTick(() => {
+      if (!this.searchValue) this.searchValue = this.searchVal
+	  })
+  },
+  activated() {
+    this.searchValue = sessionStorage.getItem('name')
   },
   methods: {
 	  /**
@@ -37,6 +54,11 @@ export default {
 	  handleClickCancel() {
       console.log('back to path....')
     },
+	  /**
+	   * @info: 获取数据
+	   * @author: PengGeng
+	   * @date: 10/12/20-6:29 下午
+	   */
     async getData() {
       const resData = await searchResult(this.searchValue)
       if (resData && resData.code === 0) {
@@ -46,8 +68,27 @@ export default {
       } else {
         this.$toast(resData.msg || '系统出错请稍后重试')
       }
+    },
+	  /**
+	   * @info: 得到焦点
+	   * @author: PengGeng
+	   * @date: 10/12/20-6:29 下午
+	   */
+	  goToHistroy() {
+      if (this.$route.path !== '/ZMSearch') {
+        this.$router.replace('/ZMSearch')
+      }
+    },
+	  /**
+	   * @info: 点击X按钮的事件
+	   * @author: PengGeng
+	   * @date: 10/12/20-6:33 下午
+	   */
+	  handleClickClearInput() {
+      this.searchValue = ''
+      this.goToHistroy()
+      sessionStorage.setItem('name', '')
     }
-
   },
   watch: {
     searchValue: function (val, oldValue) {

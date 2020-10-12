@@ -1,7 +1,7 @@
 <template>
   <div class="c-h-main active-in" ref="zm-clear">
-    <span class="left" style="transform: scale(0.83)">清空记录</span>
-    <span class="right" @click.stop="handleClickClear"></span>
+    <span class="left" style="transform: scale(0.83)" @click.stop="handleClickClear">清空记录</span>
+    <span class="right" @click.stop="handleClickClose"></span>
   </div>
 </template>
 
@@ -25,7 +25,12 @@ export default {
   //   }
   // },
   methods: {
-	  handleClickClear() {
+	  /**
+	   * @info: 取消清空历史搜索按钮
+	   * @author: PengGeng
+	   * @date: 10/12/20-11:38 上午
+	   */
+	  handleClickClose() {
 		  this.$refs['zm-clear'].classList.remove('active-in')
 		  this.$refs['zm-clear'].classList.add('active-out')
       setTimeout(() => {
@@ -33,6 +38,14 @@ export default {
       }, 400)
       // this.$emit('handleClickClearFlag', false)
       // this.$refs['zm-clear']
+    },
+	  /**
+	   * @info: 清空历史搜索
+	   * @author: PengGeng
+	   * @date: 10/12/20-11:38 上午
+	   */
+	  handleClickClear() {
+      this.$emit('handle_click_clear')
     }
   }
 }

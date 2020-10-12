@@ -4,7 +4,7 @@
 * @date: 10/10/20-4:40 下午
 */
 <template>
-  <div class="result-main">
+  <div class="result-main" v-if="lightWordsList.length">
     <div class="result-main-content zm-b-b" v-for="(item, index) in lightWordsList" :key="index">
       <span class="result-main-content-text" v-html="item.lightWords" @click.stop="handleClickSearchWords(item.wordsText)"></span>
     </div>
@@ -21,13 +21,28 @@ export default {
       default: () => []
     }
   },
+  model: {
+    prop: 'searchResultList',
+    event: 'change'
+  },
+  computed: {
+    resulstData: {
+		  get: function () {
+			  return this.searchResultList
+		  },
+      set: function (val) {
+        this.resulstData = val
+      }
+    }
+  },
   data() {
     return {
+      // resultList: this.searchResultList,
       lightWordsList: [] // 高亮联想搜索词
     }
   },
   mounted() {
-	  this.searchResultList.length && this.settingLightText()
+	  this.resulstData.length && this.settingLightText()
   },
   methods: {
 	  /**
@@ -37,7 +52,7 @@ export default {
 	   */
     settingLightText() {
 		  this.lightWordsList = []
-      const resultList = this.searchResultList.slice(0)
+      const resultList = this.resulstData.slice(0)
       resultList.map(item => {
 	       this.lightWordsList.push({wordsText: item.keywords, lightWords: this.lightMethods(item)})
       })
@@ -67,10 +82,25 @@ export default {
 	   * @date: 10/12/20-11:17 上午
 	   */
 	  handleClickSearchWords(val) {
+      if (!val) return
       // todo 跳转页面
-      // 文本框的类容同步
 		  EventBus.$emit('searchResultContent', val)
+		  // 文本框的类容同步
+		  this.$router.push({
+        path: '/ZMSearchResult',
+        query: {
+          searchValue: val
+        }
+      })
       console.log(val)
+    }
+  },
+  watch: {
+    'resulstData': {
+      handler: function (val, oldValue) {
+        this.settingLightText()
+      },
+      deep: true
     }
   }
 }
