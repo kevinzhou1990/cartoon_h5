@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`">
+  <div :class="`page-reader ${fullRead ? 'page-reader-full' : ''}`" ref="readerComponent">
     <z-m-header :titleText="titleText" :showRight="true" :hasBorder="true" :show="fullRead">
       <div slot="left" @click="back">
         <SvgIcon iconClass="close_ab" class="icon-left" />
@@ -119,6 +119,7 @@ export default {
         // 首次进入阅读器
         this.navigationStatus = false;
         document.body.classList.add('overflow-hidden');
+        this.$refs.readerComponent.classList.add('overflow-hidden');
       }
       if (localContents && JSON.stringify(localContents) !== '{}') {
         // 根据本地数据计算滚动位置
@@ -200,6 +201,7 @@ export default {
     updateFirstReader() {
       sessionStorage.setItem('firstUse', 'no');
       document.body.classList.remove('overflow-hidden');
+      this.$refs.readerComponent.classList.remove('overflow-hidden');
       this.firstUse = 'no';
     }
   },
@@ -241,6 +243,7 @@ export default {
 }
 .page-reader {
   min-height: 100%;
+  max-height: 101%;
   .header-right {
     font-size: 12px;
     width: 48px;
