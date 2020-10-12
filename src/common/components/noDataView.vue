@@ -1,12 +1,5 @@
 <template>
-  <div
-    class="main-content"
-    :class="[type === 'comment' ?
-    'comment-content' : type === 'collect' ?
-    'collect-content' : type === 'ranking' ?
-    'chapter-content' : type === 'history' ?
-    'history-content' : '']"
-  >
+  <div class="main-content" :class="`${ mainClass }`">
     <div class="img"></div>
     <p class="main-content-text">{{ textContent }}</p>
   </div>
@@ -15,6 +8,13 @@
 <script>
 export default {
   name: 'noData',
+  computed: {
+    mainClass() {
+      if (this.type){
+        return `${this.type}-content`;
+      }
+    }
+  },
   props: {
     textContent: {
       type: String,
@@ -65,7 +65,7 @@ export default {
   }
 }
 
-.chapter-content {
+.ranking-content {
   .img {
     background: url('../../assets/img/chapterFull.png') no-repeat;
     background-size: 100%;
