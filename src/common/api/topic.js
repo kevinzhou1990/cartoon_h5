@@ -11,5 +11,5 @@ export const reportRead = specialId => {
 };
 
 export const getTopicComments = (id, page) => {
-  return request.get(`/api/comment/2/${id}`, { params: { page_size: 15, page } });
+  return request.get(`/api/comment/2/${id}`, { params: { page_size: 30, page } });
 };
