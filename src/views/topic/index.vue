@@ -21,7 +21,7 @@
     </section>
     <article v-html="special.detail" ref="article"></article>
     <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
-      <span> <i />赞一个 </span>
+      <span> <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 个赞` : '赞一个' }} </span>
     </div>
     <div class="topic-comment" v-if="commentsList.length">
       <div class="topic-comment-title">专题评论（{{ count }}）</div>
@@ -47,7 +47,7 @@
       </ul>
     </div>
     <div class="topic-tips">
-      <span ref="nextPage">{{ special.can_comment === 1 ? '不说点什么吗？点它 →' : '加载完成' }}</span>
+      <span ref="nextPage">{{ special.can_comment === 1 ? '不说点什么吗？点它 →' : special.can_comment !== 1 && commentsList.length === 0 ? '当前专题无法评论哦～' : '加载完成' }}</span>
       <div class="write-comment" v-if="showAddComment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
@@ -89,6 +89,10 @@ export default {
     const topic = await getTopic(this.$route.query.id);
     let special = { ...this.special, ...topic.data };
     this.special = special;
+    this.getComments(1);
+    if (this.$refs.article.clientHeight < innerHeight && special.can_comment === 1) {
+      this.showAddComment = true;
+    }
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   methods: {
