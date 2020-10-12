@@ -5,13 +5,14 @@
 */
 <template>
   <div class="result-main">
-    <div class="result-main-content zm-b-b" v-for="(item, index) in searchList" :key="index">
-      <span class="result-main-content-text" v-html="name"></span>
+    <div class="result-main-content zm-b-b" v-for="(item, index) in lightWordsList" :key="index">
+      <span class="result-main-content-text" v-html="item.lightWords" @click.stop="handleClickSearchWords(item.wordsText)"></span>
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from '@/lib/utils/eventBus'
 export default {
   name: 'ZMSearchResult',
   props: {
@@ -22,15 +23,10 @@ export default {
   },
   data() {
     return {
-      searchList: ['隐秘的角落', '隐秘的角落1', '隐秘的角落2', '隐秘的角落3', '隐秘的角落4'],
-      lightWordsList: [],
-      name: "<span style='color: #000000; opacity: 0.2;'>こう</span><span style='color: #12E079; opacity: 1;'>1</span>"
+      lightWordsList: [] // 高亮联想搜索词
     }
   },
   mounted() {
-    // this.searchList = this.searchResultList.length && this.searchResultList.map(item => {
-    //   return item.keywords
-    // })
 	  this.searchResultList.length && this.settingLightText()
   },
   methods: {
@@ -40,9 +36,41 @@ export default {
 	   * @date: 10/10/20-6:40 下午
 	   */
     settingLightText() {
-      const reusltList = this.searchResultList.slice(0)
-
-      console.log(reusltList)
+		  this.lightWordsList = []
+      const resultList = this.searchResultList.slice(0)
+      resultList.map(item => {
+	       this.lightWordsList.push({wordsText: item.keywords, lightWords: this.lightMethods(item)})
+      })
+      console.log(this.lightWordsList)
+    },
+	  /**
+	   * @info: 替换成高亮文字
+	   * @author: PengGeng
+	   * @date: 10/12/20-10:41 上午
+	   */
+	  lightMethods(val) {
+      if (!val || !val.keywords || !val.hit_words) return
+      let keyWords = val.keywords
+      let hitWordsArr = val.hit_words
+      if (hitWordsArr.length > 1) {
+        for (let i = 1; i < hitWordsArr.length; i++) {
+	        keyWords.replaceAll(hitWordsArr[i], `<span style='color: #12E079;'>${hitWordsArr[i]}</span>`)
+        }
+        return keyWords
+      } else {
+        return keyWords.replaceAll(hitWordsArr[0], `<span style='color: #12E079;'>${hitWordsArr[0]}</span>`)
+      }
+    },
+	  /**
+	   * @info: 点击搜索的联想词
+	   * @author: PengGeng
+	   * @date: 10/12/20-11:17 上午
+	   */
+	  handleClickSearchWords(val) {
+      // todo 跳转页面
+      // 文本框的类容同步
+		  EventBus.$emit('searchResultContent', val)
+      console.log(val)
     }
   }
 }
@@ -66,8 +94,7 @@ export default {
     margin-left: 48px;
     &-text {
       padding-left: 16px;
-      color: #000000;
-      /*opacity: 0.2;*/
+      color: #BBBBBB;
     }
   }
 }

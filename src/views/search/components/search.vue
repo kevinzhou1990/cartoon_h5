@@ -14,6 +14,7 @@
 
 <script>
 import { searchResult } from '@/common/api/search'
+import {EventBus} from 'lib/utils/eventBus'
 export default {
   name: 'search',
   data() {
@@ -21,6 +22,11 @@ export default {
       placeholderValue: '黑白放音机 第二季',
       searchValue: ''
     }
+  },
+  mounted() {
+	  EventBus.$on('searchResultContent', (val) => {
+      this.searchValue = val
+	  })
   },
   methods: {
 	  /**
