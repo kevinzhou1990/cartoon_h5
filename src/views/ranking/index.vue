@@ -224,6 +224,10 @@ $SIDEWIDTH: 86px;
         font-family: 'pingfang-blod';
         font-size: 10px;
         padding: 30px 14px 12px 22px;
+        word-break: keep-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         &.actived {
           color: #fff;
           background-image: url('./img/rankbgCa@3x.png');
