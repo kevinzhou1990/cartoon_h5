@@ -121,11 +121,11 @@ export default {
             .author {
               display: inline-block;
               max-width: 50%;
-              padding-right: 10px;
+              padding-right: 16px;
             }
             .status {
               display: inline-block;
-              max-width: calc(50% - 14px);
+              max-width: calc(50% - 20px);
             }
           }
 
