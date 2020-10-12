@@ -9,18 +9,29 @@ Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
 };
 
-export function createRouter() {
-  const router = new Router({
-    mode: 'history',
-    fallback: false,
-    scrollBehavior: () => ({ y: 0 }),
-    routes: routers
-  });
+export const router = new Router({
+  mode: 'history',
+  fallback: false,
+  scrollBehavior: () => ({ y: 0 }),
+  routes: routers
+});
+
+export const createRouter = () => {
   return router;
-  // router.afterEach((to, from) => {
-  //   store.commit('updateActived', to.name);
-  // });
-}
+};
+
+// export function createRouter() {
+//   const router = new Router({
+//     mode: 'history',
+//     fallback: false,
+//     scrollBehavior: () => ({ y: 0 }),
+//     routes: routers
+//   });
+//   return router;
+//   router.afterEach((to, from) => {
+//     store.commit('updateActived', to.name);
+//   });
+// }
 // const router = new Router({
 //   mode: 'history',
 //   routes: []

@@ -1,7 +1,9 @@
 import axios from './utils/axios';
 import crypto from 'crypto-js';
 import env from './utils/env';
+import { router } from '../router/index';
 import { getRandomStr } from './utils';
+import { v4 as uuidV4 } from 'uuid';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -13,11 +15,20 @@ const service = axios.create({
   }
 });
 
+const option = {
+  waits: [],
+  alerts: [],
+  requests: [],
+  compTimer: null,
+  refreshTimer: null
+};
+
 service.intercept({
   //拦截配置
   config(c) {
-    let Authorization = '';
-    let refresh_token = '';
+    console.log('request url ------', c.url);
+    let Authorization = router.app.$store.state.token.access_token;
+    let refresh_token = router.app.$store.state.token.refresh_token;
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
@@ -39,13 +50,31 @@ service.intercept({
   //请求成功
   success(c, opt) {
     try {
+      console.log('-----successed', c.data);
       const code = parseInt(c.data.code);
       if (code === 0) {
         return c.data;
       } else if (code === 1004) {
         // 刷新token
+        option.requests.push(opt);
+        clearTimeout(option.refreshTimer);
+        // option.refreshTimer = setTimeout(() => {
+        //   const token = storage.get(TOKEN) || getTokens();
+        //   token &&
+        //     service.lock
+        //       .post(api.refreshToken, {
+        //         refresh_token: token.refresh
+        //       })
+        //       .then(res => {
+        //         storage.put(TOKEN, res.data);
+        //         bus.$emit('REFRESH.TOKEN', { data: res.data, type: 'suc' });
+        //         instance.reset(option.requests);
+        //         option.requests = [];
+        //       });
+        // }, 120);
         return false;
       } else if (code === 1003) {
+        console.log('only tag----', uuidV4());
         // 重新获取token
         return false;
       } else {
@@ -58,10 +87,44 @@ service.intercept({
   },
 
   //请求失败
-  fail() {},
+  fail(c) {
+    const code = parseInt(c.status);
+    return { code, msg: c.data.msg, res: c.data };
+  },
 
   //请求完成
-  complete() {}
+  complete(c) {
+    try {
+      const key = c.key;
+      let index;
+      option.waits.some((item, i) => {
+        if (item.key === key) {
+          return (index = i);
+        }
+      });
+      if (index > -1) {
+        clearTimeout(option.waits[index].timer);
+        option.waits.splice(index, 1);
+      }
+      clearTimeout(option.compTimer);
+      option.compTimer = setTimeout(() => {
+        option.waits = [];
+        option.alerts = [];
+      }, 5000);
+      const err = parseInt(c.data.code);
+      if (err !== 0 && err !== 1013 && err !== 1004 && err !== 999) {
+        const a_i = option.alerts.indexOf(key);
+        if (a_i > -1) {
+          option.alerts.splice(a_i, 1);
+          return;
+        }
+      }
+    } catch (error) {
+      option.waits = [];
+      option.alerts = [];
+    }
+    console.log('-------complete', c.config.url, c.data);
+  }
 });
 // service.interceptors.request.use(
 //   config => {

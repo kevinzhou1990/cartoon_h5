@@ -6,6 +6,8 @@ import { isObject, isString, isFunction, isPromise, isNumber, isArray } from './
 import query from './query';
 import merge from './merge';
 
+// http_axios.defaults.withCredentials = true;
+
 let _options = {
   url: '',
   timeout: 30 * 1000,
@@ -19,7 +21,8 @@ let _options = {
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded'
-  }
+  },
+  withCredentials: true
 };
 
 let instance = http_axios.create(_options);
