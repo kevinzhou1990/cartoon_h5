@@ -23,9 +23,9 @@
     <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
       <span> <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }} </span>
     </div>
-    <div class="topic-comment" v-if="commentsList.length">
+    <div class="topic-comment">
       <div class="topic-comment-title">专题评论（{{ count }}）</div>
-      <ul>
+      <ul v-if="commentsList.length">
         <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
@@ -78,7 +78,7 @@ export default {
       commentsList: [],
       page: 1,
       totalPage: 1,
-      count: 1,
+      count: 0,
       scrollHandler: throttle(this.handlerScroll, 100, this),
       defaultHead: 'this.src="' + require('./img/default_head.png') + '"',
       titleText: '',
@@ -235,7 +235,7 @@ $DEEPGRAY: #999;
   }
   .topic-comment {
     padding: 16px;
-    margin-top: 8px;
+    border-top: 8px solid #f5f5f5;
     .topic-gray {
       display: flex;
       justify-content: space-between;
