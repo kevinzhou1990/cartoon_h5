@@ -122,14 +122,15 @@ $chapter-color: #bbbbbb;
       }
     }
   }
-  ::-webkit-scrollbar {
-    width: 0 !important;
-  }
   &-other {
     display: flex;
     justify-content: space-between;
     margin: 0 4px;
     overflow-x: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0 !important;
+    }
     &-item {
       display: flex;
       flex-direction: column;

@@ -111,7 +111,7 @@ export default {
       if (this.isShowUnfold) {
 	      const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))
         let textWrods = this.textLength
-        if ((clientHeight > 32 && this.infoWidth >= 311) || (this.textContent.match(/\w+/g) && this.textContent.length > 95)) {
+        if ((clientHeight > 32 && this.infoWidth >= 311) || (this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g).length > 40 && this.textContent.length > 95)) {
 	        textWrods = 95
 	        return this.textContent.substring(0, textWrods);
         } else if (this.textContent.match(/\W+/g) && this.textContent.length > 44) {

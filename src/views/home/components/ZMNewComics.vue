@@ -66,14 +66,14 @@ $label-fontSize: 16px;
     padding: 12px 0 6px 16px;
     letter-spacing: 0;
   }
-  ::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
-  }
   &-content {
     display: flex;
     margin: 6px 8px 20px 8px;
     overflow-x: scroll;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      display: none;
+    }
     &-item {
       display: flex;
       flex-direction: column;
