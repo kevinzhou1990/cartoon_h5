@@ -1,33 +1,63 @@
 <template>
   <div class="list-main">
-    <span class="list-result">找到3本相关的</span>
-    <div class="list-main-content zm-b-b" v-for="index in 4" :key="index">
-      <div class="list-main-content-img"></div>
+    <span class="list-result">找到{{count}}本相关的</span>
+    <div class="list-main-content zm-b-b"
+         v-for="item in cartoonList"
+         :key="item.cartoon_id"
+         @click.stop="handleClickInfo(item.cartoon_id)"
+    >
+      <div class="list-main-content-img" :style="{background: 'url('+item.cover+') no-repeat center / cover'}"></div>
+<!--      :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"-->
       <div class="list-main-content-text">
-        <span class="title">隐秘的角落</span>
+        <span class="title">{{ item.title }}</span>
         <div class="chapter">
-          <span class="chapter-author">一二先生</span>
-          <span class="chapter-num">更新至2910话</span>
+          <span class="chapter-author">{{ item.author|authorFormate }}</span>
+          <span class="chapter-num">{{ item.publish_status }}</span>
         </div>
         <div class="list-main-content-text-label">
           <span
               class="s-border"
-              :class="{'m-l8' : index > 1}"
-              v-for="index in 4"
+              :class="{'m-l8' : index > 0}"
+              v-for="(tagItem, index) in item.tag"
               :key="index"
           >
-            悬疑
+            {{tagItem}}
           </span>
         </div>
-        <span class="list-main-content-text-com">小刀刀工作室</span>
+        <span class="list-main-content-text-com">{{ item.publish_name }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
-  name: 'ZMSearchResultList'
+  name: 'ZMSearchResultList',
+  props: {
+	  cartoonList: {
+      type: Array,
+      default: () => []
+    },
+    count: {
+      type: Number || String,
+      default: 0
+    }
+  },
+  mixins: [myMixins],
+  data() {
+    return {}
+  },
+  methods: {
+	  /**
+	   * @info: 去详情
+	   * @author: PengGeng
+	   * @date: 10/13/20-6:54 下午
+	   */
+	  handleClickInfo(val) {
+      this.handleZMInfo(val)
+    }
+  }
 }
 </script>
 
@@ -91,7 +121,7 @@ export default {
         }
         &-num {
           display: inline-block;
-          max-width: 90px;
+          min-width: 90px;
           overflow: hidden;
           vertical-align: middle;
           text-overflow: ellipsis;

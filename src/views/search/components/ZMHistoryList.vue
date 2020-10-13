@@ -24,7 +24,7 @@
 
 <script>
 import ZMClearHistroy from '@/views/search/components/ZMClearHistroy'
-
+import setLocalStorage from '../common/common'
 export default {
   name: 'ZMHistoryList',
   props: {
@@ -53,7 +53,9 @@ export default {
       this.isShowActiveFlag = true
     },
 	  handleClear() {
+		  localStorage.setItem('HISTROY_WORDS', '')
       this.wordsData.wordsList = []
+      this.isShowActiveFlag = true
     },
 	  handleClickClearFlag(val) {
 		  this.isShowActiveFlag = val
@@ -64,7 +66,13 @@ export default {
 	   * @date: 9/30/20-2:20 下午
 	   */
 	  handleClickInfo(val) {
-      console.log('go to comics detail', val)
+		  setLocalStorage(val)
+		  this.$router.push({
+        path: '/ZMSearchResult',
+        query: {
+	        searchValue: val
+        }
+      })
     }
   }
 }
@@ -88,7 +96,7 @@ export default {
     display: flex;
     height: 32px;
     line-height: 32px;
-    padding: 0 8px;
+    margin: 0 8px;
     justify-content: space-between;
     .right-cancel {
       /*line-height: 32px;*/
@@ -103,7 +111,7 @@ export default {
   .content {
     display: flex;
     flex-wrap: wrap;
-    margin: 16px auto;
+    margin: 8px auto;
     &-bg {
       margin: 8px;
       /*max-width: 150px;*/

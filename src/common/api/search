@@ -1,14 +1,35 @@
 import request from '@/lib/request'
-
+/**
+ * @info: 大家都在搜
+ * @author: PengGeng
+ * @date: 10/13/20-4:32 下午
+ */
+export const commonSearchWords = function () {
+  return request({
+    method: 'get',
+	  url: '/api/search/home'
+  })
+}
 /**
  * @info: 搜索联想词
  * @author: PengGeng
  * @date: 10/10/20-5:43 下午
  */
-export const searchResult = function (keywords, data = {}) {
+export const searchResult = function (keywords) {
   return request({
-    methods: 'get',
-	  url: `/api/search/asocial/${keywords}`,
-	  data
+    method: 'get',
+	  url: `/api/search/asocial/${keywords}`
+  })
+}
+/**
+ * @info: 搜索结果
+ * @author: PengGeng
+ * @date: 10/13/20-2:50 下午
+ */
+export const getSearchData = function (keywords, data = {}) {
+  return request({
+    method: 'get',
+	  url: `/api/search/index/${keywords}`,
+	  params: data
   })
 }

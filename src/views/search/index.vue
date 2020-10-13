@@ -17,6 +17,7 @@
 import ZMSearch from './components/search'
 import ZMHistoryList from './components/ZMHistoryList'
 import ZMSearchResult from '@/views/search/components/ZMSearchResult'
+import { commonSearchWords } from '@/common/api/search'
 export default {
   name: 'search-index',
   components: {
@@ -29,18 +30,37 @@ export default {
       histroyData: {
         leftName: '历史搜索',
         rightFlag: true,
-        wordsList: ['抢爷异闻录', '抢爷异闻录1', '抢爷异闻录2', '抢爷异闻录3', '抢爷异闻录5']
+        wordsList: []
       },
       everyoneData: {
         leftName: '大家都在搜',
 	      rightFlag: false,
-	      wordsList: ['桃花运是冒险', '桃花运是冒险1', '桃花运是冒险2', '桃花运是冒险3', '桃花运是冒险4']
+	      wordsList: []
       },
       showSRFlag: false, // 是否现实搜索结果
       searchResultList: [] // 搜索的结果数据
     }
   },
+  mounted() {
+    this.getCommonSearchWords()
+  },
+  activated() {
+    this.histroyData.wordsList = localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))
+  },
   methods: {
+    /**
+		 * @info: 大家都在搜
+		 * @author: PengGeng
+		 * @date: 10/13/20-4:34 下午
+		 */
+    async getCommonSearchWords() {
+      const resData = await commonSearchWords()
+      if (resData.code === 0){
+	      this.everyoneData.wordsList = resData.data.hot_keywords || []
+      } else {
+        this.$toast(resData.msg)
+      }
+    },
 	  showSearchResult(val, resultValue = []) {
       this.showSRFlag = val
       if (val) this.searchResultList = resultValue.list

@@ -7,18 +7,43 @@
   <div class="recommend-main">
     <div class="recommend-main-text">为你推荐</div>
     <div class="recommend-main-content">
-      <div class="recommend-main-content-item" v-for="index in 6" :key="index">
-        <div class="recommend-main-content-item-img"></div>
-        <span class="recommend-main-content-item-info">狐妖小红娘</span>
-        <span class="recommend-main-content-item-author">半仙小鸡</span>
+      <div class="recommend-main-content-item"
+           v-for="item in recommendList"
+           :key="item.cartoon_id"
+           @click.stop="handleClickInfo(item.cartoon_id)"
+      >
+        <div class="recommend-main-content-item-img"
+             :style="{background: 'url('+item.cover+') no-repeat center / cover'}"
+        ></div>
+        <span class="recommend-main-content-item-info">
+          {{ item.title }}</span>
+        <span class="recommend-main-content-item-author">
+          {{ item.author|authorFormate }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
-  name: 'ZMSearchRecommend'
+  name: 'ZMSearchRecommend',
+  mixins: [myMixins],
+  props: {
+	  recommendList: {
+		  type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {}
+  },
+  methods: {
+	  handleClickInfo(val) {
+		  this.handleZMInfo(val)
+    }
+  }
 }
 </script>
 

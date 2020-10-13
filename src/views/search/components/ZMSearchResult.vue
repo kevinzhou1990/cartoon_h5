@@ -13,6 +13,7 @@
 
 <script>
 import { EventBus } from '@/lib/utils/eventBus'
+import setLocalStorage from '../common/common'
 export default {
   name: 'ZMSearchResult',
   props: {
@@ -69,11 +70,12 @@ export default {
       let hitWordsArr = val.hit_words
       if (hitWordsArr.length > 1) {
         for (let i = 1; i < hitWordsArr.length; i++) {
-	        keyWords.replaceAll(hitWordsArr[i], `<span style='color: #12E079;'>${hitWordsArr[i]}</span>`)
+	        keyWords.replace(hitWordsArr[i], `<span style='color: #12E079;'>${hitWordsArr[i]}</span>`)
         }
         return keyWords
       } else {
-        return keyWords.replaceAll(hitWordsArr[0], `<span style='color: #12E079;'>${hitWordsArr[0]}</span>`)
+        const hitwords = keyWords.replace(hitWordsArr[0], `<span style='color: #12E079;'>${hitWordsArr[0]}</span>`)
+	      return hitwords
       }
     },
 	  /**
@@ -83,8 +85,8 @@ export default {
 	   */
 	  handleClickSearchWords(val) {
       if (!val) return
-      // todo 跳转页面
 		  EventBus.$emit('searchResultContent', val)
+		  setLocalStorage(val)
 		  // 文本框的类容同步
 		  this.$router.push({
         path: '/ZMSearchResult',
@@ -123,6 +125,7 @@ export default {
     overflow-x: hidden;
     margin-left: 48px;
     &-text {
+      width: 327px;
       padding-left: 16px;
       color: #BBBBBB;
     }

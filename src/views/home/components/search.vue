@@ -46,6 +46,7 @@ export default {
 	   */
 	  handleClickSearch() {
       console.log('jump search page')
+      this.$store.commit('SET_BACK_ROUTER', this.$route.path)
       this.$router.push('/ZMSearch')
     },
     async getData() {

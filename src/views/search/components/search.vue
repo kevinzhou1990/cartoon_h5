@@ -52,6 +52,7 @@ export default {
 	   * @date: 9/30/20-2:16 下午
 	   */
 	  handleClickCancel() {
+      this.$router.replace(this.$store.state.home.backRouter || '/home')
       console.log('back to path....')
     },
 	  /**
