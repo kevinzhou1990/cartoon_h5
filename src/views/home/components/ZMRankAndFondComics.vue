@@ -8,8 +8,8 @@
     <div class="label-main-left" @click.stop="handleRankInfo">
       <span class="label-main-cont">排行</span>
     </div>
-    <div class="label-main-right" @click.stop="handleRankInfo">
-      <span class="label-main-cont" @click.stop="handleDiscoverInfo">发现</span>
+    <div class="label-main-right" @click.stop="handleDiscoverInfo">
+      <span class="label-main-cont">发现</span>
     </div>
   </div>
 </template>

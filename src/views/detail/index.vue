@@ -160,6 +160,7 @@ export default {
         const marginTop = introContentHeight - 58 - 56 / 2;
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
         this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0;
+	      this.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
       }, 10);
     },
     /**
@@ -271,6 +272,7 @@ $content-label-fontSize: 10px;
     position: fixed;
     color: $content-color;
     min-height: 284px;
+    /*height: auto;*/
     z-index: 1;
     &-box {
       display: flex;

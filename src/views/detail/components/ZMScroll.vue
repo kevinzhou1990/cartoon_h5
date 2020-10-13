@@ -13,7 +13,7 @@
         <span class="left-text">目录</span>
       </div>
     </div >
-    <div class="main-catalogue box-shad no-time" v-else>
+    <div class="main-catalogue box-shad no-time" ref="main-detail" v-else>
         <div class="new-comics">{{ isOnlineText.text }}</div>
         <div class="new-comics-time" :style="{color: isOnlineText.textColorFlag ? '#BBBBBB': ''}">{{ isOnlineText.timeText }}</div>
     </div>
@@ -292,11 +292,12 @@ export default {
       //   return
       // }
       this.height = touch - this.startTouchValue;
-      this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
       this.$parent.$refs['intro-content'].style.minHeight = '58px' // 初始化简介的高度
-      this.topWrapStyle.transition = 'height 200ms';
-      this.topWrapStyle.height = `${this.touchDistance}`;
-      // this.bottomAjax = false
+	    this.topWrapStyle.transition = 'height 200ms';
+	    this.topWrapStyle.height = `${this.touchDistance}`;
+	    // this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
+	    this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
+	    // this.bottomAjax = false
       if (this.height < -100) {
         this.bottomAjax = true;
       } else {
