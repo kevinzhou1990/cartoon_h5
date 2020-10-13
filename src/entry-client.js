@@ -21,8 +21,8 @@ Vue.mixin({
 });
 
 // 客户端挂载app之前，store状态替换
-if (window.__INITIAL_STATE_) {
-  store.replaceState(window.__INITIAL_STATE_);
+if (window.__INITIAL_STATE__) {
+  store.replaceState(window.__INITIAL_STATE__);
 }
 
 // 数据预处理，路由导航跳转前，解析数据

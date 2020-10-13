@@ -10,13 +10,16 @@ const home = {
     },
     UPDATE_BANNER_LIST: function(state, list) {
       state.bannerList = list;
+      console.log('UPDATE_BANNER_LIST', list.length);
     }
   },
   actions: {
-    getBanner() {
-      getBanner()
+    getBanner({ commit }) {
+      return getBanner()
         .then(res => {
-          console.log('res======', res);
+          if (res.code === 0) {
+            commit('UPDATE_BANNER_LIST', res.data.list);
+          }
         })
         .catch(error => {
           console.log('error=====', error);

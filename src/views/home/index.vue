@@ -50,7 +50,7 @@ import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial';
 import homeLoading from '@/views/home/components/homeLoading';
-import { getBanner, getRecommend } from '@/common/api/home';
+import { getRecommend } from '@/common/api/home';
 
 export default {
   name: 'home',
@@ -71,7 +71,6 @@ export default {
   },
   data() {
     return {
-      bannerList: [], // banner
       recList: [], // 楼层list
       currentPage: 1, // 当前页
       pageSize: 10, // 一页多少条
@@ -84,25 +83,28 @@ export default {
   asyncData({ store, route }) {
     store.dispatch('getBanner');
   },
-
+  created() {
+    // console.log('home---created---', this.bannerList);
+  },
+  computed: {
+    bannerList() {
+      // console.log('home ----- ', this.$store.state.home);
+      return this.$store.state.home.bannerList;
+    }
+  },
+  watch: {
+    bannerList(n, o) {
+      console.log(n.length, '------new bannerlist');
+    }
+  },
   mounted() {
+    setTimeout(() => {
+      console.log('home ----- ', this.$store.state.home);
+    }, 1000);
     // this.getBanner();
-    this.getRecommend();
+    // this.getRecommend();
   },
   methods: {
-    /**
-     * @info: 获取banner的数据
-     * @author: PengGeng
-     * @date: 8/18/20-3:11 下午
-     */
-    async getBanner() {
-      const resData = await getBanner();
-      if (resData.code === 0) {
-        this.bannerList = resData.data.list || [];
-      } else {
-        this.$toast(resData.msg || '系统出错,请稍后重试');
-      }
-    },
     /**
      * @info: 获取楼层
      * @author: PengGeng

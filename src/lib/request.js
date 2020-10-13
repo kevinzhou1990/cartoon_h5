@@ -3,7 +3,6 @@ import crypto from 'crypto-js';
 import env from './utils/env';
 import { router } from '../router/index';
 import { getRandomStr } from './utils';
-import { v4 as uuidV4 } from 'uuid';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -32,7 +31,7 @@ service.intercept({
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
-    const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`);
+    const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`).toString();
     c.headers = {
       'APP-TIMESTAMP': timestamp,
       'APP-NONCE': appNonce,
@@ -44,13 +43,13 @@ service.intercept({
         refresh_token
       };
     }
+    console.log('request token------', c.headers.Authorization);
     return c;
   },
 
   //请求成功
   success(c, opt) {
     try {
-      console.log('-----successed', c.data);
       const code = parseInt(c.data.code);
       if (code === 0) {
         return c.data;
@@ -58,24 +57,15 @@ service.intercept({
         // 刷新token
         option.requests.push(opt);
         clearTimeout(option.refreshTimer);
-        // option.refreshTimer = setTimeout(() => {
-        //   const token = storage.get(TOKEN) || getTokens();
-        //   token &&
-        //     service.lock
-        //       .post(api.refreshToken, {
-        //         refresh_token: token.refresh
-        //       })
-        //       .then(res => {
-        //         storage.put(TOKEN, res.data);
-        //         bus.$emit('REFRESH.TOKEN', { data: res.data, type: 'suc' });
-        //         instance.reset(option.requests);
-        //         option.requests = [];
-        //       });
-        // }, 120);
         return false;
       } else if (code === 1003) {
-        console.log('only tag----', uuidV4());
+        option.requests.push(opt);
         // 重新获取token
+        router.app.$store.dispatch('getToken').then(res => {
+          clearTimeout(option.refreshTimer);
+          service.reset(option.requests);
+          option.requests = [];
+        });
         return false;
       } else {
       }
@@ -94,6 +84,7 @@ service.intercept({
 
   //请求完成
   complete(c) {
+    console.log('complete----', c.data);
     try {
       const key = c.key;
       let index;
@@ -123,7 +114,6 @@ service.intercept({
       option.waits = [];
       option.alerts = [];
     }
-    console.log('-------complete', c.config.url, c.data);
   }
 });
 // service.interceptors.request.use(
