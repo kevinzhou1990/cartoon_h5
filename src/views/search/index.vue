@@ -1,3 +1,8 @@
+/**
+* @info: 搜索
+* @author: PengGeng
+* @date: 10/14/20-7:12 下午
+*/
 <template>
   <div class="main">
     <z-m-search @change="showSearchResult"></z-m-search>
