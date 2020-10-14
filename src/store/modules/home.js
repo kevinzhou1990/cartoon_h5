@@ -1,7 +1,8 @@
 const home = {
   state: {
     recData: null,
-	  backRouter: ''
+	  backRouter: '',
+	  homeSearchVal: ''
   },
   mutations: {
     SET_REC_DATA: function (state, val) {
@@ -9,6 +10,9 @@ const home = {
     },
 	  SET_BACK_ROUTER: function (state, val) {
       state.backRouter = val
+	  },
+	  SET_SEARCH_VAL: function (state, val) {
+		  state.homeSearchVal = val
 	  }
   },
   actions: {}

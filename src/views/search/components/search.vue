@@ -9,7 +9,7 @@
             maxlength="20"
             @focus="goToHistroy"
         />
-        <span class="content-clear" v-show="searchValue.length" @click.stop="handleClickClearInput"></span>
+        <span class="content-clear" v-show="searchValue" @click.stop="handleClickClearInput"></span>
       </div>
       <div class="cancel" @click.stop="handleClickCancel">取消</div>
     </div>
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      placeholderValue: '黑白放音机 第二季',
+      placeholderValue: '',
       searchValue: ''
     }
   },
@@ -43,6 +43,7 @@ export default {
 	  })
   },
   activated() {
+	  this.placeholderValue = this.$store.state.home.homeSearchVal || '黑白放音机 第二季'
     this.searchValue = sessionStorage.getItem('name')
   },
   methods: {
@@ -52,6 +53,7 @@ export default {
 	   * @date: 9/30/20-2:16 下午
 	   */
 	  handleClickCancel() {
+		  sessionStorage.removeItem('name')
       this.$router.replace(this.$store.state.home.backRouter || '/home')
       console.log('back to path....')
     },
@@ -93,7 +95,7 @@ export default {
   },
   watch: {
     searchValue: function (val, oldValue) {
-      if (val !== oldValue && val.length > 0) {
+      if (val && val !== oldValue) {
 	      this.getData().then(res => {
           const searchResult = res
 		      this.$emit('change', true, searchResult)

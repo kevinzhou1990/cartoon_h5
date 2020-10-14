@@ -9,7 +9,7 @@ function setLocalStorage(val) {
     arr.pop()
     arr.unshift(val)
   } else if (arr.indexOf(val) <= -1){
-    arr.push(val)
+    arr.unshift(val)
   }
   localStorage.HISTROY_WORDS = JSON.stringify(arr)
 }

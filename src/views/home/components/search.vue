@@ -1,5 +1,5 @@
 <template>
-  <div class="search" @click.stop="handleClickSearch">
+  <div class="search">
     <div class="search-label">
       <img class="search-label-img" src="../images/search.png" />
 <!--      <input class="search-label-input" v-model="searchValue" :placeholder="placeholderValue" />-->
@@ -8,6 +8,7 @@
           <li
               v-for="(item, index) of scrollTextList"
               :key="index"
+              @click.stop="handleClickSearch(item)"
           >
             {{ item || '什么也没有' }}
           </li>
@@ -44,8 +45,9 @@ export default {
 	   * @author: PengGeng
 	   * @date: 9/29/20-4:17 下午
 	   */
-	  handleClickSearch() {
-      console.log('jump search page')
+	  handleClickSearch(val) {
+      console.log('jump search page', val)
+      this.$store.commit('SET_SEARCH_VAL', val)
       this.$store.commit('SET_BACK_ROUTER', this.$route.path)
       this.$router.push('/ZMSearch')
     },
@@ -70,18 +72,20 @@ export default {
     },
     autoScrollLine() {
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
-		    if (this.box.scrollTop >= parent.offsetHeight) {
-			    this.box.scrollTop = 0;
-		    } else {
-			    this.box.scrollTop++;
-		    }
+      const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0]
+      if (!parent) return
+      if (this.box.scrollTop >= parent.offsetHeight) {
+        this.box.scrollTop = 0;
+      } else {
+        this.box.scrollTop++;
+      }
       /* 判断滚动的距离刚好为一条内容的高度时停掉定时器，隔1s之后重新启动定时器即可实现内容滚动停留效果 */
-		    if (this.box.scrollTop % this.box.offsetHeight === 0) {
-			    clearInterval(this.timer);
-			    setTimeout(() => {
-				    this.timer = setInterval(this.autoScrollLine, 30);
-			    }, 1000);
-		    }
+      if (this.box.scrollTop % this.box.offsetHeight === 0) {
+        clearInterval(this.timer);
+        setTimeout(() => {
+          this.timer = setInterval(this.autoScrollLine, 30);
+        }, 1000);
+      }
     }
   }
 }

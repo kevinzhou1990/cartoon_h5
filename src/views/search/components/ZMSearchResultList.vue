@@ -9,7 +9,7 @@
       <div class="list-main-content-img" :style="{background: 'url('+item.cover+') no-repeat center / cover'}"></div>
 <!--      :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"-->
       <div class="list-main-content-text">
-        <span class="title">{{ item.title }}</span>
+        <span class="title" v-html="hitWrods(item.title, item.hit_words)"></span>
         <div class="chapter">
           <span class="chapter-author">{{ item.author|authorFormate }}</span>
           <span class="chapter-num">{{ item.publish_status }}</span>
@@ -49,6 +49,20 @@ export default {
     return {}
   },
   methods: {
+    hitWrods(val, hitValue) {
+      if (!val) return '--'
+      if (!hitValue && val) return val
+      let hitWordsArr = hitValue
+      if (hitWordsArr.length > 1) {
+        for (let i = 1; i < hitWordsArr.length; i++) {
+          val.replace(hitWordsArr[i], `<span style='color: #000000;'>${hitWordsArr[i]}</span>`)
+        }
+        return val
+      } else {
+        const newVal = val.replace(hitWordsArr[0], `<span style='color: #000000;'>${hitWordsArr[0]}</span>`)
+        return newVal
+      }
+    },
 	  /**
 	   * @info: 去详情
 	   * @author: PengGeng
@@ -98,6 +112,7 @@ export default {
       .title {
         font-size: 14px;
         overflow: hidden;
+        color: #BBBBBB;
         text-overflow: ellipsis;
         word-break: break-word;
         white-space: nowrap;

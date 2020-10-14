@@ -24,7 +24,7 @@ Vue.filter('weekFromate', (val) => {
 })
 
 /**
- * @info: 人的格式化
+ * @info: 人数格式化
  * @author: PengGeng
  * @date: 9/22/20-11:22 上午
  */
