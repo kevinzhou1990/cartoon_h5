@@ -21,7 +21,7 @@
               v-for="(tagItem, index) in item.tag"
               :key="index"
           >
-            {{tagItem}}
+            {{ tagItem }}
           </span>
         </div>
         <span class="list-main-content-text-com">{{ item.publish_name }}</span>

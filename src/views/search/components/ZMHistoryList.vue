@@ -35,8 +35,7 @@ export default {
   },
   data() {
     return {
-		  // delFlag:
-	    isShowActiveFlag: false
+	    isShowActiveFlag: false // 现实删除历史按钮
     }
   },
   components: {
@@ -55,7 +54,7 @@ export default {
 	  handleClear() {
 		  localStorage.setItem('HISTROY_WORDS', '')
       this.wordsData.wordsList = []
-      this.isShowActiveFlag = true
+      this.isShowActiveFlag = false
     },
 	  handleClickClearFlag(val) {
 		  this.isShowActiveFlag = val
