@@ -53,11 +53,15 @@ export default {
       if (!val) return '--'
       if (!hitValue && val) return val
       let hitWordsArr = hitValue
+	    let hitWordsStrArr = []
       if (hitWordsArr.length > 1) {
-        for (let i = 1; i < hitWordsArr.length; i++) {
-          val.replace(hitWordsArr[i], `<span style='color: #000000;'>${hitWordsArr[i]}</span>`)
+        for (let i = 0; i < hitWordsArr.length; i++) {
+	        // val.replace(hitWordsArr[i], `<span style='color: #000000;'>${hitWordsArr[i]}</span>`)
+	        hitWordsStrArr.push(`[${hitWordsArr[i]}]+`)
         }
-        return val
+	      let regExp = new RegExp(`${hitWordsStrArr.join('|')}`, 'g')
+	      val = val.replace(regExp, '<span style="color: #000000;">$&</span>')
+	      return val
       } else {
         const newVal = val.replace(hitWordsArr[0], `<span style='color: #000000;'>${hitWordsArr[0]}</span>`)
         return newVal

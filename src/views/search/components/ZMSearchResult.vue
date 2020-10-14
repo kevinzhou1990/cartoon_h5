@@ -5,8 +5,12 @@
 */
 <template>
   <div class="result-main" v-if="lightWordsList.length">
-    <div class="result-main-content zm-b-b" v-for="(item, index) in lightWordsList" :key="index">
-      <span class="result-main-content-text" v-html="item.lightWords" @click.stop="handleClickSearchWords(item.wordsText)"></span>
+    <div class="result-main-content zm-b-b"
+         v-for="(item, index) in lightWordsList"
+         :key="index"
+         @click.stop="handleClickSearchWords(item.wordsText)"
+    >
+      <span class="result-main-content-text" v-html="item.lightWords"></span>
     </div>
   </div>
 </template>
@@ -68,10 +72,13 @@ export default {
       if (!val || !val.keywords || !val.hit_words) return
       let keyWords = val.keywords
       let hitWordsArr = val.hit_words
+      let hitWordsStrArr = []
       if (hitWordsArr.length > 1) {
-        for (let i = 1; i < hitWordsArr.length; i++) {
-	        keyWords.replace(hitWordsArr[i], `<span style='color: #12E079;'>${hitWordsArr[i]}</span>`)
+        for (let i = 0; i < hitWordsArr.length; i++) {
+	        hitWordsStrArr.push(`[${hitWordsArr[i]}]+`)
         }
+	      let regExp = new RegExp(`${hitWordsStrArr.join('|')}`, 'g')
+	      keyWords = keyWords.replace(regExp, '<span style="color: #12e079;">$&</span>')
         return keyWords
       } else {
         const hitwords = keyWords.replace(hitWordsArr[0], `<span style='color: #12E079;'>${hitWordsArr[0]}</span>`)

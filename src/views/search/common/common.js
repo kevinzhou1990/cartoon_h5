@@ -5,7 +5,7 @@ function setLocalStorage(val) {
   } else {
     arr = []
   }
-  if (arr.length >= 10){
+  if (arr.length >= 10 && arr.indexOf(val) <= -1){
     arr.pop()
     arr.unshift(val)
   } else if (arr.indexOf(val) <= -1){

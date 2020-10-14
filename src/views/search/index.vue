@@ -45,7 +45,7 @@ export default {
     this.getCommonSearchWords()
   },
   activated() {
-    this.histroyData.wordsList = localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))
+    this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
   },
   methods: {
     /**
