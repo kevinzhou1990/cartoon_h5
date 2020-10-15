@@ -12,7 +12,7 @@ export default {
   name: 'App',
   mounted() {
     console.log(this.$route.meta.keepAlive, this.$route.name)
-    console.log('202010151645')
+    console.log('测试地址20201015158')
   }
 };
 </script>
