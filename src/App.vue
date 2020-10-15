@@ -22,7 +22,7 @@ $BORDER_COLOR: #eee;
 @import './assets/style/1px.scss';
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: pingfang-blod;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;

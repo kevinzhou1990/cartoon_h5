@@ -14,7 +14,7 @@ import Ranking from '@/views/ranking';
 import Topic from '@/views/topic';
 import Discovery from '@/views/discovery';
 import store from '../store';
-
+import loginRouters from '@/views/login/router'
 Vue.use(Router);
 const router = new Router({
   mode: 'history',
@@ -111,10 +111,11 @@ const router = new Router({
 		  meta: {
         title: '搜索结果', transitionIn: 'slide-left', keepAlive: false
 		  }
-	  }
+	  },
+	  ...loginRouters
   ]
 });
-
+console.log(...loginRouters)
 router.afterEach((to, from) => {
   store.commit('updateActived', to.name);
 });
