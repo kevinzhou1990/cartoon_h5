@@ -1,6 +1,6 @@
 <template>
   <div class=user-main>
-    未注册用户登录时，将为你自动创建帐号登录，登录或注册后即代表你已同意
+    {{loginType? validateText: passwordText}}
     <span style="color: #12E079;" @click.stop="handleClickInfo(1)">《用户协议》</span>
     和
     <span style="color: #12E079;" @click.stop="handleClickInfo(2)">《隐私保护协议》</span>政策
@@ -10,6 +10,18 @@
 <script>
 export default {
   name: 'ZMInfoLabel',
+  props: {
+    loginType: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+      validateText: '未注册用户登录时，将为你自动创建帐号登录，登录或注册后即代表你已同意',
+      passwordText: '登录即代表你已同意'
+    }
+  },
   methods: {
 	  handleClickInfo(val) {
       this.$router.push({
