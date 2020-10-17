@@ -16,6 +16,15 @@ const loginRouters = [
       title: '用户协议',
 		  keepAlive: false
 	  }
+  },
+  {
+    path: '/ZM/forgetPassword',
+	  name: 'forgetPassword',
+	  component: () => import(/* webpackChunkName forgetPassword */ '@/views/login/page/forgetPassword'),
+	  meta: {
+      title: '忘记密码',
+		  keepAlive: false
+	  }
   }
 ]
 export default loginRouters

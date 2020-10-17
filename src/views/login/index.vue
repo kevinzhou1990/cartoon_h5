@@ -1,6 +1,6 @@
 <template>
   <div class="login-main box">
-    <z-m-header :title-text="loginTitle" hasBorder>
+    <z-m-header :title-text="loginValueTitle" hasBorder>
       <a slot="left" class="navigation_arrow_left" @click.stop="handleClickClose"></a>
     </z-m-header>
     <div class="login-content">
@@ -54,7 +54,7 @@
         class="login-label"
         >
       <span @click.stop="handleClickLoginType(0)">手机号登录</span>
-      <span>忘记密码？</span>
+      <span @click="goToForgetPassword">忘记密码？</span>
     </div>
     <z-m-info-label :login-type="loginType"></z-m-info-label>
     <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
@@ -67,23 +67,14 @@ import ZMHeader from '@/common/components/ZMHeader'
 import ZMInfoLabel from '@/views/login/components/ZMInfoLabel'
 import ZMAreaPhone from '@/views/login/components/ZMAreaPhone'
 import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
-const downImg = require('./images/more.png')
+import myMixins from '@/views/login/mixins/index'
 export default {
   name: 'index.vue',
+  mixins: [myMixins],
   data(){
     return {
-      loginTitle: '手机号登陆',
-      loginBtnText: '登录/注册',
-      loginType: 0, // 0 手机号登陆； 1 密码登陆
-      downImg,
-      telPhoneNum: '', // 手机号码
-	    validateNum: '', // 验证码
-	    areaFlag: false, // 显示区号组件
-      showValidateFlag: false, // 现实验证按钮可以点击
-	    passwordVal: '', // 密码
-	    hidePasswordVal: '', // 掩码
-	    passwordShowFlag: false, // 是否显示明文
-	    valiAlert: false // 现实图形验证码
+      loginType: 0 // 0 手机号登陆； 1 密码登陆
+
     }
   },
   computed: {
@@ -91,13 +82,9 @@ export default {
     loginBtnValue() {
       return this.loginType === 0 ? '登录/注册' : '登录'
     },
-    // 是高亮现实login btn
-	  isClickLoginBtnFlag() {
-	    if (this.showValidateFlag && (this.validateNum.length || this.passwordVal.length)) {
-        return true
-      } else {
-        return false
-      }
+    // 登陆title
+    loginValueTitle() {
+	    return this.loginType === 0 ? '手机号登陆' : '密码登录'
     }
   },
   methods: {
@@ -110,25 +97,6 @@ export default {
       console.log('handle click close....')
     },
 	  /**
-	   * @info: 选择区号
-	   * @author: PengGeng
-	   * @date: 10/15/20-4:19 下午
-	   */
-	  handleClickAreaCode() {
-      this.areaFlag = true
-      console.log('select phone area code')
-    },
-	  /**
-	   * @info: 获取验证码
-	   * @author: PengGeng
-	   * @date: 10/16/20-10:29 上午
-	   */
-	  handleClickGetValidate() {
-      if (!this.showValidateFlag) return
-      this.valiAlert = true
-      console.log('click validate btn')
-    },
-	  /**
 	   * @info: 切换登陆类型
 	   * @author: PengGeng
 	   * @date: 10/16/20-12:10 下午
@@ -139,6 +107,7 @@ export default {
       this.passwordVal = '' // 密码
     },
 	  /**
+     * TODO 替换Banner图片
 	   * @info: 隐藏或者明文展示
 	   * @author: PengGeng
 	   * @date: 10/16/20-2:28 下午
@@ -148,6 +117,7 @@ export default {
 		  this.passwordShowFlag = !this.passwordShowFlag
     },
 	  /**
+     * TODO Banner替换图片
 	   * @info: 得到密码文本框的焦点
 	   * @author: PengGeng
 	   * @date: 10/16/20-2:44 下午
@@ -162,6 +132,14 @@ export default {
 	   */
 	  handleClickLogin() {
 
+    },
+	  /**
+	   * @info: 忘记密码
+	   * @author: PengGeng
+	   * @date: 10/17/20-10:33 上午
+	   */
+    goToForgetPassword() {
+      this.$router.push('/ZM/forgetPassword')
     }
   },
   components: {
@@ -169,16 +147,6 @@ export default {
 	  ZMInfoLabel,
 	  ZMAreaPhone,
 	  ZMLoginValiAlert
-  },
-  watch: {
-    // 监听手机号
-    telPhoneNum(val, oldValue){
-      if (val) {
-        this.showValidateFlag = true
-      } else {
-	      this.showValidateFlag = false
-      }
-    }
   }
 }
 </script>
