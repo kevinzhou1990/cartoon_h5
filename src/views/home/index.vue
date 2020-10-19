@@ -50,7 +50,7 @@ import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial';
 import homeLoading from '@/views/home/components/homeLoading';
-import { getRecommend } from '@/common/api/home';
+// import { getRecommend } from '@/common/api/home';
 
 export default {
   name: 'home',
@@ -71,7 +71,6 @@ export default {
   },
   data() {
     return {
-      recList: [], // 楼层list
       currentPage: 1, // 当前页
       pageSize: 10, // 一页多少条
       totalPages: 0, // 总页数
@@ -82,27 +81,17 @@ export default {
   },
   asyncData({ store, route }) {
     store.dispatch('getBanner');
-  },
-  created() {
-    // console.log('home---created---', this.bannerList);
+    store.dispatch('getRec');
   },
   computed: {
+    // banner list
     bannerList() {
-      // console.log('home ----- ', this.$store.state.home);
       return this.$store.state.home.bannerList;
+    },
+    // 楼层list
+    recList() {
+      return this.$store.state.home.recList;
     }
-  },
-  watch: {
-    bannerList(n, o) {
-      console.log(n.length, '------new bannerlist');
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      console.log('home ----- ', this.$store.state.home);
-    }, 1000);
-    // this.getBanner();
-    // this.getRecommend();
   },
   methods: {
     /**
@@ -112,31 +101,38 @@ export default {
      */
     async getRecommend() {
       const reqData = {
-        page: this.currentPage,
+        page: this.currentPage + 1,
         page_size: this.pageSize
       };
-      const resData = await getRecommend(reqData);
-      let recList = resData.data.list;
-      this.recList.push(...recList);
-      this.totalPages = resData.data.total_pages || 0;
-      let recData = {};
-      this.recList.length &&
-        this.recList.map((item, index) => {
-          if (item.rec_id > 1) {
-            recData[item.rec_id] = item.name;
-          }
-        });
-      if (this.currentPage < resData.data.total_pages) {
-        this.bottomAjax = true;
-        this.isBottomAjax = true;
-        this.isNoMoreData = false;
-      } else {
-        this.isBottomAjax = false;
-        this.bottomAjax = false;
-        this.isNoMoreData = true;
-      }
-      sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData));
-      this.$store.commit('SET_REC_DATA', recData);
+      this.$store.dispatch('getRec', reqData).then((res) => {
+        console.log(res, '-------');
+      });
+      // const reqData = {
+      //   page: this.currentPage,
+      //   page_size: this.pageSize
+      // };
+      // const resData = await getRecommend(reqData);
+      // let recList = resData.data.list;
+      // this.recList.push(...recList);
+      // this.totalPages = resData.data.total_pages || 0;
+      // let recData = {};
+      // this.recList.length &&
+      //   this.recList.map((item, index) => {
+      //     if (item.rec_id > 1) {
+      //       recData[item.rec_id] = item.name;
+      //     }
+      //   });
+      // if (this.currentPage < resData.data.total_pages) {
+      //   this.bottomAjax = true;
+      //   this.isBottomAjax = true;
+      //   this.isNoMoreData = false;
+      // } else {
+      //   this.isBottomAjax = false;
+      //   this.bottomAjax = false;
+      //   this.isNoMoreData = true;
+      // }
+      // sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData));
+      // this.$store.commit('SET_REC_DATA', recData);
     },
     resfreshPage() {
       this.$refs['zm-scroll'].resetInit();

@@ -12,11 +12,7 @@ export const getBanner = function(data = {}) {
 
 // 获取楼层
 export const getRecommend = function(data = {}) {
-  return request({
-    url: '/api/home/recommend',
-    method: 'get',
-    params: data
-  });
+  return request.get('/api/home/recommend', { params: { ...data } });
 };
 // 获取更多漫画
 export const getMoreComics = function(recId, data = {}) {
