@@ -6,7 +6,7 @@ const { app, store, router } = createApp();
 Vue.mixin({
   beforeRouteUpdate(to, from, next) {
     const { asyncData } = this.$options;
-
+    console.log(asyncData, '====asyncdata', to);
     if (asyncData) {
       asyncData({
         store: this.$store,

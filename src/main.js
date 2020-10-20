@@ -33,6 +33,10 @@ export function createApp() {
   // 创建router和store实例
   const router = createRouter();
   const store = createStore();
+  // const originalPush = router.replace;
+  // router.replace = function replace(location) {
+  //   return originalPush.call(this, location).catch(err => err);
+  // };
 
   // 同步路由状态(router state)到store
   sync(store, router);

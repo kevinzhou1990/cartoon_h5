@@ -61,19 +61,30 @@ import myMixins from '@/common/mixin/myMixins';
 import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
-import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
 import { throttle } from '@/lib/utils';
 
 export default {
   name: 'Ranking',
   mixins: [myMixins],
   components: { ZMHeader, SvgIcon, noDataView },
+  computed: {
+    // 排行榜列表
+    rankingList() {
+      return this.$store.state.ranking.rankingList;
+    },
+    // 漫画列表
+    comicsList() {
+      return this.$store.state.ranking.comicsList;
+    }
+  },
+  asyncData({ store, route }) {
+    store.dispatch('getRankingList');
+    store.dispatch('getComicsList', route.query.rank || 1);
+  },
   data() {
     return {
       activeRank: this.$route.query.rank,
       activeName: '',
-      comicsList: [],
-      rankingList: [],
       typeH: 0,
       isback: true,
       hasBoder: false,
@@ -81,11 +92,6 @@ export default {
     };
   },
   mounted() {
-    this.getRankingCate().then(() => {
-      if (this.rankingList && this.rankingList.length > 0) {
-        this.getRankingByCate();
-      }
-    });
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
   },
@@ -94,53 +100,13 @@ export default {
       this.activeRank = rank.rank_id;
       this.activeName = rank.name;
       this.setQuery();
-      this.getRankingByCate();
-    },
-    //获取排行分类
-    async getRankingCate() {
-      const rankCate = await getRankingCate();
-      if (rankCate.code === 0) {
-        this.rankingList = rankCate.data.data;
-        if (this.rankingList && this.rankingList.length > 0) {
-          if (!this.$route.query.rank || this.$route.query.rank === 'ALL') {
-            this.activeRank = this.rankingList[0].rank_id;
-            this.activeName = this.rankingList[0].name;
-            this.setQuery();
-          } else {
-            this.rankingList.some((item) => {
-              if (this.$route.query.rank === item.rank_id.toString()) {
-                this.activeName = item.name;
-                return true;
-              }
-            });
-          }
-        }
-      } else {
-        this.$toast(rankCate.msg || '系统出错,请稍后重试');
-      }
-    },
-    //获取排行分类对应漫画
-    async getRankingByCate() {
-      const rankList = await getRankingByCate(this.activeRank);
-      if (rankList.code === 0) {
-        // 切换动画效果
-        const listClass = this.$refs.comicsList.classList;
-        const backClass = this.$refs.comicsListBack.classList;
-        listClass.contains('ranking-comics-list-back') ? listClass.remove('ranking-comics-list-back') : listClass.add('ranking-comics-list-back');
-        backClass.contains('ranking-comics-list-back') ? backClass.remove('ranking-comics-list-back') : backClass.add('ranking-comics-list-back');
-        setTimeout(() => {
-          this.isback = !this.isback;
-        }, 300);
-        this.comicsList = rankList.data.data;
-      } else {
-        this.$toast(rankList.msg || '系统出错,请稍后重试');
-      }
     },
     //选择的rankId更新到路由里
     setQuery() {
+      // location.reload();
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.rank = this.activeRank;
-      this.$router.replace({ path: this.$route.path, query: query });
+      // this.$router.replace({ path: this.$route.path, query: query });
       document.scrollingElement.scrollTop = 0;
     },
     handlerScroll() {
