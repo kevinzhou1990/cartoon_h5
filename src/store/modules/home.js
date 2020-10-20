@@ -5,7 +5,14 @@ const home = {
     // banner list
     bannerList: [],
     // 楼层列表
-    recList: []
+    recList: [],
+    // 楼层分页数据
+    pageInfo: {
+      page: 1,
+      page_size: 10,
+      totalPage: 1,
+      count: 0
+    }
   },
   mutations: {
     SET_REC_DATA: function(state, val) {
@@ -18,6 +25,9 @@ const home = {
     UPDATE_REC_LIST: function(state, list) {
       state.recList = list;
       console.log('UPDATE_REC_LIST', list.length);
+    },
+    UPDATE_PAGE_INFO: function(state, pageInfo) {
+      state.pageInfo = pageInfo;
     }
   },
   actions: {
@@ -26,7 +36,8 @@ const home = {
       return getBanner()
         .then(res => {
           if (res.code === 0) {
-            return commit('UPDATE_BANNER_LIST', res.data.list);
+            commit('UPDATE_BANNER_LIST', res.data.list);
+            return res;
           }
         })
         .catch(error => {
@@ -34,13 +45,26 @@ const home = {
         });
     },
     // 获取楼层
-    getRec({ commit }, data = { currentPage: 1, pageSize: 10 }) {
+    getRec({ commit, state }, data = { page: 1, page_size: 10 }) {
       return getRecommend(data)
         .then(res => {
           if (res.code === 0) {
-            // commit('SET_REC_DATA');
-            const recData = res.data.list;
-            commit('UPDATE_REC_LIST', recData);
+            const list = res.data.list;
+            let recList = JSON.parse(JSON.stringify(state.recList));
+            if (data.page !== 1) {
+              recList.push(...list);
+            } else {
+              recList = list;
+            }
+            let recData = {};
+            recData = recList.map(item => {
+              if (item.rec_id > 1) {
+                recData[item.rec_id] = item.name;
+              }
+            });
+            commit('UPDATE_PAGE_INFO', { ...data, totalPage: res.data.total_pages, count: res.data.count });
+            commit('UPDATE_REC_LIST', recList);
+            commit('SET_REC_DATA', recData);
             return res;
           }
         })

@@ -71,9 +71,6 @@ export default {
   },
   data() {
     return {
-      currentPage: 1, // 当前页
-      pageSize: 10, // 一页多少条
-      totalPages: 0, // 总页数
       bottomAjax: false, // 是否上拉加载文字
       isBottomAjax: false, // 是否触发上拉加载的回调
       isNoMoreData: false // 是否还有更多数据
@@ -83,6 +80,9 @@ export default {
     store.dispatch('getBanner');
     store.dispatch('getRec');
   },
+  created() {
+    console.log(this.bannerList, '-------', this.pageInfo);
+  },
   computed: {
     // banner list
     bannerList() {
@@ -91,55 +91,27 @@ export default {
     // 楼层list
     recList() {
       return this.$store.state.home.recList;
+    },
+    // 分页信息
+    pageInfo() {
+      return this.$store.state.home.pageInfo;
     }
   },
+  mounted() {
+    console.log('客户端首页已经加载-------', this.pageInfo);
+    this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
+    this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
+  },
   methods: {
-    /**
-     * @info: 获取楼层
-     * @author: PengGeng
-     * @date: 8/18/20-3:16 下午
-     */
-    async getRecommend() {
-      const reqData = {
-        page: this.currentPage + 1,
-        page_size: this.pageSize
-      };
-      this.$store.dispatch('getRec', reqData).then((res) => {
-        console.log(res, '-------');
+    getRecommend(pageInfo) {
+      this.$store.dispatch('getRec').then((res) => {
+        return res;
       });
-      // const reqData = {
-      //   page: this.currentPage,
-      //   page_size: this.pageSize
-      // };
-      // const resData = await getRecommend(reqData);
-      // let recList = resData.data.list;
-      // this.recList.push(...recList);
-      // this.totalPages = resData.data.total_pages || 0;
-      // let recData = {};
-      // this.recList.length &&
-      //   this.recList.map((item, index) => {
-      //     if (item.rec_id > 1) {
-      //       recData[item.rec_id] = item.name;
-      //     }
-      //   });
-      // if (this.currentPage < resData.data.total_pages) {
-      //   this.bottomAjax = true;
-      //   this.isBottomAjax = true;
-      //   this.isNoMoreData = false;
-      // } else {
-      //   this.isBottomAjax = false;
-      //   this.bottomAjax = false;
-      //   this.isNoMoreData = true;
-      // }
-      // sessionStorage.setItem('SET_REC_DATA', JSON.stringify(recData));
-      // this.$store.commit('SET_REC_DATA', recData);
     },
     resfreshPage() {
       this.$refs['zm-scroll'].resetInit();
-      this.currentPage = 1;
       this.isNoMoreData = false;
-      this.recList = [];
-      this.getRecommend();
+      this.getRecommend({ page: 1 });
     },
     nextPage() {
       this.bottomAjax = true;
@@ -158,7 +130,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  /*touch-action: none;*/
   &::-webkit-scrollbar {
     width: 0 !important;
   }
