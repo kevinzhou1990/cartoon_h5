@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <no-data-view v-else type="history" textContent="暂无历史～"></no-data-view>
+    <no-data-view v-else type="history" textContent="一个脚印都没有～"></no-data-view>
   </div>
 </template>
 

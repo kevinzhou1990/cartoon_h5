@@ -41,6 +41,11 @@ export default {
     letter-spacing: 0;
     text-align: center;
   }
+
+  .img {
+    width: 160px;
+    height: 160px;
+  }
 }
 
 .comment-content {
@@ -49,9 +54,7 @@ export default {
   .img {
     background: url('../../assets/img/no_comment.png') no-repeat;
     background-size: 100%;
-    width: 180px;
-    height: 180px;
-    margin: 80px auto 8px;
+    margin: 117px auto 8px;
   }
 }
 
@@ -59,29 +62,29 @@ export default {
   .img {
     background: url('../../assets/img/no_collect.png') no-repeat;
     background-size: 100%;
-    width: 120px;
-    height: 120px;
     margin: 16px auto 0;
   }
 }
 
 .ranking-content {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -45%);
   .img {
     background: url('../../assets/img/chapterFull.png') no-repeat;
     background-size: 100%;
-    width: 120px;
-    height: 120px;
-    margin: 120px auto 0;
   }
 }
 
 .history-content {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -45%);
   .img {
-    background: url('../../assets/img/no_collect.png') no-repeat;
+    background: url('../../assets/img/no_history.png') no-repeat;
     background-size: 100%;
-    width: 120px;
-    height: 120px;
-    margin: 144px auto 0;
   }
 }
 </style>

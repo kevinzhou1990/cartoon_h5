@@ -69,7 +69,7 @@
         </div>
 
         <!--只有评论页面有-->
-        <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="发表一条评论，沙发就是你的了～"></no-data-view>
+        <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="还有没评论哦，快来抢沙发～"></no-data-view>
       </mt-loadmore>
     </div>
     <!--只有评论页面有-->
