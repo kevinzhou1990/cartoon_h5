@@ -53,10 +53,10 @@
                 <!--只有评论页面有-->
                 <div class="comments-operational" v-if="remarkType === 0">
                   <span>{{ comment.created_at_text }}</span>
-                  <span>
-                    <svg-icon :icon-class="comment.has_praise ? 'like_bb' : 'like_ba'" size="small" />
+                  <span @click="jumpDownloadPage">
+                    <svg-icon :icon-class="comment.has_praise ? 'like_bb' : 'like_ba'" size="small"/>
                     <span>{{ comment.praise_num_text }}</span>
-                    <svg-icon icon-class="more_bc" size="small" />
+                    <svg-icon icon-class="more_bc" size="small"/>
                   </span>
                 </div>
               </div>
@@ -74,7 +74,7 @@
     </div>
     <!--只有评论页面有-->
     <div class="comments-add" v-if="remarkType === 0">
-      <span>
+      <span @click="jumpDownloadPage">
         <svg-icon icon-class="comment_bb" size="small" />
         <span>说点什么？</span>
       </span>
@@ -87,8 +87,10 @@ import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
 import SvgIcon from '@/common/components/svg';
 import { getCommentList, getEvalList } from '@/common/api/comments';
+import downloadMixin from '@/common/mixin/downloadMixin'
 export default {
   name: 'Comments',
+  mixins: [ downloadMixin ],
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {

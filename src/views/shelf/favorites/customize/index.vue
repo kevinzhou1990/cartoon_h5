@@ -23,7 +23,7 @@
           <svg-icon icon-class="add_aa" />
         </div>
       </div>
-      <div class="item-container">
+      <div class="item-container" @click="jumpDownloadPage">
         <div class="name">新建收藏夹</div>
       </div>
     </div>
@@ -33,9 +33,11 @@
 <script>
 import SvgIcon from '@/common/components/svg';
 import { getGroupList } from '@/common/api/shelf';
+import downloadMixin from '@/common/mixin/downloadMixin'
 export default {
   name: 'customize',
   components: { SvgIcon },
+  mixins: [ downloadMixin ],
   data() {
     return {
       customizeList: []

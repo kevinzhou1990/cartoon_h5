@@ -6,7 +6,7 @@
           <span class="tab-btn" :class="[item.name === active ? 'on' : '', item.name === '收藏' && isUpdate ? 'red-point' : '']" @click="switchTab(item.name)">{{item.name}}</span>
         </li>
 
-        <li class="edit">编辑</li>
+        <li class="edit" @click="jumpDownloadPage">编辑</li>
       </ul>
     </div>
 
@@ -31,10 +31,12 @@ import ZMFavorites from '@/views/shelf/favorites';
 import ZMHistory from '@/views/shelf/history';
 import ZMCache from '@/views/shelf/cache';
 import { mapState } from 'vuex';
+import downloadMixin from '@/common/mixin/downloadMixin'
 
 export default {
   name: 'Shelf',
   components: { ZMFavorites, ZMHistory, ZMCache },
+  mixins: [ downloadMixin ],
   data() {
     return {
       active: this.$route.query.tab || '收藏',
@@ -66,6 +68,10 @@ export default {
   },
   methods: {
     switchTab(name){
+      if (name === '缓存'){
+        this.jumpDownloadPage()
+        return
+      }
       if (this.active === name) {
         return
       }
