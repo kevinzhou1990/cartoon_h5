@@ -1,33 +1,32 @@
 <template>
-  <div class="vali-main"
-       v-if="valiAlert"
-  >
-    <div class="vali-main-bg"></div>
-    <div class='vali-main-content'>
-      <div class="vali-main-content-close" @click.stop="handleClickClose"></div>
-      <div class="vali-main-content-img">
-        <div class="vali-img"></div>
-        <div class="vali-btn">刷新验证码</div>
-      </div>
-      <div class="vali-main-content-text zm-b-radius">
-        <span class="vali-main-content-text-label">验证码</span>
-        <input
-            class="vali-main-content-text-input"
-            type="tel"
-            placeholder="请输入图中的验证码"
-            v-model="valiValue"
-        />
-      </div>
-      <div
-          class="vali-main-content-btn zm-b-t"
-          :class="{'btn-color': valiValue}"
-          @click.stop="handelClickNextSetp"
-      >
-        下一步
+    <div class="vali-main"
+         v-if="valiAlert"
+    >
+      <div class="vali-main-bg"></div>
+      <div class='vali-main-content'>
+        <div class="vali-main-content-close" @click.stop="handleClickClose"></div>
+        <div class="vali-main-content-img">
+          <div class="vali-img"></div>
+          <div class="vali-btn">刷新验证码</div>
+        </div>
+        <div class="vali-main-content-text zm-b-radius">
+          <span class="vali-main-content-text-label">验证码</span>
+          <input
+              class="vali-main-content-text-input"
+              type="tel"
+              placeholder="请输入图中的验证码"
+              v-model="valiValue"
+          />
+        </div>
+        <div
+            class="vali-main-content-btn zm-b-t"
+            :class="{'btn-color': valiValue}"
+            @click.stop="handelClickNextSetp"
+        >
+          下一步
+        </div>
       </div>
     </div>
-  </div>
-
 </template>
 
 <script>
@@ -47,6 +46,8 @@ export default {
     return {
 		  valiValue: ''
     }
+  },
+  mounted() {
   },
   methods: {
 	  /**
@@ -74,6 +75,41 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  ::-webkit-input-placeholder {
+    font-family: pingfang-blod;
+    font-size: 12px;
+    padding-left: 32px;
+    color: #BBBBBB;
+  }
+
+  .validate-enter-active {
+    animation: fadeInUp 0.5s;
+  }
+  .validate-leave-active {
+    animation: fadeInDown 0.5s;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 100%, 0);
+    }
+  }
 .btn-color {
   color: #222222 !important;
 }
@@ -120,7 +156,7 @@ export default {
       }
       .vali-btn {
         position: relative;
-        padding-left: 8px;
+        /*padding-left: 8px;*/
         text-align: center;
         line-height: 48px;
         color: #12E079;
@@ -149,7 +185,6 @@ export default {
       }
       &-input {
         position: relative;
-        padding-left: 32px;
         outline: none;
         border: none;
       }

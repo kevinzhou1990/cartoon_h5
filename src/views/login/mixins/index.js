@@ -10,7 +10,10 @@ export default {
 	    valiAlert: false, // 现实图形验证码
 	    passwordVal: '', // 密码
 	    hidePasswordVal: '', // 掩码
-	    passwordShowFlag: false // 是否显示明文
+	    passwordShowFlag: false, // 是否显示明文
+	    isShowCountDown: false, // 是否显示倒计时
+	    times: 60,
+	    timer: null
     }
   },
   computed: {
@@ -24,6 +27,26 @@ export default {
     }
   },
   methods: {
+	  /**
+	   * @info: 倒计时
+	   * @author: PengGeng
+	   * @date: 10/20/20-6:04 下午
+	   */
+    countDown() {
+		  this.showValidateFlag = false
+      clearInterval(this.timer)
+		  this.timer = setInterval(() => {
+			  this.times--
+			  console.log('times', this.times)
+			  if (this.times === 0) {
+				  clearInterval(this.timer)
+				  this.isShowCountDown = false
+				  this.showValidateFlag = true
+				  this.times = 60
+				  console.log('timer销毁')
+			  }
+		  }, 1000)
+	  },
 	  /**
 	   * @info: 选择区号
 	   * @author: PengGeng
@@ -40,7 +63,9 @@ export default {
 	   */
 	  handleClickGetValidate() {
 		  if (!this.showValidateFlag) return
-		  this.valiAlert = true
+		  // this.valiAlert = true // TODO 是否现实弹出弹框输入验证码
+		  this.isShowCountDown = true
+		  this.isShowCountDown && this.countDown()
 		  console.log('click validate btn')
 	  }
   },

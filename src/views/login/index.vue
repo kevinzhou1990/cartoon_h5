@@ -1,65 +1,69 @@
 <template>
-  <div class="login-main box">
-    <z-m-header :title-text="loginValueTitle" hasBorder>
-      <a slot="left" class="navigation_arrow_left" @click.stop="handleClickClose"></a>
-    </z-m-header>
-    <div class="login-content">
-      <div class="login-content-banner"></div>
-      <div class="m-16 login-content-b zm-b-radius">
+  <transition name="fade">
+    <div class="login-main box" v-show="show">
+        <z-m-header :title-text="loginValueTitle" hasBorder>
+          <a slot="left" class="navigation_arrow_left" @click.stop="handleClickClose"></a>
+        </z-m-header>
+        <div class="login-content">
+          <div class="login-content-banner"></div>
+          <div class="m-16 login-content-b zm-b-radius">
         <span class="login-content-b-left b-a" @click="handleClickAreaCode">+86
           <img class="down-img" :src="downImg" alt="">
         </span>
-        <input v-model="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
-      </div>
-      <div class="login-content-b zm-b-radius m-8" v-if="loginType===0">
-        <span class="login-content-b-left">验证码</span>
-        <input v-model="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
-        <span
-            class="login-content-b-va"
-            :class="{'theme-color' : showValidateFlag}"
-            @click.stop="handleClickGetValidate">
-          获取验证码
+            <input v-model.number="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
+          </div>
+          <transition name="login-type" mode="out-in">
+              <div class="login-content-b zm-b-radius m-8" v-if="loginType===0" key="validate">
+                <span class="login-content-b-left">验证码</span>
+                <input v-model.number="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
+                <span
+                    class="login-content-b-va"
+                    :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown }"
+                    @click.stop="handleClickGetValidate">
+          {{ isShowCountDown ? times: '获取验证码' }}
         </span>
-      </div>
-      <div class="login-content-b zm-b-radius m-8" v-else>
-        <span class="login-content-b-left">密码</span>
-        <input
-            v-model="passwordVal"
-            :type="passwordShowFlag ? 'tel': 'password'"
-            class="login-content-b-phone"
-            maxlength="20"
-            placeholder="请输入密码"
-            @focus="changePasswordVal"
-        />
-        <span
-            class="login-content-b-right"
-            :class="passwordShowFlag ? 'eye_open': 'eye_close'"
-            @click.stop="handleClickHidePassword"
-        ></span>
-      </div>
-    </div>
-    <div
-        class="login-btn m-8"
-        :class="{'theme-bg': isClickLoginBtnFlag}"
-        @click.stop="handleClickLogin"
-    >
-      {{loginBtnValue}}
-    </div>
-    <div
-        class="login-pa"
-        v-if="loginType===0"
-        @click.stop="handleClickLoginType(1)">密码登陆</div>
-    <div
-        v-else
-        class="login-label"
+              </div>
+              <div class="login-content-b zm-b-radius m-8" v-else key="password">
+                <span class="login-content-b-left">密码</span>
+                <input
+                    v-model="passwordVal"
+                    :type="passwordShowFlag ? 'tel': 'password'"
+                    class="login-content-b-phone"
+                    maxlength="20"
+                    placeholder="请输入密码"
+                    @focus="changePasswordVal"
+                />
+                <span
+                    class="login-content-b-right"
+                    :class="passwordShowFlag ? 'eye_open': 'eye_close'"
+                    @click.stop="handleClickHidePassword"
+                ></span>
+              </div>
+          </transition>
+        </div>
+        <div
+            class="login-btn m-8"
+            :class="{'theme-bg': isClickLoginBtnFlag}"
+            @click.stop="handleClickLogin"
         >
-      <span @click.stop="handleClickLoginType(0)">手机号登录</span>
-      <span @click="goToForgetPassword">忘记密码？</span>
-    </div>
+          {{loginBtnValue}}
+        </div>
+        <div
+            class="login-pa"
+            v-if="loginType===0"
+            @click.stop="handleClickLoginType(1)">密码登陆</div>
+        <div
+            v-else
+            class="login-label"
+        >
+          <span @click.stop="handleClickLoginType(0)">手机号登录</span>
+          <span @click="goToForgetPassword">忘记密码？</span>
+        </div>
     <z-m-info-label :login-type="loginType"></z-m-info-label>
     <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
     <z-m-login-vali-alert v-model="valiAlert"></z-m-login-vali-alert>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -69,12 +73,12 @@ import ZMAreaPhone from '@/views/login/components/ZMAreaPhone'
 import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
 export default {
-  name: 'index.vue',
+  name: 'Login-index',
   mixins: [myMixins],
   data(){
     return {
+	    show: false,
       loginType: 0 // 0 手机号登陆； 1 密码登陆
-
     }
   },
   computed: {
@@ -87,13 +91,23 @@ export default {
 	    return this.loginType === 0 ? '手机号登陆' : '密码登录'
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+		  this.show = true
+    })
+    // this.test()
+  },
   methods: {
+    test() {
+
+    },
 	  /**
 	   * @info: 取消登陆
 	   * @author: PengGeng
 	   * @date: 10/15/20-4:19 下午
 	   */
 	  handleClickClose() {
+      this.show = false
       console.log('handle click close....')
     },
 	  /**
@@ -152,8 +166,59 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .fade-enter-active {
+    animation: fadeInUp 0.5s;
+  }
+  .fade-leave-active {
+    animation: fadeInDown 0.5s;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 100%, 0);
+    }
+  }
+  .login-type-enter-active{
+    animation: fadeInRight 0.5s;
+  }
+  .login-type-leave-active{
+    animation: fadeOutLeft 0.5s;
+  }
+  .login-type-fade-enter {
+    animation: fadeInRight 0.5s;
+  }
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
   $label-fontSize: 12px;
   $label-color: #222222;
+  .time-color {
+    color: #999999 !important;
+  }
   .theme-color {
     color: #12E079 !important;
   }

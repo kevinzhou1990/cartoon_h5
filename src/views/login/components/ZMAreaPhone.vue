@@ -1,4 +1,5 @@
 <template>
+  <transition name="area">
   <div class="area-main" v-show="areaFlag">
     <div class="area-gray"></div>
     <div class="area-content">
@@ -15,6 +16,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -55,20 +57,53 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .area-enter-active {
+    animation: fadeInUp 0.5s;
+  }
+  .area-leave-active {
+    animation: fadeInDown 0.5s;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 100%, 0);
+    }
+  }
   $Area-title-fontSize: 18px;
   $Area-title-color: #222222;
   $Area-item-fontSize: 12px;
 .area-main {
+  position: fixed;
+  z-index: 999;
   overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   .area-gray {
-    position: fixed;
-    top: 0;
-    left: 0;
+    /*position: fixed;*/
+    /*top: 0;*/
+    /*left: 0;*/
     width: 100%;
     height: 100%;
     background: #000000;
     opacity: 0.5;
-    z-index: 999;
   }
   .area-content {
     position: absolute;

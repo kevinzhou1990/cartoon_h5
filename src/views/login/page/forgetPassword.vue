@@ -1,63 +1,65 @@
 <template>
-  <div class="f-main box zm-b-b">
-    <z-m-header :title-text="titleContent" hasBorder></z-m-header>
-    <template v-if="!nexSuccessFlag">
-      <div class="login-content">
-        <div class="m-16 login-content-b zm-b-radius">
-        <span class="login-content-b-left b-a" @click="handleClickAreaCode">+86
-          <img class="down-img" :src="downImg" alt="">
-        </span>
-          <input v-model="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
-        </div>
-        <div class="login-content-b zm-b-radius m-8">
-          <span class="login-content-b-left">验证码</span>
-          <input v-model="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
-          <span
-              class="login-content-b-va"
-              :class="{'theme-color' : showValidateFlag}"
-              @click.stop="handleClickGetValidate">
-          获取验证码
-        </span>
-        </div>
-      </div>
-      <div
-          class="login-btn m-8"
-          :class="{'theme-bg': isClickLoginBtnFlag}"
-          @click.stop="handleClickNextStep"
-      >
-        下一步
-      </div>
-    </template>
-    <template v-else>
-      <div class="login-content">
-        <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
-        <div class="login-content-p zm-b-radius m-8">
-          <input
-              v-model="newPasswordVal"
-              :type="passwordShowFlag ? 'tel': 'password'"
-              class="login-content-p-pas"
-              maxlength="20"
-              placeholder="请输入新密码"
-              @focus="changePasswordVal"
-          />
-          <span
-              class="login-content-p-right"
-              :class="passwordShowFlag ? 'eye_open': 'eye_close'"
-              @click.stop="handleClickHidePassword"
-          ></span>
+  <transition name="fade">
+    <div class="f-main box zm-b-b" v-show="forgetFlag">
+      <z-m-header :title-text="titleContent" hasBorder left-btn-flag @goBack="back"></z-m-header>
+      <template v-if="!nexSuccessFlag">
+        <div class="login-content">
+          <div class="m-16 login-content-b zm-b-radius">
+          <span class="login-content-b-left b-a" @click="handleClickAreaCode">+86
+            <img class="down-img" :src="downImg" alt="">
+          </span>
+            <input v-model="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
+          </div>
+          <div class="login-content-b zm-b-radius m-8">
+            <span class="login-content-b-left">验证码</span>
+            <input v-model="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
+            <span
+                class="login-content-b-va"
+                :class="{'theme-color' : showValidateFlag}"
+                @click.stop="handleClickGetValidate">
+            获取验证码
+          </span>
+          </div>
         </div>
         <div
             class="login-btn m-8"
-            :class="{'theme-bg': isSetBtnFlag}"
-            @click.stop="handleClickSurePassword"
+            :class="{'theme-bg': isClickLoginBtnFlag}"
+            @click.stop="handleClickNextStep"
         >
-          设置完成
+          下一步
         </div>
-      </div>
-    </template>
-    <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
-    <z-m-login-vali-alert v-model="valiAlert"></z-m-login-vali-alert>
+      </template>
+      <template v-else>
+        <div class="login-content">
+          <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
+          <div class="login-content-p zm-b-radius m-8">
+            <input
+                v-model="newPasswordVal"
+                :type="passwordShowFlag ? 'tel': 'password'"
+                class="login-content-p-pas"
+                maxlength="20"
+                placeholder="请输入新密码"
+                @focus="changePasswordVal"
+            />
+            <span
+                class="login-content-p-right"
+                :class="passwordShowFlag ? 'eye_open': 'eye_close'"
+                @click.stop="handleClickHidePassword"
+            ></span>
+          </div>
+          <div
+              class="login-btn m-8"
+              :class="{'theme-bg': isSetBtnFlag}"
+              @click.stop="handleClickSurePassword"
+          >
+            设置完成
+          </div>
+        </div>
+      </template>
+      <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
+      <z-m-login-vali-alert v-model="valiAlert"></z-m-login-vali-alert>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -71,6 +73,7 @@ export default {
   mixins: [myMixins],
   data() {
     return {
+	    forgetFlag: false,
 		  titleContent: '忘记密码',
       nexSuccessFlag: false, // 下一步的btn高亮
 	    isSetBtnFlag: false, // 设置
@@ -82,7 +85,16 @@ export default {
     ZMAreaPhone,
 	  ZMLoginValiAlert
   },
+  mounted() {
+    this.forgetFlag = true
+  },
   methods: {
+	  back() {
+		  this.forgetFlag = false
+      setTimeout(() => {
+	      this.$router.back()
+      }, 200)
+    },
 	  /**
      * TODO: 调用接口
 	   * @info: 点击下一步
@@ -129,6 +141,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .fade-enter-active {
+    animation: fadeInRight 0.5s;
+  }
+  .fade-leave-active {
+    animation: fadeOutLeft 0.5s;
+  }
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fadeOutLeft {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
   $label-fontSize: 12px;
   $label-color: #222222;
   ::-webkit-input-placeholder {
