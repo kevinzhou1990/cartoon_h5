@@ -31,12 +31,12 @@ import ZMFavorites from '@/views/shelf/favorites';
 import ZMHistory from '@/views/shelf/history';
 import ZMCache from '@/views/shelf/cache';
 import { mapState } from 'vuex';
-import downloadMixin from '@/common/mixin/downloadMixin'
+import myMixins from '@/common/mixin/myMixins'
 
 export default {
   name: 'Shelf',
   components: { ZMFavorites, ZMHistory, ZMCache },
-  mixins: [ downloadMixin ],
+  mixins: [ myMixins ],
   data() {
     return {
       active: this.$route.query.tab || '收藏',

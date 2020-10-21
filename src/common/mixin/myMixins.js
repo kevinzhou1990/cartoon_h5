@@ -13,6 +13,12 @@ export default {
 				    cartoon_id: val
 		      }
 		  })
+    },
+    //跳转下载引导页
+    jumpDownloadPage() {
+      this.$router.push({
+        path: '/download'
+      })
     }
   }
 }

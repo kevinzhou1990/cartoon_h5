@@ -33,11 +33,11 @@
 <script>
 import SvgIcon from '@/common/components/svg';
 import { getGroupList } from '@/common/api/shelf';
-import downloadMixin from '@/common/mixin/downloadMixin'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'customize',
   components: { SvgIcon },
-  mixins: [ downloadMixin ],
+  mixins: [ myMixins ],
   data() {
     return {
       customizeList: []

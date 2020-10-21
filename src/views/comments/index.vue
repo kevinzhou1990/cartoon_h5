@@ -87,10 +87,10 @@ import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
 import SvgIcon from '@/common/components/svg';
 import { getCommentList, getEvalList } from '@/common/api/comments';
-import downloadMixin from '@/common/mixin/downloadMixin'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'Comments',
-  mixins: [ downloadMixin ],
+  mixins: [ myMixins ],
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
