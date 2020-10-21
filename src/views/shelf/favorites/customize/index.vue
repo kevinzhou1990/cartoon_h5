@@ -12,7 +12,7 @@
         <div class="name ellipsis">{{ item.name }}</div>
         <div class="collect-tip ellipsis">{{ item.shelf_num }}本收藏</div>
       </div>
-      <div class="more" @click.stop="more">
+      <div class="more" @click.stop="jumpDownloadPage">
         <svg-icon icon-class="more_bc" size="small" />
       </div>
     </div>
@@ -60,9 +60,6 @@ export default {
       } else {
         this.$toast(data.msg || '系统出错,请稍后重试');
       }
-    },
-    more() {
-      console.log('跳转引导页');
     }
   }
 };
