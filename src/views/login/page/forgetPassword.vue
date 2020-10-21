@@ -5,19 +5,33 @@
       <template v-if="!nexSuccessFlag">
         <div class="login-content">
           <div class="m-16 login-content-b zm-b-radius">
-          <span class="login-content-b-left b-a" @click="handleClickAreaCode">+86
+          <span class="login-content-b-left b-a" @click="handleClickAreaCode">{{telCode}}
             <img class="down-img" :src="downImg" alt="">
           </span>
-            <input v-model="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
+            <input
+                v-model="telPhoneNum"
+                type="text"
+                class="login-content-b-phone"
+                maxlength="11"
+                placeholder="请输入手机号"
+                :change="changeTelPhoneNum(telPhoneNum)"
+            />
           </div>
           <div class="login-content-b zm-b-radius m-8">
             <span class="login-content-b-left">验证码</span>
-            <input v-model="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
+            <input
+                v-model="validateNum"
+                type="text"
+                class="login-content-b-phone"
+                maxlength="6"
+                :change="changeValidateNum(validateNum)"
+                placeholder="请输入验证码"
+            />
             <span
                 class="login-content-b-va"
-                :class="{'theme-color' : showValidateFlag}"
-                @click.stop="handleClickGetValidate">
-            获取验证码
+                :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown}"
+                @click.stop="handleClickGetValidate(2)">
+            {{ isShowCountDown ? times: '获取验证码' }}
           </span>
           </div>
         </div>
@@ -35,8 +49,9 @@
           <div class="login-content-p zm-b-radius m-8">
             <input
                 v-model="newPasswordVal"
-                :type="passwordShowFlag ? 'tel': 'password'"
+                :type="passwordShowFlag ? 'text': 'password'"
                 class="login-content-p-pas"
+                minlength="6"
                 maxlength="20"
                 placeholder="请输入新密码"
                 @focus="changePasswordVal"
@@ -57,7 +72,12 @@
         </div>
       </template>
       <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
-      <z-m-login-vali-alert v-model="valiAlert"></z-m-login-vali-alert>
+      <z-m-login-vali-alert
+          v-model="valiAlert"
+          :img-code="imgCode"
+          :scource="2"
+          @getSMS="getSMSCode"
+      ></z-m-login-vali-alert>
   </div>
   </transition>
 </template>
@@ -67,7 +87,8 @@ import ZMAreaPhone from '@/views/login/components/ZMAreaPhone'
 import ZMHeader from '@/common/components/ZMHeader'
 import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
-
+import { checkValidateCode, fountPassword } from '../api/index'
+import { encryptDes } from '../common/index'
 export default {
   name: 'forgetPassword',
   mixins: [myMixins],
@@ -76,6 +97,7 @@ export default {
 	    forgetFlag: false,
 		  titleContent: '忘记密码',
       nexSuccessFlag: false, // 下一步的btn高亮
+      nextCheckCode: '', // 调用设置密码完成需要使用
 	    isSetBtnFlag: false, // 设置
 	    newPasswordVal: '' // 新密码
     }
@@ -96,13 +118,25 @@ export default {
       }, 200)
     },
 	  /**
-     * TODO: 调用接口
 	   * @info: 点击下一步
 	   * @author: PengGeng
 	   * @date: 10/17/20-11:09 上午
 	   */
-	  handleClickNextStep() {
-      this.nexSuccessFlag = true
+	  async handleClickNextStep() {
+      const reqData = {
+			  country_code: this.telCode,
+			  mobile: this.telPhoneNum,
+        code: this.validateNum
+      }
+      const resData = await checkValidateCode(reqData)
+      if (resData && resData.code === 0){
+        this.nextCheckCode = resData.data.rand_code || ''
+	      this.nexSuccessFlag = true
+        // 清楚定时器
+        clearInterval(this.timer)
+      } else {
+        this.$toast(resData.msg || '系统繁忙,请稍后重试')
+      }
       console.log('click validate update password next')
     },
 	  /**
@@ -121,16 +155,34 @@ export default {
 	  handleClickHidePassword() {
 		  this.passwordShowFlag = !this.passwordShowFlag
 	  },
+    getSMSCode(val, randCode) {
+      console.log(val)
+      this.handleClickGetValidate(2, val, randCode)
+    },
 	  /**
 	   * @info: 确认设置完成
 	   * @author: PengGeng
 	   * @date: 10/17/20-4:00 下午
 	   */
-	  handleClickSurePassword() {}
+	  async handleClickSurePassword() {
+      const reqData = {
+        country_code: this.telCode,
+        mobile: this.telPhoneNum,
+			  password: encryptDes(this.newPasswordVal),
+        code: this.nextCheckCode
+      }
+      const resData = await fountPassword(reqData)
+      if (resData && resData.code === 0){
+        this.$toast('密码设置成功')
+        this.back()
+      } else {
+        this.$toast(resData.msg || '系统繁忙,请稍后重试')
+      }
+    }
   },
   watch: {
 	  newPasswordVal(val) {
-      if (val) {
+      if (val.length >= 6) {
         this.isSetBtnFlag = true
       } else {
         this.isSetBtnFlag = false
@@ -177,6 +229,9 @@ export default {
   }
   .theme-color {
     color: #12E079 !important;
+  }
+  .time-color {
+    color: #999999 !important;
   }
   .theme-bg {
     background: #12E079 !important;

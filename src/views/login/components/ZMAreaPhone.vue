@@ -2,16 +2,20 @@
   <transition name="area">
   <div class="area-main" v-show="areaFlag">
     <div class="area-gray"></div>
-    <div class="area-content">
+    <div class="area-content" v-if="dataList.length">
       <div class="area-content-title">
         选择国家/地区
         <span class="area-content-title-close" @click.stop="handleClickClose"></span>
       </div>
       <div class="area-content-bg"></div>
-      <div class="area-content-tx" v-for="index in 10" :key="index">
+      <div class="area-content-tx"
+           v-for="(item,index) in dataList"
+           :key="item.code"
+           @click.stop="handleClickTelCode(item.code, index)"
+      >
         <div class="area-content-tx-item zm-b-b">
-          中国大陆（+86
-          <span :class="{'area-content-tx-item-checked': index===1 }"></span>
+          {{ `${item.name}(${item.code})` }}
+          <span :class="{'area-content-tx-item-checked': checkedIndex === index }"></span>
         </div>
       </div>
     </div>
@@ -20,6 +24,7 @@
 </template>
 
 <script>
+import { getCountryCode } from '../api/index'
 export default {
   name: 'ZMAraePhone',
   props: {
@@ -44,12 +49,40 @@ export default {
   // },
   data() {
     return {
-	    // showFlag: false
+      dataList: [],
+	    checkedIndex: 0
     }
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+	  /**
+	   * @info: 选择区号
+	   * @author: PengGeng
+	   * @date: 10/21/20-10:50 上午
+	   */
+	  handleClickTelCode(code, index) {
+      this.checkedIndex = index
+      this.$emit('telCode', code)
+		  this.$emit('close', false)
+    },
+	  /**
+	   * @info: 获取国家区号
+	   * @author: PengGeng
+	   * @date: 10/21/20-10:50 上午
+	   */
+    async getData() {
+      const resData = await getCountryCode()
+      if (resData && resData.code === 0) {
+        this.dataList = resData.data
+        console.log(resData.data)
+      } else {
+        this.$toast(resData.msg || '系统出错,请稍后重试')
+      }
+    },
+    // 关闭弹窗
 	  handleClickClose() {
-      // this.areaFlag = false
       this.$emit('close', false)
     }
   }

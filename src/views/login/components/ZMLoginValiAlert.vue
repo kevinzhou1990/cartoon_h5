@@ -3,11 +3,11 @@
          v-if="valiAlert"
     >
       <div class="vali-main-bg"></div>
-      <div class='vali-main-content'>
+      <div class='vali-main-content' v-if="imgCode">
         <div class="vali-main-content-close" @click.stop="handleClickClose"></div>
         <div class="vali-main-content-img">
-          <div class="vali-img"></div>
-          <div class="vali-btn">刷新验证码</div>
+          <div class="vali-img" :style="{background: 'url('+validateImg+') no-repeat center'}"></div>
+          <div class="vali-btn" @click.stop="refreshValidate">刷新验证码</div>
         </div>
         <div class="vali-main-content-text zm-b-radius">
           <span class="vali-main-content-text-label">验证码</span>
@@ -16,6 +16,7 @@
               type="tel"
               placeholder="请输入图中的验证码"
               v-model="valiValue"
+              maxlength="4"
           />
         </div>
         <div
@@ -30,12 +31,21 @@
 </template>
 
 <script>
+import {getImgCode, checkCaptcha} from '../api/index'
 export default {
   name: 'ZMLoginValiAlert',
   props: {
 	  valiAlert: {
       type: Boolean,
       default: false
+    },
+    imgCode: {
+      type: String,
+      default: ''
+    },
+	  scource: {
+      type: Number,
+      default: 1
     }
   },
   model: {
@@ -44,7 +54,8 @@ export default {
   },
   data() {
     return {
-		  valiValue: ''
+		  valiValue: '',
+      validateImg: ''
     }
   },
   mounted() {
@@ -64,12 +75,41 @@ export default {
 	   * @author: PengGeng
 	   * @date: 10/16/20-4:38 下午
 	   */
-	  handelClickNextSetp() {
+	 async handelClickNextSetp() {
       if (!this.valiValue) return
-      this.$emit('close', false)
-      this.valiValue = ''
+      const reqData = {
+	      source: this.scource,
+	      verify_code: this.valiValue
+      }
+      const resData = await checkCaptcha(reqData)
+      if (resData && resData.code === 0){
+        const randCode = resData.data.rand_code || ''
+	      this.$emit('close', false)
+	      this.$emit('getSMS', this.valiValue, randCode)
+	      this.valiValue = ''
+      } else {
+        this.$toast(resData.msg || '系统繁忙,请稍后重试')
+      }
       console.log('click event next step')
+    },
+	  /**
+	   * @info: 刷新验证码
+	   * @author: PengGeng
+	   * @date: 10/21/20-4:30 下午
+	   */
+	  async refreshValidate() {
+      const resData = await getImgCode()
+      if (resData && resData.code === 0) {
+        this.validateImg = resData.data.image
+      } else {
+        this.$toast(resData.msg || '系统繁忙,请稍后重试')
+      }
     }
+  },
+  watch: {
+    imgCode: function (val, oldValue) {
+      this.validateImg = val
+	  }
   }
 }
 </script>
@@ -78,7 +118,7 @@ export default {
   ::-webkit-input-placeholder {
     font-family: pingfang-blod;
     font-size: 12px;
-    padding-left: 32px;
+    /*padding-left: 32px;*/
     color: #BBBBBB;
   }
 
@@ -174,9 +214,10 @@ export default {
     }
     &-text {
       position: relative;
+      display: inline-block;
       width: 279px;
       height: 48px;
-      margin: 16px;
+      margin: auto 16px;
       line-height: 48px;
       &-label {
         padding-left: 16px;
@@ -185,12 +226,15 @@ export default {
       }
       &-input {
         position: relative;
+        padding-left: 18px;
         outline: none;
         border: none;
       }
     }
     &-btn {
-      padding-top: 18px;
+      margin-top: 18px;
+      height: 56px;
+      line-height: 56px;
       text-align: center;
       font-size: 14px;
       color: #E6E6E6;

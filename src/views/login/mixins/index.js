@@ -1,3 +1,4 @@
+import {getSMSCode, getImgCode} from '../api/index'
 const downImg = require('../images/more.png')
 export default {
   data() {
@@ -5,9 +6,11 @@ export default {
       downImg,
 	    telPhoneNum: '', // 手机号码
 	    validateNum: '', // 验证码
+	    telCode: '+86', // 国家区号
 	    areaFlag: false, // 显示区号组件
 	    showValidateFlag: false, // 现实验证按钮可以点击
-	    valiAlert: false, // 现实图形验证码
+	    valiAlert: false, // 显示图形验证码
+	    imgCode: '',
 	    passwordVal: '', // 密码
 	    hidePasswordVal: '', // 掩码
 	    passwordShowFlag: false, // 是否显示明文
@@ -19,7 +22,7 @@ export default {
   computed: {
     // 是高亮现实login btn
     isClickLoginBtnFlag() {
-      if (this.showValidateFlag && (this.validateNum.length || (this.passwordVal && this.passwordVal.length))) {
+      if ((this.showValidateFlag || this.isShowCountDown) && (this.validateNum.length || (this.passwordVal && this.passwordVal.length))) {
         return true
       } else {
         return false
@@ -27,6 +30,22 @@ export default {
     }
   },
   methods: {
+	  /**
+	   * @info: 处理手机号码输入
+	   * @author: PengGeng
+	   * @date: 10/21/20-11:44 上午
+	   */
+	  changeTelPhoneNum(val) {
+		  this.telPhoneNum = val.toString().replace(/[^\d]/g, '') || ''
+	  },
+	  /**
+	   * @info: 处理验证码输入
+	   * @author: PengGeng
+	   * @date: 10/21/20-11:45 上午
+	   */
+	  changeValidateNum(val) {
+		  this.validateNum = val.toString().replace(/[^\d]/g, '') || ''
+	  },
 	  /**
 	   * @info: 倒计时
 	   * @author: PengGeng
@@ -60,13 +79,45 @@ export default {
 	   * @info: 获取验证码
 	   * @author: PengGeng
 	   * @date: 10/16/20-10:29 上午
+	   * source=1 注册/登陆，source-2 找回密码
 	   */
-	  handleClickGetValidate() {
+	  async handleClickGetValidate(source = 1, verify_code = '', randCode = '') {
 		  if (!this.showValidateFlag) return
-		  // this.valiAlert = true // TODO 是否现实弹出弹框输入验证码
-		  this.isShowCountDown = true
-		  this.isShowCountDown && this.countDown()
+		  const reqData = {
+			  phone: this.telPhoneNum,
+			  source,
+			  country: this.telCode,
+			  verify_code,
+			  rand_code: randCode
+		  }
+		  const resData = await getSMSCode(reqData)
+		  if (resData && resData.code === 0) {
+			  this.isShowCountDown = true
+			  this.isShowCountDown && this.countDown()
+		  } else if (resData.code === 1320) {
+			  // 是否现实弹出弹框输入验证码
+			  this.valiAlert = true
+			  this.getImgCode()
+		  } else {
+	      this.$toast(resData.msg || '系统繁忙,请稍后重试')
+		  }
+	    // else if (resData.code === 1320) {
+      // 	  this.$toast(resData.msg || '手机号码未注册')
+      //   }
 		  console.log('click validate btn')
+	  },
+	  /**
+	   * @info: 获取图片验证码
+	   * @author: PengGeng
+	   * @date: 10/21/20-4:00 下午
+	   */
+	  async getImgCode() {
+      const resData = await getImgCode()
+		  if (resData && resData.code === 0) {
+        this.imgCode = resData.data.image
+		  } else {
+	      this.$toast(resData.msg || '系统繁忙,请稍后重试')
+		  }
 	  }
   },
   watch: {

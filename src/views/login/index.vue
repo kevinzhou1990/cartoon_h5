@@ -7,19 +7,32 @@
         <div class="login-content">
           <div class="login-content-banner"></div>
           <div class="m-16 login-content-b zm-b-radius">
-        <span class="login-content-b-left b-a" @click="handleClickAreaCode">+86
+        <span class="login-content-b-left b-a" @click="handleClickAreaCode">{{ telCode }}
           <img class="down-img" :src="downImg" alt="">
         </span>
-            <input v-model.number="telPhoneNum" type="tel" class="login-content-b-phone" maxlength="11"  placeholder="请输入手机号"/>
+            <input
+                v-model="telPhoneNum"
+                type="text"
+                :change="changeTelPhoneNum(telPhoneNum)"
+                class="login-content-b-phone"
+                maxlength="11"
+                placeholder="请输入手机号"/>
           </div>
           <transition name="login-type" mode="out-in">
               <div class="login-content-b zm-b-radius m-8" v-if="loginType===0" key="validate">
                 <span class="login-content-b-left">验证码</span>
-                <input v-model.number="validateNum" type="tel" class="login-content-b-phone" maxlength="6"  placeholder="请输入验证码"/>
+                <input
+                    v-model="validateNum"
+                    type="text"
+                    :change="changeValidateNum(validateNum)"
+                    class="login-content-b-phone"
+                    maxlength="6"
+                    placeholder="请输入验证码"
+                />
                 <span
                     class="login-content-b-va"
                     :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown }"
-                    @click.stop="handleClickGetValidate">
+                    @click.stop="handleClickGetValidate(1)">
           {{ isShowCountDown ? times: '获取验证码' }}
         </span>
               </div>
@@ -60,8 +73,13 @@
           <span @click="goToForgetPassword">忘记密码？</span>
         </div>
     <z-m-info-label :login-type="loginType"></z-m-info-label>
-    <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
-    <z-m-login-vali-alert v-model="valiAlert"></z-m-login-vali-alert>
+    <z-m-area-phone v-model="areaFlag" @telCode="getTelCode"></z-m-area-phone>
+    <z-m-login-vali-alert
+        v-model="valiAlert"
+        :img-code="imgCode"
+        :scource="1"
+        @getSMS="getSMSCode"
+    ></z-m-login-vali-alert>
   </div>
   </transition>
 </template>
@@ -72,6 +90,8 @@ import ZMInfoLabel from '@/views/login/components/ZMInfoLabel'
 import ZMAreaPhone from '@/views/login/components/ZMAreaPhone'
 import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
+import { loginByPass, loginByValidateCode } from './api/index'
+import { encryptDes } from './common/index'
 export default {
   name: 'Login-index',
   mixins: [myMixins],
@@ -98,8 +118,17 @@ export default {
     // this.test()
   },
   methods: {
-    test() {
-
+	  /**
+	   * @info: 获取国家区号
+	   * @author: PengGeng
+	   * @date: 10/21/20-4:53 下午
+	   */
+	  getTelCode(val) {
+      this.telCode = val
+      console.log('this.telCode', this.telCode)
+    },
+	  getSMSCode(val, randCode) {
+		  this.handleClickGetValidate(1, val, randCode)
     },
 	  /**
 	   * @info: 取消登陆
@@ -144,8 +173,27 @@ export default {
 	   * @author: PengGeng
 	   * @date: 10/16/20-10:33 上午
 	   */
-	  handleClickLogin() {
-
+	  async handleClickLogin() {
+      const reqValiData = {
+	      country_code: this.telCode,
+	      mobile: this.telPhoneNum,
+	      code: this.validateNum
+      }
+      const reqPassData = {
+	      country_code: this.telCode,
+	      mobile: this.telPhoneNum,
+	      password: encryptDes(this.passwordVal)
+      }
+      const fetchAPIName = this.loginType === 0 ? loginByValidateCode(reqValiData) : loginByPass(reqPassData)
+      const resData = await fetchAPIName
+      if (resData && resData.code === 0){
+        this.$toast(resData.msg)
+        // 成功后移除定时器
+        clearInterval(this.timer)
+        // TODO 登陆成功，回倒原来的页面
+      } else {
+        this.$toast(resData.msg || '系统繁忙请稍后重试')
+      }
     },
 	  /**
 	   * @info: 忘记密码
