@@ -10,7 +10,7 @@ import Shelf from '@/views/shelf';
 // import CFavorites from '@/views/shelf/favorites/customize/tableList';
 import Ranking from '@/views/ranking';
 // import Topic from '@/views/topic';
-// import Discovery from '@/views/discovery';
+import Discovery from '@/views/discovery';
 export default [
   {
     path: '/',
@@ -74,7 +74,7 @@ export default [
     name: 'ranking',
     component: Ranking,
     meta: { title: '排行榜', transitionIn: 'slide-left', keepAlive: false }
-  }
+  },
   // {
   //   path: '/topic',
   //   name: 'topic',
@@ -87,10 +87,10 @@ export default [
   //   component: Comments,
   //   meta: { title: '评论', transitionIn: 'slide-left', keepAlive: false }
   // },
-  // {
-  //   path: '/discovery',
-  //   name: 'discovery',
-  //   component: Discovery,
-  //   meta: { title: '发现', transitionIn: 'slide-left', keepAlive: false }
-  // }
+  {
+    path: '/discovery',
+    name: 'discovery',
+    component: Discovery,
+    meta: { title: '发现', transitionIn: 'slide-left', keepAlive: false }
+  }
 ];
