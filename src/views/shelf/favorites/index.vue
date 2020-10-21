@@ -7,11 +7,21 @@
     </div>
     <div class="main-container">
       <div v-if="active === 'default'">
-        <collect-table type="myCollect" :dataList="collectList" v-if="collectList.length > 0" :class="collectList.length > 0 ? 'animation-active-in' : 'animation-active-out'"></collect-table>
-        <no-collect v-else :dataList="hotList" :class="collectList.length === 0 ? 'animation-active-in' : 'animation-active-out'"></no-collect>
+        <collect-table
+          type="myCollect"
+          :dataList="collectList"
+          v-if="collectList.length > 0"
+          :class="collectList.length > 0 ? 'animation-active-in' : 'animation-active-out'"
+        ></collect-table>
+
+        <no-collect
+          v-if="collectList.length === 0 && hotList.length > 0"
+          :dataList="hotList"
+          :class="collectList.length === 0 ? 'animation-active-in' : 'animation-active-out'"
+        ></no-collect>
       </div>
 
-      <div v-if="active === 'customize'" :class="active === 'customize' ? 'animation-active-in' : 'animation-active-out'">
+      <div v-if="active === 'customize'" class="animation-active-in">
         <customize></customize>
       </div>
     </div>

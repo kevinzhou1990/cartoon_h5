@@ -28,6 +28,7 @@ router.beforeEach((to, form, next) => {
   }
   next();
 });
+store.dispatch('getLoginStatus');
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

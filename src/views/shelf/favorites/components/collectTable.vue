@@ -38,6 +38,9 @@ export default {
   data() {
     return {
     };
+  },
+  mounted() {
+    this.$store.dispatch('getLoginStatus');
   }
 };
 </script>

@@ -13,10 +13,9 @@
         <span>首页</span>
       </div>
       <div
-          :class="actived === 'shelf' ? 'active' : ''"
+          :class="[actived === 'shelf' ? 'active' : '', isUpdate ? 'red-point' : '']"
           @click="switchTab('shelf')"
           @dblclick="handleDoubleScrollTOP"
-          class="red-point"
         >
         <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
         <span>书架</span>
@@ -45,7 +44,10 @@ export default {
     };
   },
   computed: {
-    ...mapState({ actived: (state) => state.main.actived })
+    ...mapState({
+      actived: (state) => state.main.actived,
+      isUpdate: (state) => state.status.hasUpdate
+    })
   },
   methods: {
     ...mapMutations(['updateActived']),
