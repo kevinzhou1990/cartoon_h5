@@ -1,45 +1,43 @@
 <template>
-  <div class="topic-page" :style="`${isApp ? 'padding-top:0':''}`">
-    <z-m-header titleText=" " :showRight="true" :hasBorder="true" v-if="!isApp">
+  <div class="topic-page" :style="`${'padding-top:0'}`">
+    <z-m-header titleText=" " :showRight="true" :hasBorder="true">
       <div slot="right" class="topic-share">
         <SvgIcon iconClass="share_ab" size="default" />
       </div>
     </z-m-header>
-    <div class="topic-title">{{special.title}}</div>
+    <div class="topic-title">{{ special.title }}</div>
     <section class="topic-author">
       <div class="topic-author-info">
         <img class="avatar" :src="special.avatar" alt="头像" />
         <div>
-          <div class="topic-author-name">{{special.nickname}}</div>
-          <div class="topic-gray">{{special.created_at_text}}</div>
+          <div class="topic-author-name">{{ special.nickname }}</div>
+          <div class="topic-gray">{{ special.created_at_text }}</div>
         </div>
       </div>
       <div class="topic-gray topic-read">
         <svg-icon icon-class="view_ba" size="small" />
-        {{special.read_num_text}}阅读
+        {{ special.read_num_text }}阅读
       </div>
     </section>
     <article v-html="special.detail"></article>
-    <div class="topic-zan" ref="tp" v-if="!isApp">
-      <span>
-        <i />赞一个
-      </span>
+    <div class="topic-zan" ref="tp">
+      <span> <i />赞一个 </span>
     </div>
-    <div class="topic-comment" v-if="!isApp && commentsList.length">
-      <div class="topic-comment-title">专题评论（{{count}}）</div>
+    <div class="topic-comment" v-if="commentsList.length">
+      <div class="topic-comment-title">专题评论（{{ count }}）</div>
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
           <div>
-            <div class="topic-comment-user">{{item.nickname || '默认'}}</div>
-            <div class="topic-comment-content">{{item.data_title}}</div>
+            <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
+            <div class="topic-comment-content">{{ item.data_title }}</div>
             <div class="topic-gray">
-              <span>{{item.created_at_text}}</span>
+              <span>{{ item.created_at_text }}</span>
               <span class="option">
                 <svg-icon icon-class="like_ba" size="small" />
-                {{item.praise_num}}
+                {{ item.praise_num }}
                 <svg-icon icon-class="more_bc" size="small" />
               </span>
             </div>
@@ -47,7 +45,7 @@
         </li>
       </ul>
     </div>
-    <div class="topic-tips" v-if="!isApp">
+    <div class="topic-tips">
       <span ref="nextPage">不说点什么吗？点它 →</span>
       <div class="write-comment">
         <svg-icon size="default" icon-class="comment_aa" />
@@ -77,7 +75,6 @@ export default {
         created_at_text: 1597999717
       },
       commentsList: [],
-      isApp: false,
       page: 1,
       totalPage: 1,
       count: 1,
@@ -89,7 +86,6 @@ export default {
     const topic = await getTopic(this.$route.query.id);
     let special = { ...this.special, ...topic.data };
     this.special = special;
-    this.isApp = navigator.userAgent.search('isApp') !== -1;
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   methods: {
@@ -111,7 +107,6 @@ export default {
     async handlerScroll() {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
-      // console.log(this.$refs.tp);
       if (t < innerHeight) {
         await this.getComments(this.page);
       }

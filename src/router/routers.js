@@ -9,7 +9,7 @@ import Mine from '@/views/mine';
 import Shelf from '@/views/shelf';
 // import CFavorites from '@/views/shelf/favorites/customize/tableList';
 import Ranking from '@/views/ranking';
-// import Topic from '@/views/topic';
+import Topic from '@/views/topic';
 import Discovery from '@/views/discovery';
 export default [
   {
@@ -75,12 +75,12 @@ export default [
     component: Ranking,
     meta: { title: '排行榜', transitionIn: 'slide-left', keepAlive: false }
   },
-  // {
-  //   path: '/topic',
-  //   name: 'topic',
-  //   component: Topic,
-  //   meta: { title: '专题', transitionIn: 'slide-left', keepAlive: false }
-  // },
+  {
+    path: '/topic',
+    name: 'topic',
+    component: Topic,
+    meta: { title: '专题', transitionIn: 'slide-left', keepAlive: false }
+  },
   // {
   //   path: '/comments',
   //   name: 'comments',
