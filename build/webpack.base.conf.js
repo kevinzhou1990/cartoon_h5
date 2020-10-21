@@ -3,7 +3,7 @@ const path = require('path');
 const utils = require('./utils');
 const config = require('../config');
 const webpack = require('webpack');
-// const vueLoaderConfig = require('./vue-loader.conf');
+const vueLoaderConfig = require('./vue-loader.conf');
 
 // ssr相关插件和配置
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -80,11 +80,11 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        // options: vueLoaderConfig
-        options: {
-          scss: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-          sass: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
-        }
+        options: vueLoaderConfig
+        // options: {
+        //   scss: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        //   sass: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
+        // }
       },
       {
         test: /\.js$/,
