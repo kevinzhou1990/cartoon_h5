@@ -111,7 +111,14 @@ const router = new Router({
 		  meta: {
         title: '搜索结果', transitionIn: 'slide-left', keepAlive: false
 		  }
-	  },
+	  }, {
+      path: '/download',
+      name: 'AppDownload',
+      component: () => import('@/views/download'),
+      meta: {
+        title: '下载引导页', keepAlive: false
+      }
+    },
 	  ...loginRouters
   ]
 });
