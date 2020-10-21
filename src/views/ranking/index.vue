@@ -78,8 +78,7 @@ export default {
     }
   },
   asyncData({ store, route }) {
-    store.dispatch('getRankingList');
-    store.dispatch('getComicsList', route.query.rank || 1);
+    return Promise.all([store.dispatch('getRankingList'), store.dispatch('getComicsList', route.query.rank || 1)]);
   },
   data() {
     return {
@@ -106,8 +105,11 @@ export default {
       // location.reload();
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.rank = this.activeRank;
-      // this.$router.replace({ path: this.$route.path, query: query });
-      document.scrollingElement.scrollTop = 0;
+      setTimeout(() => {
+        console.log(this.$router, '==================');
+        this.$router.replace({ path: this.$route.path, query: query }).catch((err) => err);
+        document.scrollingElement.scrollTop = 0;
+      }, 300);
     },
     handlerScroll() {
       // 处理滚动
