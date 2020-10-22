@@ -2,7 +2,7 @@ import Home from '@/views/home';
 // import Comments from '@/views/comments';
 // import Detail from '@/views/detail';
 // import Test from '@/views/detail/indexTest';
-// import Recommend from '@/views/recommend';
+import Recommend from '@/views/recommend';
 import Main from '@/views/main';
 // import Reader from '@/views/reader';
 import Mine from '@/views/mine';
@@ -51,12 +51,12 @@ export default [
   //   component: Reader,
   //   meta: { title: '漫画阅读', keepAlive: false }
   // },
-  // {
-  //   path: '/recommend',
-  //   name: 'recommend',
-  //   component: Recommend,
-  //   meta: { title: '更多推荐', transitionIn: 'slide-left', keepAlive: false }
-  // },
+  {
+    path: '/recommend',
+    name: 'recommend',
+    component: Recommend,
+    meta: { title: '更多推荐', transitionIn: 'slide-left', keepAlive: false }
+  },
   // {
   //   path: '/detail',
   //   name: 'detail',

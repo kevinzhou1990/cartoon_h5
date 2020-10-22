@@ -19,7 +19,7 @@ export function createStore() {
   if (env.isClient()) {
     const createPersisted = createPersistedState({
       storage: sessionStorage,
-      paths: ['reader', 'recommend', 'token', 'collect']
+      paths: ['reader', 'recommend', 'token', 'collect', 'home']
     });
     store = new Vuex.Store({
       modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic },
