@@ -90,13 +90,20 @@ export default {
     };
   },
   mounted() {
-    if (!this.activeRank) {
-      this.activeRank = this.rankingList[0].rank_id;
-      this.activeName = this.rankingList[0].name;
-      this.setQuery();
-    }
+    this.setQuery();
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
+    const rank = this.$route.query.rank || this.rankingList[0].rank_id;
+    const list = this.rankingList;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].rank_id === rank) this.activeName = list[i].name;
+    }
+    console.log(this.activeName);
+    if (!this.activeName) {
+      this.activeName = this.rankingList[0].name;
+    }
+    this.activeRank = rank;
+    this.$store.dispatch('getRankingComicsList', this.activeRank);
   },
   computed: {
     comicsList() {
@@ -116,8 +123,8 @@ export default {
     //获取排行分类对应漫画
     getRankingByCate() {
       const r = this.$store.dispatch('getRankingComicsList', this.activeRank);
-      console.log(r, '++++++');
       r.then((res) => {
+        console.log(res, '------');
         if (res.code === 0) {
           // 切换动画效果
           const listClass = this.$refs.comicsList.classList;
