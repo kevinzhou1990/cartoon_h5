@@ -20,7 +20,7 @@ const ranking = {
       return getRankingCate().then(res => {
         if (res.code === 0) {
           commit('UPDATE_RANKING_LIST', res.data.data);
-          // dispatch('getRankingComicsList', res.data.data[0].rank_id);
+          dispatch('getRankingComicsList', res.data.data[0].rank_id);
         }
         return res;
       });
