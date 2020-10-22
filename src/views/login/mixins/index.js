@@ -76,6 +76,15 @@ export default {
 		  console.log('select phone area code')
 	  },
 	  /**
+	   * @info: 获取国家区号
+	   * @author: PengGeng
+	   * @date: 10/21/20-4:53 下午
+	   */
+	  getTelCode(val) {
+		  this.telCode = val
+		  console.log('this.telCode', this.telCode)
+	  },
+	  /**
 	   * @info: 获取验证码
 	   * @author: PengGeng
 	   * @date: 10/16/20-10:29 上午

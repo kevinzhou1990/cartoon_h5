@@ -76,6 +76,7 @@ export default {
       const resData = await getCountryCode()
       if (resData && resData.code === 0) {
         this.dataList = resData.data
+	      this.$emit('telCode', this.dataList[0].code)
         console.log(resData.data)
       } else {
         this.$toast(resData.msg || '系统出错,请稍后重试')

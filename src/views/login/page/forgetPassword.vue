@@ -71,7 +71,7 @@
           </div>
         </div>
       </template>
-      <z-m-area-phone v-model="areaFlag"></z-m-area-phone>
+      <z-m-area-phone v-model="areaFlag" @telCode="getTelCode"></z-m-area-phone>
       <z-m-login-vali-alert
           v-model="valiAlert"
           :img-code="imgCode"
@@ -126,7 +126,8 @@ export default {
       const reqData = {
 			  country_code: this.telCode,
 			  mobile: this.telPhoneNum,
-        code: this.validateNum
+        code: this.validateNum,
+	      source: 2
       }
       const resData = await checkValidateCode(reqData)
       if (resData && resData.code === 0){

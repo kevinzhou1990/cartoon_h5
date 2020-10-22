@@ -43,16 +43,26 @@ service.interceptors.request.use(
 );
 service.interceptors.response.use(
   response => {
-    // 请求200的正常返回
-    if (response.data.code === 1003) {
-      // TODO 去重新请求token
-      return tokenError('get', response);
-    } else if (response.data.code === 1004) {
-      // TODO 去刷新token
-      return tokenError('refresh', response);
-    } else {
-      return response.data;
-    }
+    const resCode = response.data.code
+	  // 1003 Token错误; 1004 Token过期; 1209 未登陆 1205 账号已在其他设备登录
+	  switch (resCode) {
+		  case 1003:
+			  // 去重新请求token
+			  return tokenError('get', response);
+		  case 1004:
+			  // 去刷新token
+			  return tokenError('refresh', response);
+		  case 1209:
+        // 未登陆的状态
+			  console.log('未登陆。。。。。')
+        return
+      case 1204:
+	      // 异地登陆
+	      console.log('异地登陆。。。。。')
+        return
+		  case 0:
+			  return response.data;
+	  }
   },
   error => {
     Promise.reject(error);

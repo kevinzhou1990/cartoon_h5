@@ -118,15 +118,6 @@ export default {
     // this.test()
   },
   methods: {
-	  /**
-	   * @info: 获取国家区号
-	   * @author: PengGeng
-	   * @date: 10/21/20-4:53 下午
-	   */
-	  getTelCode(val) {
-      this.telCode = val
-      console.log('this.telCode', this.telCode)
-    },
 	  getSMSCode(val, randCode) {
 		  this.handleClickGetValidate(1, val, randCode)
     },
@@ -190,6 +181,7 @@ export default {
         this.$toast(resData.msg)
         // 成功后移除定时器
         clearInterval(this.timer)
+        this.$store.commit('SET_USERS_INFO', resData.data.user || {})
         // TODO 登陆成功，回倒原来的页面
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试')
@@ -209,6 +201,10 @@ export default {
 	  ZMInfoLabel,
 	  ZMAreaPhone,
 	  ZMLoginValiAlert
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log()
+    next()
   }
 }
 </script>

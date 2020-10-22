@@ -97,3 +97,14 @@ export const checkCaptcha = function (data) {
 	  data
   })
 }
+/**
+ * @info: 获取用户协议
+ * @author: PengGeng
+ * @date: 10/22/20-10:24 上午
+ */
+export const getAgreement = function (type) {
+  return request({
+    url: `/api/agreement/${type}`,
+	  method: 'get'
+  })
+}
