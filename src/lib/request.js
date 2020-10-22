@@ -1,7 +1,11 @@
 import axios from 'axios';
+import Router from '../router/index';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
 import store from '@/store';
+// import Toast from '@/common/plugin/toast';
+// import Vue from 'vue'
+import Dialog from '@/common/plugin/dialog';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -44,6 +48,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const resCode = response.data.code
+
 	  // 1003 Token错误; 1004 Token过期; 1209 未登陆 1205 账号已在其他设备登录
 	  switch (resCode) {
 		  case 1003:
@@ -52,15 +57,17 @@ service.interceptors.response.use(
 		  case 1004:
 			  // 去刷新token
 			  return tokenError('refresh', response);
-		  case 1209:
-        // 未登陆的状态
-			  console.log('未登陆。。。。。')
-        return
-      case 1204:
-	      // 异地登陆
-	      console.log('异地登陆。。。。。')
-        return
-		  case 0:
+		  // 针对 登陆异常状况处理
+		  // case 1209:
+		  // // 未登陆的状态
+      //   console.log('未登陆。。。。。')
+		  //   Router.replace('/ZMLogin')
+      //   return
+      // case 1204:
+	    //   // 异地登陆
+	    //   console.log('异地登陆。。。。。')
+      //   return
+		  default:
 			  return response.data;
 	  }
   },

@@ -16,6 +16,13 @@ import Discovery from '@/views/discovery';
 import store from '../store';
 import loginRouters from '@/views/login/router'
 Vue.use(Router);
+
+// 解决路由跳转问题报错修复
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 const router = new Router({
   mode: 'history',
   routes: [

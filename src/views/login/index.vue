@@ -165,6 +165,17 @@ export default {
 	   * @date: 10/16/20-10:33 上午
 	   */
 	  async handleClickLogin() {
+		  if (this.loginType === 0) {
+			  if (!this.telPhoneNum || !this.validateNum) {
+				  this.$toast('手机号或验证码不能为空')
+				  return
+			  }
+      } else {
+			  if (!this.telPhoneNum || !this.passwordVal) {
+				  this.$toast('手机号或密码不能为空')
+				  return
+			  }
+      }
       const reqValiData = {
 	      country_code: this.telCode,
 	      mobile: this.telPhoneNum,
@@ -203,8 +214,9 @@ export default {
 	  ZMLoginValiAlert
   },
   beforeRouteEnter(to, from, next) {
-    console.log()
-    next()
+    next(vm => {
+      vm.$store.commit('SET_LAST_ROUTER', to.path)
+    })
   }
 }
 </script>
