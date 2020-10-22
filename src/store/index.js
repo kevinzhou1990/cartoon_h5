@@ -10,6 +10,7 @@ import discovery from './modules/discovery';
 import collect from './modules/collect';
 import createPersistedState from 'vuex-persistedstate';
 import ranking from './modules/ranking';
+import topic from './modules/topic';
 
 Vue.use(Vuex);
 
@@ -21,7 +22,7 @@ export function createStore() {
       paths: ['reader', 'recommend', 'token', 'collect']
     });
     store = new Vuex.Store({
-      modules: { main, home, reader, recommend, token, discovery, collect, ranking },
+      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic },
       state: {},
       mutations: {},
       actions: {},
@@ -29,7 +30,7 @@ export function createStore() {
     });
   } else {
     store = new Vuex.Store({
-      modules: { main, home, reader, recommend, token, discovery, collect, ranking },
+      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic },
       state: {},
       mutations: {},
       actions: {}

@@ -24,7 +24,7 @@
       <span> <i />赞一个 </span>
     </div>
     <div class="topic-comment" v-if="commentsList.length">
-      <div class="topic-comment-title">专题评论（{{ count }}）</div>
+      <div class="topic-comment-title">专题评论（{{ pageInfo.count }}）</div>
       <ul>
         <li v-for="item in commentsList" :key="item.id">
           <div>
@@ -32,7 +32,7 @@
           </div>
           <div>
             <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
-            <div class="topic-comment-content">{{ item.data_title }}</div>
+            <div class="topic-comment-content">{{ item.content }}</div>
             <div class="topic-gray">
               <span>{{ item.created_at_text }}</span>
               <span class="option">
@@ -57,24 +57,12 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
-import { getTopic, getTopicComments } from '@/common/api/topic';
 import { throttle } from '@/lib/utils';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
   data() {
     return {
-      special: {
-        special_id: 1,
-        title: '开了个汉服店的日常，艾特戈壁电玩店失败第4天，求艾特教学',
-        intro: '简介',
-        can_comment: 1,
-        detail: '',
-        praise_num: 121212123121212,
-        comment_num: 12988766212,
-        created_at_text: 1597999717
-      },
-      commentsList: [],
       page: 1,
       totalPage: 1,
       count: 1,
@@ -82,33 +70,31 @@ export default {
       defaultHead: 'this.src="' + require('./img/default_head.png') + '"'
     };
   },
-  async mounted() {
-    const topic = await getTopic(this.$route.query.id);
-    let special = { ...this.special, ...topic.data };
-    this.special = special;
+  computed: {
+    special() {
+      return this.$store.state.topic.special;
+    },
+    commentsList() {
+      return this.$store.state.topic.commentsList;
+    },
+    pageInfo() {
+      return this.$store.state.topic.pageInfo;
+    }
+  },
+  mounted() {
+    console.log(this.commentsList, 'mounted');
     window.addEventListener('scroll', this.scrollHandler, false);
   },
+  asyncData({ store, route }) {
+    return store.dispatch('getTopic', route.query.id);
+  },
   methods: {
-    async getComments(page) {
-      if (page > this.totalPage) {
-        return false;
-      }
-      let comments = await getTopicComments(this.$route.query.id, page);
-      let list = comments.data.data;
-      if (page === 1) {
-        this.commentsList = list;
-      } else {
-        this.commentsList = [...this.commentsList, ...list];
-      }
-      this.totalPage = comments.data.total_pages;
-      this.count = comments.data.count;
-      this.page += 1;
-    },
     async handlerScroll() {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
       if (t < innerHeight) {
-        await this.getComments(this.page);
+        this.$store.dispatch('getComments', { id: this.$route.query.id, page: this.pageInfo.page });
+        // await this.getComments(this.page);
       }
     }
   },
