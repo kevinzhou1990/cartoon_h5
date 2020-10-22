@@ -57,7 +57,7 @@ const home = {
               recList = list;
             }
             let recData = {};
-            recData = recList.map(item => {
+            recList.map(item => {
               if (item.rec_id > 1) {
                 recData[item.rec_id] = item.name;
               }
