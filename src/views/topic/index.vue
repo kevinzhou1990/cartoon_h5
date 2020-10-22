@@ -1,6 +1,6 @@
 <template>
-  <div class="topic-page" :style="`${'padding-top:0'}`">
-    <z-m-header titleText=" " :showRight="true" :hasBorder="true">
+  <div class="topic-page">
+    <z-m-header :titleText="titleText" :showRight="true" :hasBorder="true">
       <div slot="right" class="topic-share">
         <SvgIcon iconClass="share_ab" size="default" />
       </div>
@@ -19,25 +19,26 @@
         {{ special.read_num_text }}阅读
       </div>
     </section>
-    <article v-html="special.detail"></article>
-    <div class="topic-zan" ref="tp">
-      <span> <i />赞一个 </span>
+    <article v-html="special.detail" ref="article"></article>
+    <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
+      <span> <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }} </span>
     </div>
-    <div class="topic-comment" v-if="commentsList.length">
-      <div class="topic-comment-title">专题评论（{{ pageInfo.count }}）</div>
-      <ul>
+    <div class="topic-comment">
+      <div class="topic-comment-title">专题评论（{{ this.pageInfo.count }}）</div>
+      <ul v-if="commentsList.length">
         <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
           <div>
             <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
+            <div class="top-flag" v-if="item.is_top">置顶</div>
             <div class="topic-comment-content">{{ item.content }}</div>
             <div class="topic-gray">
               <span>{{ item.created_at_text }}</span>
               <span class="option">
                 <svg-icon icon-class="like_ba" size="small" />
-                {{ item.praise_num }}
+                {{ item.praise_num_text }}
                 <svg-icon icon-class="more_bc" size="small" />
               </span>
             </div>
@@ -46,8 +47,8 @@
       </ul>
     </div>
     <div class="topic-tips">
-      <span ref="nextPage">不说点什么吗？点它 →</span>
-      <div class="write-comment">
+      <span ref="nextPage">{{ special.can_comment === 1 ? '不说点什么吗？点它 →' : '当前专题无法评论哦～' }}</span>
+      <div class="write-comment" v-if="showAddComment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
     </div>
@@ -57,17 +58,20 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
+import { getTopicComments } from '@/common/api/topic';
 import { throttle } from '@/lib/utils';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
+  asyncData({ store, route }) {
+    return store.dispatch('getTopic', route.query.id);
+  },
   data() {
     return {
-      page: 1,
-      totalPage: 1,
-      count: 1,
       scrollHandler: throttle(this.handlerScroll, 100, this),
-      defaultHead: 'this.src="' + require('./img/default_head.png') + '"'
+      defaultHead: 'this.src="' + require('./img/default_head.png') + '"',
+      titleText: '',
+      showAddComment: false
     };
   },
   computed: {
@@ -81,20 +85,47 @@ export default {
       return this.$store.state.topic.pageInfo;
     }
   },
-  mounted() {
-    console.log(this.commentsList, 'mounted');
+  async mounted() {
+    setTimeout(() => {
+      if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
+        this.showAddComment = true;
+      }
+    }, 300);
     window.addEventListener('scroll', this.scrollHandler, false);
   },
-  asyncData({ store, route }) {
-    return store.dispatch('getTopic', route.query.id);
-  },
   methods: {
+    async getComments(page) {
+      if (page > this.totalPage) {
+        return false;
+      }
+      let comments = await getTopicComments(this.$route.query.id, page);
+      let list = comments.data.data;
+      if (page === 1) {
+        this.commentsList = list;
+      } else {
+        this.commentsList = [...this.commentsList, ...list];
+      }
+      this.totalPage = comments.data.total_pages;
+      this.count = comments.data.count;
+      this.page += 1;
+    },
     async handlerScroll() {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
-      if (t < innerHeight) {
+      if (t <= innerHeight) {
         this.$store.dispatch('getComments', { id: this.$route.query.id, page: this.pageInfo.page });
-        // await this.getComments(this.page);
+      }
+      if (document.scrollingElement.scrollTop > 86) {
+        this.titleText = this.special.title;
+      } else {
+        this.titleText = '';
+      }
+      // 是否显示添加评论按钮
+      const articleHeight = this.$refs.article.clientHeight;
+      if (document.scrollingElement.scrollTop - articleHeight > -370 && this.special.can_comment === 1) {
+        this.showAddComment = true;
+      } else {
+        this.showAddComment = false;
       }
     }
   },
@@ -113,7 +144,6 @@ $DEEPGRAY: #999;
   font-family: 'pingfang-blod';
   padding-top: 44px;
   color: $DARK;
-  background: #f5f5f5;
   > * {
     background: #fff;
   }
@@ -121,6 +151,7 @@ $DEEPGRAY: #999;
     width: 36px;
     height: 36px;
     margin-right: 8px;
+    border-radius: 18px;
   }
   .topic-title {
     font-size: 18px;
@@ -141,6 +172,10 @@ $DEEPGRAY: #999;
   }
   .topic-author-name {
     color: $GREEN;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .topic-gray {
     color: $GRAY;
@@ -153,6 +188,21 @@ $DEEPGRAY: #999;
   .topic-zan {
     padding: 32px 0;
     text-align: center;
+    &.has-praise {
+      span {
+        background: #f5f5f5;
+        color: $GRAY;
+      }
+      i {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+        vertical-align: middle;
+        background: url('../../assets/img/like_ab.png') 0 0 no-repeat transparent;
+        background-size: 100%;
+        margin: -4px 8px 0 0;
+      }
+    }
     i {
       display: inline-block;
       height: 24px;
@@ -181,7 +231,7 @@ $DEEPGRAY: #999;
   }
   .topic-comment {
     padding: 16px;
-    margin-top: 8px;
+    border-top: 8px solid #f5f5f5;
     .topic-gray {
       display: flex;
       justify-content: space-between;
@@ -194,6 +244,7 @@ $DEEPGRAY: #999;
     }
     li {
       display: flex;
+      position: relative;
       > div {
         &:last-child {
           flex: 1 1;
@@ -204,6 +255,17 @@ $DEEPGRAY: #999;
       color: $DEEPGRAY;
       font-size: 12px;
       margin-bottom: 8px;
+    }
+    .top-flag {
+      position: absolute;
+      top: -2px;
+      right: 0;
+      padding: 2px 8px;
+      transform: scale(0.84);
+      font-family: 'pingfang-blod';
+      color: #ffffff;
+      background: #12e079;
+      border-radius: 4px;
     }
     .topic-comment-content {
       font-family: 'pingfang-regular';
