@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import Button from '@/common/plugin/button';
-import Dialog from '@/common/plugin/dialog';
+// import Dialog from '@/common/plugin/dialog';
 import store from '@/store';
 import Toast from '@/common/plugin/toast';
 import 'lib-flexible';
@@ -18,7 +18,7 @@ import 'mint-ui/lib/style.css';
 // swpier组件
 Vue.use(MintUI);
 Vue.use(Button);
-Vue.use(Dialog);
+// Vue.use(Dialog);
 Vue.prototype.Toast = Toast;
 Vue.config.productionTip = false;
 

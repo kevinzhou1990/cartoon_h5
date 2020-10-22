@@ -114,7 +114,8 @@ export default {
 			  })
 			  console.log(this.tabListData)
 			  sessionStorage.setItem('SET_REC_DATA', JSON.stringify(tabListData));
-			  this.$store.commit('SET_REC_DATA', tabListData);
+        this.$store.commit('SET_REC_DATA', tabListData);
+        console.log(tabListData, '======')
 		  } else {
 			  this.$toast(resData.msg)
 		  }
