@@ -77,7 +77,7 @@ export default {
   mixins: [myMixins],
   components: { ZMHeader, SvgIcon, noDataView },
   asyncData({ store, route }) {
-    return store.dispatch('getRankingList');
+    return store.dispatch('getRankingList', route.query.rank);
   },
   data() {
     return {
