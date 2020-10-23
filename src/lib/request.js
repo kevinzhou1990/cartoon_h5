@@ -1,11 +1,9 @@
 import axios from 'axios';
-import Router from '../router/index';
+// import Router from '../router/index';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
 import store from '@/store';
-// import Toast from '@/common/plugin/toast';
-// import Vue from 'vue'
-import Dialog from '@/common/plugin/dialog';
+// import Dialog from '@/common/plugin/dialog';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时

@@ -33,7 +33,7 @@
                     class="login-content-b-va"
                     :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown }"
                     @click.stop="handleClickGetValidate(1)">
-          {{ isShowCountDown ? times: '获取验证码' }}
+                {{ validateSMSText }}
         </span>
               </div>
               <div class="login-content-b zm-b-radius m-8" v-else key="password">
@@ -128,7 +128,9 @@ export default {
 	   */
 	  handleClickClose() {
       this.show = false
-      console.log('handle click close....')
+      const BackRouter = this.$store.state.login.backRouter || '/home'
+      this.$router.push(BackRouter)
+      console.log('handle click close....', BackRouter)
     },
 	  /**
 	   * @info: 切换登陆类型
@@ -189,6 +191,7 @@ export default {
       const fetchAPIName = this.loginType === 0 ? loginByValidateCode(reqValiData) : loginByPass(reqPassData)
       const resData = await fetchAPIName
       if (resData && resData.code === 0){
+        this.countTimeSMS = 0
         this.$toast(resData.msg)
         // 成功后移除定时器
         clearInterval(this.timer)
@@ -204,7 +207,12 @@ export default {
 	   * @date: 10/17/20-10:33 上午
 	   */
     goToForgetPassword() {
-      this.$router.push('/ZM/forgetPassword')
+      this.$router.push({
+        path: '/ZM/forgetPassword',
+        query: {
+          SOURCE: 2
+        }
+      })
     }
   },
   components: {
@@ -214,8 +222,9 @@ export default {
 	  ZMLoginValiAlert
   },
   beforeRouteEnter(to, from, next) {
+    console.log('from', from)
     next(vm => {
-      vm.$store.commit('SET_LAST_ROUTER', to.path)
+      vm.$store.commit('SET_LAST_ROUTER', from.path)
     })
   }
 }
