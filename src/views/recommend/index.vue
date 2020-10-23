@@ -25,6 +25,7 @@
           </mt-loadmore>
         </section>
         <div v-else>
+          <!-- 楼层数据加载 -->
           <z-m-rec-loading v-if="isRecLoading"></z-m-rec-loading>
           <z-m-not-network></z-m-not-network>
         </div>
@@ -42,7 +43,6 @@ import ZMList from './components/ZMList';
 import ZMswiper from '@/common/components/ZMswiper';
 import ZMRecLoading from '@/views/recommend/components/ZMRecLoading';
 import ZMNoData from '@/common/components/ZMNoData';
-import { getMoreComics } from '@/common/api/home';
 const defaultBanner = require('@/assets/img/defaultBanner.png');
 export default {
   name: 'recommentd',
@@ -66,13 +66,10 @@ export default {
       blockBb: require('./images/block_bb.png'),
       blockBa: require('./images/block_ba.png'),
       showDataFlag: false, // 显示是否显示没有网络的情况
-      dataList: [],
       isRecLoading: false,
       adBannerList: [defaultBanner, defaultBanner, defaultBanner], // 广告
       bannerHeight: 86,
       currentPage: 1,
-      totalPages: 0,
-      pageSize: 30,
       allLoaded: false,
       wrapperHeight: 0
     };
@@ -80,12 +77,24 @@ export default {
   computed: {
     tabListData() {
       return this.$store.state.home.recData;
+    },
+    dataList() {
+      return this.$store.state.recommend.dataList;
+    },
+    pageInfo() {
+      return this.$store.state.recommend.pageInfo;
+    },
+    SEC_ID() {
+      return this.$store.state.recommend.SEC_ID;
     }
+  },
+  asyncData({ store, route }) {
+    return store.dispatch('getRecommendList', { secId: route.query.SEC_ID || 1, pageInfo: { page: 1, page_size: 30 } });
   },
   mounted() {
     this.acticeIndex = Number(this.$route.query.SEC_ID) || 1;
-    this.tabListData = JSON.parse(sessionStorage.getItem('SET_REC_DATA'));
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true';
+    this.$store.commit('SET_REC_DATA', JSON.parse(sessionStorage.getItem('vuex')).home.recData);
     this.$nextTick(() => {
       this.wrapperHeight = document.documentElement.clientHeight - 90;
     });
@@ -99,24 +108,20 @@ export default {
     async getData() {
       const reqData = {
         page: this.currentPage,
-        page_size: this.pageSize
+        page_size: this.pageInfo.page_size
       };
       this.isRecLoading = true;
-      const resData = await getMoreComics(this.acticeIndex, reqData);
-      if (resData && resData.code === 0 && resData.data) {
-        this.isRecLoading = false;
-        let cartoonList = resData.data.cartoon_list || [];
-        this.dataList.push(...cartoonList);
-        this.totalPages = resData.data.total_pages || 0;
-        if (this.currentPage >= this.totalPages) {
-          setTimeout(() => {
-            this.allLoaded = true;
-          }, 200);
+      const res = this.$store.dispatch('getRecommendList', { secId: this.SEC_ID || 1, pageInfo: reqData });
+      res.then((resData) => {
+        if (res.code === 0) {
+          this.isRecLoading = false;
+          if (this.currentPage >= this.pageInfo.totalPage) {
+            setTimeout(() => {
+              this.allLoaded = true;
+            }, 200);
+          }
         }
-        // this.adBannerList = resData.data.ad_list || []
-      } else {
-        this.$toast(resData.msg || '系统繁忙,请稍后重试');
-      }
+      });
     },
     /**
      * @info: 点击切换展示模式
@@ -134,23 +139,22 @@ export default {
      * @date: 9/4/20-4:54 下午
      */
     getComicsList(val) {
-      console.log('getComicsList.....', val);
+      // console.log('getComicsList.....', val);
       this.allLoaded = false;
       this.$refs.recommendList.scrollTop = 0;
       this.acticeIndex = Number(val);
       this.$store.commit('UPDATE_SEC_ID', this.acticeIndex);
       this.currentPage = 1;
-      this.dataList = [];
       this.getData();
     },
     nextPage() {
       setTimeout(() => {
-        if (this.totalPages === 1) return;
-        if (this.currentPage === this.totalPages) {
+        if (this.pageInfo.totalPage === 1) return;
+        if (this.currentPage === this.pageInfo.totalPage) {
           this.allLoaded = true;
           return;
         }
-        console.log('触发了。。。', this.currentPage, this.totalPages);
+        console.log('触发了。。。', this.currentPage, this.pageInfo.totalPages);
         this.currentPage++;
         this.getData();
         this.$refs.loadmore.onTopLoaded();
