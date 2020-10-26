@@ -29,7 +29,7 @@
       </div>
       <span class="collect-content-line zm-b-l"></span>
       <div class="collect-content-right" @click.stop="handleCollect">
-        <img :src="collected" alt width="24px" height="24px" />
+        <img :src="zmCollectData.hasFavor === 0 ? collected:collect" alt width="24px" height="24px" />
         <!--        <span style="background: url('../images/save_collect.png') no-repeat; height: 24px; width: 24px; z-index: 9;"></span>-->
         <span class="collect-content-right-c">收藏</span>
       </div>

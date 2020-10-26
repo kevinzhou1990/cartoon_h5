@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import Router from '../router/index';
+import Router from '../router/index';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
 import store from '@/store';
@@ -56,11 +56,11 @@ service.interceptors.response.use(
 			  // 去刷新token
 			  return tokenError('refresh', response);
 		  // 针对 登陆异常状况处理
-		  // case 1209:
-		  // // 未登陆的状态
-      //   console.log('未登陆。。。。。')
-		  //   Router.replace('/ZMLogin')
-      //   return
+		  case 1209:
+		  // 未登陆的状态
+        console.log('未登陆。。。。。')
+		    Router.replace('/ZMLogin')
+        return
       // case 1204:
 	    //   // 异地登陆
 	    //   console.log('异地登陆。。。。。')
