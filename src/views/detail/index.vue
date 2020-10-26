@@ -136,11 +136,12 @@ export default {
   },
   methods: {
     /**
-     * @info: TODO 点击了分享
+     * @info: 点击了分享
      * @author: PengGeng
      * @date: 8/11/20-3:38 下午
      */
     handleClickShare() {
+	    this.$router.push('/download')
       console.log('click go to share....');
     },
     /**

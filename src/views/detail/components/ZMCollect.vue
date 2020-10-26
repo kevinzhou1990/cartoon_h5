@@ -95,6 +95,7 @@ export default {
 	   * @date: 8/26/20-10:38 上午
 	   */
 	  handleCollect() {
+		  this.$router.push('/download')
       console.log('handle click collect')
     }
   }

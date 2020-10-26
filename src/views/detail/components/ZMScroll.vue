@@ -198,6 +198,7 @@ export default {
      * @date: 8/17/20-6:24 下午
      */
     handleDownload() {
+	    this.$router.push('/download')
       console.log('download in 。。。');
     },
     /**
