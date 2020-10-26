@@ -11,6 +11,7 @@ import collect from './modules/collect';
 import createPersistedState from 'vuex-persistedstate';
 import ranking from './modules/ranking';
 import topic from './modules/topic';
+import comments from './modules/comments';
 
 Vue.use(Vuex);
 
@@ -19,10 +20,10 @@ export function createStore() {
   if (env.isClient()) {
     const createPersisted = createPersistedState({
       storage: sessionStorage,
-      paths: ['reader', 'recommend', 'token', 'collect', 'home']
+      paths: ['reader', 'recommend', 'token', 'collect', 'home', 'comments']
     });
     store = new Vuex.Store({
-      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic },
+      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic, comments },
       state: {},
       mutations: {},
       actions: {},
@@ -30,7 +31,7 @@ export function createStore() {
     });
   } else {
     store = new Vuex.Store({
-      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic },
+      modules: { main, home, reader, recommend, token, discovery, collect, ranking, topic, comments },
       state: {},
       mutations: {},
       actions: {}

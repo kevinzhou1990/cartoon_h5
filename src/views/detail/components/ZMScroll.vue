@@ -1,7 +1,7 @@
 <template>
   <div class="main" ref="remarkScroll">
     <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
-    <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>
+    <div class="main-content" :style="{ 'margin-top': 265 + textHeight + 'px' }"></div>
     <div class="main-catalogue box-shad" v-if="detailData && detailData.is_online && !detailData.is_coming">
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt />
@@ -12,32 +12,16 @@
         <img class="left-dn" src="../images/catalog-icon.png" alt />
         <span class="left-text">目录</span>
       </div>
-    </div >
+    </div>
     <div class="main-catalogue box-shad no-time" v-else>
-        <div class="new-comics">{{ isOnlineText.text }}</div>
-        <div class="new-comics-time" :style="{color: isOnlineText.textColorFlag ? '#BBBBBB': ''}">{{ isOnlineText.timeText }}</div>
+      <div class="new-comics">{{ isOnlineText.text }}</div>
+      <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">{{ isOnlineText.timeText }}</div>
     </div>
     <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
-      <z-m-detail-chapter
-        v-if="detailData && detailData.is_coming !=1"
-        :status-text="detailData.status_text"
-        :detail-news="detailData && detailData.news"
-      ></z-m-detail-chapter>
-      <z-m-detail-remark
-        :comment-num="detailData.comment_num"
-        :remark-data="detailData && detailData.comment"
-      ></z-m-detail-remark>
-      <z-m-comics-scroll
-        :comicsType="1"
-        :title-content="authorTitle"
-        :comicsList="authorOhter"
-      ></z-m-comics-scroll>
-      <z-m-comics-scroll
-        :comicsType="2"
-        :title-content="maybeTitle"
-        :comicsList="yourselfLikeComics"
-        :style="{'padding-bottom': bottomAjax? '0': '20px'}"
-      ></z-m-comics-scroll>
+      <z-m-detail-chapter v-if="detailData && detailData.is_coming != 1" :status-text="detailData.status_text" :detail-news="detailData && detailData.news"></z-m-detail-chapter>
+      <z-m-detail-remark :comment-num="detailData.comment_num" :remark-data="detailData && detailData.comment"></z-m-detail-remark>
+      <z-m-comics-scroll :comicsType="1" :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
+      <z-m-comics-scroll :comicsType="2" :title-content="maybeTitle" :comicsList="yourselfLikeComics" :style="{ 'padding-bottom': bottomAjax ? '0' : '20px' }"></z-m-comics-scroll>
       <z-m-no-data></z-m-no-data>
       <!-- -->
     </div>
@@ -55,15 +39,10 @@
       </div>
       <div class="main-catalogue no-time" v-else>
         <div class="new-comics">{{ isOnlineText.text }}</div>
-        <div class="new-comics-time" :style="{color: isOnlineText.textColorFlag ? '#BBBBBB': ''}">{{ isOnlineText.timeText }}</div>
+        <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">{{ isOnlineText.timeText }}</div>
       </div>
     </div>
-    <div
-      class="main-bottom"
-      :style="bottomWrapStyle"
-      @transitionend="transitionendBottom"
-      v-show="bottomAjax"
-    >......</div>
+    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax">......</div>
     <!-- 目录组件 -->
   </div>
 </template>
@@ -106,7 +85,7 @@ export default {
         transition: 'none'
       },
       topAjax: true,
-      scrollHeight: document.documentElement.scrollTop,
+      scrollHeight: 0,
       bottomAjax: false,
       bottomWrapStyle: {
         height: 0,
@@ -119,62 +98,70 @@ export default {
       cartoonId: '', // 漫画id
       comicsInfo: {}, // 目录数据
       authorOhter: [], // 作者其他漫画
-      yourselfLikeComics: [] // 你可能喜欢的漫画
+      yourselfLikeComics: [], // 你可能喜欢的漫画
+
+      readerChapter: '阅读 第一话',
+      isOnlineText: { text: '很遗憾', timeText: '这本漫画下架了' },
+      maybeTitle: '--'
 
       // otherHeight: 0
     };
   },
   computed: {
-    readerChapter() {
-      if (this.detailData && this.detailData.last.has_read === 1) {
-        return `继续 ${this.detailData.last.title}`
-      } else {
-        return '阅读 第一话';
-      }
-    },
-    isOnlineText () {
-      if (this.detailData && this.detailData.is_online) {
-        if (this.detailData.is_coming) {
-          return {
-            text: '新漫即将抵达',
-            timeText: this.detailData.on_time_text || '--'
-          }
-        }
-	    } else {
-        return {
-          text: '很遗憾',
-          timeText: '这本漫画下架了',
-          textColorFlag: true
-        }
-      }
-    },
-    maybeTitle() {
-      let titleContext = ''
-      if (this.detailData && this.detailData.title) {
-        if (this.detailData.title.length > 5){
-          titleContext = this.detailData.title.substring(0, 4) + '...'
-        } else {
-	        titleContext = this.detailData.title
-        }
-        return `喜欢《${titleContext}》的也会喜欢`
-      } else {
-        return '--'
-      }
-    }
+    // readerChapter() {
+    //   if (this.detailData && this.detailData.last.has_read === 1) {
+    //     return `继续 ${this.detailData.last.title}`;
+    //   } else {
+    //     return '阅读 第一话';
+    //   }
+    // },
+    // isOnlineText() {
+    //   if (this.detailData && this.detailData.is_online) {
+    //     if (this.detailData.is_coming) {
+    //       return {
+    //         text: '新漫即将抵达',
+    //         timeText: this.detailData.on_time_text || '--'
+    //       };
+    //     }
+    //   } else {
+    //     return {
+    //       text: '很遗憾',
+    //       timeText: '这本漫画下架了',
+    //       textColorFlag: true
+    //     };
+    //   }
+    // },
+    // maybeTitle() {
+    //   let titleContext = '';
+    //   if (this.detailData && this.detailData.title) {
+    //     if (this.detailData.title.length > 5) {
+    //       titleContext = this.detailData.title.substring(0, 4) + '...';
+    //     } else {
+    //       titleContext = this.detailData.title;
+    //     }
+    //     return `喜欢《${titleContext}》的也会喜欢`;
+    //   } else {
+    //     return '--';
+    //   }
+    // }
   },
   // beforeMount() {
   //   document.body.scrollTop = document.documentElement.scrollTop = 0
   // },
   created() {
-    console.log(this.detailData)
-    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || ''
-    this.getAuthorOther();
-	  this.maybeLikeTitle = this.detailData && this.detailData.title
+    // console.log(this.detailData);
+    // this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+    // this.getAuthorOther();
+    // this.maybeLikeTitle = this.detailData && this.detailData.title;
   },
   mounted() {
-    this.scrolOnEventChange()
-    this.$el.addEventListener('touchstart', this.touchStart, true)
-    this.$el.addEventListener('touchend', this.touchEnd, true)
+    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+    this.getAuthorOther();
+    this.maybeLikeTitle = this.detailData && this.detailData.title;
+
+    this.scrolOnEventChange();
+    this.$el.addEventListener('touchstart', this.touchStart, true);
+    this.$el.addEventListener('touchend', this.touchEnd, true);
   },
   methods: {
     /**
@@ -207,9 +194,9 @@ export default {
      */
     handleCatalog() {
       this.$el.removeEventListener('tochstart', this.touchStart, true);
-	    this.$el.removeEventListener('touchend', this.touchEnd, true);
-	    this.$parent.show = true;
-	    console.log('点击了目录');
+      this.$el.removeEventListener('touchend', this.touchEnd, true);
+      this.$parent.show = true;
+      console.log('点击了目录');
     },
     /**
      * @info: 获取可能喜欢的列表和作者的其他漫画
@@ -241,8 +228,8 @@ export default {
         if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
         // this.$el.addEventListener('touchstart', this.touchStart);
       }, 300);
-      if (this.$refs.remarkScroll.scrollTop > 100){
-	      if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+      if (this.$refs.remarkScroll.scrollTop > 100) {
+        if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       }
       e.stopPropagation();
       this.$el.addEventListener('touchmove', this.touchMove);
@@ -250,12 +237,12 @@ export default {
     },
     // touch 开始中
     touchMove(e) {
-      e.preventDefault()
+      e.preventDefault();
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
       this.height = touch - this.startTouchValue;
-	    // if (this.height < -200 || this.height > 100) return
+      // if (this.height < -200 || this.height > 100) return
       if (this.height > 10 && this.height < 200) {
         this.topWrapStyle.height = `${this.height}px`;
         this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + this.height - 56 + 'px';
@@ -325,11 +312,11 @@ export default {
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
       if (yScroll >= 10) {
-	      // this.$el.removeEventListener('tochstart', this.touchStart, true);
+        // this.$el.removeEventListener('tochstart', this.touchStart, true);
         // // this.$el.removeEventListener('touchend', this.touchEnd, true)
         // this.$el.removeEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = true;
-	      this.$refs.remarkScroll.style['pointer-events'] = 'auto';
+        this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
         // this.$el.addEventListener('tochstart', this.touchStart, true);
         // this.$el.addEventListener('touchend', this.touchEnd, true);
@@ -347,12 +334,12 @@ export default {
     }
   },
   watch: {
-	  '$route'(to, from) {
-		  if (to.query.cartoon_id !== from.query.cartoon_id){
-        this.cartoonId = to.query.cartoon_id
-			  this.getAuthorOther()
-		  }
-	  }
+    $route(to, from) {
+      if (to.query.cartoon_id !== from.query.cartoon_id) {
+        this.cartoonId = to.query.cartoon_id;
+        this.getAuthorOther();
+      }
+    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.getPageScroll, true);
@@ -373,12 +360,11 @@ export default {
   text-align: center;
 }
 .new-comics {
-
   font-size: 10px;
   transform: scale(0.83);
   /*-webkit-transform-origin-x: 0;*/
   padding: 0 0 2px 0;
-  color: #BBBBBB;
+  color: #bbbbbb;
 }
 .new-comics-time {
   font-family: 'pingfang-blod';
