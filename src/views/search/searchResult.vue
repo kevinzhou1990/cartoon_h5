@@ -16,9 +16,10 @@
       ></z-m-search-result-list>
       </mt-loadmore>
     </div>
-    <section v-else>
+    <section v-else style="position: relative; margin-top: 68px;">
       <no-data-view
-          :type="'history'"
+          :type="'search'"
+          :textContent="textContent"
       ></no-data-view>
       <z-m-history-list :words-data="everyoneData"></z-m-history-list>
     </section>
@@ -40,6 +41,7 @@ export default {
   name: 'searchResult',
   data(){
     return {
+	    textContent: '没有找到你要的结果～',
 		  searchVal: '',
       dataList: [],
 	    recommendList: [],

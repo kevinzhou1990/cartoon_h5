@@ -36,41 +36,42 @@
     <div class="comments-contents" ref="commentContainer">
       <div class="comments-contents-top"></div>
       <img src="@/assets/img/main_icon.png" class="icon" alt />
-      <mt-loadmore :top-method="scrollTop === 0 ? refreshPage : null" ref="loadmore" :auto-fill="false" class="loadmore-container">
-        <div v-if="commentsList.length > 0" class="comment-container">
-          <ul class="comments-contents-list">
-            <li v-for="comment in commentsList" :key="comment.comment_id">
-              <img :src="comment.avatar || defaultHead" alt=" " class="avatar" />
-              <!--评分页面-->
-              <div :class="[remarkType === 1 ? 'eval-main-container' : '', 'main-container zm-b-b']">
-                <div class="comments-user">{{ comment.nickname }}</div>
-                <div class="top-flag" v-if="remarkType === 0 && comment.is_top">置顶</div>
-                <!--评分页面--星星-->
-                <div v-if="remarkType === 1" class="starts-container">
-                  <img class="starts-img" v-for="(name, index) in starts(comment.score)" :key="index" :src="name" alt />
-                </div>
-                <div class="comments-content">{{ comment.content }}</div>
-                <!--只有评论页面有-->
-                <div class="comments-operational" v-if="remarkType === 0">
-                  <span>{{ comment.created_at_text }}</span>
-                  <span @click="jumpDownloadPage">
+      <template v-if="commentsList.length">
+        <mt-loadmore :top-method="scrollTop === 0 ? refreshPage : null" ref="loadmore" :auto-fill="false" class="loadmore-container">
+          <div class="comment-container">
+            <ul class="comments-contents-list">
+              <li v-for="comment in commentsList" :key="comment.comment_id">
+                <img :src="comment.avatar || defaultHead" alt=" " class="avatar" />
+                <!--评分页面-->
+                <div :class="[remarkType === 1 ? 'eval-main-container' : '', 'main-container zm-b-b']">
+                  <div class="comments-user">{{ comment.nickname }}</div>
+                  <div class="top-flag" v-if="remarkType === 0 && comment.is_top">置顶</div>
+                  <!--评分页面--星星-->
+                  <div v-if="remarkType === 1" class="starts-container">
+                    <img class="starts-img" v-for="(name, index) in starts(comment.score)" :key="index" :src="name" alt />
+                  </div>
+                  <div class="comments-content">{{ comment.content }}</div>
+                  <!--只有评论页面有-->
+                  <div class="comments-operational" v-if="remarkType === 0">
+                    <span>{{ comment.created_at_text }}</span>
+                    <span @click="jumpDownloadPage">
                     <svg-icon :icon-class="comment.has_praise ? 'like_bb' : 'like_ba'" size="small"/>
                     <span>{{ comment.praise_num_text }}</span>
                     <svg-icon icon-class="more_bc" size="small"/>
                   </span>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
-          <div class="comments-last" v-if="allLoaded && commentsList.length > 0">
-            <span v-if="remarkType === 0">扯到底啦，快来说两句↓↓</span>
-            <span v-else>不要再扯了，真的没有了～</span>
+              </li>
+            </ul>
+            <div class="comments-last" v-if="allLoaded && commentsList.length > 0">
+              <span v-if="remarkType === 0">扯到底啦，快来说两句↓↓</span>
+              <span v-else>不要再扯了，真的没有了～</span>
+            </div>
           </div>
-        </div>
-
-        <!--只有评论页面有-->
-        <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="还有没评论哦，快来抢沙发～"></no-data-view>
       </mt-loadmore>
+      </template>
+      <!--只有评论页面有-->
+      <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="还有没评论哦，快来抢沙发～"></no-data-view>
     </div>
     <!--只有评论页面有-->
     <div class="comments-add" v-if="remarkType === 0">
