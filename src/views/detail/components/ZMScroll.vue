@@ -107,55 +107,13 @@ export default {
       // otherHeight: 0
     };
   },
-  computed: {
-    // readerChapter() {
-    //   if (this.detailData && this.detailData.last.has_read === 1) {
-    //     return `继续 ${this.detailData.last.title}`;
-    //   } else {
-    //     return '阅读 第一话';
-    //   }
-    // },
-    // isOnlineText() {
-    //   if (this.detailData && this.detailData.is_online) {
-    //     if (this.detailData.is_coming) {
-    //       return {
-    //         text: '新漫即将抵达',
-    //         timeText: this.detailData.on_time_text || '--'
-    //       };
-    //     }
-    //   } else {
-    //     return {
-    //       text: '很遗憾',
-    //       timeText: '这本漫画下架了',
-    //       textColorFlag: true
-    //     };
-    //   }
-    // },
-    // maybeTitle() {
-    //   let titleContext = '';
-    //   if (this.detailData && this.detailData.title) {
-    //     if (this.detailData.title.length > 5) {
-    //       titleContext = this.detailData.title.substring(0, 4) + '...';
-    //     } else {
-    //       titleContext = this.detailData.title;
-    //     }
-    //     return `喜欢《${titleContext}》的也会喜欢`;
-    //   } else {
-    //     return '--';
-    //   }
-    // }
-  },
-  // beforeMount() {
-  //   document.body.scrollTop = document.documentElement.scrollTop = 0
-  // },
-  created() {
-    // console.log(this.detailData);
-    // this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
-    // this.getAuthorOther();
-    // this.maybeLikeTitle = this.detailData && this.detailData.title;
+  computed: {},
+  beforeMount() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
   },
   mounted() {
     this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+    this.initData();
     this.getAuthorOther();
     this.maybeLikeTitle = this.detailData && this.detailData.title;
 
@@ -164,6 +122,35 @@ export default {
     this.$el.addEventListener('touchend', this.touchEnd, true);
   },
   methods: {
+    // 数据初始化
+    initData() {
+      this.readerChapter = this.detailData && this.detailData.last.has_read === 1 ? `继续 ${this.detailData.last.title}` : '阅读 第一话';
+      if (this.detailData && this.detailData.is_online) {
+        if (this.detailData.is_coming) {
+          this.isOnlineText = {
+            text: '新漫即将抵达',
+            timeText: this.detailData.on_time_text || '--'
+          };
+        }
+      } else {
+        this.isOnlineText = {
+          text: '很遗憾',
+          timeText: '这本漫画下架了',
+          textColorFlag: true
+        };
+      }
+      let titleContext = '';
+      if (this.detailData && this.detailData.title) {
+        if (this.detailData.title.length > 5) {
+          titleContext = this.detailData.title.substring(0, 4) + '...';
+        } else {
+          titleContext = this.detailData.title;
+        }
+        this.maybeTitle = `喜欢《${titleContext}》的也会喜欢`;
+      } else {
+        this.maybeTitle = '--';
+      }
+    },
     /**
      * @info: 点击开始继续阅读漫画
      * @author: PengGeng
