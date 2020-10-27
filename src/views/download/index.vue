@@ -10,6 +10,7 @@ let isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 // 下载地址
 let iosUrl = 'https://itunes.apple.com/cn/app/'; // todo 待定
+/* eslint-disable */
 let androidUrl = ''; //  地址待定
 let createIframe = (function () {
   let iframe;

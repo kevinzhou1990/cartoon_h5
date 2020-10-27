@@ -8,25 +8,28 @@
     <z-m-search style="position: fixed; z-index: 9999; background: #FFFFFF; overflow: hidden;"
                 :searchVal="searchVal"
     ></z-m-search>
-    <div class="result-list" v-if="dataList.length">
-      <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
-      <z-m-search-result-list
-          :cartoonList="dataList"
-          :count="count"
-      ></z-m-search-result-list>
-      </mt-loadmore>
-    </div>
-    <section v-else style="position: relative; margin-top: 68px;">
-      <no-data-view
-          :type="'search'"
-          :textContent="textContent"
-      ></no-data-view>
-      <z-m-history-list :words-data="everyoneData"></z-m-history-list>
-    </section>
-    <z-m-search-recommend
-        v-if="recommendList.length"
-        :recommendList="recommendList"
-    ></z-m-search-recommend>
+    <z-m-loading v-if="showFlag" style="margin-top: 68px;"></z-m-loading>
+    <template v-else>
+      <div class="result-list" v-if="dataList.length">
+        <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
+          <z-m-search-result-list
+              :cartoonList="dataList"
+              :count="count"
+          ></z-m-search-result-list>
+        </mt-loadmore>
+      </div>
+      <section v-else style="position: relative; margin-top: 68px;">
+        <no-data-view
+            :type="'search'"
+            :textContent="textContent"
+        ></no-data-view>
+        <z-m-history-list :words-data="everyoneData"></z-m-history-list>
+      </section>
+      <z-m-search-recommend
+          v-if="recommendList.length"
+          :recommendList="recommendList"
+      ></z-m-search-recommend>
+    </template>
   </div>
 </template>
 
@@ -36,6 +39,7 @@ import ZMSearchResultList from '@/views/search/components/ZMSearchResultList'
 import ZMSearchRecommend from '@/views/search/components/ZMSearchRecommend'
 import noDataView from '@/common/components/noDataView'
 import ZMHistoryList from '@/views/search/components/ZMHistoryList'
+import ZMLoading from '@/views/search/components/loading/loading'
 import { getSearchData } from '@/common/api/search'
 export default {
   name: 'searchResult',
@@ -54,7 +58,8 @@ export default {
 		    leftName: '大家都在搜',
 		    rightFlag: false,
 		    wordsList: ['桃花运是冒险', '桃花运是冒险1', '桃花运是冒险2', '桃花运是冒险3', '桃花运是冒险4']
-	    }
+	    },
+	    showFlag: false
     }
   },
   components: {
@@ -62,7 +67,8 @@ export default {
 	  ZMSearchResultList,
 	  ZMSearchRecommend,
 	  noDataView,
-	  ZMHistoryList
+	  ZMHistoryList,
+	  ZMLoading
   },
   mounted() {
     this.searchVal = this.$route.query.searchValue || ''
@@ -76,6 +82,8 @@ export default {
 	   * @date: 10/13/20-2:47 下午
 	   */
 	  async getData() {
+		  // console.log(Load)
+		  this.showFlag = true
       const reqData = {
 			  page: this.currentPage,
 			  page_size: this.pageSize
@@ -87,6 +95,7 @@ export default {
         this.recommendList = resData.data.recommend_list
         this.everyoneData.wordsList = resData.data.hot_keywords || []
         this.count = resData.data.count
+	      this.showFlag = false
         if (this.currentPage >= this.totalPages){
           this.allLoaded = true
         }

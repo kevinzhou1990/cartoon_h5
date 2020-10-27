@@ -196,7 +196,8 @@ export default {
         // 成功后移除定时器
         clearInterval(this.timer)
         this.$store.commit('SET_USERS_INFO', resData.data.user || {})
-        // TODO 登陆成功，回倒原来的页面
+        // 登陆成功，回倒原来的页面
+        this.$router.replace(this.$store.state.login.backRouter)
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试')
       }
