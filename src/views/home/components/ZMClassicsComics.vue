@@ -11,7 +11,7 @@
         class="classics-main-content-item"
         v-for="item in classicsComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
         <div class="classics-main-content-item-bg">
           <div

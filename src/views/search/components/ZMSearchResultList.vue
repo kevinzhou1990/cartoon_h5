@@ -72,7 +72,7 @@ export default {
 	   * @date: 10/13/20-6:54 下午
 	   */
 	  handleClickInfo(val) {
-      this.handleZMInfo(val)
+      this.handleZMInfo(val, 3)
     }
   }
 }

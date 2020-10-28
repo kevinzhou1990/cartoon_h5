@@ -11,7 +11,7 @@
         class="new-main-content-item"
         v-for="item in newComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, re)"
       >
         <div class="new-main-content-item-img" :style="`background-image: url('${item.cover}'); `">
           <div class="new-main-content-item-img-text">
@@ -41,12 +41,14 @@ export default {
   data() {
     return {
       newComicsName: '新漫即将抵达',
-      newComicsList: []
+      newComicsList: [],
+      recId: 1
     };
   },
   created() {
     this.newComicsName = this.newCamicsData.name;
     this.newComicsList = this.newCamicsData.cartoon_list;
+    this.recId = this.newCamicsData.rec_id || 1
   },
   methods: {}
 };

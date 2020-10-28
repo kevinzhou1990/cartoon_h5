@@ -9,7 +9,7 @@
     <div
       class="like-main-banner"
       :style="`background-image:url('${likeBannerData.cover}');`"
-      @click="handleZMInfo(likeBannerData.cartoon_id)"
+      @click="handleZMInfo(likeBannerData.cartoon_id, 2, recId)"
     >
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
@@ -25,7 +25,7 @@
         class="like-main-other-item"
         v-for="item in likeComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
         <span
           class="like-main-other-item-img"

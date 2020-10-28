@@ -75,6 +75,8 @@ export default {
       isChangeHeader: false,
       zmCollectData: null,
       cartoon_id: '', // 漫画id
+      ref: undefined, // 来源id
+      refId: undefined, // 具体来源id的细分id
       ZMDetailData: {},
       textLength: 44, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
@@ -126,8 +128,11 @@ export default {
     }
   },
   mounted() {
-    this.cartoon_id = this.$route.query.cartoon_id || '';
-    this.getZMDetail(this.cartoon_id);
+    const queryData = this.$route.query || {}
+    this.cartoon_id = queryData.cartoon_id || '';
+    this.ref = queryData.ref
+    this.refId = queryData.ref_id
+    this.getZMDetail(this.cartoon_id, this.ref, this.refId);
     setTimeout(() => {
 	    this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))
 	    this.infoWidth = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).width.replace('px', ''))
@@ -169,8 +174,12 @@ export default {
      * @author: PengGeng
      * @date: 8/24/20-4:30 下午
      */
-    async getZMDetail(cartoon_id) {
-      const resData = await getZMDetail(cartoon_id);
+    async getZMDetail(cartoon_id, ref, ref_id) {
+      const reqData = {
+        ref,
+        ref_id
+      }
+      const resData = await getZMDetail(cartoon_id, reqData);
       if (resData && resData.code === 0) {
         const ZMDetailData = resData.data;
         const comicsInfo = {
