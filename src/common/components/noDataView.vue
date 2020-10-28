@@ -1,7 +1,9 @@
 <template>
   <div class="main-content">
-    <div class="main-content-img" :class="mainClass"></div>
-    <p class="main-content-text">{{ textContent }}</p>
+    <div class="main-content-container">
+      <div class="main-content-img" :class="mainClass"></div>
+      <p class="main-content-text">{{ textContent }}</p>
+    </div>
   </div>
 </template>
 
@@ -16,21 +18,12 @@ export default {
     }
   },
   props: {
-	  /**
-	   * @info: 底部文字
-	   * @author: PengGeng
-	   * @date: -12:03 下午
-	   */
+    //底部文字
     textContent: {
       type: String,
       default: '没有找到匹配的结果～'
     },
-	  /**
-	   * @info: 不同的业务没有数据显示的是不同的图片
-	   * @author: PengGeng
-	   * @date: 10/26/20-11:53 上午
-     * @ params type [String] 1.comment 评论; 2.collect 收藏 3.search 搜索 4.ranking 排行榜 5.history 历史
-	   */
+    //对应缺省图片
     type: {
       type: String,
       default: ''
@@ -40,6 +33,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$IMGHEIGHT: 160px;
+$TEXTHEIGHT: 17px;
+$MARGINTOP: 8px;
+
 .main-content {
   position: relative;
   text-align: center;
@@ -47,28 +44,33 @@ export default {
   margin: auto;
   font-family: 'pingfang-blod';
   font-size: 12px;
+  height: 100%;
+  min-height: calc(#{$IMGHEIGHT + $TEXTHEIGHT + $MARGINTOP});
+  &-container{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+  }
   &-text {
-    margin-top: 8px;
+    margin-top: $MARGINTOP;
     color: #999999;
   }
 }
 @mixin img-comm {
-  display: inline-block;
   width: 160px;
-  height: 160px;
+  height: $IMGHEIGHT;
 }
 .comment-content {
   @include img-comm;
   background: url('../../assets/img/no_comment.png') no-repeat;
   background-size: 100%;
-  /*margin: 117px auto 8px;*/
 }
 
 .collect-content {
   @include img-comm;
   background: url('../../assets/img/no_collect.png') no-repeat;
   background-size: 100%;
-  margin: 16px auto 0;
 }
 
 .search-content {
@@ -80,6 +82,7 @@ export default {
   @include img-comm;
   background: url('../../assets/img/chapterFull.png') no-repeat;
   background-size: 100%;
+  /*margin-top: 226px;*/
 }
 
 .history-content {

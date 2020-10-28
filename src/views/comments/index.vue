@@ -71,7 +71,12 @@
       </mt-loadmore>
       </template>
       <!--只有评论页面有-->
-      <no-data-view v-else-if="commentsList.length === 0 && remarkType !== 1" type="comment" textContent="还有没评论哦，快来抢沙发～"></no-data-view>
+      <no-data-view
+        v-else-if="!commentsList.length && remarkType !== 1"
+        class="no-more"
+        type="comment"
+        textContent="还有没评论哦，快来抢沙发～"
+      ></no-data-view>
     </div>
     <!--只有评论页面有-->
     <div class="comments-add" v-if="remarkType === 0">
@@ -221,11 +226,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  $TITLEHEIGHT: 240px;
 .comments-page {
   .comments-title {
     font-family: 'pingfang-blod';
     position: fixed;
-    height: 240px;
+    height: $TITLEHEIGHT;
     width: 100%;
     top: 0;
     z-index: 1;
@@ -308,11 +314,14 @@ export default {
       border-radius: 16px;
       margin-right: 8px;
     }
+    .no-more{
+      height: calc(100vh - #{$TITLEHEIGHT} - 44px);
+    }
   }
   .loadmore-container {
     background: white;
     margin-top: -1px;
-    min-height: calc(100vh - 240px);
+    min-height: calc(100vh - #{$TITLEHEIGHT});
   }
   .comment-container {
     .comments-contents-list {
