@@ -14,7 +14,7 @@
           </li>
         </ul>
           <ul v-else>
-            啥也不是
+            {{ scrollTextList[0]||'111' }}
           </ul>
         <ul></ul>
       </div>
@@ -84,7 +84,7 @@ export default {
         clearInterval(this.timer);
         setTimeout(() => {
           this.timer = setInterval(this.autoScrollLine, 30);
-        }, 1000);
+        }, 3000);
       }
     }
   }
@@ -139,7 +139,10 @@ $search-color: #fff;
         opacity: 0.6;
         font-size: 12px;
         li {
-
+          overflow: hidden;
+          word-break: break-word;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
     }

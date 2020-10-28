@@ -121,7 +121,7 @@ export default {
   },
   watch: {
     searchValue: function (val, oldValue) {
-      if (val.trim() && val !== oldValue) {
+      if (val && val.trim() && val !== oldValue) {
 	      this.getData().then(res => {
           const searchResult = res
 		      this.$emit('change', true, searchResult)
