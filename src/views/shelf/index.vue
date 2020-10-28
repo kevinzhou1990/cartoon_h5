@@ -165,6 +165,9 @@ export default {
         border: none;
         background: #12e079;
         font-family: 'pingfang-blod';
+        &:focus {
+          outline: none
+        }
       }
     }
   }
