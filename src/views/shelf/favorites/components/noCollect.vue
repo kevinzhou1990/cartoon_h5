@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-data-view type="collect" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
+    <no-data-view type="collect" class="no-data" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
 
     <div class="hot-recommend">
       <div class="main-container">

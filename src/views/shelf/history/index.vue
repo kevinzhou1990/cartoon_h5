@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="historyList.length > 0">
+    <div v-if="historyList.length">
       <div class="main-container" v-for="(history, index) in historyList" :key="index">
         <div class="date scale">{{ history.date }}</div>
 
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <no-data-view v-else type="history" textContent="一个脚印都没有～"></no-data-view>
+    <no-data-view v-else class="no-data" type="history" textContent="一个脚印都没有～"></no-data-view>
   </div>
 </template>
 
@@ -156,6 +156,10 @@ export default {
           }
         }
       }
+    }
+
+    .no-data{
+      height: calc(100vh - 44px);
     }
   }
 </style>

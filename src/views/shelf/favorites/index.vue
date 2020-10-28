@@ -10,14 +10,14 @@
         <collect-table
           type="myCollect"
           :dataList="collectList"
-          v-if="collectList.length > 0"
-          :class="collectList.length > 0 ? 'animation-active-in' : 'animation-active-out'"
+          v-if="collectList.length"
+          :class="collectList.length ? 'animation-active-in' : 'animation-active-out'"
         ></collect-table>
 
         <no-collect
-          v-if="collectList.length === 0 && hotList.length > 0"
+          v-if="!collectList.length && hotList.length"
           :dataList="hotList"
-          :class="collectList.length === 0 ? 'animation-active-in' : 'animation-active-out'"
+          :class="!collectList.length ? 'animation-active-in' : 'animation-active-out'"
         ></no-collect>
       </div>
 
