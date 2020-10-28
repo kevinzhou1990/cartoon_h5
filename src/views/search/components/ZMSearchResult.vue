@@ -78,9 +78,11 @@ export default {
 	        hitWordsStrArr.push(`[${hitWordsArr[i]}]+`)
         }
 	      let regExp = new RegExp(`${hitWordsStrArr.join('|')}`, 'g')
+        console.log('regExp', regExp)
 	      keyWords = keyWords.replace(regExp, '<span style="color: #12e079;">$&</span>')
         return keyWords
       } else {
+	      keyWords = typeof keyWords === 'string' ? keyWords : keyWords.toString()
         const hitwords = keyWords.replace(hitWordsArr[0], `<span style='color: #12E079;'>${hitWordsArr[0]}</span>`)
 	      return hitwords
       }

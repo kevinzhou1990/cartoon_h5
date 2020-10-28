@@ -1,10 +1,9 @@
 import axios from 'axios';
+/* eslint-disable-next-line */
 // import Router from '../router/index';
 import crypto from 'crypto-js';
 import { getRandomStr } from './utils';
 import store from '@/store';
-// import Toast from '@/common/plugin/toast';
-// import Vue from 'vue'
 // import Dialog from '@/common/plugin/dialog';
 //创建axios实例
 const service = axios.create({
@@ -58,8 +57,8 @@ service.interceptors.response.use(
         // 去刷新token
         return tokenError('refresh', response);
       // 针对 登陆异常状况处理
-      // case 1209:
-      // // 未登陆的状态
+      case 1209:
+      // 未登陆的状态
       //   console.log('未登陆。。。。。')
       //   Router.replace('/ZMLogin')
       //   return
@@ -67,6 +66,7 @@ service.interceptors.response.use(
       //   // 异地登陆
       //   console.log('异地登陆。。。。。')
       //   return
+      // eslint-disable-next-line no-fallthrough
       default:
         return response.data;
     }

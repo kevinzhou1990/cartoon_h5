@@ -2,13 +2,17 @@
   <div>
     <div class="search">
       <div class="content">
-        <input
-            v-model="searchValue"
-            class="content-input"
-            :placeholder="placeholderValue"
-            maxlength="20"
-            @focus="goToHistroy"
-        />
+        <form action="" @submit.prevent=''>
+          <input
+              v-model.trim="searchValue"
+              type="search"
+              class="content-input"
+              :placeholder="placeholderValue"
+              maxlength="20"
+              @focus="goToHistroy"
+              @keyup.enter="handleClickSearch(searchValue)"
+          />
+        </form>
         <span class="content-clear" v-show="searchValue" @click.stop="handleClickClearInput"></span>
       </div>
       <div class="cancel" @click.stop="handleClickCancel">取消</div>
@@ -20,6 +24,7 @@
 <script>
 import { searchResult } from '@/common/api/search'
 import { EventBus } from 'lib/utils/eventBus'
+import setLocalStorage from '@/views/search/common/common'
 export default {
   name: 'search',
   props: {
@@ -91,11 +96,32 @@ export default {
       this.searchValue = ''
       this.goToHistroy()
       sessionStorage.setItem('name', '')
+    },
+	  /**
+	   * @info: 触发键盘的entry事件
+	   * @author: PengGeng
+	   * @date: 10/27/20-10:41 上午
+	   */
+	  handleClickSearch(val) {
+		  let searchContext = ''
+      if (val.trim()) {
+			  searchContext = val.trim()
+      } else {
+	      searchContext = this.placeholderValue
+      }
+		  setLocalStorage(searchContext)
+		  // 文本框的类容同步
+		  this.$router.push({
+			  path: '/ZMSearchResult',
+			  query: {
+				  searchValue: searchContext
+			  }
+		  })
     }
   },
   watch: {
     searchValue: function (val, oldValue) {
-      if (val && val !== oldValue) {
+      if (val.trim() && val !== oldValue) {
 	      this.getData().then(res => {
           const searchResult = res
 		      this.$emit('change', true, searchResult)
@@ -117,6 +143,9 @@ input::-webkit-input-placeholder {
 }
 input[type="text"]{
   font-size: inherit;
+}
+input[type=search]::-webkit-search-cancel-button{
+  -webkit-appearance: none;
 }
 .search {
   /*position: relative;*/

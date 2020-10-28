@@ -156,9 +156,8 @@ export default {
 	  handleClickHidePassword() {
 		  this.passwordShowFlag = !this.passwordShowFlag
 	  },
-    getSMSCode(val, randCode) {
-      console.log(val)
-      this.handleClickGetValidate(2, val, randCode)
+    getSMSCode(randCode) {
+      this.handleClickGetValidate(2, randCode)
     },
 	  /**
 	   * @info: 确认设置完成

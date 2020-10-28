@@ -136,11 +136,12 @@ export default {
   },
   methods: {
     /**
-     * @info: TODO 点击了分享
+     * @info: 点击了分享
      * @author: PengGeng
      * @date: 8/11/20-3:38 下午
      */
     handleClickShare() {
+	    this.$router.push('/download')
       console.log('click go to share....');
     },
     /**
@@ -191,7 +192,8 @@ export default {
         this.zmCollectData = {
           score: resData.data.score ? resData.data.score.toFixed(1) : 0, // 评分
           evalNum: resData.data.eval_num || 0, // 评价数
-          shelfNum: resData.data.shelf_num || 0 // 被加入书架量
+          shelfNum: resData.data.shelf_num || 0, // 被加入书架量
+	        hasFavor: resData.data.has_favor || 0 // 是否被收藏
         };
         this.comicsInfo = comicsInfo;
         this.$store.commit('UPDATE_COMIC', comicsInfo);

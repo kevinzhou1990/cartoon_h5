@@ -198,6 +198,7 @@ export default {
      * @date: 8/17/20-6:24 下午
      */
     handleDownload() {
+	    this.$router.push('/download')
       console.log('download in 。。。');
     },
     /**
@@ -342,6 +343,7 @@ export default {
         this.$refs['main-detail'].style.marginTop = 265 + this.textHeight + 'px'
 	      this.$refs['remarkScroll'].style.top = 0
         this.isShowBgColor = true;
+        // this.$refs['remarkScroll'].style.height = 'auto'
 	      // this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
         // this.$el.addEventListener('tochstart', this.touchStart, true);
@@ -350,6 +352,7 @@ export default {
         this.isShowBgColor = false;
 	      this.$refs['main-detail'].style.marginTop = 0
 	      this.$refs['remarkScroll'].style.top = (265 + 56 + Number(this.textHeight)) - yScroll + 'px'
+	      // this.$refs['remarkScroll'].style.height = '100%'
       }
       if (yScroll > 260) {
         this.showFootFlag = true;
@@ -473,6 +476,7 @@ export default {
   }
 
   &-other {
+    min-height: 100%;
     /*background: #FFFFFF;*/
   }
 

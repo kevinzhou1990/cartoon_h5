@@ -17,7 +17,7 @@
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
-            <div class="maybe-main-content-item-desc-title-c" @click="isCollectFlag = !isCollectFlag">
+            <div class="maybe-main-content-item-desc-title-c" @click.stop="handleClickCollect">
               <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">
               <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
             </div>
@@ -85,6 +85,16 @@ export default {
      */
     handleClickMybeLike() {
       console.log('go to maybe like more info')
+    },
+	  /**
+	   * @info: 点击了收藏
+	   * @author: PengGeng
+	   * @date: 10/26/20-10:25 上午
+	   */
+	  handleClickCollect() {
+      // 是否确认收藏
+		  // this.isCollectFlag = !this.isCollectFlag
+      this.$router.push('/download')
     }
   }
 }

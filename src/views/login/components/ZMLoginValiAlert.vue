@@ -85,7 +85,7 @@ export default {
       if (resData && resData.code === 0){
         const randCode = resData.data.rand_code || ''
 	      this.$emit('close', false)
-	      this.$emit('getSMS', this.valiValue, randCode)
+	      this.$emit('getSMS', randCode)
 	      this.valiValue = ''
       } else {
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
