@@ -5,6 +5,7 @@ import Button from '@/common/plugin/button';
 // import Dialog from '@/common/plugin/dialog';
 import store from '@/store';
 import Toast from '@/common/plugin/toast';
+import '@/common/beforeEach'
 import 'lib-flexible';
 import 'lib/utils/getDeviceID';
 /**
@@ -22,13 +23,6 @@ Vue.use(Button);
 Vue.prototype.Toast = Toast;
 Vue.config.productionTip = false;
 
-router.beforeEach((to, form, next) => {
-  if (!store.state.token.access_token) {
-    store.dispatch('getToken', {});
-  }
-  next();
-});
-store.dispatch('getLoginStatus');
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

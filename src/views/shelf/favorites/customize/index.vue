@@ -44,7 +44,6 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getLoginStatus');
     this.getGroup();
   },
   methods: {
