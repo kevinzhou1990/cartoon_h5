@@ -31,11 +31,14 @@ export default {
 	  searchVal: {
       type: String,
       default: ''
+    },
+    hotData: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
     return {
-      placeholderValue: '',
       searchValue: ''
     }
   },
@@ -48,8 +51,15 @@ export default {
 	  })
   },
   activated() {
-	  this.placeholderValue = this.$store.state.home.homeSearchVal || '黑白放音机 第二季'
-    this.searchValue = sessionStorage.getItem('name')
+	  this.$nextTick(() => {
+      this.searchValue = sessionStorage.getItem('name')
+	  })
+  },
+  computed: {
+	  placeholderValue() {
+		  const homeSearchVal = this.$store.state.home.homeSearchVal
+		  return homeSearchVal !== '' ? homeSearchVal : this.hotData && this.hotData.wordsList[0]
+    }
   },
   methods: {
 	  /**
@@ -103,12 +113,8 @@ export default {
 	   * @date: 10/27/20-10:41 上午
 	   */
 	  handleClickSearch(val) {
-		  let searchContext = ''
-      if (val.trim()) {
-			  searchContext = val.trim()
-      } else {
-	      searchContext = this.placeholderValue
-      }
+      if (!val) return
+		  let searchContext = val.trim()
 		  setLocalStorage(searchContext)
 		  // 文本框的类容同步
 		  this.$router.push({

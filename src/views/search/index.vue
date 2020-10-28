@@ -5,7 +5,7 @@
 */
 <template>
   <div class="main">
-    <z-m-search @change="showSearchResult"></z-m-search>
+    <z-m-search @change="showSearchResult" :hot-data="everyoneData"></z-m-search>
     <z-m-search-result
         v-model='searchResultList'
         v-if="showSRFlag"

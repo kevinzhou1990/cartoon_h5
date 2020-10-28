@@ -26,7 +26,7 @@
         <z-m-history-list :words-data="everyoneData"></z-m-history-list>
       </section>
       <z-m-search-recommend
-          v-if="recommendList.length"
+          v-if="recommendList.length && currentPage === totalPages"
           :recommendList="recommendList"
       ></z-m-search-recommend>
     </template>
