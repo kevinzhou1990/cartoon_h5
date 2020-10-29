@@ -1,5 +1,5 @@
 <template>
-  <div class="comics-component" @click="goDetail">
+  <div class="comics-component"  @click="handleZMInfo(comics.cartoon_id, ref)">
     <div class="comics-component-cover" :style="`background-image:url(${comics.cover})`"></div>
     <div class="comics-component-title">{{comics.title}}</div>
     <div class="comics-component-update">
@@ -9,21 +9,17 @@
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'comics',
+  mixins: [ myMixins ],
   props: {
     comics: { type: Object }
   },
   data() {
-    return {};
-  },
-  methods: {
-    goDetail() {
-      this.$router.push({
-        path: '/detail',
-        query: { cartoon_id: this.comics.cartoon_id }
-      });
-    }
+    return {
+      ref: 6
+    };
   }
 };
 </script>

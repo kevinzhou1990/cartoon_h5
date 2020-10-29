@@ -9,6 +9,7 @@
       <div v-if="active === 'default'">
         <collect-table
           type="myCollect"
+          refId=0
           :dataList="collectList"
           v-if="collectList.length"
           :class="collectList.length ? 'animation-active-in' : 'animation-active-out'"

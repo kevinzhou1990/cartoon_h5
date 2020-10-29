@@ -4,7 +4,7 @@
       <div class="main-container" v-for="(history, index) in historyList" :key="index">
         <div class="date scale">{{ history.date }}</div>
 
-        <div class="content zm-b-b" v-for="item in history.items" :key="item.cartoon_id" @click="handleZMInfo(item.cartoon_id)">
+        <div class="content zm-b-b" v-for="item in history.items" :key="item.cartoon_id" @click="handleZMInfo(item.cartoon_id, ref)">
           <div class="cover" :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"></div>
 
           <div class="info">
@@ -42,6 +42,7 @@ export default {
   components: { noDataView },
   data() {
     return {
+      ref: 7,
       historyList: []
     };
   },

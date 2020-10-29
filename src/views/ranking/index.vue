@@ -17,7 +17,7 @@
               class="comics-cover"
               :class="comics.rank > 3 ? 'comics-cover-normal':''"
               :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id)"
+              @click="handleZMInfo(comics.cartoon_id, ref, activeRank)"
             />
             <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
               <div class="ranking-info">
@@ -36,7 +36,7 @@
                   {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, ref, activeRank)">{{comics.title}}</p>
               <div style="position: relative">
                 <div class="other-container">
                   <p class="comics-info-other" v-if="comics.author.length > 0">
@@ -61,7 +61,7 @@
               class="comics-cover"
               :class="comics.rank > 3 ? 'comics-cover-normal':''"
               :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id)"
+              @click="handleZMInfo(comics.cartoon_id, ref, activeRank)"
             />
             <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
               <div class="ranking-info">
@@ -80,7 +80,7 @@
                   {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, ref, activeRank)">{{comics.title}}</p>
               <div style="position: relative">
                 <div class="other-container">
                   <p class="comics-info-other" v-if="comics.author.length > 0">
@@ -114,6 +114,7 @@ export default {
   components: { ZMHeader, SvgIcon, noDataView },
   data() {
     return {
+      ref: 1,
       activeRank: this.$route.query.rank,
       activeName: '',
       comicsList: [],

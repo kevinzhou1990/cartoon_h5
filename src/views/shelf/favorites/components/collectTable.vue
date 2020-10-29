@@ -5,7 +5,7 @@
         class="main-content-item"
         v-for="item in dataList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, ref, refId)"
       >
         <div class="update-tip" v-if="item.has_new && type === 'myCollect'">更新</div>
         <span
@@ -31,13 +31,30 @@ export default {
       type: String,
       default: ''
     },
+    refId: {
+      type: String || Number,
+      default: undefined
+    },
     dataList: {
       type: Array
+    }
+  },
+  computed: {
+    ref(){
+      let arr = {
+        'myCollect': 5,
+        'hotCollect': 4
+      };
+
+      return arr[this.type]
     }
   },
   data() {
     return {
     };
+  },
+  mounted() {
+    console.log(this.refId, this.type)
   }
 };
 </script>
