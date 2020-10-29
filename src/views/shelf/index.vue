@@ -12,9 +12,9 @@
 
     <div class="main-container">
       <div v-if="isLogin">
-        <z-m-history v-if="active === '历史'" class="animation-active-in"></z-m-history>
+        <z-m-history v-if="active === '历史'" class="animation-active-in" @updateStatus="update"></z-m-history>
         <z-m-cache v-else-if="active === '缓存'" class="animation-active-in"></z-m-cache>
-        <z-m-favorites v-else></z-m-favorites>
+        <z-m-favorites v-else @updateStatus="update"></z-m-favorites>
       </div>
 
       <div class="no-login-shelf" v-else-if="!isLoading && !isLogin">
@@ -53,12 +53,13 @@ export default {
           id: 2,
           name: '历史'
         }
-      ]
+      ],
+      isLogin: true
     };
   },
   computed: {
     ...mapState({
-      isLogin: (state) => state.status.isLogin,
+      // isLogin: (state) => state.status.isLogin,
       isLoading: (state) => state.status.isLoading,
       isUpdate: (state) => state.status.hasUpdate
     })
@@ -86,6 +87,11 @@ export default {
       this.$router.push({
         path: '/ZMLogin'
       })
+    },
+    //更新登录态
+    update(boolean){
+      this.isLogin = boolean;
+      this.$store.commit('LOGIN_STATUS', boolean)
     }
   }
 };

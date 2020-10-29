@@ -52,6 +52,7 @@ export default {
     //获取历史列表
     async getHistoryList(){
       const data = await getHistory();
+      this.$emit('updateStatus', !(data.code === 1204 || data.code === 1209))
       if (data.code === 0) {
         this.historyList = data.data.list;
       } else {

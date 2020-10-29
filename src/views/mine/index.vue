@@ -43,7 +43,7 @@ export default {
         outline: none
       }
       &:disabled{
-        opacity: 50%;
+        opacity: 0.5;
       }
     }
   }

@@ -32,33 +32,23 @@
 
 <script>
 import SvgIcon from '@/common/components/svg';
-import { getGroupList } from '@/common/api/shelf';
 import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'customize',
   components: { SvgIcon },
   mixins: [ myMixins ],
-  data() {
-    return {
-      customizeList: []
-    };
+  props: {
+    customizeList: {
+      type: Array
+    }
   },
-  mounted() {
-    this.getGroup();
+  data() {
+    return {};
   },
   methods: {
     //跳转自定义收藏详情
     jumpDetails(id) {
       this.$router.push({ path: '/favorites/' + id });
-    },
-    //获取自定义收藏列表
-    async getGroup() {
-      const data = await getGroupList();
-      if (data.code === 0) {
-        this.customizeList = data.data.list;
-      } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
-      }
     }
   }
 };
