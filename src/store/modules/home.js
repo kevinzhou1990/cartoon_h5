@@ -1,4 +1,5 @@
 import { getBanner, getRecommend } from '@/common/api/home';
+import { getTabs } from '@/common/api/recommend';
 const home = {
   state: {
     recData: null,
@@ -31,11 +32,11 @@ const home = {
     UPDATE_PAGE_INFO: function(state, pageInfo) {
       state.pageInfo = pageInfo;
     },
-    SET_BACK_ROUTER: function (state, val) {
-      state.backRouter = val
+    SET_BACK_ROUTER: function(state, val) {
+      state.backRouter = val;
     },
-    SET_SEARCH_VAL: function (state, val) {
-      state.homeSearchVal = val
+    SET_SEARCH_VAL: function(state, val) {
+      state.homeSearchVal = val;
     }
   },
   actions: {
@@ -64,21 +65,26 @@ const home = {
             } else {
               recList = list;
             }
-            let recData = {};
-            recList.map(item => {
-              if (item.rec_id > 1) {
-                recData[item.rec_id] = item.name;
-              }
-            });
             commit('UPDATE_PAGE_INFO', { ...data, totalPage: res.data.total_pages, count: res.data.count });
             commit('UPDATE_REC_LIST', recList);
-            commit('SET_REC_DATA', recData);
             return res;
           }
         })
         .catch(error => {
           console.log('error======', error);
         });
+    },
+    getRecTab({ commit }) {
+      return getTabs().then(res => {
+        let recData = {};
+        res.data.data.map(item => {
+          if (item.rec_id > 1) {
+            recData[item.rec_id] = item.name;
+          }
+        });
+        commit('SET_REC_DATA', recData);
+        return res;
+      });
     }
   }
 };

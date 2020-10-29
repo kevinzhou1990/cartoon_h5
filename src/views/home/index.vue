@@ -79,9 +79,7 @@ export default {
   asyncData({ store, route }) {
     store.dispatch('getBanner');
     store.dispatch('getRec');
-  },
-  created() {
-    console.log(this.bannerList, '-------', this.pageInfo);
+    store.dispatch('getRecTab');
   },
   computed: {
     // banner list
@@ -98,13 +96,13 @@ export default {
     }
   },
   mounted() {
-    console.log('客户端首页已经加载-------', this.pageInfo);
+    console.log('客户端首页已经加载-------', this.recList);
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
   },
   methods: {
     getRecommend(pageInfo) {
-      this.$store.dispatch('getRec').then((res) => {
+      this.$store.dispatch('getRec').then(res => {
         return res;
       });
     },
