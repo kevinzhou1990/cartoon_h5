@@ -131,7 +131,7 @@ export default {
     const queryData = this.$route.query || {}
     this.cartoon_id = queryData.cartoon_id || '';
     this.ref = queryData.ref
-    this.refId = queryData.ref_id
+    this.refId = queryData.refId
     this.getZMDetail(this.cartoon_id, this.ref, this.refId);
     setTimeout(() => {
 	    this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''))

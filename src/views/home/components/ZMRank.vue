@@ -18,7 +18,7 @@
              v-for="articleItem in item.article"
              :key="articleItem.cartoon_id"
         >
-          <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id)">
+          <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id, 1, item.cate.rank_id)">
             <div class="rank-item-content-item-img" :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"></div>
             <div class="rank-item-content-item-info">
               <div class="info-rank">
