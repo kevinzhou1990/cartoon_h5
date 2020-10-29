@@ -2,9 +2,9 @@
   <div>
     <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.group_id" @click="jumpDetails(item.group_id)" v-if="item.group_id">
       <div
-        :class="[!item.cover_url ? 'item-img' : 'bg-container', 'bg']"
+        class="bg-container bg"
         :style="{
-          background: !item.cover_url ? 'url(' + item.cover_url + ')' : 'url(http://bookwine.leimans.com/1.png)',
+          background: item.cover_url ? 'url(' + item.cover_url + ')' : '',
           'background-size': '100%'
         }"
       ></div>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="main-container">
-      <div class="item-img">
+      <div class="bg-container" data-type="new">
         <div class="add">
           <svg-icon icon-class="add_aa" />
         </div>
@@ -64,13 +64,13 @@ $PADDING: 16px;
   padding: $PADDING;
   font-family: 'pingfang-blod';
   height: calc(#{$CONTAINERHEIGHT} - #{$PADDING * 2});
-  .item-img {
+  .bg-container {
     width: $IMGWIDTH;
     height: $IMGHEIGHT;
     border-radius: 4px;
     float: left;
     position: relative;
-    &:before {
+    &[data-type=new]:before {
       content: ' ';
       position: absolute;
       left: 0;
@@ -84,13 +84,6 @@ $PADDING: 16px;
       transform: scale(0.5);
       border-radius: 8px;
     }
-  }
-  .bg-container {
-    width: $IMGWIDTH;
-    height: $IMGHEIGHT;
-    border-radius: 4px;
-    float: left;
-    position: relative;
   }
   .bg {
     background: url('../../../../assets/img/default_group.png') no-repeat;
