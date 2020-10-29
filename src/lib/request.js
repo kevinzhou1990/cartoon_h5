@@ -43,7 +43,7 @@ service.intercept({
         refresh_token
       };
     }
-    console.log('request token------', c.headers.Authorization);
+    // console.log('request token------', c.headers.Authorization);
     return c;
   },
 
@@ -91,7 +91,7 @@ service.intercept({
 
   //请求完成
   complete(c) {
-    console.log('complete----', c.data);
+    // console.log('complete----', c.data);
     try {
       const key = c.key;
       let index;

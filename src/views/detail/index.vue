@@ -1,55 +1,26 @@
 <template>
   <div class="box main" style="overflow: hidden;">
-    <z-m-header
-      ref="detailHeader"
-      :title-text="titleText"
-      :background-color="headerBgColor"
-      show-right
-      :show-nav-flag="showNavFlag"
-      :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
-    >
-      <div
-        slot="right"
-        :class="showNavFlag ? 'header-right-white': 'header-right-detail'"
-        @click="handleClickShare"
-      ></div>
+    <z-m-header ref="detailHeader" :title-text="titleText" :background-color="headerBgColor" show-right :show-nav-flag="showNavFlag" :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'">
+      <div slot="right" :class="showNavFlag ? 'header-right-white' : 'header-right-detail'" @click="handleClickShare"></div>
     </z-m-header>
-    <section class="main-content" ref="mainContent" :style="{background: mainColor}">
+    <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
       <div class="main-content-box">
         <div class="main-content-box-left">
-          <span class="main-content-box-left-title">{{ ZMDetailData.title || '--'}}</span>
+          <span class="main-content-box-left-title">{{ ZMDetailData.title || '--' }}</span>
           <span class="main-content-box-left-author">[作者] {{ ZMDetailData.author | authorFormate }}</span>
           <div class="main-content-box-left-label">
-            <span
-              class="main-content-box-left-label-content zm-b-radius"
-              :style="index===1? {'margin-left' : 0 }: ''"
-              v-for="(tagItem, index) in ZMDetailData.tag"
-              :key="index"
-            >{{ tagItem }}</span>
+            <span class="main-content-box-left-label-content zm-b-radius" :style="index === 1 ? { 'margin-left': 0 } : ''" v-for="(tagItem, index) in ZMDetailData.tag" :key="index">{{ tagItem }}</span>
           </div>
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
-        <div
-          :style="{ background: 'url('+ZMDetailData.cover+')no-repeat center / contain'}"
-          class="main-content-box-right"
-          v-if="ZMDetailData.cover"
-        ></div>
+        <div :style="{ background: 'url(' + ZMDetailData.cover + ')no-repeat center / contain' }" class="main-content-box-right" v-if="ZMDetailData.cover"></div>
       </div>
       <div style="padding: 0 32px 24px 32px;" class="info-content" ref="intro-content">
         {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
-        <a
-          href="javascirpt:void(0)"
-          style="text-decoration: none; color: rgba(18,224,121,1);"
-          v-if="isShowUnfold && !showMoreFlag"
-          @click.prevent="getElHeight"
-        >[展开]</a>
+        <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18,224,121,1);" v-if="isShowUnfold && !showMoreFlag" @click.prevent="getElHeight">[展开]</a>
       </div>
     </section>
-    <z-m-scroll
-      :isChangeHeader.sync="isChangeHeader"
-      :detail-data="ZMDetailData"
-      :textHeight="textHeight"
-    ></z-m-scroll>
+    <z-m-scroll :isChangeHeader.sync="isChangeHeader" :detail-data="ZMDetailData" :textHeight="textHeight"></z-m-scroll>
     <z-m-contents :comicsInfo.sync="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
@@ -132,10 +103,11 @@ export default {
     // }
   },
   mounted() {
-    const queryData = this.$route.query || {}
+    console.log('客服端进入详情页面');
+    const queryData = this.$route.query || {};
     this.cartoon_id = queryData.cartoon_id || '';
-    this.ref = queryData.ref
-    this.refId = queryData.ref_id
+    this.ref = queryData.ref;
+    this.refId = queryData.ref_id;
     this.getZMDetail(this.ZMDetailData);
     setTimeout(() => {
       this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
@@ -150,7 +122,7 @@ export default {
      * @date: 8/11/20-3:38 下午
      */
     handleClickShare() {
-	    this.$router.push('/download')
+      this.$router.push('/download');
       console.log('click go to share....');
     },
     /**
@@ -159,9 +131,9 @@ export default {
      * @date: 8/31/20-6:33 下午
      */
     getElHeight() {
-      console.log('........')
-	    console.log(document.getElementsByClassName('main')[1].style)
-	    // document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
+      console.log('........');
+      console.log(document.getElementsByClassName('main')[1].style);
+      // document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       this.showMoreFlag = true;
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
@@ -170,11 +142,11 @@ export default {
         const marginTop = introContentHeight - 58 - 56 / 2;
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
         this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0;
-	      this.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
+        this.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
       }, 10);
     },
     /**
-     * @info: 获取漫画详情
+     * @info: 初始化漫画相关数据
      * @author: PengGeng
      * @date: 8/24/20-4:30 下午
      */
@@ -201,6 +173,25 @@ export default {
         evalNum: cartoonData.eval_num || 0, // 评价数
         shelfNum: cartoonData.shelf_num || 0 // 被加入书架量
       };
+
+      if (this.textContent) {
+        const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '');
+        this.isShowUnfold = (clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44);
+      }
+
+      if (this.isShowUnfold) {
+        const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
+        let textWrods = this.textLength;
+        if (clientHeight > 32 && this.infoWidth >= 311 && this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g)[0].length > 20) {
+          textWrods = 95;
+          this.ZMDetailInfo = this.textContent.substring(0, textWrods);
+        } else {
+          this.ZMDetailInfo = this.textContent.substring(0, textWrods);
+        }
+      } else {
+        this.ZMDetailInfo = this.textContent;
+      }
+
       this.comicsInfo = comicsInfo;
       this.$store.commit('UPDATE_COMIC', comicsInfo);
     }
@@ -212,10 +203,7 @@ export default {
         window.location.reload();
       }
     },
-    ZMDetailData(n, o) {
-      this.getZMDetail(n);
-    },
-    isChangeHeader: function (newVal, oldVal) {
+    isChangeHeader: function(newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
         this.titleText = this.ZMDetailData.title;
         this.headerBgColor = '#FFFFFF';
@@ -227,13 +215,18 @@ export default {
       }
     }
   },
-  beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave');
+  beforeDestroy() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     console.log('beforeRouteLeave', document.documentElement.scrollTop);
-    next();
   }
+  // beforeRouteLeave(to, from, next) {
+  //   console.log('beforeRouteLeave');
+  //   document.documentElement.scrollTop = 0;
+  //   document.body.scrollTop = 0;
+  //   console.log('beforeRouteLeave', document.documentElement.scrollTop);
+  //   next();
+  // }
 };
 </script>
 

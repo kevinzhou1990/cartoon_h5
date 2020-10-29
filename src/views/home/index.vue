@@ -77,9 +77,7 @@ export default {
     };
   },
   asyncData({ store, route }) {
-    store.dispatch('getBanner');
-    store.dispatch('getRec');
-    store.dispatch('getRecTab');
+    return Promise.all([store.dispatch('getBanner'), store.dispatch('getRec'), store.dispatch('getRecTab')]);
   },
   computed: {
     // banner list
