@@ -34,6 +34,7 @@ router.onReady(() => {
     const matchedComponents = router.getMatchedComponents(to);
     const preMatchComponents = router.getMatchedComponents(from);
     const actived = matchedComponents.filter((component, i) => component !== preMatchComponents[i]);
+    console.log(actived, '------')
     // 我们只关心非预渲染的组件
     // 所以我们对比它们，找出两个匹配列表的差异列表
     const activatedAsyncHooks = actived.map(component => component && component.asyncData).filter(Boolean);
