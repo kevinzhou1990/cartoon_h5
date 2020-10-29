@@ -174,6 +174,9 @@ export default {
         &:focus {
           outline: none
         }
+        &:active {
+          background: #0ead5e;
+        }
       }
     }
   }
