@@ -6,33 +6,19 @@
 <template>
   <div class="like-main">
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
-    <div
-      class="like-main-banner"
-      :style="`background-image:url('${likeBannerData.cover}');`"
-      @click="handleZMInfo(likeBannerData.cartoon_id)"
-    >
+    <div class="like-main-banner" :style="`background-image:url('${likeBannerData.cover}');`" @click="handleZMInfo(likeBannerData.cartoon_id)">
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
           <span>{{ likeBannerData.title || '-' }}</span>
-          <span
-            class="like-main-banner-img-text-l"
-          >{{ likeBannerData.author | authorFormate }} | {{ likeBannerData.publish_status || '--'}}</span>
+          <span class="like-main-banner-img-text-l">{{ likeBannerData.author | authorFormate }} | {{ likeBannerData.publish_status || '--' }}</span>
         </div>
       </div>
     </div>
     <div class="like-main-other">
-      <div
-        class="like-main-other-item"
-        v-for="item in likeComicsList"
-        :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
-      >
-        <span
-          class="like-main-other-item-img"
-          :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"
-        ></span>
-        <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
-        <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
+      <div class="like-main-other-item" v-for="item in likeComicsList" :key="item.cartoon_id" @click="handleZMInfo(item.cartoon_id)">
+        <span class="like-main-other-item-img" :style="{ background: 'url(' + item.cover + ')', 'background-size': '100%' }"></span>
+        <span class="like-main-other-item-title">{{ item.title || '--' }}</span>
+        <span class="like-main-other-item-chapter">{{ item.publish_status || '--' }}</span>
       </div>
     </div>
   </div>
@@ -90,7 +76,7 @@ $chapter-color: #bbbbbb;
   &-banner {
     position: relative;
     margin: 12px 8px;
-    width: 343px;
+    width: calc(100% - 16px);
     height: 172px;
     background: url('../../../assets/img/defaultBanner.png') no-repeat;
     background-size: 100%;
