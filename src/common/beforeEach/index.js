@@ -1,5 +1,5 @@
-import router from '@/router';
-import store from '@/store';
+import { router } from '@/router';
+import { store } from '@/store';
 
 const updateList = ['/home', '/shelf', '/mine'];
 

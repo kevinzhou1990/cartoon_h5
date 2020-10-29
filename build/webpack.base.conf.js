@@ -140,6 +140,7 @@ module.exports = {
     hints: false
   },
   devtool: isProd ? false : '#cheap-module-source-map'
+  // devtool: '#cheap-module-source-map'
   // plugins: [VueLoaderPlugin()]
 };
 
