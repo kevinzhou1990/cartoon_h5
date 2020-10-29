@@ -57,7 +57,7 @@ service.interceptors.response.use(
         // 去刷新token
         return tokenError('refresh', response);
       // 针对 登陆异常状况处理
-      case 1209:
+      // case 1209:
       // 未登陆的状态
       //   console.log('未登陆。。。。。')
       //   Router.replace('/ZMLogin')

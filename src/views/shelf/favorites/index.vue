@@ -22,7 +22,7 @@
       </div>
 
       <div v-if="active === 'customize'" class="animation-active-in">
-        <customize></customize>
+        <customize :customizeList='customizeList'></customize>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ import { mapState, mapMutations } from 'vuex';
 import collectTable from './components/collectTable'
 import noCollect from './components/noCollect'
 import customize from './customize/index'
-import { getCartoonByGroup } from '@/common/api/shelf'
+import { getCartoonByGroup, getGroupList } from '@/common/api/shelf'
 export default {
   name: 'favorite',
   data() {
@@ -49,7 +49,8 @@ export default {
         }
       ],
       collectList: [],
-      hotList: []
+      hotList: [],
+      customizeList: []
     };
   },
   components: { collectTable, noCollect, customize },
@@ -57,7 +58,7 @@ export default {
     ...mapState({ active: (state) => state.collect.active })
   },
   mounted() {
-    this.getDefaultCollect()
+    this.tabActive()
   },
   methods: {
     ...mapMutations(['updateActive']),
@@ -66,19 +67,41 @@ export default {
         return false;
       }
       this.updateActive(value);
-      this.getDefaultCollect();
+      this.tabActive();
       document.documentElement.scrollTop = 0;
     },
-    async getDefaultCollect(){
+    //判断tab
+    tabActive(){
       if (this.active === 'default'){
-        const data = await getCartoonByGroup(0);
-        if (data.code === 0) {
-          this.collectList = data.data.cartoon_list;
-          this.hotList = data.data.hot_list;
-        } else {
-          this.$toast(data.msg || '系统出错,请稍后重试');
-        }
+        this.getDefaultCollect()
+      } else {
+        this.getGroup()
       }
+    },
+    //获取默认收藏
+    async getDefaultCollect(){
+      const data = await getCartoonByGroup(0);
+      this.emitData(data.code);
+      if (data.code === 0) {
+        this.collectList = data.data.cartoon_list;
+        this.hotList = data.data.hot_list;
+      } else {
+        this.$toast(data.msg || '系统出错,请稍后重试');
+      }
+    },
+    //获取自定义收藏列表
+    async getGroup() {
+      const data = await getGroupList();
+      this.emitData(data.code);
+      if (data.code === 0) {
+        this.customizeList = data.data.list;
+      } else {
+        this.$toast(data.msg || '系统出错,请稍后重试');
+      }
+    },
+    //传登录态到父组件
+    emitData(code){
+      this.$emit('updateStatus', !(code === 1204 || code === 1209))
     }
   }
 };
