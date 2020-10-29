@@ -5,7 +5,7 @@
           <a slot="left" class="navigation_arrow_left" @click.stop="handleClickClose"></a>
         </z-m-header>
         <div class="login-content">
-          <div class="login-content-banner"></div>
+          <img class="login-content-banner" :src="loginImg" alt="">
           <div class="m-16 login-content-b zm-b-radius">
         <span class="login-content-b-left b-a" @click="handleClickAreaCode">{{ telCode }}
           <img class="down-img" :src="downImg" alt="">
@@ -14,6 +14,7 @@
                 v-model="telPhoneNum"
                 type="text"
                 :change="changeTelPhoneNum(telPhoneNum)"
+                @focus="changLoginImg('tel')"
                 class="login-content-b-phone"
                 maxlength="11"
                 placeholder="请输入手机号"/>
@@ -26,6 +27,7 @@
                     type="text"
                     :change="changeValidateNum(validateNum)"
                     class="login-content-b-phone"
+                    @focus="changLoginImg('sms')"
                     maxlength="6"
                     placeholder="请输入验证码"
                 />
@@ -44,7 +46,7 @@
                     class="login-content-b-phone"
                     maxlength="20"
                     placeholder="请输入密码"
-                    @focus="changePasswordVal"
+                    @focus="changLoginImg('pass')"
                 />
                 <span
                     class="login-content-b-right"
@@ -92,13 +94,18 @@ import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
 import { loginByPass, loginByValidateCode } from './api/index'
 import { encryptDes } from './common/index'
+const defaultLoginImg = require('./images/loginBanner.png')
+const passLoginImg = require('./images/banner_close.png')
+const openEyeLoginImg = require('./images/more.png') // todo 修改为偷看的图片
+const telLoginImg = require('./images/refresh.png') // todo 修改为思考的图片
 export default {
   name: 'Login-index',
   mixins: [myMixins],
   data(){
     return {
 	    show: false,
-      loginType: 0 // 0 手机号登陆； 1 密码登陆
+      loginType: 0, // 0 手机号登陆； 1 密码登陆
+	    loginImg: defaultLoginImg
     }
   },
   computed: {
@@ -143,7 +150,6 @@ export default {
       this.passwordVal = '' // 密码
     },
 	  /**
-     * TODO 替换Banner图片
 	   * @info: 隐藏或者明文展示
 	   * @author: PengGeng
 	   * @date: 10/16/20-2:28 下午
@@ -151,15 +157,23 @@ export default {
 	   */
 	  handleClickHidePassword() {
 		  this.passwordShowFlag = !this.passwordShowFlag
+		  this.changLoginImg(this.passwordShowFlag ? 'eyeopen' : 'eyeclose')
     },
 	  /**
-     * TODO Banner替换图片
 	   * @info: 得到密码文本框的焦点
 	   * @author: PengGeng
 	   * @date: 10/16/20-2:44 下午
+     * @param val type [String] tel 手机号input 琢磨手势的图片;  pass/eyeclose 密码文本框 不看手势的图片;   sms 短信验证码/明文 使用偷看手势图片;
 	   */
-	  changePasswordVal() {
-
+	  changLoginImg(val) {
+      const valData = {
+        'tel': telLoginImg,
+        'pass': passLoginImg,
+        'eyeclose': passLoginImg,
+        'eyeopen': openEyeLoginImg,
+        'sms': openEyeLoginImg
+      }
+      this.loginImg = valData[val] || defaultLoginImg
     },
 	  /**
 	   * @info: 登陆
@@ -333,8 +347,8 @@ export default {
         margin: 4px auto;
         width: auto;
         height: 108px;
-        background: url("./images/loginBanner.png") no-repeat center;
-        background-size: 100%;
+        /*background: url("./images/loginBanner.png") no-repeat center;*/
+        /*background-size: 100%;*/
       }
       &-b {
         width: auto;
