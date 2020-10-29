@@ -10,7 +10,7 @@
         class="maybe-main-content"
         v-for="(item, index) in maybeLikeComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
     >
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></div>

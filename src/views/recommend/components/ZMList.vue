@@ -9,7 +9,7 @@
       <z-mswiper :banner-height="bannerHeight" :isBottomImg="isBottomImg" :swiperOptionsProps="swiperOptions"></z-mswiper>
     </div>
     <div class="maybe-main-content" v-for="(item, index) in dataList" :key="item.cartoon_id">
-      <div class="maybe-main-content-item" @click.stop="handleClickComicsInfo(item.cartoon_id)">
+      <div class="maybe-main-content-item" @click.stop="handleZMInfo(item.cartoon_id, 4)">
         <div class="maybe-main-content-item-img" :style="{background: 'url('+item.cover+')', 'background-size': 'contain'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
@@ -40,9 +40,11 @@
 
 <script>
 import ZMswiper from '@/common/components/ZMswiper'
+import myMixins from '@/common/mixin/myMixins'
 import '@/common/filters/home'
 export default {
   name: 'ZMPossibale',
+  mixins: [myMixins],
   props: {
     dataList: {
       type: Array,
@@ -76,15 +78,15 @@ export default {
      * @author: PengGeng
      * @date: 8/11/20-10:04 上午
      */
-    handleClickComicsInfo(val) {
-      console.log('go to comics info......', val)
-      this.$router.push({
-        path: '/detail',
-        query: {
-          cartoon_id: val
-        }
-      })
-    }
+    // handleClickComicsInfo(val) {
+    //   console.log('go to comics info......', val)
+    //   this.$router.push({
+    //     path: '/detail',
+    //     query: {
+    //       cartoon_id: val
+    //     }
+    //   })
+    // }
   }
 }
 </script>

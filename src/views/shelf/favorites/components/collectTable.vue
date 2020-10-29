@@ -14,10 +14,10 @@
         ></span>
         <span class="main-content-item-title">{{ item.title }}</span>
         <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
-        <span class="main-content-item-status" v-else>收藏 {{item.shelf_num}}</span>
+        <span class="main-content-item-status" v-else>收藏 {{item.shelf_num_text}}</span>
       </div>
     </div>
-    <div class="container-end" v-if="dataList.length > 0">不要再扯了，真的没有了～</div>
+    <div class="container-end" v-if="!dataList.length">不要再扯了，真的没有了～</div>
   </div>
 </template>
 
@@ -38,9 +38,6 @@ export default {
   data() {
     return {
     };
-  },
-  mounted() {
-    this.$store.dispatch('getLoginStatus');
   }
 };
 </script>

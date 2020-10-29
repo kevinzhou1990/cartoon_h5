@@ -41,7 +41,7 @@ export default {
   },
   methods: {
 	  handleClickInfo(val) {
-		  this.handleZMInfo(val)
+		  this.handleZMInfo(val, 4)
     }
   }
 }

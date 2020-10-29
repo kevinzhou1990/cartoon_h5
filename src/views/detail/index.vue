@@ -1,26 +1,55 @@
 <template>
-  <div class="box main" style="overflow: hidden">
-    <z-m-header ref="detailHeader" :title-text="titleText" :background-color="headerBgColor" show-right :show-nav-flag="showNavFlag" :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'">
-      <div slot="right" :class="showNavFlag ? 'header-right-white' : 'header-right-detail'" @click="handleClickShare"></div>
+  <div class="box main" style="overflow: hidden;">
+    <z-m-header
+      ref="detailHeader"
+      :title-text="titleText"
+      :background-color="headerBgColor"
+      show-right
+      :show-nav-flag="showNavFlag"
+      :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
+    >
+      <div
+        slot="right"
+        :class="showNavFlag ? 'header-right-white': 'header-right-detail'"
+        @click="handleClickShare"
+      ></div>
     </z-m-header>
-    <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
+    <section class="main-content" ref="mainContent" :style="{background: mainColor}">
       <div class="main-content-box">
         <div class="main-content-box-left">
-          <span class="main-content-box-left-title">{{ ZMDetailData.title || '--' }}</span>
+          <span class="main-content-box-left-title">{{ ZMDetailData.title || '--'}}</span>
           <span class="main-content-box-left-author">[作者] {{ ZMDetailData.author | authorFormate }}</span>
           <div class="main-content-box-left-label">
-            <span class="main-content-box-left-label-content zm-b-radius" :style="index === 1 ? { 'margin-left': 0 } : ''" v-for="(tagItem, index) in ZMDetailData.tag" :key="index">{{ tagItem }}</span>
+            <span
+              class="main-content-box-left-label-content zm-b-radius"
+              :style="index===1? {'margin-left' : 0 }: ''"
+              v-for="(tagItem, index) in ZMDetailData.tag"
+              :key="index"
+            >{{ tagItem }}</span>
           </div>
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
-        <div :style="{ background: 'url(' + ZMDetailData.cover + ')no-repeat center / contain' }" class="main-content-box-right" v-if="ZMDetailData.cover"></div>
+        <div
+          :style="{ background: 'url('+ZMDetailData.cover+')no-repeat center / contain'}"
+          class="main-content-box-right"
+          v-if="ZMDetailData.cover"
+        ></div>
       </div>
-      <div style="padding: 0 32px 24px 32px" class="info-content" ref="intro-content">
+      <div style="padding: 0 32px 24px 32px;" class="info-content" ref="intro-content">
         {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
-        <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18, 224, 121, 1)" v-if="isShowUnfold && !showMoreFlag" @click.prevent="getElHeight">[展开]</a>
+        <a
+          href="javascirpt:void(0)"
+          style="text-decoration: none; color: rgba(18,224,121,1);"
+          v-if="isShowUnfold && !showMoreFlag"
+          @click.prevent="getElHeight"
+        >[展开]</a>
       </div>
     </section>
-    <z-m-scroll :isChangeHeader.sync="isChangeHeader" :detail-data="ZMDetailData" :textHeight="textHeight"></z-m-scroll>
+    <z-m-scroll
+      :isChangeHeader.sync="isChangeHeader"
+      :detail-data="ZMDetailData"
+      :textHeight="textHeight"
+    ></z-m-scroll>
     <z-m-contents :comicsInfo.sync="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
@@ -46,6 +75,8 @@ export default {
       isChangeHeader: false,
       zmCollectData: null,
       cartoon_id: '', // 漫画id
+      ref: undefined, // 来源id
+      refId: undefined, // 具体来源id的细分id
       textLength: 44, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
@@ -101,7 +132,10 @@ export default {
     // }
   },
   mounted() {
-    this.cartoon_id = this.$route.query.cartoon_id || '';
+    const queryData = this.$route.query || {}
+    this.cartoon_id = queryData.cartoon_id || '';
+    this.ref = queryData.ref
+    this.refId = queryData.ref_id
     this.getZMDetail(this.ZMDetailData);
     setTimeout(() => {
       this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
@@ -111,11 +145,12 @@ export default {
   },
   methods: {
     /**
-     * @info: TODO 点击了分享
+     * @info: 点击了分享
      * @author: PengGeng
      * @date: 8/11/20-3:38 下午
      */
     handleClickShare() {
+	    this.$router.push('/download')
       console.log('click go to share....');
     },
     /**
@@ -124,10 +159,10 @@ export default {
      * @date: 8/31/20-6:33 下午
      */
     getElHeight() {
-      console.log('........');
+      console.log('........')
+	    console.log(document.getElementsByClassName('main')[1].style)
+	    // document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       this.showMoreFlag = true;
-      console.log(document.getElementsByClassName('main')[1].style);
-      document.getElementsByClassName('main')[1].style.pointerEvents = 'auto';
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
         console.log(this.$refs['intro-content'].offsetHeight);
@@ -135,6 +170,7 @@ export default {
         const marginTop = introContentHeight - 58 - 56 / 2;
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
         this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0;
+	      this.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
       }, 10);
     },
     /**
@@ -173,6 +209,7 @@ export default {
     $route(to, from) {
       if (to.query.cartoon_id !== from.query.cartoon_id) {
         this.$store.dispatch('getDetail', to.query.cartoon_id);
+        window.location.reload();
       }
     },
     ZMDetailData(n, o) {
@@ -193,6 +230,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     console.log('beforeRouteLeave');
     document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     console.log('beforeRouteLeave', document.documentElement.scrollTop);
     next();
   }
@@ -229,7 +267,7 @@ $content-label-fontSize: 10px;
   word-break: break-word;
   text-overflow: ellipsis;
   /*display: -webkit-box;*/
-  height: 100%;
+  /*height: 100%;*/
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -242,6 +280,7 @@ $content-label-fontSize: 10px;
     position: fixed;
     color: $content-color;
     min-height: 284px;
+    /*height: auto;*/
     z-index: 1;
     &-box {
       display: flex;

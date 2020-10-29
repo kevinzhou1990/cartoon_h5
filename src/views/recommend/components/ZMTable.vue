@@ -10,7 +10,7 @@
         class="main-content-item"
         v-for="item in dataList"
         :key="item.cartoon_id"
-        @click.stop="handleClickInfo(item.cartoon_id)"
+        @click.stop="handleZMInfo(item.cartoon_id, 4)"
       >
         <span
           class="main-content-item-img"
@@ -24,13 +24,18 @@
 </template>
 
 <script>
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'ZMTable',
+  mixins: [myMixins],
   props: {
     dataList: {
       type: Array,
       default: () => []
     }
+  },
+  data() {
+    return {}
   },
   methods: {
     /**

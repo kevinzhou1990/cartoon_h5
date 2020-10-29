@@ -14,7 +14,7 @@
           class="hot-main-content-item"
           v-for="item in hotComicsList"
           :key="item.cartoon_id"
-          @click="handleZMInfo(item.cartoon_id)"
+          @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
         <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
         <span class="hot-main-content-item-title">{{ item.title || '-' }}</span>

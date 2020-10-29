@@ -4,9 +4,7 @@ import { createRouter } from './router';
 import { createStore } from './store';
 import { sync } from 'vuex-router-sync';
 import env from '@/lib/utils/env';
-// import Button from '@/common/plugin/button';
-// import Dialog from '@/common/plugin/dialog';
-// import store from '@/store';
+import '@/common/beforeEach'
 import Toast from '@/common/plugin/toast';
 import './assets/style/index.scss';
 import MintUI from 'mint-ui';
@@ -14,18 +12,14 @@ import 'mint-ui/lib/style.css';
 if (env.isClient()) {
   require('lib-flexible');
 }
-// import 'lib-flexible';
-// import 'lib/utils/getDeviceID';
+
 /**
  * 引入mintui
  */
 
-// import { getTokenByOAuth } from 'lib/utils/getTokenByLogin';
 
 // swpier组件
 Vue.use(MintUI);
-// Vue.use(Button);
-// Vue.use(Dialog);
 Vue.prototype.Toast = Toast;
 Vue.config.productionTip = false;
 

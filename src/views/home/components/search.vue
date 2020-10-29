@@ -14,7 +14,7 @@
           </li>
         </ul>
           <ul v-else>
-            {{ scrollTextList[0]||'111' }}
+            {{ scrollTextList[0] || '111' }}
           </ul>
         <ul></ul>
       </div>
