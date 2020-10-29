@@ -16,7 +16,7 @@
         ></collect-table>
 
         <no-collect
-          v-if="!collectList.length && hotList.length"
+          v-else-if="!collectList.length && !isLoading"
           :dataList="hotList"
           :class="!collectList.length ? 'animation-active-in' : 'animation-active-out'"
         ></no-collect>
@@ -51,6 +51,7 @@ export default {
       ],
       collectList: [],
       hotList: [],
+      isLoading: true,
       customizeList: []
     };
   },
@@ -81,8 +82,10 @@ export default {
     },
     //获取默认收藏
     async getDefaultCollect(){
+      this.isLoading = true;
       const data = await getCartoonByGroup(0);
       this.emitData(data.code);
+      this.isLoading = false;
       if (data.code === 0) {
         this.collectList = data.data.cartoon_list;
         this.hotList = data.data.hot_list;

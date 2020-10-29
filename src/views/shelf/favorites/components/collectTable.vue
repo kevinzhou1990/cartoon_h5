@@ -18,7 +18,7 @@
           <span class="main-content-item-status" v-else>收藏 {{item.shelf_num_text}}</span>
         </div>
       </div>
-      <div class="container-end">不要再扯了，真的没有了～</div>
+      <div class="container-end" v-if="type !== 'myCollect' || dataList.length > 5">不要再扯了，真的没有了～</div>
     </template>
 
     <no-data-view v-else type="collect" class="no-data" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
