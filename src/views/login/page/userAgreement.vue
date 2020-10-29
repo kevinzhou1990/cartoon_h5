@@ -1,7 +1,7 @@
 <template>
   <transition name="agreement">
-    <div class="agree-main box" v-show="agreementFlag">
-      <z-m-header :title-text="titleContent"></z-m-header>
+    <div class="agree-main" :class="{'box': agreementFlag}">
+      <z-m-header :title-text="titleContent" v-show="agreementFlag"></z-m-header>
       <div class="agree-main-content" v-html="userContent"></div>
     </div>
   </transition>
@@ -10,6 +10,7 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader'
 import { getAgreement } from '../api/index'
+
 export default {
   name: 'userAgreement',
   data() {
@@ -21,7 +22,11 @@ export default {
   },
   components: {ZMHeader},
   mounted() {
-    this.agreementFlag = true
+	  let u = navigator.userAgent;
+	  let APPFlag = u.indexOf('isApp') > -1 // 判断是否是在APP里面运行
+	  // let isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	  // let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    this.agreementFlag = !APPFlag
     this.titleContent = this.$route.query.agreeType === 1 ? '用户协议' : '隐私保护协议'
     this.getData(this.$route.query.agreeType)
   },
