@@ -15,7 +15,6 @@ export default context => {
       // console.log(router, router.getMatchedComponents());
 
       const matchedComponents = router.getMatchedComponents();
-      console.log(matchedComponents, '++++++======');
       // 匹配不到的路由，执行reject函数，并返回404
       if (!matchedComponents.length) {
         // eslint-disable-next-line prefer-promise-reject-errors
