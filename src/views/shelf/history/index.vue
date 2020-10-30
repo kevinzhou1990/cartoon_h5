@@ -36,9 +36,10 @@
 import noDataView from '@/common/components/noDataView';
 import { getHistory } from '@/common/api/shelf';
 import myMixins from '@/common/mixin/myMixins'
+import shelfMixin from '../mixin'
 export default {
   name: 'history',
-  mixins: [ myMixins ],
+  mixins: [ myMixins, shelfMixin ],
   components: { noDataView },
   data() {
     return {
@@ -53,11 +54,11 @@ export default {
     //获取历史列表
     async getHistoryList(){
       const data = await getHistory();
-      this.$emit('updateStatus', !(data.code === 1204 || data.code === 1209))
+      this.emitData(data.code);
       if (data.code === 0) {
         this.historyList = data.data.list;
       } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
+        this.noLoginToast(data)
       }
     }
   }

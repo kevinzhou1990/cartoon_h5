@@ -35,8 +35,10 @@ import collectTable from './components/collectTable'
 import noCollect from './components/noCollect'
 import customize from './customize/index'
 import { getCartoonByGroup, getGroupList } from '@/common/api/shelf'
+import shelfMixin from '../mixin'
 export default {
   name: 'favorite',
+  mixins: [ shelfMixin ],
   data() {
     return {
       tab: [
@@ -90,7 +92,7 @@ export default {
         this.collectList = data.data.cartoon_list;
         this.hotList = data.data.hot_list;
       } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
+        this.noLoginToast(data);
       }
     },
     //获取自定义收藏列表
@@ -100,12 +102,8 @@ export default {
       if (data.code === 0) {
         this.customizeList = data.data.list;
       } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
+        this.noLoginToast(data);
       }
-    },
-    //传登录态到父组件
-    emitData(code){
-      this.$emit('updateStatus', !(code === 1204 || code === 1209))
     }
   }
 };
