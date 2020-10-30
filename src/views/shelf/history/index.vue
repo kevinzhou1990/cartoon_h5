@@ -11,8 +11,12 @@
             <div class="title ellipsis">{{ item.title }}</div>
 
             <div class="other scale">
-              <div class="author ellipsis">{{ item.author[0] || '--' }}</div>
-              <div class="status ellipsis">{{ item.publish_status }}</div>
+              <div class="author ellipsis" v-if="item.author.length > 0">
+                <span v-for="(author, index) in item.author" :key="index" class="author-item">{{ author }}</span>
+              </div>
+              <div class="author ellipsis" v-else>--</div>
+
+              <div class="status">{{ item.publish_status }}</div>
             </div>
 
             <div class="tag scale">
@@ -28,7 +32,7 @@
       </div>
     </div>
 
-    <no-data-view v-else class="no-data" type="history" textContent="一个脚印都没有～"></no-data-view>
+    <no-data-view v-else-if="!historyList.length && !isLoading" class="no-data" type="history" textContent="一个脚印都没有～"></no-data-view>
   </div>
 </template>
 
@@ -44,7 +48,8 @@ export default {
   data() {
     return {
       ref: 7,
-      historyList: []
+      historyList: [],
+      isLoading: true
     };
   },
   mounted() {
@@ -53,7 +58,9 @@ export default {
   methods: {
     //获取历史列表
     async getHistoryList(){
+      this.isLoading = true;
       const data = await getHistory();
+      this.isLoading = false;
       this.emitData(data.code);
       if (data.code === 0) {
         this.historyList = data.data.list;
@@ -121,19 +128,26 @@ export default {
           }
 
           .other {
+            width: calc(100% * 1.202);
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+            white-space: nowrap;
+            overflow: hidden;
             .author {
-              display: inline-block;
-              max-width: 50%;
               padding-right: 16px;
-            }
-            .status {
-              display: inline-block;
-              max-width: calc(50% - 20px);
+              .author-item:not(:last-child) {
+                &:after {
+                  content: '/';
+                }
+              }
             }
           }
 
           .tag {
             margin-top: 8px;
+            width: calc(100% * 1.202);
             .tag-item {
               border: 1px solid #eeeeee;
               border-radius: 4px;
