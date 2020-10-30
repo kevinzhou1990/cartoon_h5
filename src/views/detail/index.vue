@@ -108,12 +108,12 @@ export default {
     this.cartoon_id = queryData.cartoon_id || '';
     this.ref = queryData.ref;
     this.refId = queryData.ref_id;
-    this.getZMDetail(this.ZMDetailData);
     setTimeout(() => {
+      this.getZMDetail(this.ZMDetailData);
       this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
       this.infoWidth = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).width.replace('px', ''));
       console.log(this.infoHeight);
-    }, 0);
+    }, 200);
   },
   methods: {
     /**
@@ -219,14 +219,14 @@ export default {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     console.log('beforeRouteLeave', document.documentElement.scrollTop);
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave');
+    // document.documentElement.scrollTop = 0;
+    //   document.body.scrollTop = 0;
+    //   console.log('beforeRouteLeave', document.documentElement.scrollTop);
+    next();
   }
-  // beforeRouteLeave(to, from, next) {
-  //   console.log('beforeRouteLeave');
-  //   document.documentElement.scrollTop = 0;
-  //   document.body.scrollTop = 0;
-  //   console.log('beforeRouteLeave', document.documentElement.scrollTop);
-  //   next();
-  // }
 };
 </script>
 

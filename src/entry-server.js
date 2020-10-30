@@ -7,6 +7,7 @@ export default context => {
     const { app, router, store } = createApp();
 
     // 设置服务器端router的位置
+    console.log(context.url, '---');
     router.push(context.url);
 
     // 等到router将可能的异步组件和钩子函数解析完
@@ -14,6 +15,7 @@ export default context => {
       // console.log(router, router.getMatchedComponents());
 
       const matchedComponents = router.getMatchedComponents();
+      console.log(matchedComponents, '++++++======');
       // 匹配不到的路由，执行reject函数，并返回404
       if (!matchedComponents.length) {
         // eslint-disable-next-line prefer-promise-reject-errors
