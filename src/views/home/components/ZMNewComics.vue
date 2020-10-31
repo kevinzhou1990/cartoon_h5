@@ -11,7 +11,7 @@
         class="new-main-content-item"
         v-for="item in newComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id, 2, re)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
         <div class="new-main-content-item-img" :style="`background-image: url('${item.cover}'); `">
           <div class="new-main-content-item-img-text">

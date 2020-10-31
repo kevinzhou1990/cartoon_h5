@@ -1,38 +1,58 @@
 <template>
   <div class="main-content">
-    <div class="container">
-      <div
-        class="main-content-item"
-        v-for="item in dataList"
-        :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
-      >
-        <div class="update-tip" v-if="item.has_new && type === 'myCollect'">更新</div>
-        <span
-          class="main-content-item-img"
-          :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"
-        ></span>
-        <span class="main-content-item-title">{{ item.title }}</span>
-        <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
-        <span class="main-content-item-status" v-else>收藏 {{item.shelf_num_text}}</span>
+    <template v-if="dataList.length">
+      <div class="container">
+        <div
+          class="main-content-item"
+          v-for="item in dataList"
+          :key="item.cartoon_id"
+          @click="handleZMInfo(item.cartoon_id, ref, refId)"
+        >
+          <div class="update-tip" v-if="item.has_new && type === 'myCollect'">更新</div>
+          <span
+            class="main-content-item-img"
+            :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"
+          ></span>
+          <span class="main-content-item-title">{{ item.title }}</span>
+          <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
+          <span class="main-content-item-status" v-else>收藏 {{item.shelf_num_text}}</span>
+        </div>
       </div>
-    </div>
-    <div class="container-end" v-if="!dataList.length">不要再扯了，真的没有了～</div>
+      <div class="container-end" v-if="type !== 'myCollect' || dataList.length > 5">不要再扯了，真的没有了～</div>
+    </template>
+
+    <no-data-view v-else type="collect" class="no-data" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
   </div>
 </template>
 
 <script>
+import noDataView from '@/common/components/noDataView';
 import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'collectTable',
   mixins: [ myMixins ],
+  components: { noDataView },
   props: {
     type: {
       type: String,
       default: ''
     },
+    refId: {
+      type: String || Number,
+      default: undefined
+    },
     dataList: {
       type: Array
+    }
+  },
+  computed: {
+    ref(){
+      let arr = {
+        'myCollect': 5,
+        'hotCollect': 4
+      };
+
+      return arr[this.type]
     }
   },
   data() {

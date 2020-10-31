@@ -300,7 +300,7 @@ $SIDEWIDTH: 86px;
         -webkit-line-clamp: 2;
         word-break: break-all;
       }
-      .other-container {
+      .other-container{
         position: absolute;
         width: calc(100% + 16px);
       }
@@ -320,6 +320,9 @@ $SIDEWIDTH: 86px;
         }
       }
     }
+  }
+  .no-data{
+    height: calc(100vh - 44px);
   }
 }
 </style>

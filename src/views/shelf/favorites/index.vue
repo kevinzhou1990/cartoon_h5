@@ -9,13 +9,14 @@
       <div v-if="active === 'default'">
         <collect-table
           type="myCollect"
+          refId=0
           :dataList="collectList"
           v-if="collectList.length"
           :class="collectList.length ? 'animation-active-in' : 'animation-active-out'"
         ></collect-table>
 
         <no-collect
-          v-if="!collectList.length && hotList.length"
+          v-else-if="!collectList.length && !isLoading"
           :dataList="hotList"
           :class="!collectList.length ? 'animation-active-in' : 'animation-active-out'"
         ></no-collect>
@@ -34,8 +35,10 @@ import collectTable from './components/collectTable'
 import noCollect from './components/noCollect'
 import customize from './customize/index'
 import { getCartoonByGroup, getGroupList } from '@/common/api/shelf'
+import shelfMixin from '../mixin'
 export default {
   name: 'favorite',
+  mixins: [ shelfMixin ],
   data() {
     return {
       tab: [
@@ -50,6 +53,7 @@ export default {
       ],
       collectList: [],
       hotList: [],
+      isLoading: true,
       customizeList: []
     };
   },
@@ -80,13 +84,15 @@ export default {
     },
     //获取默认收藏
     async getDefaultCollect(){
+      this.isLoading = true;
       const data = await getCartoonByGroup(0);
       this.emitData(data.code);
+      this.isLoading = false;
       if (data.code === 0) {
         this.collectList = data.data.cartoon_list;
         this.hotList = data.data.hot_list;
       } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
+        this.noLoginToast(data);
       }
     },
     //获取自定义收藏列表
@@ -96,12 +102,8 @@ export default {
       if (data.code === 0) {
         this.customizeList = data.data.list;
       } else {
-        this.$toast(data.msg || '系统出错,请稍后重试');
+        this.noLoginToast(data);
       }
-    },
-    //传登录态到父组件
-    emitData(code){
-      this.$emit('updateStatus', !(code === 1204 || code === 1209))
     }
   }
 };

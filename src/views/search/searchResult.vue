@@ -16,6 +16,7 @@
               :cartoonList="dataList"
               :count="count"
           ></z-m-search-result-list>
+          <z-m-no-data v-if="allLoaded"></z-m-no-data>
         </mt-loadmore>
       </div>
       <section v-else style="position: relative; margin-top: 68px;">
@@ -41,6 +42,7 @@ import noDataView from '@/common/components/noDataView'
 import ZMHistoryList from '@/views/search/components/ZMHistoryList'
 import ZMLoading from '@/views/search/components/loading/loading'
 import { getSearchData } from '@/common/api/search'
+import ZMNoData from '@/common/components/ZMNoData'
 export default {
   name: 'searchResult',
   data(){
@@ -68,7 +70,8 @@ export default {
 	  ZMSearchRecommend,
 	  noDataView,
 	  ZMHistoryList,
-	  ZMLoading
+	  ZMLoading,
+	  ZMNoData
   },
   mounted() {
     this.searchVal = this.$route.query.searchValue || ''

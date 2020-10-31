@@ -7,7 +7,11 @@
     </z-m-header>
 
     <div class="main-container">
-      <collect-table type="myCollect" :dataList="collectList"></collect-table>
+      <collect-table
+        type="myCollect"
+        :refId="$route.params.favorite_id"
+        :dataList="collectList"
+      ></collect-table>
     </div>
   </div>
 </template>

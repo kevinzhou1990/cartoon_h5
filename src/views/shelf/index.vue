@@ -156,7 +156,7 @@ export default {
       text-align: center;
 
       .img {
-        background: url('../../assets/img/default_books.png') no-repeat;
+        background: url('../../assets/img/default_signin_ab.png') no-repeat;
         background-size: 100%;
         width: 160px;
         height: 160px;
@@ -173,6 +173,9 @@ export default {
         font-family: 'pingfang-blod';
         &:focus {
           outline: none
+        }
+        &:active {
+          background: #0ead5e;
         }
       }
     }

@@ -19,9 +19,12 @@
       </div>
     </div>
 
-    <div class="hot-collect">
+    <div class="hot-collect" v-if="dataList.length">
       <div class="title">热门收藏</div>
-      <collect-table type="hotCollect" :dataList="dataList"></collect-table>
+      <collect-table
+        type="hotCollect"
+        :dataList="dataList"
+      ></collect-table>
     </div>
   </div>
 </template>

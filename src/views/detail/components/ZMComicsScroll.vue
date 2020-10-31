@@ -6,7 +6,7 @@
           class="main-img-content"
           v-for="item in comicsList"
           :key="item.cartoon_id"
-          @click.prevent="handleDetial(item.cartoon_id)"
+          @click.prevent="handleZMInfo(item.cartoon_id, 4)"
       >
         <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': '100%'}"></span>
         <span class="main-img-content-title">{{ item.title }}</span>
@@ -33,19 +33,13 @@ export default {
     },
 	  comicsType: {
       type: Number,
-      defatult: 1
+      default: 1
     }
   },
   data() {
     return {
       comicsImg: require('../../../assets/img/defaultBook.png')
     }
-  },
-  methods: {
-	  handleDetial(val) {
-      this.$router.push(`/detail?cartoon_id=${val}`)
-		  // window.location.reload()
-	  }
   }
 };
 </script>
