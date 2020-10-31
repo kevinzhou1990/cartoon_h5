@@ -74,10 +74,10 @@ export default {
     overflow: auto;
     background: #71ad5b;
     min-height: 667px;
-    width: 100%;
-    margin: auto 0;
+    width: auto;
+    margin: auto;
     padding: 0;
-    background: url("./images/downloadbg.jpg") center top no-repeat;
+    background: url("./images/downloadbg.jpg") no-repeat;
     background-size: 100%;
   }
 </style>
