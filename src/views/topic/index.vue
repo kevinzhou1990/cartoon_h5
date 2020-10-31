@@ -24,7 +24,7 @@
       <span> <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }} </span>
     </div>
     <div class="topic-comment">
-      <div class="topic-comment-title">专题评论（{{ count }}）</div>
+      <div class="topic-comment-title">专题评论（{{ this.pageInfo.count }}）</div>
       <ul v-if="commentsList.length">
         <li v-for="item in commentsList" :key="item.id">
           <div>
@@ -58,40 +58,36 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
-import { getTopic, getTopicComments } from '@/common/api/topic';
+import { getTopicComments } from '@/common/api/topic';
 import { throttle } from '@/lib/utils';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
+  asyncData({ store, route }) {
+    return store.dispatch('getTopic', route.query.id);
+  },
   data() {
     return {
-      special: {
-        special_id: 1,
-        title: '开了个汉服店的日常，艾特戈壁电玩店失败第4天，求艾特教学',
-        intro: '简介',
-        can_comment: 1,
-        detail: '',
-        praise_num: 121212123121212,
-        comment_num: 12988766212,
-        created_at_text: 1597999717
-      },
-      commentsList: [],
-      page: 1,
-      totalPage: 1,
-      count: 0,
       scrollHandler: throttle(this.handlerScroll, 100, this),
       defaultHead: 'this.src="' + require('./img/default_head.png') + '"',
       titleText: '',
       showAddComment: false
     };
   },
+  computed: {
+    special() {
+      return this.$store.state.topic.special;
+    },
+    commentsList() {
+      return this.$store.state.topic.commentsList;
+    },
+    pageInfo() {
+      return this.$store.state.topic.pageInfo;
+    }
+  },
   async mounted() {
-    const topic = await getTopic(this.$route.query.id);
-    let special = { ...this.special, ...topic.data };
-    this.special = special;
-    this.getComments(1);
     setTimeout(() => {
-      if (this.$refs.article.clientHeight < innerHeight && special.can_comment === 1) {
+      if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
         this.showAddComment = true;
       }
     }, 300);
@@ -117,7 +113,7 @@ export default {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
       if (t <= innerHeight) {
-        await this.getComments(this.page);
+        this.$store.dispatch('getComments', { id: this.$route.query.id, page: this.pageInfo.page });
       }
       if (document.scrollingElement.scrollTop > 86) {
         this.titleText = this.special.title;

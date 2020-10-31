@@ -19,17 +19,21 @@ module.exports = {
   // add your custom rules here
   rules: {
     // allow async-await
+    // 模版字串包含空格-关闭
+    'template-curly-spacing': 'off',
+    // 关闭强制缩进
+    indent: 'off',
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'space-before-function-paren': 'off',
     'space-before-blocks': 'off',
     semi: 'off',
-	  // 'no-tabs': ['error', {  allowIndentationTabs: true }],
-	  'no-tabs': ["off", 0],
-	  'spaced-comment': 'off',
+    // 'no-tabs': ['error', {  allowIndentationTabs: true }],
+    'no-tabs': ['off', 0],
+    'spaced-comment': 'off',
     'no-useless-escape': 'off',
-	  'no-mixed-spaces-and-tabs': ["error", "smart-tabs"],
+    'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
     camelcase: 0
     // camelcase: { ignoreDestructuring: true }
   }

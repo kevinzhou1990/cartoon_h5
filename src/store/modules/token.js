@@ -1,4 +1,6 @@
 import { getToken, refreshToken } from '@/common/api';
+import { VERSION, PLATFORM, CHANNEL, DEVICE_ID, DEVICE_MODEL, CID, INSTALL_TIME } from '@/lib/utils/const';
+
 const token = {
   state: {
     access_token: '',
@@ -25,15 +27,15 @@ const token = {
         });
       });
     },
-    getToken: ({ commit }, data) => {
+    getToken: ({ commit }) => {
       const getTokenParams = {
-        version: '1.0.0', // 版本号
-        platform: 2, // APP类型，1-PC web 2-H5 web 3-IOS APP 4-Android APP  5-后台管理web
-        channel: 0, // APP渠道，目前固定为0
-        device_id: localStorage.getItem('quniCode') || new Date().getTime(), // 设备唯一标识
-        device_model: 'iphone X', // 设备型号
-        cid: '11111', // 推送标识
-        install_time: '1578294652' // APP安装时间，APP必须
+        version: VERSION, // 版本号
+        platform: PLATFORM, // APP类型，1-PC web 2-H5 web 3-IOS APP 4-Android APP  5-后台管理web
+        channel: CHANNEL, // APP渠道，目前固定为0
+        device_id: DEVICE_ID, // 设备唯一标识
+        device_model: DEVICE_MODEL, // 设备型号
+        cid: CID, // 推送标识
+        install_time: INSTALL_TIME // APP安装时间，APP必须
       };
       return new Promise(resolve => {
         getToken(getTokenParams).then(res => {

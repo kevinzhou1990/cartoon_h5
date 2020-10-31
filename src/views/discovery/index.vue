@@ -56,6 +56,9 @@ export default {
       return this.$store.state.discovery.totalPage;
     }
   },
+  asyncData({ store, route }) {
+    return Promise.all([store.dispatch('getFilterItem'), store.dispatch('getComicsList', { ...store.state.discovery.checked, page: 1 })]);
+  },
   data() {
     return {
       titleText: '发现',
@@ -129,6 +132,7 @@ export default {
       }, 300);
     },
     getFilterHeight(height) {
+      console.log(height, '========');
       this.listTop = height;
     },
     handlerScroll() {

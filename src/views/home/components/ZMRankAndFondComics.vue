@@ -32,7 +32,7 @@ export default {
      * @date: 8/24/20-2:51 下午
      */
     handleDiscoverInfo() {
-      this.$router.push('/discovery')
+      this.$router.push('/discovery');
       console.log('go to discover info');
     }
   }
@@ -62,7 +62,7 @@ export default {
   margin: auto 16px;
   text-align: center;
   &-left {
-    width: 171px;
+    width: 50%;
     height: 56px;
     background: url('../images/ranking_bg.png') no-repeat center;
     background-size: 100%;
@@ -76,7 +76,7 @@ export default {
     }
   }
   &-right {
-    width: 172px;
+    width: 50%;
     height: 56px;
     background: url('../images/find_bg.png') no-repeat center;
     background-size: 100%;
