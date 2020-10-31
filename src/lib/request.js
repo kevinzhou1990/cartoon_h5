@@ -26,8 +26,10 @@ service.intercept({
   //拦截配置
   config(c) {
     console.log('request url ------', c.url);
-    let Authorization = router.app.$store.state.token.access_token;
-    let refresh_token = router.app.$store.state.token.refresh_token;
+    const store = router.app.$store;
+    console.log(router.app.$store.state.token, '+++++++++');
+    let Authorization = store ? store.state.token.access_token : '';
+    let refresh_token = store ? store.state.token.refresh_token : '';
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
@@ -69,11 +71,11 @@ service.intercept({
         return false;
       } else if (code === 1209) {
         console.log('未登陆，跳转到登陆。。。。');
-        return false;
+        return c.data;
       } else if (code === 1204) {
         // 异地登陆
         console.log('异地登陆。。。。。');
-        return false;
+        return c.data;
       } else {
       }
       return Promise.reject(c);
@@ -125,14 +127,14 @@ service.intercept({
 });
 
 // type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
-async function tokenError(type, response) {
-  return store.dispatch(type === 'get' ? 'getToken' : 'refreshToken').then(res => {
-    if (res.code === 0) {
-      return service(response.config);
-    } else {
-      return Promise.reject(res);
-    }
-  });
-}
+// async function tokenError(type, response) {
+//   return store.dispatch(type === 'get' ? 'getToken' : 'refreshToken').then(res => {
+//     if (res.code === 0) {
+//       return service(response.config);
+//     } else {
+//       return Promise.reject(res);
+//     }
+//   });
+// }
 
 export default service;

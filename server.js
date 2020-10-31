@@ -13,7 +13,9 @@ const cookieParser = require('cookie-parser');
 
 const isProd = process.env.NODE_ENV === 'production';
 const useMicroCache = process.env.MICRO_CACHE !== 'false';
-const serverInfo = `express/${require('express/package.json').version} ` + `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
+const serverInfo =
+  `express/${require('express/package.json').version} ` +
+  `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
 
 const app = express();
 
@@ -112,7 +114,10 @@ function render(req, res) {
 // 允许所有域名跨域
 app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'
+  );
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
   // 跨域请求CORS中的预请求
   if (req.method === 'OPTIONS') {
@@ -126,7 +131,8 @@ app.all('*', function(req, res, next) {
 app.use(
   '/api',
   proxyMiddleWare({
-    target: 'http://10.1.15.99:9501/',
+    // target: 'http://10.1.15.99:9501/',
+    target: 'http://10.1.15.98:9501/',
     changeOrigin: true,
     pathRewrite: {},
     onProxyReq: (proxyReq, req, res) => {
