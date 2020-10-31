@@ -3,6 +3,9 @@ import crypto from 'crypto-js';
 import env from './utils/env';
 import { router } from '../router/index';
 import { getRandomStr } from './utils';
+import { getCookie } from './utils';
+
+('@/lib/utils');
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -25,16 +28,20 @@ const option = {
 service.intercept({
   //拦截配置
   config(c) {
-    console.log('request url ------', c.url);
+    console.log(c, c.url, '----====', env.isClient());
     const store = router.app.$store;
-    console.log(router.app.$store.state.token, '+++++++++');
     let Authorization = store ? store.state.token.access_token : '';
     let refresh_token = store ? store.state.token.refresh_token : '';
+    if (env.isClient()) {
+      Authorization = getCookie('cookies');
+      console.log(Authorization, 'cookies,llllll');
+    }
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
     const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`).toString();
     c.headers = {
+      ...c.headers,
       'APP-TIMESTAMP': timestamp,
       'APP-NONCE': appNonce,
       'APP-SIGN': sign,
@@ -45,7 +52,6 @@ service.intercept({
         refresh_token
       };
     }
-    // console.log('request token------', c.headers.Authorization);
     return c;
   },
 
@@ -61,9 +67,16 @@ service.intercept({
         clearTimeout(option.refreshTimer);
         return false;
       } else if (code === 1003) {
+        console.log(c);
+        if (env.isClient()) {
+          console.log('clinet');
+        } else if (env.isServer()) {
+          console.log('server');
+        }
         option.requests.push(opt);
         // 重新获取token
         router.app.$store.dispatch('getToken').then(res => {
+          // console.log(document.cookie, '========');
           clearTimeout(option.refreshTimer);
           service.reset(option.requests);
           option.requests = [];

@@ -5,15 +5,11 @@ export default context => {
   // 以便服务器能够等待所有的内容在渲染前就已经准备就绪
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp();
-
     // 设置服务器端router的位置
-    console.log(context.url, '---');
     router.push(context.url);
 
     // 等到router将可能的异步组件和钩子函数解析完
     router.onReady(() => {
-      // console.log(router, router.getMatchedComponents());
-
       const matchedComponents = router.getMatchedComponents();
       // 匹配不到的路由，执行reject函数，并返回404
       if (!matchedComponents.length) {
@@ -25,9 +21,11 @@ export default context => {
       Promise.all(
         matchedComponents.map(component => {
           if (component && component.asyncData) {
+            console.log(context.cookies, 'context-------');
             return component.asyncData({
               store,
-              route: router.currentRoute
+              route: router.currentRoute,
+              Authorization: context.cookies.cookies
             });
           }
         })

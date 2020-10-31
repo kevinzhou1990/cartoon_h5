@@ -1,5 +1,16 @@
 import { getToken, refreshToken } from '@/common/api';
-import { VERSION, PLATFORM, CHANNEL, DEVICE_ID, DEVICE_MODEL, CID, INSTALL_TIME } from '@/lib/utils/const';
+
+import {
+  VERSION,
+  PLATFORM,
+  CHANNEL,
+  DEVICE_ID,
+  DEVICE_MODEL,
+  CID,
+  INSTALL_TIME
+} from '@/lib/utils/const';
+// import { setCookie } from '@/lib/utils';
+// import env from '@/lib/utils/env';
 
 const token = {
   state: {

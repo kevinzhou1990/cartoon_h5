@@ -16,6 +16,7 @@ const useMicroCache = process.env.MICRO_CACHE !== 'false';
 const serverInfo =
   `express/${require('express/package.json').version} ` +
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
+// let token = '';
 
 const app = express();
 
@@ -74,6 +75,8 @@ app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl));
 function render(req, res) {
+  // console.log(req, res);
+  console.log(req.url, '------');
   const s = Date.now();
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Server', serverInfo);
@@ -93,7 +96,8 @@ function render(req, res) {
 
   const context = {
     title: '漫画威龙', // default title
-    url: req.url
+    url: req.url,
+    cookies: req.cookies
   };
   renderer.renderToString(context, (err, html) => {
     if (err) {
@@ -102,7 +106,7 @@ function render(req, res) {
     // const uuid = uuidv4();
     // 没有uuid的情况下，设置cookie uuid参数
     // if (!(req.cookies && req.cookies.uuid)) {
-    //   res.cookie('uuid', uuid, { path: '/' });
+    // res.cookie('uuid', 'dddddddd', { path: '/' });
     // }
     res.send(html);
     if (!isProd) {
@@ -132,7 +136,7 @@ app.use(
   '/api',
   proxyMiddleWare({
     // target: 'http://10.1.15.99:9501/',
-    target: 'http://10.1.15.98:9501/',
+    target: 'http://192.168.10.245:9501/',
     changeOrigin: true,
     pathRewrite: {},
     onProxyReq: (proxyReq, req, res) => {
