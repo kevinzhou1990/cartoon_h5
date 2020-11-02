@@ -28,7 +28,7 @@ export default {
 	    countTimeSMS: 0 // 第几次获取短信验证码
     }
   },
-  created() {
+  mounted() {
     this.source = this.$route.query.SOURCE || 1
 	  const entryTime = new Date().getTime()
 	  const countDownTimes = Number(localStorage.getItem(timeTypeData[this.source]))
