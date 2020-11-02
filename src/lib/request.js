@@ -33,8 +33,8 @@ service.intercept({
     let Authorization = store ? store.state.token.access_token : '';
     let refresh_token = store ? store.state.token.refresh_token : '';
     if (env.isClient()) {
-      Authorization = getCookie('cookies');
-      console.log(Authorization, 'cookies,llllll');
+      Authorization = getCookie('access_token');
+      refresh_token = getCookie('refresh_token');
     }
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
