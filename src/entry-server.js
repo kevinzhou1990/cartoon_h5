@@ -25,7 +25,7 @@ export default context => {
             return component.asyncData({
               store,
               route: router.currentRoute,
-              Authorization: context.cookies.cookies
+              Authorization: context.cookies.access_token
             });
           }
         })

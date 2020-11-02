@@ -5,7 +5,7 @@
   "author": "AgentK <xiyouji.xiaoyaoyou.clx@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node server",
+    "dev": "cross-env NODE_ENV=dev node server",
     "start": "cross-env NODE_ENV=production node server",
     "build": "npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.conf.js --progress --hide-modules",
