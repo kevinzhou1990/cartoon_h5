@@ -27,8 +27,8 @@ function createRenderer(bundle, options) {
     Object.assign(options, {
       // for component caching
       cache: LRU({
-        max: 0,
-        maxAge: 0
+        max: 100,
+        maxAge: 1000
       }),
       // this is only needed when vue-server-renderer is npm-linked
       basedir: resolve('./dist'),

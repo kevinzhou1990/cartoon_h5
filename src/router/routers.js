@@ -91,16 +91,6 @@ export default [
       keepAlive: false
     }
   },
-  // {
-  //   path: '/detail/test',
-  //   name: 'test',
-  //   component: Test,
-  //   meta: {
-  //     title: '漫画详情',
-  //     transitionIn: 'slide-left',
-  //     keepAlive: false
-  //   }
-  // },
   {
     path: '/ranking',
     name: 'ranking',
