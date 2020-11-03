@@ -39,4 +39,3 @@ npm run build --report
 > ——————————｜reader         漫画阅读
 > ——————————｜recommend      漫画推荐
 > ——————.babelrc             babel相关设置
-> ———————测试
