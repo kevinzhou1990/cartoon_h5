@@ -29,7 +29,8 @@
               </div>
               <span class="info-content">{{ articleItem.title }}</span>
               <span class="info-chpater">{{ articleItem.status_text || '--'}}</span>
-              <span class="info-chpater pt8" >{{ articleItem.read_num | personNums  }}万人阅读</span>
+<!--              <span class="info-chpater pt8" >{{ articleItem.read_num | personNums  }}万人阅读</span>-->
+              <span class="info-chpater pt8" >{{ articleItem.read_num_text }}人阅读</span>
             </div>
           </div>
         </div>
