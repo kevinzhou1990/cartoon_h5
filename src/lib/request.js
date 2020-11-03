@@ -2,15 +2,14 @@ import axios from './utils/axios';
 import crypto from 'crypto-js';
 import env from './utils/env';
 import { router } from '../router/index';
-import { getRandomStr } from './utils';
-import { getCookie } from './utils';
+import { getRandomStr, getCookie } from './utils';
 
-('@/lib/utils');
+// ('@/lib/utils');
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
   withCredentials: true,
-  baseURL: env.isServer() ? 'http://10.1.15.99:9501/' : '/',
+  baseURL: env.isServer() ? 'http://10.1.15.98:9501/' : '/',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -28,7 +27,7 @@ const option = {
 service.intercept({
   //拦截配置
   config(c) {
-    console.log(c, c.url, '----====', env.isClient());
+    console.log(c.url, '----====', env.isClient());
     const store = router.app.$store;
     let Authorization = store ? store.state.token.access_token : '';
     let refresh_token = store ? store.state.token.refresh_token : '';
