@@ -4,13 +4,18 @@ const utils = require('./utils');
 const config = require('../config');
 const webpack = require('webpack');
 const vueLoaderConfig = require('./vue-loader.conf');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // ssr相关插件和配置
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const vueloader = require('vue-loader');
 const isProd = process.env.NODE_ENV === 'production';
-const extractCSS = new ExtractTextPlugin({ filename: 'common.[chunkhash].css', disable: false, allChunks: true });
+const extractCSS = new ExtractTextPlugin({
+  filename: 'common.[chunkhash].css',
+  disable: false,
+  allChunks: true
+});
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
@@ -37,7 +42,10 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].[hash:7].js',
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+    publicPath:
+      process.env.NODE_ENV === 'production'
+        ? config.build.assetsPublicPath
+        : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -81,15 +89,15 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
-        // options: {
-        //   scss: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-        //   sass: ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
-        // }
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/webpack-dev-server/client')
+        ]
       },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
@@ -141,7 +149,7 @@ module.exports = {
   },
   devtool: isProd ? false : '#cheap-module-source-map'
   // devtool: '#cheap-module-source-map'
-  // plugins: [VueLoaderPlugin()]
+  // plugins: [new CleanWebpackPlugin()]
 };
 
 if (isProd) {
