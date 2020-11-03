@@ -4,6 +4,8 @@ import { storeInstance } from '@/store';
 const updateList = ['/home', '/shelf', '/mine'];
 
 router.beforeEach((to, from, next) => {
+  storeInstance.dispatch('updateActive', to.name);
+  console.log(storeInstance.state.main);
   if (!storeInstance.state.token.access_token) {
     storeInstance.dispatch('getToken', {});
   }

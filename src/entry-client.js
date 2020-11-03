@@ -26,7 +26,6 @@ if (window.__INITIAL_STATE__) {
 
 // 数据预处理，路由导航跳转前，解析数据
 router.onReady(() => {
-  console.log('进入了客户端实例', router);
   // 添加路由钩子函数，用于处理asyncData
   // 在初始路由resolve之后执行，以便我们不会二次预取已有的数据
   // 使用 `router.beforeResolve()`，以确保所有异步组件都resolve

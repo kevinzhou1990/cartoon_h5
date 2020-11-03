@@ -75,8 +75,6 @@ app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl));
 function render(req, res) {
-  // console.log(req, res);
-  console.log(req.url, '------');
   const s = Date.now();
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Server', serverInfo);

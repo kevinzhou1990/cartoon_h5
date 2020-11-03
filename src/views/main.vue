@@ -1,30 +1,30 @@
 <template>
   <div class="home-main">
     <transition :name="transitionName">
-      <router-view/>
+      <router-view />
     </transition>
     <div class="tabber zm-b-t flex">
       <div
-          :class="actived === 'home' ? 'active' : ''"
-          @dblclick="handleDoubleScrollTOP"
-          @click="switchTab('home')"
-        >
+        :class="actived === 'home' ? 'active' : ''"
+        @dblclick="handleDoubleScrollTOP"
+        @click="switchTab('home')"
+      >
         <svgIcon :iconClass="`home_${actived === 'home' ? 'aa' : 'ab'}`" />
         <span>首页</span>
       </div>
       <div
-          :class="[actived === 'shelf' ? 'active' : '', isUpdate ? 'red-point' : '']"
-          @click="switchTab('shelf')"
-          @dblclick="handleDoubleScrollTOP"
-        >
+        :class="[actived === 'shelf' ? 'active' : '', isUpdate ? 'red-point' : '']"
+        @click="switchTab('shelf')"
+        @dblclick="handleDoubleScrollTOP"
+      >
         <svgIcon :iconClass="`bookshelf_${actived === 'shelf' ? 'aa' : 'ab'}`" />
         <span>书架</span>
       </div>
       <div
-          :class="actived === 'mine' ? 'active' : ''"
-          @click="switchTab('mine')"
-          @dblclick="handleDoubleScrollTOP"
-        >
+        :class="actived === 'mine' ? 'active' : ''"
+        @click="switchTab('mine')"
+        @dblclick="handleDoubleScrollTOP"
+      >
         <svgIcon :iconClass="`my_${actived === 'mine' ? 'aa' : 'ab'}`" />
         <span>我的</span>
       </div>
@@ -45,34 +45,28 @@ export default {
   },
   computed: {
     ...mapState({
-      actived: (state) => state.main.actived,
-      isUpdate: (state) => state.status.hasUpdate
+      actived: state => state.main.actived,
+      isUpdate: state => state.status.hasUpdate
     })
   },
   methods: {
-    ...mapMutations(['updateActived']),
     switchTab(name) {
       if (this.actived === name) {
         return false;
       }
-      this.updateActived(name);
+      this.$store.commit('UPDATE_ACTIVED', name);
       this.$router.push(`/${name}`);
     },
-	  /**
-	   * @info: 双击底部tab栏页面scrollTop 为 0
-	   * @author: PengGeng
-	   * @date: 10/10/20-2:33 下午
-	   */
-	  handleDoubleScrollTOP() {
+    handleDoubleScrollTOP() {
       if (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) {
-			  document.documentElement.scrollTop = 0
-			  document.body.scrollTop = 0
-			  document.getElementsByClassName('home-main')[0].scrollTop = 0
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        document.getElementsByClassName('home-main')[0].scrollTop = 0;
       }
     }
   },
   mounted() {
-    this.updateActived(this.$route.name);
+    this.$store.commit('UPDATE_ACTIVED', this.$route.name);
   }
 };
 </script>
@@ -87,7 +81,7 @@ export default {
     background-clip: padding-box;
     background-color: #fff;
     height: 49px;
-    .red-point{
+    .red-point {
       position: relative;
       &:after {
         content: ' ';
