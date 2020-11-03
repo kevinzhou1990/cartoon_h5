@@ -239,7 +239,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     console.log('from', from)
     next(vm => {
-      vm.$store.commit('SET_LAST_ROUTER', from.path)
+    //  非协议的router才存入上一次的路由
+    if (from.path !== '/ZM/userAgreement') { vm.$store.commit('SET_LAST_ROUTER', from.path) }
     })
   }
 }
