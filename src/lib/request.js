@@ -3,8 +3,6 @@ import crypto from 'crypto-js';
 import env from './utils/env';
 import { router } from '../router/index';
 import { getRandomStr, getCookie } from './utils';
-
-// ('@/lib/utils');
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
@@ -55,59 +53,46 @@ service.intercept({
   },
 
   //请求成功
-  success(c, opt) {
-    try {
-      const code = parseInt(c.data.code);
-      if (code === 0) {
-        return c.data;
-      } else if (code === 1004) {
-        // 刷新token
+  success(res, opt) {
+    const code = parseInt(res.data.code);
+    switch (code) {
+      case 0:
+        return res.data;
+      case 1004:
         option.requests.push(opt);
         clearTimeout(option.refreshTimer);
         return false;
-      } else if (code === 1003) {
-        console.log(c);
-        if (env.isClient()) {
-          console.log('clinet');
-        } else if (env.isServer()) {
-          console.log('server');
-        }
+      case 1003:
         option.requests.push(opt);
         // 重新获取token
         router.app.$store.dispatch('getToken').then(res => {
-          // console.log(document.cookie, '========');
           clearTimeout(option.refreshTimer);
           service.reset(option.requests);
           option.requests = [];
         });
         return false;
-      } else if (code === 1209) {
+      case 1209:
         console.log('未登陆，跳转到登陆。。。。');
-        return c.data;
-      } else if (code === 1204) {
+        return res.data;
+      case 1204:
         // 异地登陆
         console.log('异地登陆。。。。。');
-        return c.data;
-      } else {
-      }
-      return Promise.reject(c);
-    } catch (e) {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      return Promise.reject({ code: 502, msg: '请求超时~' });
+        return res.data;
+      default:
+        return res.data;
     }
   },
 
   //请求失败
-  fail(c) {
-    const code = parseInt(c.status);
-    return { code, msg: c.data.msg, res: c.data };
+  fail(res) {
+    const code = parseInt(res.status);
+    return { code, msg: res.data.msg, res: res.data };
   },
 
   //请求完成
-  complete(c) {
-    // console.log('complete----', c.data);
+  complete(res) {
     try {
-      const key = c.key;
+      const key = res.key;
       let index;
       option.waits.some((item, i) => {
         if (item.key === key) {
@@ -123,7 +108,7 @@ service.intercept({
         option.waits = [];
         option.alerts = [];
       }, 5000);
-      const err = parseInt(c.data.code);
+      const err = parseInt(res.data.code);
       if (err !== 0 && err !== 1013 && err !== 1004 && err !== 999) {
         const a_i = option.alerts.indexOf(key);
         if (a_i > -1) {
@@ -137,16 +122,5 @@ service.intercept({
     }
   }
 });
-
-// type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
-// async function tokenError(type, response) {
-//   return store.dispatch(type === 'get' ? 'getToken' : 'refreshToken').then(res => {
-//     if (res.code === 0) {
-//       return service(response.config);
-//     } else {
-//       return Promise.reject(res);
-//     }
-//   });
-// }
 
 export default service;
