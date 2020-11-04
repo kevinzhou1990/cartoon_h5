@@ -1,26 +1,59 @@
 <template>
   <div class="box main" style="overflow: hidden;">
-    <z-m-header ref="detailHeader" :title-text="titleText" :background-color="headerBgColor" show-right :show-nav-flag="showNavFlag" :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'">
-      <div slot="right" :class="showNavFlag ? 'header-right-white' : 'header-right-detail'" @click="handleClickShare"></div>
+    <z-m-header
+      ref="detailHeader"
+      :title-text="titleText"
+      :background-color="headerBgColor"
+      show-right
+      :show-nav-flag="showNavFlag"
+      :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
+    >
+      <div
+        slot="right"
+        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"
+        @click="handleClickShare"
+      ></div>
     </z-m-header>
     <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
       <div class="main-content-box">
         <div class="main-content-box-left">
           <span class="main-content-box-left-title">{{ ZMDetailData.title || '--' }}</span>
-          <span class="main-content-box-left-author">[作者] {{ ZMDetailData.author | authorFormate }}</span>
+          <span class="main-content-box-left-author"
+            >[作者] {{ ZMDetailData.author | authorFormate }}</span
+          >
           <div class="main-content-box-left-label">
-            <span class="main-content-box-left-label-content zm-b-radius" :style="index === 1 ? { 'margin-left': 0 } : ''" v-for="(tagItem, index) in ZMDetailData.tag" :key="index">{{ tagItem }}</span>
+            <span
+              class="main-content-box-left-label-content zm-b-radius"
+              :style="index === 1 ? { 'margin-left': 0 } : ''"
+              v-for="(tagItem, index) in ZMDetailData.tag"
+              :key="index"
+              >{{ tagItem }}</span
+            >
           </div>
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
-        <div :style="{ background: 'url(' + ZMDetailData.cover + ')no-repeat center / contain' }" class="main-content-box-right" v-if="ZMDetailData.cover"></div>
+        <div
+          :style="{ background: 'url(' + ZMDetailData.cover + ')no-repeat center / contain' }"
+          class="main-content-box-right"
+          v-if="ZMDetailData.cover"
+        ></div>
       </div>
       <div style="padding: 0 32px 24px 32px;" class="info-content" ref="intro-content">
         {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
-        <a href="javascirpt:void(0)" style="text-decoration: none; color: rgba(18,224,121,1);" v-if="isShowUnfold && !showMoreFlag" @click.prevent="getElHeight">[展开]</a>
+        <a
+          href="javascirpt:void(0)"
+          style="text-decoration: none; color: rgba(18,224,121,1);"
+          v-if="isShowUnfold && !showMoreFlag"
+          @click.prevent="getElHeight"
+          >[展开]</a
+        >
       </div>
     </section>
-    <z-m-scroll :isChangeHeader.sync="isChangeHeader" :detail-data="ZMDetailData" :textHeight="textHeight"></z-m-scroll>
+    <z-m-scroll
+      :isChangeHeader.sync="isChangeHeader"
+      :detail-data="ZMDetailData"
+      :textHeight="textHeight"
+    ></z-m-scroll>
     <z-m-contents :comicsInfo.sync="comicsInfo" :show="show"></z-m-contents>
   </div>
 </template>
@@ -30,9 +63,7 @@ import ZMHeader from '@/common/components/ZMHeader';
 import ZMCollect from '@/views/detail/components/ZMCollect';
 import ZMScroll from '@/views/detail/components/ZMScroll';
 import ZMContents from '@/common/components/contents';
-// import { getZMDetail } from '@/common/api/detail';
 import '@/common/filters/home';
-// import utils from '@/lib/utils'
 
 export default {
   name: 'comicsDetail',
@@ -72,35 +103,6 @@ export default {
     ZMDetailData() {
       return this.$store.state.detail.ZMDetailData;
     }
-    // scrollHeight() {
-    //   return console.log(document.body.scrollTop);
-    // },
-    // 是否显示展开按钮
-    // isShowUnfold() {
-    //   if (this.textContent) {
-    //     const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '');
-    //     if ((clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44)) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   }
-    //   return false;
-    // },
-    // ZMDetailInfo() {
-    //   if (this.isShowUnfold) {
-    //     const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
-    //     let textWrods = this.textLength;
-    //     if (clientHeight > 32 && this.infoWidth >= 311 && this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g)[0].length > 20) {
-    //       textWrods = 95;
-    //       return this.textContent.substring(0, textWrods);
-    //     } else {
-    //       return this.textContent.substring(0, textWrods);
-    //     }
-    //   } else {
-    //     return this.textContent;
-    //   }
-    // }
   },
   mounted() {
     console.log('客服端进入详情页面');
@@ -110,8 +112,20 @@ export default {
     this.refId = queryData.ref_id;
     setTimeout(() => {
       this.getZMDetail(this.ZMDetailData);
-      this.infoHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
-      this.infoWidth = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).width.replace('px', ''));
+      this.infoHeight =
+        document.getElementsByClassName('info-content') &&
+        Number(
+          window
+            .getComputedStyle(document.getElementsByClassName('info-content')[0])
+            .height.replace('px', '')
+        );
+      this.infoWidth =
+        document.getElementsByClassName('info-content') &&
+        Number(
+          window
+            .getComputedStyle(document.getElementsByClassName('info-content')[0])
+            .width.replace('px', '')
+        );
       console.log(this.infoHeight);
     }, 200);
   },
@@ -131,18 +145,22 @@ export default {
      * @date: 8/31/20-6:33 下午
      */
     getElHeight() {
-      console.log('........');
-      console.log(document.getElementsByClassName('main')[1].style);
-      // document.getElementsByClassName('main')[1].style.pointerEvents = 'auto'
       this.showMoreFlag = true;
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
-        console.log(this.$refs['intro-content'].offsetHeight);
         const introContentHeight = this.$refs['intro-content'].offsetHeight;
         const marginTop = introContentHeight - 58 - 56 / 2;
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
-        this.textHeight = this.$refs['intro-content'].offsetHeight > 116 ? resultTop - 20 : mainContentBox > 175 ? mainContentBox - 175 - 20 : 0;
-        this.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight + document.getElementsByClassName('main-content-box')[0].offsetHeight + 'px';
+        this.textHeight =
+          this.$refs['intro-content'].offsetHeight > 116
+            ? resultTop - 20
+            : mainContentBox > 175
+            ? mainContentBox - 175 - 20
+            : 0;
+        this.$refs.mainContent.style.height =
+          document.getElementsByClassName('info-content')[0].offsetHeight +
+          document.getElementsByClassName('main-content-box')[0].offsetHeight +
+          'px';
       }, 10);
     },
     /**
@@ -157,9 +175,11 @@ export default {
         status: cartoonData.status || 1, // 1=连载中,2=已完结,3=休更中
         // update_freq: ZMDetailData.update_freq || '', // 更新频率
         title: (cartoonData.last && cartoonData.last.title) || '', // 章节编号
-        last_chapter_id: (cartoonData.last && cartoonData.last.chapter_id && cartoonData.last.has_read) || '', // 当前阅读的章节
+        last_chapter_id:
+          (cartoonData.last && cartoonData.last.chapter_id && cartoonData.last.has_read) || '', // 当前阅读的章节
         status_text: cartoonData.status_text
       };
+      console.log(cartoonData.last, '-----');
       if (!this.showNavFlag) {
         // 在详情里面货到了显示title再次点击漫画的时候触发
         this.titleText = cartoonData.title;
@@ -175,14 +195,32 @@ export default {
       };
 
       if (this.textContent) {
-        const clientHeight = window.getComputedStyle && document.getElementsByClassName('content') && window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', '');
-        this.isShowUnfold = (clientHeight > 32 && this.infoWidth === 311) || (this.textContent.match(/\W+/g) && this.textContent.length > 44);
+        const clientHeight =
+          window.getComputedStyle &&
+          document.getElementsByClassName('content') &&
+          window
+            .getComputedStyle(document.getElementsByClassName('info-content')[0])
+            .height.replace('px', '');
+        this.isShowUnfold =
+          (clientHeight > 32 && this.infoWidth === 311) ||
+          (this.textContent.match(/\W+/g) && this.textContent.length > 44);
       }
 
       if (this.isShowUnfold) {
-        const clientHeight = document.getElementsByClassName('info-content') && Number(window.getComputedStyle(document.getElementsByClassName('info-content')[0]).height.replace('px', ''));
+        const clientHeight =
+          document.getElementsByClassName('info-content') &&
+          Number(
+            window
+              .getComputedStyle(document.getElementsByClassName('info-content')[0])
+              .height.replace('px', '')
+          );
         let textWrods = this.textLength;
-        if (clientHeight > 32 && this.infoWidth >= 311 && this.textContent.match(/\w+/g) && this.textContent.match(/\w+/g)[0].length > 20) {
+        if (
+          clientHeight > 32 &&
+          this.infoWidth >= 311 &&
+          this.textContent.match(/\w+/g) &&
+          this.textContent.match(/\w+/g)[0].length > 20
+        ) {
           textWrods = 95;
           this.ZMDetailInfo = this.textContent.substring(0, textWrods);
         } else {
