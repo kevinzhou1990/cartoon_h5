@@ -118,7 +118,7 @@ export default {
 	   * @date: 10/16/20-10:29 上午
 	   * source=1 注册/登陆，source=2 找回密码 source=3 修改密码
 	   */
-	  async handleClickGetValidate(source = 1, randCode = '') {
+	  async handleClickGetValidate(source = 1, randCode = undefined) {
 		  if (!this.showValidateFlag) return
 		  this.source = source
 		  const reqData = {
