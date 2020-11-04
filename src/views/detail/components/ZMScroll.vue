@@ -1,8 +1,16 @@
 <template>
   <div class="main" ref="remarkScroll">
-    <div class="main-height" :style="topWrapStyle" @transitionend="transitionend" v-show="topAjax"></div>
+    <div
+      class="main-height"
+      :style="topWrapStyle"
+      @transitionend="transitionend"
+      v-show="topAjax"
+    ></div>
     <div class="main-content" :style="{ 'margin-top': 265 + textHeight + 'px' }"></div>
-    <div class="main-catalogue box-shad" v-if="detailData && detailData.is_online && !detailData.is_coming">
+    <div
+      class="main-catalogue box-shad"
+      v-if="detailData && detailData.is_online && !detailData.is_coming"
+    >
       <div class="left" @click.stop="handleDownload">
         <img class="left-dn" src="../images/download.png" alt />
         <span class="left-text">缓存</span>
@@ -15,18 +23,39 @@
     </div>
     <div class="main-catalogue box-shad no-time" v-else>
       <div class="new-comics">{{ isOnlineText.text }}</div>
-      <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">{{ isOnlineText.timeText }}</div>
+      <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">
+        {{ isOnlineText.timeText }}
+      </div>
     </div>
     <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
-      <z-m-detail-chapter v-if="detailData && detailData.is_coming != 1" :status-text="detailData.status_text" :detail-news="detailData && detailData.news"></z-m-detail-chapter>
-      <z-m-detail-remark :comment-num="detailData.comment_num" :remark-data="detailData && detailData.comment"></z-m-detail-remark>
-      <z-m-comics-scroll :comicsType="1" :title-content="authorTitle" :comicsList="authorOhter"></z-m-comics-scroll>
-      <z-m-comics-scroll :comicsType="2" :title-content="maybeTitle" :comicsList="yourselfLikeComics" :style="{ 'padding-bottom': bottomAjax ? '0' : '20px' }"></z-m-comics-scroll>
+      <z-m-detail-chapter
+        v-if="detailData && detailData.is_coming != 1"
+        :status-text="detailData.status_text"
+        :detail-news="detailData && detailData.news"
+      ></z-m-detail-chapter>
+      <z-m-detail-remark
+        :comment-num="detailData.comment_num"
+        :remark-data="detailData && detailData.comment"
+      ></z-m-detail-remark>
+      <z-m-comics-scroll
+        :comicsType="1"
+        :title-content="authorTitle"
+        :comicsList="authorOhter"
+      ></z-m-comics-scroll>
+      <z-m-comics-scroll
+        :comicsType="2"
+        :title-content="maybeTitle"
+        :comicsList="yourselfLikeComics"
+        :style="{ 'padding-bottom': bottomAjax ? '0' : '20px' }"
+      ></z-m-comics-scroll>
       <z-m-no-data></z-m-no-data>
       <!-- -->
     </div>
     <div class="main-foot" v-if="showFootFlag">
-      <div class="main-catalogue" v-if="detailData && detailData.is_online && !detailData.is_coming">
+      <div
+        class="main-catalogue"
+        v-if="detailData && detailData.is_online && !detailData.is_coming"
+      >
         <div class="left" @click.stop="handleDownload">
           <img class="left-dn" src="../images/download.png" alt />
           <span class="left-text">缓存</span>
@@ -39,10 +68,22 @@
       </div>
       <div class="main-catalogue no-time" v-else>
         <div class="new-comics">{{ isOnlineText.text }}</div>
-        <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">{{ isOnlineText.timeText }}</div>
+        <div
+          class="new-comics-time"
+          :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }"
+        >
+          {{ isOnlineText.timeText }}
+        </div>
       </div>
     </div>
-    <div class="main-bottom" :style="bottomWrapStyle" @transitionend="transitionendBottom" v-show="bottomAjax">......</div>
+    <div
+      class="main-bottom"
+      :style="bottomWrapStyle"
+      @transitionend="transitionendBottom"
+      v-show="bottomAjax"
+    >
+      ......
+    </div>
     <!-- 目录组件 -->
   </div>
 </template>
@@ -65,7 +106,9 @@ export default {
   props: {
     detailData: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return { last: { has_read: 0 } };
+      }
     },
     textHeight: {
       type: Number,
@@ -124,7 +167,10 @@ export default {
   methods: {
     // 数据初始化
     initData() {
-      this.readerChapter = this.detailData && this.detailData.last.has_read === 1 ? `继续 ${this.detailData.last.title}` : '阅读 第一话';
+      this.readerChapter =
+        this.detailData && this.detailData.last.has_read === 1
+          ? `继续 ${this.detailData.last.title}`
+          : '阅读 第一话';
       if (this.detailData && this.detailData.is_online) {
         if (this.detailData.is_coming) {
           this.isOnlineText = {
@@ -157,7 +203,8 @@ export default {
      * @date: 8/24/20-5:41 下午
      */
     handleReader() {
-      let capterId = (this.detailData && this.detailData.last && this.detailData.last.chapter_id) || '';
+      let capterId =
+        (this.detailData && this.detailData.last && this.detailData.last.chapter_id) || '';
       this.$router.push({
         path: '/reader',
         query: {
@@ -232,7 +279,8 @@ export default {
       // if (this.height < -200 || this.height > 100) return
       if (this.height > 10 && this.height < 200) {
         this.topWrapStyle.height = `${this.height}px`;
-        this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + this.height - 56 + 'px';
+        this.$parent.$refs.mainContent.style.height =
+          this.marginTop + this.textHeight + this.height - 56 + 'px';
       }
       if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');

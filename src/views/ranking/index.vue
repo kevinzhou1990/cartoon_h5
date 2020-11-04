@@ -149,7 +149,7 @@ export default {
     };
   },
   mounted() {
-    this.setQuery();
+    // this.setQuery(this.currentRank);
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
     const rank = this.$route.query.rank || this.rankingList[0].rank_id;
@@ -157,11 +157,6 @@ export default {
     for (let i = 0; i < list.length; i++) {
       if (list[i].rank_id === rank) this.activeName = list[i].name;
     }
-    console.log(this.activeName);
-    if (!this.activeName) {
-      this.activeName = this.rankingList[0].name;
-    }
-    this.activeRank = rank;
     this.$store.dispatch('getRankingComicsList', this.activeRank);
   },
   computed: {
@@ -170,20 +165,28 @@ export default {
     },
     rankingList() {
       return this.$store.state.ranking.rankingList;
+    },
+    currentRank() {
+      return this.$store.state.ranking.currentRank;
+    }
+  },
+  watch: {
+    currentRank(n, o) {
+      this.activeRank = n.rank_id;
+      this.activeName = n.name;
     }
   },
   methods: {
     switchRank(rank) {
-      this.activeRank = rank.rank_id;
-      this.activeName = rank.name;
-      this.setQuery();
-      this.getRankingByCate();
+      // this.activeRank = rank.rank_id;
+      // this.activeName = rank.name;
+      this.setQuery(rank);
+      // this.getRankingByCate();
     },
     //获取排行分类对应漫画
     getRankingByCate() {
       const r = this.$store.dispatch('getRankingComicsList', this.activeRank);
       r.then(res => {
-        console.log(res, '------');
         if (res.code === 0) {
           // 切换动画效果
           const listClass = this.$refs.comicsList.classList;
@@ -205,9 +208,9 @@ export default {
       });
     },
     //选择的rankId更新到路由里
-    setQuery() {
+    setQuery(rank) {
       let query = JSON.parse(JSON.stringify(this.$route.query));
-      query.rank = this.activeRank;
+      query.rank = rank.rank_id;
       this.$router.replace({ path: this.$route.path, query: query });
       document.scrollingElement.scrollTop = 0;
     },
