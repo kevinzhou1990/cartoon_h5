@@ -25,6 +25,16 @@ const loginRouters = [
       title: '忘记密码',
 		  keepAlive: false
 	  }
-  }
+  },
+	{
+		path: '/ZM/restPassword',
+		name: 'restPassword',
+		component: () => import(/* webpackChunkName restPassword */ '@/views/login/page/restPassword'),
+		meta: {
+			title: '密码重置',
+			keepAlive: false
+		}
+	}
+
 ]
 export default loginRouters

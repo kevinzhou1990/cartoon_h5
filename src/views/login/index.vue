@@ -240,7 +240,7 @@ export default {
     console.log('from', from)
     next(vm => {
     //  非协议的router才存入上一次的路由
-    if (from.path !== '/ZM/userAgreement') { vm.$store.commit('SET_LAST_ROUTER', from.path) }
+    if (from.path !== '/ZM/userAgreement' || from.path !== '/ZM/forgetPassword') { vm.$store.commit('SET_LAST_ROUTER', from.path) }
     })
   }
 }

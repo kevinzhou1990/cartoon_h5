@@ -1,6 +1,7 @@
 <template>
   <div class="mine">
     <button class="logout" @click="logout" :disabled="!isLogin">退出登录</button>
+    <button class="logout" @click="$router.push({path:'/ZM/restPassword', query:{SOURCE: 3}})" :disabled="!isLogin">重置密码</button>
   </div>
 </template>
 

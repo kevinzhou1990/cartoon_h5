@@ -98,6 +98,18 @@ export const checkCaptcha = function (data) {
   })
 }
 /**
+ * @info: 修改密码
+ * @author: PengGeng
+ * @date: 11/4/20-5:27 下午
+ */
+export const updatePassword = function (data) {
+	return request({
+		url: 'api/user/updatePass',
+		method: 'POST',
+		data
+	})
+}
+/**
  * @info: 获取用户协议
  * @author: PengGeng
  * @date: 10/22/20-10:24 上午

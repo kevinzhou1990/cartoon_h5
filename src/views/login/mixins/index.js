@@ -1,4 +1,4 @@
-import {getSMSCode, getImgCode} from '../api/index'
+import {getSMSCode, getImgCode, checkValidateCode} from '../api/index'
 // import { sleepTimes } from '@/views/login/common'
 
 const downImg = require('../images/more.png')
@@ -15,7 +15,7 @@ export default {
 	    validateNum: '', // 验证码
 	    telCode: '+86', // 国家区号
 	    areaFlag: false, // 显示区号组件
-	    showValidateFlag: false, // 现实验证按钮可以点击
+	    showValidateFlag: false, // 显示验证按钮可以点击
 	    valiAlert: false, // 显示图形验证码
 	    imgCode: '',
 	    passwordVal: '', // 密码
@@ -25,7 +25,8 @@ export default {
 	    times: 60,
 	    timer: null,
 	    source: 1, // 获取验证码的
-	    countTimeSMS: 0 // 第几次获取短信验证码
+	    countTimeSMS: 0, // 第几次获取短信验证码
+	    nexSuccessFlag: false // 下一步的btn高亮
     }
   },
   mounted() {
@@ -158,6 +159,30 @@ export default {
 		  } else {
 	      this.$toast(resData.msg || '系统繁忙,请稍后重试')
 		  }
+	  },
+	  /**
+	   * @info: 点击下一步(忘记密码和重置密码)
+	   * @author: PengGeng
+	   * @date: 10/17/20-11:09 上午
+	   */
+	  async handleClickNextStep(source = 2) {
+      if (!this.isClickLoginBtnFlag) return
+		  const reqData = {
+			  country_code: this.telCode,
+			  mobile: this.telPhoneNum,
+			  code: this.validateNum,
+			  source
+		  }
+		  const resData = await checkValidateCode(reqData)
+		  if (resData && resData.code === 0){
+			  this.nextCheckCode = resData.data.rand_code || ''
+			  this.nexSuccessFlag = true
+			  // 清楚定时器
+			  clearInterval(this.timer)
+		  } else {
+			  this.$toast(resData.msg || '系统繁忙,请稍后重试')
+		  }
+		  console.log('click validate update password next')
 	  }
   },
   watch: {

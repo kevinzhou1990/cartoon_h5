@@ -96,7 +96,6 @@ export default {
     return {
 	    forgetFlag: false,
 		  titleContent: '忘记密码',
-      nexSuccessFlag: false, // 下一步的btn高亮
       nextCheckCode: '', // 调用设置密码完成需要使用
 	    isSetBtnFlag: false, // 设置
 	    newPasswordVal: '' // 新密码
@@ -116,29 +115,6 @@ export default {
       setTimeout(() => {
 	      this.$router.back()
       }, 200)
-    },
-	  /**
-	   * @info: 点击下一步
-	   * @author: PengGeng
-	   * @date: 10/17/20-11:09 上午
-	   */
-	  async handleClickNextStep() {
-      const reqData = {
-			  country_code: this.telCode,
-			  mobile: this.telPhoneNum,
-        code: this.validateNum,
-	      source: 2
-      }
-      const resData = await checkValidateCode(reqData)
-      if (resData && resData.code === 0){
-        this.nextCheckCode = resData.data.rand_code || ''
-	      this.nexSuccessFlag = true
-        // 清楚定时器
-        clearInterval(this.timer)
-      } else {
-        this.$toast(resData.msg || '系统繁忙,请稍后重试')
-      }
-      console.log('click validate update password next')
     },
 	  /**
 	   * @info: input focus
@@ -316,6 +292,7 @@ export default {
         margin: auto 16px;
         outline: none;
         border: none;
+        width: auto;
         /*height: 42px;*/
       }
       &-right {
@@ -341,7 +318,7 @@ export default {
   }
   .login-btn {
     font-family: PingFangSC-Semibold;
-    margin: 8px 16px;
+    margin: 8px auto;
     background: #A2F5CB;
     border-radius: 4px;
     height: 52px;
