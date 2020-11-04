@@ -8,7 +8,13 @@
       </div>
       <!-- 首页滑动组件 -->
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
-      <is-scroll ref="zm-scroll" @on-top-ajax="resfreshPage" :bottom-ajax="bottomAjax" :is-bottom-ajax="isBottomAjax" @to-bottom-ajax="nextPage">
+      <is-scroll
+        ref="zm-scroll"
+        @on-top-ajax="resfreshPage"
+        :bottom-ajax="bottomAjax"
+        :is-bottom-ajax="isBottomAjax"
+        @to-bottom-ajax="nextPage"
+      >
         <div slot="srcoll-main">
           <section v-for="item in recList" :key="item.rec_id">
             <!-- 排行与发现 -->
@@ -22,11 +28,17 @@
             <!-- 专题 -->
             <z-m-special :special-data="item" v-if="item.style_id === 3"></z-m-special>
             <!-- 经典漫画 -->
-            <z-m-classics-comics :classics-comics-data="item" v-if="item.style_id === 4"></z-m-classics-comics>
+            <z-m-classics-comics
+              :classics-comics-data="item"
+              v-if="item.style_id === 4"
+            ></z-m-classics-comics>
             <!-- 推荐喜欢看的 -->
             <z-m-like-comics :like-comics-data="item" v-if="item.style_id === 5"></z-m-like-comics>
             <!-- 你可能喜欢的 -->
-            <z-m-maybe-like-comics :maybe-like-comics="item" v-if="item.style_id === 6"></z-m-maybe-like-comics>
+            <z-m-maybe-like-comics
+              :maybe-like-comics="item"
+              v-if="item.style_id === 6"
+            ></z-m-maybe-like-comics>
           </section>
           <!-- 无数据了 -->
           <z-m-no-data v-if="isNoMoreData"></z-m-no-data>
@@ -50,7 +62,6 @@ import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial';
 import homeLoading from '@/views/home/components/homeLoading';
-// import { getRecommend } from '@/common/api/home';
 
 export default {
   name: 'home',
@@ -77,7 +88,11 @@ export default {
     };
   },
   asyncData({ store, route }) {
-    return Promise.all([store.dispatch('getBanner'), store.dispatch('getRec'), store.dispatch('getRecTab')]);
+    return Promise.all([
+      store.dispatch('getBanner'),
+      store.dispatch('getRec'),
+      store.dispatch('getRecTab')
+    ]);
   },
   computed: {
     // banner list
@@ -94,13 +109,13 @@ export default {
     }
   },
   mounted() {
-    console.log('客户端首页已经加载-------', this.recList);
+    console.log('客户端首页已经加载-------');
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
   },
   methods: {
     getRecommend(pageInfo) {
-      this.$store.dispatch('getRec').then(res => {
+      this.$store.dispatch('getRec', pageInfo).then(res => {
         return res;
       });
     },
@@ -110,9 +125,10 @@ export default {
       this.getRecommend({ page: 1 });
     },
     nextPage() {
-      this.bottomAjax = true;
-      this.currentPage++;
-      this.getRecommend();
+      this.pageInfo.page++;
+      this.getRecommend({ page: this.pageInfo.page, page_size: this.pageInfo.page_size });
+      this.isNoMoreData = this.pageInfo.page >= this.pageInfo.totalPage;
+      this.bottomAjax = !this.isNoMoreData;
     }
   }
 };
