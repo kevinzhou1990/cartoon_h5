@@ -106,9 +106,7 @@ export default {
   props: {
     detailData: {
       type: Object,
-      default: () => {
-        return { last: { has_read: 0 } };
-      }
+      default: () => {}
     },
     textHeight: {
       type: Number,
@@ -151,19 +149,16 @@ export default {
     };
   },
   computed: {},
-  beforeMount() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
-  },
   mounted() {
-  this.$nextTick(() => {
-		  this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
-		  this.initData();
-		  this.getAuthorOther();
-		  this.maybeLikeTitle = this.detailData && this.detailData.title;
-
-		  this.scrolOnEventChange();
-		  this.$el.addEventListener('touchstart', this.touchStart, true);
-		  this.$el.addEventListener('touchend', this.touchEnd, true);
+    this.$nextTick(() => {
+	    document.body.scrollTop = document.documentElement.scrollTop = 0;
+	    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+	    this.maybeLikeTitle = this.detailData && this.detailData.title;
+	    this.scrolOnEventChange();
+	    this.$el.addEventListener('touchstart', this.touchStart, true);
+	    this.$el.addEventListener('touchend', this.touchEnd, true);
+	    this.detailData && this.detailData.is_online && this.initData();
+	    this.getAuthorOther();
     })
   },
   methods: {
