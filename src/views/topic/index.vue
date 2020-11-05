@@ -20,7 +20,11 @@
       </div>
     </section>
     <article v-html="special.detail" ref="article"></article>
-    <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
+    <div
+      :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'"
+      ref="tp"
+      @click="jumpDownloadPage"
+    >
       <span>
         <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }}
       </span>
@@ -28,7 +32,7 @@
     <div class="topic-comment">
       <div class="topic-comment-title">专题评论（{{ this.pageInfo.count }}）</div>
       <ul v-if="commentsList.length">
-        <li v-for="item in commentsList" :key="item.id">
+        <li v-for="item in commentsList" :key="item.id" @click="jumpDownloadPage">
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
@@ -52,7 +56,7 @@
       <span ref="nextPage">{{
         special.can_comment === 1 ? '不说点什么吗？点它 →' : '当前专题无法评论哦～'
       }}</span>
-      <div class="write-comment" v-if="showAddComment">
+      <div class="write-comment" @click="jumpDownloadPage" v-if="showAddComment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
     </div>
@@ -64,6 +68,7 @@ import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import { getTopicComments } from '@/common/api/topic';
 import { throttle } from '@/lib/utils';
+import myMixins from '@/common/mixin/myMixins';
 export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
@@ -78,6 +83,7 @@ export default {
       showAddComment: false
     };
   },
+  mixins: [myMixins],
   computed: {
     special() {
       return this.$store.state.topic.special;
