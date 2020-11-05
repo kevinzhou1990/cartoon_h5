@@ -25,7 +25,6 @@ const option = {
 service.intercept({
   //拦截配置
   config(c) {
-    console.log(c.url, '----====', env.isClient());
     const store = router.app.$store;
     let Authorization = store ? store.state.token.access_token : '';
     let refresh_token = store ? store.state.token.refresh_token : '';

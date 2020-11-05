@@ -55,10 +55,8 @@ const home = {
     },
     // 获取楼层
     getRec({ commit, state }, data = { page: 1, page_size: 10 }) {
-      console.log(data, 'get rec');
       return getRecommend(data)
         .then(res => {
-          console.log(res, 'rec data');
           if (res.code === 0) {
             const list = res.data.list;
             let recList = JSON.parse(JSON.stringify(state.recList));
@@ -67,7 +65,6 @@ const home = {
             } else {
               recList = list;
             }
-            console.log(list, '-----');
             commit('UPDATE_PAGE_INFO', {
               ...data,
               totalPage: res.data.total_pages,

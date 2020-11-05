@@ -21,7 +21,6 @@ export default context => {
       Promise.all(
         matchedComponents.map(component => {
           if (component && component.asyncData) {
-            console.log(context.cookies, 'context-------');
             return component.asyncData({
               store,
               route: router.currentRoute,

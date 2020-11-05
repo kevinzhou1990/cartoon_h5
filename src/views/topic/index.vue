@@ -21,7 +21,9 @@
     </section>
     <article v-html="special.detail" ref="article"></article>
     <div :class="special.has_praise === 1 ? 'topic-zan has-praise' : 'topic-zan'" ref="tp">
-      <span> <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }} </span>
+      <span>
+        <i />{{ special.has_praise === 1 ? `${special.praise_num_text} 赞` : '赞一个' }}
+      </span>
     </div>
     <div class="topic-comment">
       <div class="topic-comment-title">专题评论（{{ this.pageInfo.count }}）</div>
@@ -30,7 +32,7 @@
           <div>
             <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
           </div>
-          <div>
+          <div class="zm-b-b">
             <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
             <div class="top-flag" v-if="item.is_top">置顶</div>
             <div class="topic-comment-content">{{ item.content }}</div>
@@ -47,7 +49,9 @@
       </ul>
     </div>
     <div class="topic-tips">
-      <span ref="nextPage">{{ special.can_comment === 1 ? '不说点什么吗？点它 →' : '当前专题无法评论哦～' }}</span>
+      <span ref="nextPage">{{
+        special.can_comment === 1 ? '不说点什么吗？点它 →' : '当前专题无法评论哦～'
+      }}</span>
       <div class="write-comment" v-if="showAddComment">
         <svg-icon size="default" icon-class="comment_aa" />
       </div>
@@ -85,7 +89,7 @@ export default {
       return this.$store.state.topic.pageInfo;
     }
   },
-  async mounted() {
+  mounted() {
     setTimeout(() => {
       if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
         this.showAddComment = true;
@@ -122,7 +126,10 @@ export default {
       }
       // 是否显示添加评论按钮
       const articleHeight = this.$refs.article.clientHeight;
-      if (document.scrollingElement.scrollTop - articleHeight > -370 && this.special.can_comment === 1) {
+      if (
+        document.scrollingElement.scrollTop - articleHeight > -370 &&
+        this.special.can_comment === 1
+      ) {
         this.showAddComment = true;
       } else {
         this.showAddComment = false;
@@ -225,9 +232,8 @@ $DEEPGRAY: #999;
     }
   }
   .topic-read {
-    svg {
-      margin-top: -2px;
-    }
+    display: flex;
+    align-items: center;
   }
   .topic-comment {
     padding: 16px;
@@ -245,6 +251,7 @@ $DEEPGRAY: #999;
     li {
       display: flex;
       position: relative;
+      padding-bottom: 15px;
       > div {
         &:last-child {
           flex: 1 1;

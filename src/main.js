@@ -4,7 +4,7 @@ import { createRouter } from './router';
 import { createStore } from './store';
 import { sync } from 'vuex-router-sync';
 import env from '@/lib/utils/env';
-import '@/common/beforeEach'
+import '@/common/beforeEach';
 import Toast from '@/common/plugin/toast';
 import './assets/style/index.scss';
 import MintUI from 'mint-ui';
@@ -17,7 +17,6 @@ if (env.isClient()) {
  * 引入mintui
  */
 
-
 // swpier组件
 Vue.use(MintUI);
 Vue.prototype.Toast = Toast;
@@ -27,11 +26,6 @@ export function createApp() {
   // 创建router和store实例
   const router = createRouter();
   const store = createStore();
-  // const originalPush = router.replace;
-  // router.replace = function replace(location) {
-  //   return originalPush.call(this, location).catch(err => err);
-  // };
-
   // 同步路由状态(router state)到store
   sync(store, router);
 
@@ -45,21 +39,3 @@ export function createApp() {
   // 暴露app, router 和 store
   return { app, router, store };
 }
-
-if (env.isClient()) {
-}
-
-// router.beforeEach((to, form, next) => {
-//   if (!store.state.token.access_token) {
-//     store.dispatch('getToken', {});
-//   }
-//   next();
-// });
-/* eslint-disable no-new */
-// new Vue({
-//   el: '#app',
-//   router,
-//   components: { App },
-//   store,
-//   template: '<App/>'
-// });
