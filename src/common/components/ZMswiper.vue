@@ -203,7 +203,7 @@ export default {
 }
 .point-customs-recommend {
   display: inline-block;
-  width: 6px;
+  width: 4px;
   height: 0.1rem;
   border: 1px solid #ffffff;
   margin: -4px 4px;
@@ -212,7 +212,7 @@ export default {
 }
 .point-customs-active {
   display: inline-block;
-  width: 12px;
+  width: 8px;
   height: 0.1rem;
   background: #12e079;
   border: 1px solid #ffffff;

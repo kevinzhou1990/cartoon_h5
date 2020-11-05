@@ -51,6 +51,26 @@ export default [
     }
   },
   {
+    path: '/personal',
+    name: 'personal',
+    component: () =>
+      import(/* webpackChunkName: customize */ '@/views/mine/personal'),
+    meta: {
+      title: '个人设置',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/personal/update-nickname',
+    name: 'UpdateNickname',
+    component: () =>
+      import(/* webpackChunkName: customize */ '@/views/mine/personal/nickname'),
+    meta: {
+      title: '更新昵称',
+      keepAlive: false
+    }
+  },
+  {
     path: '/reader',
     name: 'reader',
     component: () => import(/* webpackChunkName: reader */ '@/views/reader'),
