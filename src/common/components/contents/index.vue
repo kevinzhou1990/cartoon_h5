@@ -1,7 +1,13 @@
 <template>
   <div
     v-if="show"
-    :class="`${show ? 'contents-wrap contents-transition' : 'contents-wrap contents-transition contents-wrap-close'}`"
+    :class="
+      `${
+        show
+          ? 'contents-wrap contents-transition'
+          : 'contents-wrap contents-transition contents-wrap-close'
+      }`
+    "
     ref="contents"
     @touchstart.stop="handlerStart"
     @touchmove.stop="handlerMove"
@@ -15,24 +21,25 @@
       </span>
     </div>
     <div class="contents-last">
-      <div>{{comicsInfo.status_text }}</div>
-      <div class="zm-b" @click="switchSort">
+      <div>{{ comicsInfo.status_text }}</div>
+      <div class="zm-b zm-b-radius" @click="switchSort">
         <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
-        <span>{{`${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}`}}</span>
+        <span>{{ `${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}` }}</span>
       </div>
     </div>
     <ul class="contents-list" ref="chapter">
-      <li @click="goto(item)" v-for="(item) in chapterData" :key="item.chapter_id">
+      <li @click="goto(item)" v-for="item in chapterData" :key="item.chapter_id">
         <div class="process" :style="`width:${item.read_per}%`" />
         <span class="contents-current" v-if="item.chapter_id === comicsInfo.last_chapter_id" />
         <div :class="`contents-list-item ${parseInt(item.read_per) === 100 ? 'done' : ''}`">
-          <span>{{item.title}}</span>
+          <span>{{ item.title }}</span>
           <div class="chapter-title">
-            <span class="chapter-title-content">{{item.intro}}</span>
+            <span class="chapter-title-content">{{ item.intro }}</span>
             <span
               class="read-process"
               v-if="parseInt(item.read_per) !== 100 && parseInt(item.read_per) !== 0"
-            >{{`${item.read_per}%`}}</span>
+              >{{ `${item.read_per}%` }}</span
+            >
           </div>
           <div>
             <SvgIcon size="small" iconClass="more_bb" />
@@ -52,7 +59,7 @@ export default {
     show: { type: Boolean, default: false },
     comicsInfo: {
       type: Object,
-      default: function () {
+      default: function() {
         return {
           status: 1, // 1=连载中,2=已完结,3=休更中
           update_freq: '每周五更新', // 更新频率
@@ -80,7 +87,7 @@ export default {
       // 同步本地记录阅读进度
       let contentsList = this.$store.state.reader.contentsList;
       let localContents = this.$store.state.reader.localContents;
-      contentsList.map((item) => {
+      contentsList.map(item => {
         const CAPTERID = item.chapter_id;
         const CARTOON_ID = item.cartoon_id;
         if (localContents[CARTOON_ID]) {
@@ -107,7 +114,7 @@ export default {
         document.body.classList.remove('overflow-hidden');
       }
     },
-    'comicsInfo.cartoon_id': function (n, o) {
+    'comicsInfo.cartoon_id': function(n, o) {
       this.$store.dispatch('getContentsData', n);
     }
   },
@@ -136,7 +143,10 @@ export default {
           this.touchPois.y = `${this.initY - Math.abs(DIFFERENCE)}px`;
         } else {
           // 2.目录拉到顶，且目录滚动到底，向上移动，阻止默认事件，向下移动不阻止
-          if (LISTTOP + this.$refs.chapter.clientHeight === this.$refs.chapter.scrollHeight && event.cancelable) {
+          if (
+            LISTTOP + this.$refs.chapter.clientHeight === this.$refs.chapter.scrollHeight &&
+            event.cancelable
+          ) {
             event.preventDefault();
           }
         }
@@ -218,6 +228,7 @@ $nousecolor: #bbb;
   background: #fff;
   overflow: hidden;
   font-family: 'pingfang-blod';
+  border-radius: 8px 8px;
   .contents-title {
     background: $background;
     padding: 16px;

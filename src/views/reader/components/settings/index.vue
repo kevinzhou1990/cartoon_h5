@@ -11,11 +11,11 @@
         <li>
           <div class="setting-name" style="line-height:44px;">功能栏位置</div>
           <div class="setting-msg">
-            <span :class="funcPos==='right' ? 'active' : ''" @click="changePos">
+            <span :class="funcPos === 'right' ? 'active' : ''" @click="changePos">
               <SvgIcon :iconClass="`right_b${funcPos === 'right' ? 'a' : 'b'}`" class="small" />
               <br />靠右
             </span>
-            <span @click="changePos" :class="funcPos==='right' ? '' : 'active'">
+            <span @click="changePos" :class="funcPos === 'right' ? '' : 'active'">
               <SvgIcon :iconClass="`left_b${funcPos === 'right' ? 'b' : 'a'}`" class="small" />
               <br />靠左
             </span>

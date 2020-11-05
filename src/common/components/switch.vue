@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`switch-wrap ${activated ? 'switch-wrap-activated' :'switch-wrap-inactivated' }`"
+    :class="`switch-wrap ${activated ? 'switch-wrap-activated' : 'switch-wrap-inactivated'}`"
     @click="switchStatus"
   >
     <span class="switch-wrap-item">
@@ -31,11 +31,12 @@ export default {
 
 <style lang="scss" scoped>
 .switch-wrap {
-  display: inline-block;
+  display: flex;
   height: 24px;
   width: 44px;
   border-radius: 16px;
   position: relative;
+  align-items: center;
   &.switch-wrap-inactivated {
     background: #e6e6e6;
     .switch-wrap-item {
@@ -56,7 +57,7 @@ export default {
     width: 16px;
     background: #fff;
     border-radius: 8px;
-    margin: 4px;
+    margin-right: 5px;
   }
 }
 </style>

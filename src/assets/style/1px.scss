@@ -1,7 +1,7 @@
 /**
  * 针对移动端显示1px问题,请使用此变量
  */
-$BORDER_COLOR: #ebebeb !default;
+$BORDER_COLOR: rgba(0, 0, 0, 0.08) !default;
 $posit: top !default;
 $T_B: height !default;
 // 这是边框线条的mixin
@@ -87,7 +87,7 @@ $T_B: height !default;
 .zm-b-t-b {
   position: relative;
   &:before {
-    @include setTopAndBottom
+    @include setTopAndBottom;
   }
 }
 /* 上边框 */
