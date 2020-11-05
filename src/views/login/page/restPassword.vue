@@ -1,71 +1,75 @@
 <template>
-  <div class="rest-main box">
-    <z-m-header :title-text="titleContent" class="zm-b-b"></z-m-header>
-    <template v-if="!nexSuccessFlag">
-      <div class="rest-main-content">
-        <span class="rest-main-content-text">当前登陆手机号</span>
-        <span class="rest-main-content-tel">{{ telCode }} {{ telPhoneNum }}</span>
-      </div>
-      <div class="rest-main-sms zm-b-radius m-8">
-        <span class="rest-main-sms-left">验证码</span>
-        <input
-            v-model="validateNum"
-            type="text"
-            class="rest-main-sms-phone"
-            maxlength="6"
-            :change="changeValidateNum(validateNum)"
-            placeholder="请输入验证码"
-        />
-        <span
-            class="rest-main-sms-va"
-            :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown}"
-            @click.stop="handleClickGetValidate(3)">
-             {{ isShowCountDown ? times: countTimeSMS >=1 ? '重新获取' : '获取验证码' }}
-          </span>
-        <div
-            class="login-btn m-8"
-            :class="{'theme-bg': isClickLoginBtnFlag}"
-            @click.stop="handleClickNextStep(3)"
-        >
-          下一步
-        </div>
-      </div>
-    </template>
-    <template v-else>
-      <div class="login-content">
-        <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
-        <div class="login-content-p zm-b-radius m-8">
-          <input
-              v-model="newPasswordVal"
-              :type="passwordShowFlag ? 'text': 'password'"
-              class="login-content-p-pas"
-              minlength="6"
-              maxlength="20"
-              placeholder="请输入新密码"
-              @focus="changePasswordVal"
-          />
-          <span
-              class="login-content-p-right"
-              :class="passwordShowFlag ? 'eye_open': 'eye_close'"
-              @click.stop="handleClickHidePassword"
-          ></span>
-        </div>
-        <div
-            class="login-btn m-8"
-            :class="{'theme-bg': isSetBtnFlag}"
-            @click.stop="handleClickSurePassword"
-        >
-          设置完成
-        </div>
-      </div>
-    </template>
-    <z-m-login-vali-alert
-        v-model="valiAlert"
-        :img-code="imgCode"
-        :scource="3"
-        @getSMS="getSMSCode"
-    ></z-m-login-vali-alert>
-  </div>
+  <transition name="rest" appear mode="out-in">
+    <div class="rest-main box">
+      <z-m-header :title-text="titleContent" class="zm-b-b"></z-m-header>
+        <template v-if="!nexSuccessFlag">
+          <div class="rest-main-content">
+            <span class="rest-main-content-text">当前登陆手机号</span>
+            <span class="rest-main-content-tel">{{ telCode }} {{ telPhoneNum }}</span>
+          </div>
+          <div class="rest-main-sms zm-b-radius m-8">
+            <span class="rest-main-sms-left">验证码</span>
+            <input
+                v-model="validateNum"
+                type="text"
+                class="rest-main-sms-phone"
+                maxlength="6"
+                :change="changeValidateNum(validateNum)"
+                placeholder="请输入验证码"
+            />
+            <span
+                class="rest-main-sms-va"
+                :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown}"
+                @click.stop="handleClickGetValidate(3)">
+                 {{ isShowCountDown ? times: countTimeSMS >=1 ? '重新获取' : '获取验证码' }}
+              </span>
+            <div
+                class="login-btn m-8"
+                :class="{'theme-bg': isClickLoginBtnFlag}"
+                @click.stop="handleClickNextStep(3)"
+            >
+              下一步
+            </div>
+          </div>
+      </template>
+      <template v-else>
+        <transition name="rest">
+          <div class="login-content">
+            <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
+            <div class="login-content-p zm-b-radius m-8">
+              <input
+                  v-model="newPasswordVal"
+                  :type="passwordShowFlag ? 'text': 'password'"
+                  class="login-content-p-pas"
+                  minlength="6"
+                  maxlength="20"
+                  placeholder="请输入新密码"
+                  @focus="changePasswordVal"
+              />
+              <span
+                  class="login-content-p-right"
+                  :class="passwordShowFlag ? 'eye_open': 'eye_close'"
+                  @click.stop="handleClickHidePassword"
+              ></span>
+            </div>
+            <div
+                class="login-btn m-8"
+                :class="{'theme-bg': isSetBtnFlag}"
+                @click.stop="handleClickSurePassword"
+            >
+              设置完成
+            </div>
+          </div>
+        </transition>
+      </template>
+      <z-m-login-vali-alert
+          v-model="valiAlert"
+          :img-code="imgCode"
+          :scource="3"
+          @getSMS="getSMSCode"
+      ></z-m-login-vali-alert>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -129,8 +133,8 @@ export default {
 			}
 			const resData = await updatePassword(reqData)
 			if (resData && resData.code === 0){
-				this.$toast('密码设置成功')
-				this.back()
+				this.$toast('密码重置成功')
+        this.$router.push('/ZMLogin')
 			} else {
 				this.$toast(resData.msg || '系统繁忙,请稍后重试')
 			}
@@ -155,6 +159,36 @@ export default {
 <style scoped lang="scss">
   $label-fontSize: 12px;
   $label-color: #222222;
+  .rest-enter-active{
+    animation: fadeInLeft 0.5s;
+  }
+  .rest-leave-active{
+    animation: fadeOutLeft 0.5s;
+  }
+  .rest-leave {
+    animation: fadeInRight 0.5s;
+  }
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translate3d(-100%, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fadeOutLeft {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(-100%, 0,0);
+    }
+  }
   ::-webkit-input-placeholder {
     font-family: pingfang-blod;
     font-size: 12px;

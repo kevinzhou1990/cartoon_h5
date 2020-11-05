@@ -87,7 +87,7 @@ import ZMAreaPhone from '@/views/login/components/ZMAreaPhone'
 import ZMHeader from '@/common/components/ZMHeader'
 import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
-import { checkValidateCode, fountPassword } from '../api/index'
+import { fountPassword } from '../api/index'
 import { encryptDes } from '../common/index'
 export default {
   name: 'forgetPassword',
@@ -169,6 +169,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  $label-fontSize: 12px;
+  $label-color: #222222;
+  ::-webkit-input-placeholder {
+    font-family: PingFangSC-Semibold;
+    font-size: 12px;
+    color: #BBBBBB;
+  }
   .fade-enter-active {
     animation: fadeInRight 0.5s;
   }
@@ -195,13 +202,6 @@ export default {
       opacity: 0;
       transform: translate3d(-100%, 0, 0);
     }
-  }
-  $label-fontSize: 12px;
-  $label-color: #222222;
-  ::-webkit-input-placeholder {
-    font-family: PingFangSC-Semibold;
-    font-size: 12px;
-    color: #BBBBBB;
   }
   .theme-color {
     color: #12E079 !important;
@@ -235,7 +235,7 @@ export default {
     width: 16px;
     height: 16px;
   }
-.f-main {
+  .f-main {
   position: relative;
   overflow: hidden;
   margin: auto;
