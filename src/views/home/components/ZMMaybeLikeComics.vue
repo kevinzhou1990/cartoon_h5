@@ -105,7 +105,7 @@ export default {
   $banner-font-color: #FFFFFF;
   $title-fontSize: 14px;
   $chapter-color: #BBBBBB;
-  $chapter-fontSize: 10px;
+  $chapter-fontSize: 12px;
   $content-fontSize: 12px;
   $content-color: #999999;
 .f-c-g {
@@ -174,8 +174,6 @@ export default {
           padding: 0 2px;
           color: $chapter-color;
           font-size: $chapter-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
           &-author {
             max-width: 150px;
             white-space: nowrap;
@@ -187,12 +185,10 @@ export default {
           margin: 2px 2px;
           color: $chapter-color;
           font-size: $chapter-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
           .s-border {
             display: inline-block;
             min-width: 32px;
-            padding: 2px;
+            /*padding: 2px;*/
             height: 20px;
             border: 1px solid $chapter-color;
             border-radius: 4px;

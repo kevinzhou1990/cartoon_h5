@@ -118,8 +118,6 @@ $label-fontSize: 16px;
       }
       &-author {
         display: inline-block;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
         font-size: 10px;
         color: #bbbbbb;
         font-weight: bold;

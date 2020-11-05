@@ -96,7 +96,6 @@ $chapter-color: #bbbbbb;
         background-size: contain;
         border-radius: 4px;
         &-img {
-          /*display: inline-block;*/
           margin-left: 9px;
           margin-top: 8px;
           width: 72px;
@@ -124,21 +123,20 @@ $chapter-color: #bbbbbb;
           }
           &-label {
             display: inline-block;
-            padding: 2px;
+            margin-right: 4px;
             min-width: 32px;
             height: 20px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 4px;
             text-align: center;
             line-height: 20px;
-            -webkit-transform-origin-x: 0;
-            transform: scale(0.83);
           }
           &-chapter {
-            display: inline-block;
-            -webkit-transform-origin-x: 0;
-            transform: scale(0.83);
+            display: block;
             padding: 4px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }

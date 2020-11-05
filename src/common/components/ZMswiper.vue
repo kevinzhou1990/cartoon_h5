@@ -31,7 +31,7 @@ export default {
     // banner 高度
     bannerHeight: {
       type: Number,
-      default: 300
+      default: 340
     },
     bannerWidth: {
       type: Number,

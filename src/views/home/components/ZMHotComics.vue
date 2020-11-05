@@ -89,7 +89,7 @@ export default {
   $main-fontSize: 18px;
   $title-fontSize: 14px;
   $chapter-color: #BBBBBB;
-  $chapter-fontSize: 10px;
+  $chapter-fontSize: 12px;
   .hot-main {
     position: relative;
     padding: 20px 8px;
@@ -130,8 +130,6 @@ export default {
         &-chapter {
           padding: 2px 0 8px 0;
           font-size: $chapter-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
           color: $chapter-color;
           font-weight: bold;
         }

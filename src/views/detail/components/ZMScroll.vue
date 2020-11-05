@@ -155,14 +155,16 @@ export default {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   },
   mounted() {
-    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
-    this.initData();
-    this.getAuthorOther();
-    this.maybeLikeTitle = this.detailData && this.detailData.title;
+  this.$nextTick(() => {
+		  this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+		  this.initData();
+		  this.getAuthorOther();
+		  this.maybeLikeTitle = this.detailData && this.detailData.title;
 
-    this.scrolOnEventChange();
-    this.$el.addEventListener('touchstart', this.touchStart, true);
-    this.$el.addEventListener('touchend', this.touchEnd, true);
+		  this.scrolOnEventChange();
+		  this.$el.addEventListener('touchstart', this.touchStart, true);
+		  this.$el.addEventListener('touchend', this.touchEnd, true);
+    })
   },
   methods: {
     // 数据初始化

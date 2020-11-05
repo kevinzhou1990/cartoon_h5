@@ -63,7 +63,7 @@ export default {
   text-align: center;
   &-left {
     width: 50%;
-    height: 56px;
+    height: 60px;
     background: url('../images/ranking_bg.png') no-repeat center;
     background-size: 100%;
     .label-main-cont {
@@ -77,7 +77,7 @@ export default {
   }
   &-right {
     width: 50%;
-    height: 56px;
+    height: 60px;
     background: url('../images/find_bg.png') no-repeat center;
     background-size: 100%;
     .label-main-cont {

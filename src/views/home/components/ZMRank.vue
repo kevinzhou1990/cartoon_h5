@@ -135,7 +135,7 @@ export default {
   $title-fontSize: 18px;
   $title-color: #222222;
   $label-color: #BBBBBB;
-  $label-fontSize: 10px;
+  $label-fontSize: 12px;
 .pt8 {
   padding-top: 8px;
 }
@@ -170,8 +170,6 @@ export default {
       &-r {
         font-size: $label-fontSize;
         color: $label-color;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
         .r-img {
           display: inline-block;
           width: 16px;
@@ -218,17 +216,18 @@ export default {
             }
             &-r {
               position: absolute;
-              width: 72px;
-              height: 20px;
+              min-width: 72px;
+              height: 22px;
               right: 0;
               background: #FFFFFF;
               border-radius: 10px 0 0 10px;
               text-align: center;
               &-text {
                 display: block;
+                padding: 0 8px;
                 color: #12E079;
-                transform: scale(0.83);
-                line-height: 20px;
+                line-height: 22px;
+                white-space: nowrap;
               }
               /*-webkit-transform-origin-x: 0;*/
             }
@@ -246,8 +245,6 @@ export default {
           .info-chpater {
             font-size: 10px;
             color: #BBBBBB;
-            transform: scale(0.83);
-            -webkit-transform-origin-x: 0;
           }
         }
       }
