@@ -73,3 +73,59 @@ body {
     opacity: 1;
   }
 }
+
+.router-enter-active{
+  animation: fadeInLeft 0.3s;
+}
+.router-leave-active{
+  animation: fadeOutLeft 0.3s;
+}
+.router-leave {
+  animation: fadeInRight 0.3s;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(100%, 0,0);
+  }
+}
+
+//自定义上拉框actionsheet样式
+.custom-gender-actionsheet{
+  background: #f5f5f5!important;
+  .mint-actionsheet-list{
+    background: #8b8b8b;
+    margin-bottom: 8px!important;
+
+    .mint-actionsheet-listitem:first-child{
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-top: 0;
+    }
+  }
+
+  .mint-actionsheet-listitem, .mint-actionsheet-button{
+    height: 56px;
+    line-height: 56px;
+    font-size: 14px;
+    color: #222222;
+    border-bottom: solid 1px #f5f5f5;
+  }
+}
