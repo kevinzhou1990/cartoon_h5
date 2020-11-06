@@ -61,6 +61,16 @@ export default [
     }
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () =>
+      import(/* webpackChunkName: customize */ '@/views/about'),
+    meta: {
+      title: '关于我们',
+      keepAlive: false
+    }
+  },
+  {
     path: '/personal/update-nickname',
     name: 'UpdateNickname',
     component: () =>

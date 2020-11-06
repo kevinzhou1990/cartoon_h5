@@ -1,7 +1,7 @@
 <template>
   <transition name="agreement">
     <div class="agree-main" :class="{'box': agreementFlag}">
-      <z-m-header :title-text="titleContent" v-show="agreementFlag"></z-m-header>
+      <z-m-header :title-text="agreeType" v-show="agreementFlag" has-border></z-m-header>
       <div class="agree-main-content" v-html="userContent"></div>
     </div>
   </transition>
@@ -16,18 +16,27 @@ export default {
   data() {
     return {
 	    agreementFlag: false,
-		  titleContent: '用户协议',
       userContent: ''
     }
   },
   components: {ZMHeader},
+  computed: {
+    agreeType(){
+      let arr = {
+        1: '用户协议',
+        2: '隐私保护协议',
+        3: '关于我们'
+      };
+
+      return arr[this.$route.query.agreeType] || '用户协议'
+    }
+  },
   mounted() {
 	  let u = navigator.userAgent;
 	  let APPFlag = u.indexOf('isApp') > -1 // 判断是否是在APP里面运行
 	  // let isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 	  // let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-    this.agreementFlag = !APPFlag
-    this.titleContent = this.$route.query.agreeType === 1 ? '用户协议' : '隐私保护协议'
+    this.agreementFlag = !APPFlag;
     this.getData(this.$route.query.agreeType)
   },
   methods: {
@@ -62,11 +71,16 @@ export default {
   position: relative;
   margin: auto;
   overflow: hidden;
+  padding-bottom: 32px;
   &-content {
+    font-family: 'pingfang-regular';
+    color: #222222;
+    font-size: 14px;
+    line-height: 1.5;
     position: relative;
     height: 100%;
-    width: 100%;
     overflow: auto;
+    padding: 32px 16px 0;
   }
 }
 </style>
