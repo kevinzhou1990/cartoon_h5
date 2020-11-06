@@ -2,7 +2,7 @@
   <div class="animation-active-in">
     <z-m-header :title-text="title" show-right has-border>
       <div slot="right" class="title-right">
-        <span class="edit">编辑</span>
+        <span class="edit" @click="jumpDownloadPage">编辑</span>
       </div>
     </z-m-header>
 
@@ -20,9 +20,11 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import collectTable from '../components/collectTable'
 import { getCartoonByGroup } from '@/common/api/shelf'
+import myMixins from '@/common/mixin/myMixins'
 export default {
   name: 'tableList',
   components: { collectTable, ZMHeader },
+  mixins: [ myMixins ],
   data() {
     return {
       collectList: [],

@@ -21,7 +21,7 @@
       <div class="container-end" v-if="type !== 'myCollect' || dataList.length > 5">不要再扯了，真的没有了～</div>
     </template>
 
-    <no-data-view v-else type="collect" class="no-data" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
+    <no-data-view v-else type="history" class="no-data" textContent="一本漫画也没有哦～"></no-data-view>
   </div>
 </template>
 
@@ -122,6 +122,10 @@ export default {
       margin: 40px auto;
       text-align: center;
       transform: scale(0.83);
+    }
+
+    .no-data{
+      height: calc(100vh - 44px);
     }
   }
 </style>
