@@ -4,6 +4,8 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const webpack = require('webpack');
+const HtmlWebPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 const config = merge(base, {
   entry: {
@@ -37,6 +39,11 @@ const config = merge(base, {
     // on every build.
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
+    }),
+    new HtmlWebPlugin({
+      title: '漫画威龙',
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../index-client.html')
     }),
     new VueSSRClientPlugin()
   ]

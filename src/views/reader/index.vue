@@ -76,9 +76,9 @@ export default {
     };
     this.$store.commit('UPDATE_REPORTMSG', reportMsg);
   },
-  activated() {
-    this.pageinit();
-  },
+  // activated() {
+  //   this.pageinit();
+  // },
   computed: {
     comicsList: function() {
       return this.$store.state.reader.imagesList.detail;
