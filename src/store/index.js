@@ -9,6 +9,7 @@ import token from './modules/token';
 import discovery from './modules/discovery';
 import collect from './modules/collect';
 import status from './modules/status';
+import user from './modules/user';
 import login from '@/views/login/store/index';
 import ranking from './modules/ranking';
 import topic from './modules/topic';
@@ -30,6 +31,7 @@ const storeModules = {
   comments,
   detail,
   status,
+  user,
   login
 };
 
@@ -37,7 +39,7 @@ let store = null;
 if (env.isClient()) {
   const createPersisted = createPersistedState({
     storage: sessionStorage,
-    paths: ['reader', 'recommend', 'token', 'collect', 'home', 'comments', 'detail', 'status', 'login']
+    paths: ['reader', 'recommend', 'token', 'collect', 'home', 'comments', 'detail', 'status', 'user', 'login']
   });
   store = new Vuex.Store({
     modules: { ...storeModules },

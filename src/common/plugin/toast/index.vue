@@ -38,7 +38,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  .toast-show {
+    animation: fadeIn .3s;
+  }
+
+  .toast-hidden {
+    animation: fadeOut .3s;
+  }
+
 .toast-wrap {
+  animation: fadeIn .3s;
   position: fixed;
   display: flex;
   align-items: center;

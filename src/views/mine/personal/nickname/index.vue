@@ -3,7 +3,12 @@
     <div class="nickname">
       <z-m-header title-text="昵称" show-right has-border>
         <div slot="right" class="title-right">
-          <button class="done" v-if="!isLoading" @click="test" :disabled="!nickname">完成</button>
+          <button
+            class="done"
+            v-if="!isLoading"
+            @click="updateNickname"
+            :disabled="!nickname || nickname === $store.state.login.userInfo.nickname"
+          >完成</button>
           <div class="loading" v-if="isLoading && nickname"></div>
         </div>
       </z-m-header>
@@ -30,14 +35,38 @@
     components: { ZMHeader },
     data(){
       return {
-        nickname: '',
+        nickname: this.$store.state.login.userInfo.nickname,
         isLoading: false,
         showClear: false
       }
     },
     methods: {
-      test(){
-        console.log('wwww0-----------')
+      updateNickname(){
+        if (this.nickname === this.$store.state.login.userInfo.nickname){
+          return
+        }
+
+        let params = {
+          nickname: this.nickname
+        };
+        this.isLoading = true;
+        this.$store.dispatch('updateUserInfo', params).then((res) => {
+          if (res.code === 0){
+            setTimeout(() => {
+              this.Toast('昵称修改成功!', {
+                type: 'success',
+                duration: 2000
+              });
+            }, 250);
+
+            this.$router.replace({
+              path: '/personal'
+            });
+          } else {
+            this.$toast(res.msg || '系统出错,请稍后重试');
+          }
+          this.isLoading = false
+        })
       }
     }
   };
