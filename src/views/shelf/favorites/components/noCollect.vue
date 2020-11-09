@@ -3,7 +3,7 @@
     <no-data-view type="collect" class="no-data" textContent="你还一本漫画都没有收藏哦～"></no-data-view>
 
     <div class="hot-recommend">
-      <div class="main-container">
+      <div class="main-container" @click="jumpIndex">
         <div class="content">
           <div class="img-container">
             <div class="img1 img" :style="{background: 'url('+cover[0].cover+')','background-size': '100%'}"></div>
@@ -58,6 +58,13 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    jumpIndex(){
+      this.$router.push({
+        path: '/'
+      })
+    }
   }
 };
 </script>
