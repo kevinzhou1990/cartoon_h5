@@ -5,6 +5,7 @@
         show ? 'navigation-wrap-' + funcPos + '-hidden' : ''
       }`
     "
+    v-if="imagesList.detail"
   >
     <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
       <div :class="`navigation-contents ${touching}`" @click="openContents">
@@ -26,7 +27,6 @@
         <div
           :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`"
           :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
-          v-if="imagesList.detail"
         ></div>
         <div class="reader-process-tag">
           <div>

@@ -53,8 +53,7 @@ export default [
   {
     path: '/personal',
     name: 'personal',
-    component: () =>
-      import(/* webpackChunkName: customize */ '@/views/mine/personal'),
+    component: () => import(/* webpackChunkName: customize */ '@/views/mine/personal'),
     meta: {
       title: '个人设置',
       keepAlive: false
@@ -63,8 +62,7 @@ export default [
   {
     path: '/about',
     name: 'about',
-    component: () =>
-      import(/* webpackChunkName: customize */ '@/views/about'),
+    component: () => import(/* webpackChunkName: customize */ '@/views/about'),
     meta: {
       title: '关于我们',
       keepAlive: false
@@ -73,8 +71,7 @@ export default [
   {
     path: '/personal/update-nickname',
     name: 'UpdateNickname',
-    component: () =>
-      import(/* webpackChunkName: customize */ '@/views/mine/personal/nickname'),
+    component: () => import(/* webpackChunkName: customize */ '@/views/mine/personal/nickname'),
     meta: {
       title: '更新昵称',
       keepAlive: false
