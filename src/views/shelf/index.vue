@@ -30,7 +30,7 @@
 import ZMFavorites from '@/views/shelf/favorites';
 import ZMHistory from '@/views/shelf/history';
 import ZMCache from '@/views/shelf/cache';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import myMixins from '@/common/mixin/myMixins'
 
 export default {
@@ -60,14 +60,22 @@ export default {
   computed: {
     ...mapState({
       // isLogin: (state) => state.status.isLogin,
+      shelfTab: (state) => state.collect.shelfTab,
       isLoading: (state) => state.status.isLoading,
       isUpdate: (state) => state.status.hasUpdate
     })
   },
   mounted() {
     document.documentElement.scrollTop = 0;
+    this.showActivetab();
   },
   methods: {
+    ...mapMutations(['updateTab']),
+    showActivetab(){
+      if (!this.$route.query.tab){
+        this.active = this.shelfTab;
+      }
+    },
     switchTab(name){
       if (name === '缓存'){
         this.jumpDownloadPage()
@@ -76,6 +84,7 @@ export default {
       if (this.active === name) {
         return
       }
+      this.updateTab(name);
       this.active = name;
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.tab = this.active;
