@@ -19,7 +19,7 @@ export default {
 .no-data-main {
   font-weight: bold;
   text-align: center;
-  padding: 40px 0;
+  padding: 20px 0;
   color: #BBBBBB;
   font-size: 10px;
   transform: scale(0.83);

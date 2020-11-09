@@ -4,95 +4,119 @@
     <div class="ranking-wrap" v-if="rankingList.length > 0">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
-          :class="rank.rank_id === parseInt(activeRank) ? 'actived':''"
+          :class="rank.rank_id === parseInt(activeRank) ? 'actived' : ''"
           :key="rank.rank_id"
           v-for="rank in rankingList"
           @click="switchRank(rank)"
-        >{{rank.name}}</li>
+        >
+          {{ rank.name }}
+        </li>
       </ul>
-      <div class="ranking-comics-list" ref="comicsList" :style="{display:isback? 'block':'none'}">
+      <div
+        class="ranking-comics-list"
+        ref="comicsList"
+        :style="{ display: isback ? 'block' : 'none' }"
+      >
         <ul>
-          <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
+          <li v-for="comics in comicsList" :key="comics.cartoon_id">
             <div
               class="comics-cover"
-              :class="comics.rank > 3 ? 'comics-cover-normal':''"
+              :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
               :style="`background-image:url(${comics.cover})`"
               @click="handleZMInfo(comics.cartoon_id)"
             />
-            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
+            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
               <div class="ranking-info">
-                <span
-                  :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
-                >{{comics.rank >= 10 ? comics.rank : `0${comics.rank}`}}</span>
-                <span
-                  class="ranking-occupy"
-                  v-if="comics.days >= 7"
-                >连续霸榜{{Math.floor(comics.days/7)}}周</span>
+                <span :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'">{{
+                  comics.rank >= 10 ? comics.rank : `0${comics.rank}`
+                }}</span>
+                <span class="ranking-occupy" v-if="comics.days >= 7"
+                  >连续霸榜{{ Math.floor(comics.days / 7) }}周</span
+                >
                 <span class="comics-info-other" v-else-if="comics.status !== 0">
                   <SvgIcon
                     :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
                     size="small"
                   />
-                  {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
+                  {{
+                    comics.status > 0
+                      ? `上升${Math.abs(comics.status)}位`
+                      : `下降${Math.abs(comics.status)}位`
+                  }}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">
+                {{ comics.title }}
+              </p>
               <div style="position: relative">
                 <div class="other-container">
                   <p class="comics-info-other" v-if="comics.author.length > 0">
-                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{ author }}</span>
+                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{
+                      author
+                    }}</span>
                   </p>
-                  <p class="comics-info-other">{{comics.status_text}}</p>
+                  <p class="comics-info-other">{{ comics.status_text }}</p>
                 </div>
               </div>
             </div>
           </li>
         </ul>
-        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top50都在这里啦～</div>
+        <div class="no-more" v-if="comicsList && comicsList.length > 0">
+          {{ activeName }}Top50都在这里啦～
+        </div>
       </div>
       <div
         class="ranking-comics-list ranking-comics-list-back"
-        :style="{display:isback?'none':'block'}"
+        :style="{ display: isback ? 'none' : 'block' }"
         ref="comicsListBack"
       >
         <ul>
-          <li v-for="(comics) in comicsList" :key="comics.cartoon_id">
+          <li v-for="comics in comicsList" :key="comics.cartoon_id">
             <div
               class="comics-cover"
-              :class="comics.rank > 3 ? 'comics-cover-normal':''"
+              :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
               :style="`background-image:url(${comics.cover})`"
               @click="handleZMInfo(comics.cartoon_id)"
             />
-            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0':''">
+            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
               <div class="ranking-info">
-                <span
-                  :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'"
-                >{{comics.rank >= 10 ? comics.rank : `0${comics.rank}`}}</span>
-                <span
-                  class="ranking-occupy"
-                  v-if="comics.days >= 7"
-                >连续霸榜{{Math.floor(comics.days/7)}}周</span>
+                <span :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'">{{
+                  comics.rank >= 10 ? comics.rank : `0${comics.rank}`
+                }}</span>
+                <span class="ranking-occupy" v-if="comics.days >= 7"
+                  >连续霸榜{{ Math.floor(comics.days / 7) }}周</span
+                >
                 <span class="comics-info-other" v-else-if="comics.status !== 0">
                   <SvgIcon
                     :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
                     size="small"
                   />
-                  {{comics.status > 0 ? `上升${Math.abs(comics.status)}位` : `下降${Math.abs(comics.status)}位`}}
+                  {{
+                    comics.status > 0
+                      ? `上升${Math.abs(comics.status)}位`
+                      : `下降${Math.abs(comics.status)}位`
+                  }}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">{{comics.title}}</p>
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">
+                {{ comics.title }}
+              </p>
               <div style="position: relative">
                 <div class="other-container">
                   <p class="comics-info-other" v-if="comics.author.length > 0">
-                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{ author }}</span>
+                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{
+                      author
+                    }}</span>
                   </p>
-                  <p class="comics-info-other">{{comics.status_text}}</p>
+                  <p class="comics-info-other">{{ comics.status_text }}</p>
                 </div>
               </div>
             </div>
           </li>
         </ul>
-        <div class="no-more" v-if="comicsList && comicsList.length > 0">{{activeName}}Top50都在这里啦～</div>
+        <div class="no-more" v-if="comicsList && comicsList.length > 0">
+          {{ activeName }}Top50都在这里啦～
+        </div>
       </div>
     </div>
 
@@ -105,19 +129,19 @@ import myMixins from '@/common/mixin/myMixins';
 import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
-import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
 import { throttle } from '@/lib/utils';
 
 export default {
   name: 'Ranking',
   mixins: [myMixins],
   components: { ZMHeader, SvgIcon, noDataView },
+  asyncData({ store, route }) {
+    return store.dispatch('getRankingList', route.query.rank);
+  },
   data() {
     return {
       activeRank: this.$route.query.rank,
       activeName: '',
-      comicsList: [],
-      rankingList: [],
       typeH: 0,
       isback: true,
       hasBoder: false,
@@ -125,65 +149,68 @@ export default {
     };
   },
   mounted() {
-    this.getRankingCate().then(() => {
-      if (this.rankingList && this.rankingList.length > 0) {
-        this.getRankingByCate();
-      }
-    });
+    // this.setQuery(this.currentRank);
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
+    const rank = this.$route.query.rank || this.rankingList[0].rank_id;
+    const list = this.rankingList;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].rank_id === rank) this.activeName = list[i].name;
+    }
+    this.$store.dispatch('getRankingComicsList', this.activeRank);
+  },
+  computed: {
+    comicsList() {
+      return this.$store.state.ranking.comicsList;
+    },
+    rankingList() {
+      return this.$store.state.ranking.rankingList;
+    },
+    currentRank() {
+      return this.$store.state.ranking.currentRank;
+    }
+  },
+  watch: {
+    currentRank(n, o) {
+      this.activeRank = n.rank_id;
+      this.activeName = n.name;
+    }
   },
   methods: {
     switchRank(rank) {
-      this.activeRank = rank.rank_id;
-      this.activeName = rank.name;
-      this.setQuery();
-      this.getRankingByCate();
-    },
-    //获取排行分类
-    async getRankingCate() {
-      const rankCate = await getRankingCate();
-      if (rankCate.code === 0) {
-        this.rankingList = rankCate.data.data;
-        if (this.rankingList && this.rankingList.length > 0) {
-          if (!this.$route.query.rank || this.$route.query.rank === 'ALL') {
-            this.activeRank = this.rankingList[0].rank_id;
-            this.activeName = this.rankingList[0].name;
-            this.setQuery();
-          } else {
-            this.rankingList.some((item) => {
-              if (this.$route.query.rank === item.rank_id.toString()) {
-                this.activeName = item.name;
-                return true;
-              }
-            });
-          }
-        }
-      } else {
-        this.$toast(rankCate.msg || '系统出错,请稍后重试');
-      }
+      // this.activeRank = rank.rank_id;
+      // this.activeName = rank.name;
+      this.setQuery(rank);
+      // this.getRankingByCate();
     },
     //获取排行分类对应漫画
-    async getRankingByCate() {
-      const rankList = await getRankingByCate(this.activeRank);
-      if (rankList.code === 0) {
-        // 切换动画效果
-        const listClass = this.$refs.comicsList.classList;
-        const backClass = this.$refs.comicsListBack.classList;
-        listClass.contains('ranking-comics-list-back') ? listClass.remove('ranking-comics-list-back') : listClass.add('ranking-comics-list-back');
-        backClass.contains('ranking-comics-list-back') ? backClass.remove('ranking-comics-list-back') : backClass.add('ranking-comics-list-back');
-        setTimeout(() => {
-          this.isback = !this.isback;
-        }, 300);
-        this.comicsList = rankList.data.data;
-      } else {
-        this.$toast(rankList.msg || '系统出错,请稍后重试');
-      }
+    getRankingByCate() {
+      const r = this.$store.dispatch('getRankingComicsList', this.activeRank);
+      r.then(res => {
+        if (res.code === 0) {
+          // 切换动画效果
+          const listClass = this.$refs.comicsList.classList;
+          const backClass = this.$refs.comicsListBack.classList;
+          listClass.contains('ranking-comics-list-back')
+            ? listClass.remove('ranking-comics-list-back')
+            : listClass.add('ranking-comics-list-back');
+          backClass.contains('ranking-comics-list-back')
+            ? backClass.remove('ranking-comics-list-back')
+            : backClass.add('ranking-comics-list-back');
+          setTimeout(() => {
+            this.isback = !this.isback;
+          }, 300);
+        } else {
+          this.$toast(res.msg || '系统出错,请稍后重试');
+        }
+      }).catch(error => {
+        console.log('getComicsList error', error);
+      });
     },
     //选择的rankId更新到路由里
-    setQuery() {
+    setQuery(rank) {
       let query = JSON.parse(JSON.stringify(this.$route.query));
-      query.rank = this.activeRank;
+      query.rank = rank.rank_id;
       this.$router.replace({ path: this.$route.path, query: query });
       document.scrollingElement.scrollTop = 0;
     },
@@ -204,7 +231,7 @@ $MAINCOLOR: #12e079;
 $GRAYFONTCOLOR: #999;
 $SIDEWIDTH: 86px;
 .pt-0 {
-  padding-top: 0!important;
+  padding-top: 0 !important;
 }
 .ranking {
   padding-top: 44px;
@@ -339,7 +366,7 @@ $SIDEWIDTH: 86px;
         -webkit-line-clamp: 2;
         word-break: break-all;
       }
-      .other-container{
+      .other-container {
         position: absolute;
         width: calc(100% + 16px);
       }
@@ -359,6 +386,9 @@ $SIDEWIDTH: 86px;
         }
       }
     }
+  }
+  .no-data {
+    height: calc(100vh - 44px);
   }
 }
 </style>

@@ -1,73 +1,129 @@
-import axios from 'axios';
+import axios from './utils/axios';
 import crypto from 'crypto-js';
-import { getRandomStr } from './utils';
-import store from '@/store';
+import env from './utils/env';
+import { router } from '../router/index';
+import { getRandomStr, getCookie } from './utils';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
-  withCredentials: true
+  withCredentials: true,
+  baseURL: env.isServer() ? 'http://10.1.15.98:9501/' : '/',
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
 });
-// let loading = []
-service.interceptors.request.use(
-  config => {
-    const TOKEN_DATA = store.state.token;
-    // 拦截请求，添加公共头部参数
+
+const option = {
+  waits: [],
+  alerts: [],
+  requests: [],
+  compTimer: null,
+  refreshTimer: null
+};
+
+service.intercept({
+  //拦截配置
+  config(c) {
+    const store = router.app.$store;
+    let Authorization = store ? store.state.token.access_token : '';
+    let refresh_token = store ? store.state.token.refresh_token : '';
+    if (env.isClient()) {
+      Authorization = getCookie('access_token');
+      refresh_token = getCookie('refresh_token');
+    }
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
-    const Authorization = (TOKEN_DATA && TOKEN_DATA.access_token) || '';
-    const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`);
-    config.headers = {
+    const sign = crypto.MD5(`${timestamp}${appNonce}${appKey}`).toString();
+    c.headers = {
+      ...c.headers,
       'APP-TIMESTAMP': timestamp,
       'APP-NONCE': appNonce,
       'APP-SIGN': sign,
       Authorization
     };
-    if (config.url === 'api/oauth' && config.method === 'put') {
-      config.data = {
-        refresh_token: TOKEN_DATA.refresh_token
+    if (c.url === 'api/oauth' && c.method === 'put') {
+      c.data = {
+        refresh_token
       };
     }
-    if (navigator.userAgent.search('isApp') !== -1) {
-      // 手机app端获取注入到ua的token
-      const reg = new RegExp(/token=.*$/gim);
-      const t = reg.exec(navigator.userAgent)[0].split('=')[1];
-      config.Authorization = t;
-    }
-
-    return config;
+    return c;
   },
-  error => {
-    return Promise.reject(error);
-  }
-);
-service.interceptors.response.use(
-  response => {
-    // 请求200的正常返回
-    if (response.data.code === 1003) {
-      // TODO 去重新请求token
-      return tokenError('get', response);
-    } else if (response.data.code === 1004) {
-      // TODO 去刷新token
-      return tokenError('refresh', response);
-    } else {
-      return response.data;
+
+  //请求成功
+  success(res, opt) {
+    const code = parseInt(res.data.code);
+    switch (code) {
+      case 0:
+        return res.data;
+      case 1004:
+        option.requests.push(opt);
+        router.app.$store.dispatch('refreshToken').then(res => {
+          clearTimeout(option.refreshTimer);
+          service.reset(option.requests);
+          option.requests = [];
+        });
+        return false;
+      case 1003:
+        option.requests.push(opt);
+        // 重新获取token
+        router.app.$store.dispatch('getToken').then(res => {
+          clearTimeout(option.refreshTimer);
+          service.reset(option.requests);
+          option.requests = [];
+        });
+        return false;
+      case 1209:
+        console.log('未登陆，跳转到登陆。。。。');
+        return res.data;
+      case 1204:
+        // 异地登陆
+        console.log('异地登陆。。。。。');
+        return res.data;
+      default:
+        return res.data;
     }
   },
-  error => {
-    Promise.reject(error);
-  }
-);
 
-// type:get为获取直接获取token，refresh为刷新token，res为请求返回对象
-async function tokenError(type, response) {
-  return store.dispatch(type === 'get' ? 'getToken' : 'refreshToken').then(res => {
-    if (res.code === 0) {
-      return service(response.config);
-    } else {
-      return Promise.reject(res);
+  //请求失败
+  fail(res) {
+    const code = parseInt(res.status);
+    return { code, msg: res.data.msg, res: res.data };
+  },
+
+  //请求完成
+  complete(res) {
+    try {
+      const key = res.key;
+      let index;
+      option.waits.some((item, i) => {
+        if (item.key === key) {
+          return (index = i);
+        }
+      });
+      if (index > -1) {
+        clearTimeout(option.waits[index].timer);
+        option.waits.splice(index, 1);
+      }
+      clearTimeout(option.compTimer);
+      option.compTimer = setTimeout(() => {
+        option.waits = [];
+        option.alerts = [];
+      }, 5000);
+      const err = parseInt(res.data.code);
+      if (err !== 0 && err !== 1013 && err !== 1004 && err !== 999) {
+        const a_i = option.alerts.indexOf(key);
+        if (a_i > -1) {
+          option.alerts.splice(a_i, 1);
+          return;
+        }
+      }
+    } catch (error) {
+      option.waits = [];
+      option.alerts = [];
     }
-  });
-}
+  }
+});
 
 export default service;

@@ -9,7 +9,7 @@
     <div
       class="like-main-banner"
       :style="`background-image:url('${likeBannerData.cover}');`"
-      @click="handleZMInfo(likeBannerData.cartoon_id)"
+      @click="handleZMInfo(likeBannerData.cartoon_id, 2, recId)"
     >
       <div class="like-main-banner-img">
         <div class="like-main-banner-img-text">
@@ -25,7 +25,7 @@
         class="like-main-other-item"
         v-for="item in likeComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
         <span
           class="like-main-other-item-img"
@@ -79,7 +79,7 @@ $like-fontSize: 18px;
 $like-color: #222222;
 $banner-font-color: #ffffff;
 $banner-fontSize: 14px;
-$banner-l-fontSize: 10px;
+$banner-l-fontSize: 12px;
 $chapter-color: #bbbbbb;
 .like-main {
   position: relative;
@@ -116,8 +116,6 @@ $chapter-color: #bbbbbb;
         &-l {
           font-size: 10px;
           color: rgba(255, 255, 255, 0.6);
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
         }
       }
     }
@@ -125,7 +123,7 @@ $chapter-color: #bbbbbb;
   &-other {
     display: flex;
     justify-content: space-between;
-    margin: 0 4px;
+    margin: 0 8px;
     overflow-x: scroll;
     &::-webkit-scrollbar {
       display: none;
@@ -134,7 +132,7 @@ $chapter-color: #bbbbbb;
     &-item {
       display: flex;
       flex-direction: column;
-      padding: 0 2px;
+      margin: 0 4px;
       &-img {
         width: 109px;
         height: 145px;
@@ -153,10 +151,8 @@ $chapter-color: #bbbbbb;
         white-space: nowrap;
       }
       &-chapter {
-        font-size: 10px;
+        font-size: 12px;
         color: $chapter-color;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
       }
     }
   }

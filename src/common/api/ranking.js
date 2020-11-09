@@ -1,3 +1,4 @@
+// 排行榜相关接口
 import request from '@/lib/request';
 
 export const getRankingCate = function() {

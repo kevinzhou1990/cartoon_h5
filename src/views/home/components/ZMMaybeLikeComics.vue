@@ -10,14 +10,14 @@
         class="maybe-main-content"
         v-for="(item, index) in maybeLikeComicsList"
         :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id)"
+        @click="handleZMInfo(item.cartoon_id, 2, recId)"
     >
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
-            <div class="maybe-main-content-item-desc-title-c" @click="isCollectFlag = !isCollectFlag">
+            <div class="maybe-main-content-item-desc-title-c" @click.stop="handleClickCollect">
               <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">
               <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
             </div>
@@ -85,6 +85,16 @@ export default {
      */
     handleClickMybeLike() {
       console.log('go to maybe like more info')
+    },
+	  /**
+	   * @info: 点击了收藏
+	   * @author: PengGeng
+	   * @date: 10/26/20-10:25 上午
+	   */
+	  handleClickCollect() {
+      // 是否确认收藏
+		  // this.isCollectFlag = !this.isCollectFlag
+      this.$router.push('/download')
     }
   }
 }
@@ -95,7 +105,7 @@ export default {
   $banner-font-color: #FFFFFF;
   $title-fontSize: 14px;
   $chapter-color: #BBBBBB;
-  $chapter-fontSize: 10px;
+  $chapter-fontSize: 12px;
   $content-fontSize: 12px;
   $content-color: #999999;
 .f-c-g {
@@ -164,8 +174,6 @@ export default {
           padding: 0 2px;
           color: $chapter-color;
           font-size: $chapter-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
           &-author {
             max-width: 150px;
             white-space: nowrap;
@@ -177,12 +185,10 @@ export default {
           margin: 2px 2px;
           color: $chapter-color;
           font-size: $chapter-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
           .s-border {
             display: inline-block;
             min-width: 32px;
-            padding: 2px;
+            /*padding: 2px;*/
             height: 20px;
             border: 1px solid $chapter-color;
             border-radius: 4px;

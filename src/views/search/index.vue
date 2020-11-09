@@ -5,7 +5,7 @@
 */
 <template>
   <div class="main">
-    <z-m-search @change="showSearchResult"></z-m-search>
+    <z-m-search @change="showSearchResult" :hot-data="everyoneData"></z-m-search>
     <z-m-search-result
         v-model='searchResultList'
         v-if="showSRFlag"
@@ -48,9 +48,10 @@ export default {
   },
   mounted() {
     this.getCommonSearchWords()
+	  this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
   },
   activated() {
-    this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
+    // this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
   },
   methods: {
     /**

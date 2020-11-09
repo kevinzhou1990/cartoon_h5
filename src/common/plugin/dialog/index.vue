@@ -2,7 +2,7 @@
   <div class="dialog-wrap" v-if="show">
     <div class="dialog-content">
       <SvgIcon iconClass="ca" size="large" class="dialog-icon" />
-      <div class="dialog-msg">{{message}}</div>
+      <div class="dialog-msg">{{ message }}</div>
       <div class="dialog-button zm-b-t" v-if="type === 'alert'" @click="confirm">确认</div>
       <div class="dialog-button zm-b-t" v-else>
         <div @click="cancel" class="zm-b-r">{{ options.cancel.text || '取消' }}</div>
@@ -28,7 +28,8 @@ export default {
       }
     },
     confirm() {
-      this.show = this.options.confirm.callback();
+      this.options.confirm.callback();
+      this.show = false;
     }
   }
 };

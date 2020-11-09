@@ -13,10 +13,21 @@
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
       <div class="reader-mask-middle" @click="switchFull"></div>
-      <div class="reader-mask-bottom" v-if="settingData.clickTurnPage" @click="turnPage('next')"></div>
+      <div
+        class="reader-mask-bottom"
+        v-if="settingData.clickTurnPage"
+        @click="turnPage('next')"
+      ></div>
     </div>
     <div class="reader-img" ref="imgWrap">
-      <img-component v-for="(item, index) in comicsList" :key="item.detail_id" :src="item.path" :comics="item" :default-load="index < 3" :height="imgHeight[index]" />
+      <img-component
+        v-for="(item, index) in comicsList"
+        :key="item.detail_id"
+        :src="item.path"
+        :comics="item"
+        :default-load="index < 3"
+        :height="imgHeight[index]"
+      />
     </div>
     <Contents :show="show" :comicsInfo="comicsInfo" />
     <div class="reader-first" v-if="!firstUse" @click="updateFirstReader">
@@ -54,7 +65,7 @@ export default {
       pageIndex: 3,
       // 每张图片的高度
       imgHeight: [],
-      firstUse: sessionStorage.getItem('firstUse')
+      firstUse: true
     };
   },
   mounted() {
@@ -63,16 +74,17 @@ export default {
       start_time: Math.floor(new Date().getTime() / 1000),
       last_chapter_id: parseInt(this.$route.query.capterId)
     };
+    this.firstUse = sessionStorage.getItem('firstUse');
     this.$store.commit('UPDATE_REPORTMSG', reportMsg);
   },
-  activated() {
-    this.pageinit();
-  },
+  // activated() {
+  //   this.pageinit();
+  // },
   computed: {
-    comicsList: function () {
+    comicsList: function() {
       return this.$store.state.reader.imagesList.detail;
     },
-    comicsInfo: function () {
+    comicsInfo: function() {
       return this.$store.state.reader.comic;
     },
     settingData() {
@@ -83,11 +95,11 @@ export default {
     }
   },
   watch: {
-    show: function (n, o) {
+    show: function(n, o) {
       this.navigationStatus = n;
       if (this.fullRead) this.navigationStatus = this.fullRead;
     },
-    $route: function (to, from) {
+    $route: function(to, from) {
       console.log(to, '+++++reader', from);
       this.pageinit();
     }
@@ -118,13 +130,16 @@ export default {
       if (!this.firstUse) {
         // 首次进入阅读器
         this.navigationStatus = false;
+        this.fullRead = false;
         document.body.classList.add('overflow-hidden');
         this.$refs.readerComponent.classList.add('overflow-hidden');
       }
       if (localContents && JSON.stringify(localContents) !== '{}') {
         // 根据本地数据计算滚动位置
         if (CAPTERID && CARTOONID && localContents[CARTOONID]) {
-          reader_per = localContents[CARTOONID][CAPTERID] ? localContents[CARTOONID][CAPTERID].read_per : 0;
+          reader_per = localContents[CARTOONID][CAPTERID]
+            ? localContents[CARTOONID][CAPTERID].read_per
+            : 0;
         }
       } else {
         // 如果没有本地数据，获取后台返回的
@@ -141,7 +156,10 @@ export default {
       if (reader_per) {
         this.Toast('上次读到这', { type: 'tag', duration: 1000 });
       }
-      localReadProcess(this, { chapter_id: parseInt(this.$route.query.capterId), detail: this.comicsList });
+      localReadProcess(this, {
+        chapter_id: parseInt(this.$route.query.capterId),
+        detail: this.comicsList
+      });
       this.$store.commit('UPDATE_READERPROCESS', reader_per);
       // 计算图片索引
       const idx = getIndex(reader_per, this.comicsList.length);
@@ -191,7 +209,8 @@ export default {
       const process = Math.floor(this.$store.state.reader.readerProcess) / 100;
       const imgIndex = Math.floor(process * this.comicsList.length);
       const scolltop = document.scrollingElement.scrollTop;
-      const h = document.getElementById(`img${this.comicsList[imgIndex - 1].detail_id}`).clientHeight;
+      const h = document.getElementById(`img${this.comicsList[imgIndex - 1].detail_id}`)
+        .clientHeight;
       if (direction === 'next') {
         document.scrollingElement.scrollTo({ top: scolltop + h, behavior: 'smooth' });
       } else {
@@ -223,7 +242,10 @@ export default {
       }
     }
     rpdata.chapter_info = chapter_info;
-    const rp = await reportReader(parseInt(this.$route.query.cartoon_id), this.$store.state.reader.reportMsg);
+    const rp = await reportReader(
+      parseInt(this.$route.query.cartoon_id),
+      this.$store.state.reader.reportMsg
+    );
     if (rp.code === 0) {
       // 上报成功，清除本地数据
       this.$store.dispatch('saveProcess', {});

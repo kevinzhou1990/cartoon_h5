@@ -18,7 +18,7 @@
              v-for="articleItem in item.article"
              :key="articleItem.cartoon_id"
         >
-          <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id)">
+          <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id, 1, item.cate.rank_id)">
             <div class="rank-item-content-item-img" :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"></div>
             <div class="rank-item-content-item-info">
               <div class="info-rank">
@@ -29,7 +29,8 @@
               </div>
               <span class="info-content">{{ articleItem.title }}</span>
               <span class="info-chpater">{{ articleItem.status_text || '--'}}</span>
-              <span class="info-chpater pt8" >{{ articleItem.read_num | personNums  }}万人阅读</span>
+<!--              <span class="info-chpater pt8" >{{ articleItem.read_num | personNums  }}万人阅读</span>-->
+              <span class="info-chpater pt8" >{{ articleItem.read_num_text }}人阅读</span>
             </div>
           </div>
         </div>
@@ -134,7 +135,7 @@ export default {
   $title-fontSize: 18px;
   $title-color: #222222;
   $label-color: #BBBBBB;
-  $label-fontSize: 10px;
+  $label-fontSize: 12px;
 .pt8 {
   padding-top: 8px;
 }
@@ -169,8 +170,6 @@ export default {
       &-r {
         font-size: $label-fontSize;
         color: $label-color;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
         .r-img {
           display: inline-block;
           width: 16px;
@@ -217,17 +216,18 @@ export default {
             }
             &-r {
               position: absolute;
-              width: 72px;
-              height: 20px;
+              min-width: 72px;
+              height: 22px;
               right: 0;
               background: #FFFFFF;
               border-radius: 10px 0 0 10px;
               text-align: center;
               &-text {
                 display: block;
+                padding: 0 8px;
                 color: #12E079;
-                transform: scale(0.83);
-                line-height: 20px;
+                line-height: 22px;
+                white-space: nowrap;
               }
               /*-webkit-transform-origin-x: 0;*/
             }
@@ -245,8 +245,6 @@ export default {
           .info-chpater {
             font-size: 10px;
             color: #BBBBBB;
-            transform: scale(0.83);
-            -webkit-transform-origin-x: 0;
           }
         }
       }

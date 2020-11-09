@@ -1,12 +1,22 @@
 <template>
-  <div class="discovery-page" @touchstart="handlerTouchstart" @touchend="handlerTouchend" @touchmove="handlerTouchMove">
+  <div
+    class="discovery-page"
+    @touchstart="handlerTouchstart"
+    @touchend="handlerTouchend"
+    @touchmove="handlerTouchMove"
+  >
     <z-m-header :title-text="titleText" show-right has-border>
-      <div slot="right" class="title-right">
+      <div slot="right" class="title-right" @click="toSearch">
         <svg-icon size="default" icon-class="search_aa" />
       </div>
     </z-m-header>
     <discovery-filter ref="discoveryFilter" />
-    <div class="discovery-comics-list" ref="list" :style="{ marginTop: `${listTop}px` }" :class="scrollToTop ? 'discovery-comics-list-top' : ''">
+    <div
+      class="discovery-comics-list"
+      ref="list"
+      :style="{ marginTop: `${listTop}px` }"
+      :class="scrollToTop ? 'discovery-comics-list-top' : ''"
+    >
       <div class="discovery-filter-result" ref="filterText" @click="handlerScrollToTop">
         <i class="discovery-filter-icon-loading" v-if="loadingStatus" />
         <span>当前筛选：{{ filterText }}</span>
@@ -56,6 +66,12 @@ export default {
       return this.$store.state.discovery.totalPage;
     }
   },
+  asyncData({ store, route }) {
+    return Promise.all([
+      store.dispatch('getFilterItem'),
+      store.dispatch('getComicsList', { ...store.state.discovery.checked, page: 1 })
+    ]);
+  },
   data() {
     return {
       titleText: '发现',
@@ -80,21 +96,21 @@ export default {
   },
   watch: {
     checked: {
-      handler: function (n, o) {
+      handler: function(n, o) {
         if (n.tag_id !== '' && n.place_id !== '' && n.status !== '' && n.sort !== '') {
           this.getComics(n, 1);
-          const s = this.$store.state.discovery.status.filter((item) => {
+          const s = this.$store.state.discovery.status.filter(item => {
             return item.id === n.status;
           });
-          const sort = this.$store.state.discovery.sort.filter((item) => {
+          const sort = this.$store.state.discovery.sort.filter(item => {
             return item.id === n.sort;
           });
-          const p = this.$store.state.discovery.places.filter((item) => {
+          const p = this.$store.state.discovery.places.filter(item => {
             if (item) {
               return item.tag_id === n.place_id;
             }
           });
-          const t = this.$store.state.discovery.tags.filter((item) => {
+          const t = this.$store.state.discovery.tags.filter(item => {
             if (item) {
               return item.tag_id === n.tag_id;
             }
@@ -113,7 +129,9 @@ export default {
             otherText += `·${s[0].name}`;
           }
           otherText += `·${sort[0].name}`;
-          this.filterText = `${t[0].tag_id !== 0 && p[0].tag_id !== 0 && s[0].id !== 0 ? '' : allText}${otherText}`;
+          this.filterText = `${
+            t[0].tag_id !== 0 && p[0].tag_id !== 0 && s[0].id !== 0 ? '' : allText
+          }${otherText}`;
         }
       },
       deep: true
@@ -129,6 +147,7 @@ export default {
       }, 300);
     },
     getFilterHeight(height) {
+      console.log(height, '========');
       this.listTop = height;
     },
     handlerScroll() {
@@ -181,6 +200,9 @@ export default {
       if (scrollTop >= filterHeight) {
         document.scrollingElement.scrollTop = 0;
       }
+    },
+    toSearch() {
+      this.$router.push('/ZMSearch');
     }
   },
   beforeDestroy() {
@@ -207,6 +229,7 @@ export default {
         z-index: 4;
         width: 100%;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 8px 8px;
       }
     }
     li {

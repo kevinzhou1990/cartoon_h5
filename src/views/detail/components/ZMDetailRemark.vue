@@ -86,11 +86,12 @@ export default {
       })
     },
     /**
-     * @info: TODO 点击我要评论
+     * @info: 点击我要评论
      * @author: PengGeng
      * @date: 8/12/20-7:04 下午
      */
     handleClickRemark() {
+	    this.$router.push('/download')
       console.log('click remark btn go to remark......')
     }
   }

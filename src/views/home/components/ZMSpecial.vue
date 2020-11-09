@@ -9,6 +9,7 @@
       class="speical-bg"
       :style="{background: 'url('+specialData.banner+')', 'background-size': '100%'}"
     >
+      <div class="speical-bg-li"></div>
       <span class="speical-bg-text">{{ specialData.special && specialData.special.title }}</span>
     </div>
   </div>
@@ -55,6 +56,14 @@ export default {
     margin: 0 16px;
     background: url('../../../assets/img/defaultBanner.png') no-repeat center;
     background-size: 100%;
+    &-li {
+      position: absolute;
+      width: 343px;
+      height: 60px;
+      background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.72) 100%);
+      border-radius: 0 0 4px 4px;
+      bottom: 0;
+    }
     &-text {
       position: absolute;
       bottom: 16px;

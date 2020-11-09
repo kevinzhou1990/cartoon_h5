@@ -7,7 +7,6 @@
          @click.stop="handleClickInfo(item.cartoon_id)"
     >
       <div class="list-main-content-img" :style="{background: 'url('+item.cover+') no-repeat center / cover'}"></div>
-<!--      :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"-->
       <div class="list-main-content-text">
         <span class="title" v-html="hitWrods(item.title, item.hit_words)"></span>
         <div class="chapter">
@@ -73,7 +72,7 @@ export default {
 	   * @date: 10/13/20-6:54 下午
 	   */
 	  handleClickInfo(val) {
-      this.handleZMInfo(val)
+      this.handleZMInfo(val, 3)
     }
   }
 }

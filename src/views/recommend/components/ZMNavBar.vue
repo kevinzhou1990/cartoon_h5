@@ -31,7 +31,8 @@ export default {
       lastSpot: 0,
       currentIndex: 0, // 选择tab的下标
       isSelected: this.acticeIndex,
-      dataList: this.tabListData
+      dataList: this.tabListData,
+	    scrollItemTimer: null
     }
   },
   mounted() {
@@ -53,7 +54,7 @@ export default {
        */
       this.lastSpot = this.$refs.scrollBox.scrollLeft
       const nextSpace = 7 //每次移动距离
-      let scrollItemTimer = setInterval(() => {
+      this.scrollItemTimer = setInterval(() => {
         this.$nextTick(() => {
           if (this.$refs && this.$refs.scrollItem){
 		        let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth //item
@@ -61,7 +62,7 @@ export default {
 		        const containWidth = this.$refs.scrollBox.offsetWidth //容器的宽度
 		        let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2 //最终要停留的点
 		        if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
-			        clearInterval(scrollItemTimer)
+			        clearInterval(this.scrollItemTimer)
 		        }
 		        if (resultSpot >= this.lastSpot) {
 			        this.lastSpot = this.lastSpot + nextSpace
@@ -73,6 +74,9 @@ export default {
         })
       }, 15)
     }
+  },
+  destroyed() {
+    clearInterval(this.scrollItemTimer)
   }
 }
 </script>

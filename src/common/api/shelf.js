@@ -1,5 +1,13 @@
 import request from '@/lib/request';
 
+//收藏夹是否有更新
+export const getUpdateStatus = function() {
+  return request({
+    url: '/api/cartoon/bookshelf/update',
+    method: 'get'
+  });
+};
+
 //获取历史列表
 export const getHistory = function() {
   return request({

@@ -32,7 +32,7 @@ export default {
      * @date: 8/24/20-2:51 下午
      */
     handleDiscoverInfo() {
-      this.$router.push('/discovery')
+      this.$router.push('/discovery');
       console.log('go to discover info');
     }
   }
@@ -62,8 +62,8 @@ export default {
   margin: auto 16px;
   text-align: center;
   &-left {
-    width: 171px;
-    height: 56px;
+    width: 50%;
+    height: 60px;
     background: url('../images/ranking_bg.png') no-repeat center;
     background-size: 100%;
     .label-main-cont {
@@ -76,8 +76,8 @@ export default {
     }
   }
   &-right {
-    width: 172px;
-    height: 56px;
+    width: 50%;
+    height: 60px;
     background: url('../images/find_bg.png') no-repeat center;
     background-size: 100%;
     .label-main-cont {

@@ -7,7 +7,7 @@
   <div class="container">
     <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="bannerList.length>0">
       <swiper-slide class="swiper-slide" v-for="(item, index) in bannerList" :key="index">
-        <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px', width: bannerWidth+ 'px'}" />
+        <img :src="item.img" alt class="swiper-img" :style="{ height: bannerHeight+'px', 'min-width': bannerWidth+ 'px'}" />
 <!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
@@ -31,7 +31,7 @@ export default {
     // banner 高度
     bannerHeight: {
       type: Number,
-      default: 300
+      default: 340
     },
     bannerWidth: {
       type: Number,
@@ -203,7 +203,7 @@ export default {
 }
 .point-customs-recommend {
   display: inline-block;
-  width: 6px;
+  width: 4px;
   height: 0.1rem;
   border: 1px solid #ffffff;
   margin: -4px 4px;
@@ -212,7 +212,7 @@ export default {
 }
 .point-customs-active {
   display: inline-block;
-  width: 12px;
+  width: 8px;
   height: 0.1rem;
   background: #12e079;
   border: 1px solid #ffffff;

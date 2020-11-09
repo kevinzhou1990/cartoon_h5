@@ -7,7 +7,8 @@ import request from 'lib/request';
 export const getZMDetail = function(cartoonId, data) {
   return request({
     url: `/api/cartoon/${cartoonId}`,
-    method: 'get'
+    method: 'get',
+	  params: data
   });
 };
 export const getAuthorOther = function(cartoonId, data) {

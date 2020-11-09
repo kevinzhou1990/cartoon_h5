@@ -1,14 +1,33 @@
 <template>
-  <div :class="`navigation-wrap navigation-wrap${show ? '-hidden' : ''} navigation-wrap-${funcPos} ${show ? 'navigation-wrap-' + funcPos + '-hidden' : ''}`">
+  <div
+    :class="
+      `navigation-wrap navigation-wrap${show ? '-hidden' : ''} navigation-wrap-${funcPos} ${
+        show ? 'navigation-wrap-' + funcPos + '-hidden' : ''
+      }`
+    "
+    v-if="imagesList.detail"
+  >
     <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
       <div :class="`navigation-contents ${touching}`" @click="openContents">
         <SvgIcon iconClass="catalog_ba" size="small" />
       </div>
-      <div :class="`navigation-next ${touching}`" v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0" @click="turnPage(0)">
+      <div
+        :class="`navigation-next ${touching}`"
+        v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0"
+        @click="turnPage(0)"
+      >
         <span>上一话</span>
       </div>
-      <div :class="`navigation-process ${touching ? 'navigation-process-touch' : ''}`" @touchstart="handlerTouchStart" @touchmove="handlerTouchMove" @touchend="handlerTouchEnd">
-        <div :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`" :class="`${readerProcess > 97 ? 'reader-process' : ''}`"></div>
+      <div
+        :class="`navigation-process ${touching ? 'navigation-process-touch' : ''}`"
+        @touchstart="handlerTouchStart"
+        @touchmove="handlerTouchMove"
+        @touchend="handlerTouchEnd"
+      >
+        <div
+          :style="`height:${readerProcess}%;background: rgba(255, 255, 255, 1);`"
+          :class="`${readerProcess > 97 ? 'reader-process' : ''}`"
+        ></div>
         <div class="reader-process-tag">
           <div>
             <span>{{ pageIndex }}</span>
@@ -16,12 +35,21 @@
             <span>{{ imagesList.detail.length }}</span>
           </div>
         </div>
-        <div :class="`tag ${'tag-' + touching}`">{{ pageIndex }}/{{ imagesList.detail.length }}</div>
+        <div :class="`tag ${'tag-' + touching}`">
+          {{ pageIndex }}/{{ imagesList.detail.length }}
+        </div>
       </div>
-      <div :class="`navigation-next ${touching}`" v-if="contentsList.indexOf(parseInt($route.query.capterId)) !== contentsList.length - 1" @click="turnPage(1)">
+      <div
+        :class="`navigation-next ${touching}`"
+        v-if="contentsList.indexOf(parseInt($route.query.capterId)) !== contentsList.length - 1"
+        @click="turnPage(1)"
+      >
         <span>下一话</span>
       </div>
-      <div :class="`setting-icon ${funcPos} ${show || touching ? 'hidden' : ''}`" @click="switchFull">
+      <div
+        :class="`setting-icon ${funcPos} ${show || touching ? 'hidden' : ''}`"
+        @click="switchFull"
+      >
         <SvgIcon iconClass="set_ba" size="small" />
       </div>
     </div>
@@ -65,7 +93,7 @@ export default {
     show(n, o) {
       if (n) this.lastTag = false;
     },
-    'imagesList.detail': function (n) {
+    'imagesList.detail': function(n) {
       this.init();
     },
     readerProcess(n, o) {
@@ -81,28 +109,29 @@ export default {
     this.init();
   },
   computed: {
-    contentsList: function () {
-      return this.$store.state.reader.contentsList.map((item) => {
+    contentsList: function() {
+      return this.$store.state.reader.contentsList.map(item => {
         return item.chapter_id;
       });
     },
-    localContents: function () {
+    localContents: function() {
       return this.$store.state.reader.localContents;
     },
-    readerProcess: function () {
+    readerProcess: function() {
       return this.$store.state.reader.readerProcess;
     },
-    funcPos: function () {
+    funcPos: function() {
       return this.$store.state.reader.settingData.funcPos;
     },
-    imagesList: function () {
+    imagesList: function() {
       return this.$store.state.reader.imagesList;
     }
   },
   methods: {
     init() {
       let index = Math.floor((this.readerProcess / 100) * this.imagesList.detail.length + 1);
-      this.pageIndex = index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
+      this.pageIndex =
+        index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
     },
     switchFull() {
       this.$parent.navigationStatus = !this.$parent.navigationStatus;
@@ -141,10 +170,16 @@ export default {
       let idx = this.contentsList.indexOf(parseInt(this.$route.query.capterId));
       if (type) {
         // 下一话
-        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx + 1], flag: 'next' } });
+        this.$router.replace({
+          path: 'reader',
+          query: { cartoon_id, capterId: this.contentsList[idx + 1], flag: 'next' }
+        });
       } else {
         // 上一话
-        this.$router.replace({ path: 'reader', query: { cartoon_id, capterId: this.contentsList[idx - 1], flag: 'prev' } });
+        this.$router.replace({
+          path: 'reader',
+          query: { cartoon_id, capterId: this.contentsList[idx - 1], flag: 'prev' }
+        });
       }
     },
     goIndex() {

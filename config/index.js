@@ -8,11 +8,11 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'assets',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/dist/',
     proxyTable: {
       '/api': {
         // target: 'http://10.1.15.98:9501'
-        target: 'http://10.1.15.99:9501'
+        target: 'http://10.1.15.98:9501'
         // target: 'http://10.1.15.98:9501'
         // target: 'http://192.168.10.245:9501'
       }
@@ -56,7 +56,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'assets',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/dist/',
 
     /**
      * Source Maps
