@@ -17,7 +17,6 @@ const detail = {
       return getZMDetail(cartoonId)
         .then(res => {
           commit('UPDATE_ZMDETAIL_DATA', res.data);
-          console.log(res, 'detail cartoon');
           return res;
         })
         .catch(error => error);

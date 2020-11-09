@@ -59,7 +59,11 @@ service.intercept({
         return res.data;
       case 1004:
         option.requests.push(opt);
-        clearTimeout(option.refreshTimer);
+        router.app.$store.dispatch('refreshToken').then(res => {
+          clearTimeout(option.refreshTimer);
+          service.reset(option.requests);
+          option.requests = [];
+        });
         return false;
       case 1003:
         option.requests.push(opt);

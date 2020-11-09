@@ -65,7 +65,7 @@ export default {
       pageIndex: 3,
       // 每张图片的高度
       imgHeight: [],
-      firstUse: sessionStorage.getItem('firstUse')
+      firstUse: true
     };
   },
   mounted() {
@@ -74,11 +74,12 @@ export default {
       start_time: Math.floor(new Date().getTime() / 1000),
       last_chapter_id: parseInt(this.$route.query.capterId)
     };
+    this.firstUse = sessionStorage.getItem('firstUse');
     this.$store.commit('UPDATE_REPORTMSG', reportMsg);
   },
-  activated() {
-    this.pageinit();
-  },
+  // activated() {
+  //   this.pageinit();
+  // },
   computed: {
     comicsList: function() {
       return this.$store.state.reader.imagesList.detail;
