@@ -77,6 +77,14 @@ export default [
       keepAlive: false
     }
   },
+	{
+		path: '/setting',
+		name: 'setting',
+		component: () => import(/* webpackChunkName setting */ '@/views/mine/setting/index'),
+		meta: {
+			title: '设置'
+		}
+	},
   {
     path: '/reader',
     name: 'reader',
