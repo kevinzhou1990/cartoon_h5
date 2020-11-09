@@ -50,8 +50,9 @@ export default {
       if (!this.searchValue) this.searchValue = this.searchVal
 	  })
   },
-  activated() {
+  created() {
 	  this.$nextTick(() => {
+      console.log(sessionStorage.getItem('name'))
       this.searchValue = sessionStorage.getItem('name')
 	  })
   },

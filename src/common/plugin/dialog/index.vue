@@ -23,12 +23,12 @@ export default {
   methods: {
     cancel() {
       if (this.type === 'confirm') {
-        this.options.cancel.callback();
-        this.show = false;
+	      this.show = false;
+	      this.options.cancel.callback && this.options.cancel.callback();
       }
     },
     confirm() {
-      this.options.confirm.callback();
+	    this.options.cancel.callback && this.options.confirm.callback();
       this.show = false;
     }
   }
