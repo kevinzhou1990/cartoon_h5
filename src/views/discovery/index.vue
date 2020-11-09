@@ -78,7 +78,7 @@ export default {
       page: 1,
       filterText: '全部·全部·连载·人气推荐',
       listTop: 2,
-      scrollHandler: throttle(this.handlerScroll, 100, this),
+      scrollHandler: () => {},
       // 是否滚动到了顶部
       scrollToTop: false,
       loadingTxt: '加载中······',
@@ -92,6 +92,8 @@ export default {
   },
   mounted() {
     // 监听滚动事件，列表距头部小于等于48px，筛选条件贴边
+    console.log('dddd');
+    this.scrollHandler = throttle(this.handlerScroll, 100, this);
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   watch: {
@@ -147,7 +149,6 @@ export default {
       }, 300);
     },
     getFilterHeight(height) {
-      console.log(height, '========');
       this.listTop = height;
     },
     handlerScroll() {

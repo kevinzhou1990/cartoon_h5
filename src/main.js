@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import { createRouter } from './router';
 import { createStore } from './store';
-import { sync } from 'vuex-router-sync';
+// import { sync } from 'vuex-router-sync';
 import env from '@/lib/utils/env';
 import '@/common/beforeEach';
 import Toast from '@/common/plugin/toast';
@@ -27,7 +27,7 @@ export function createApp() {
   const router = createRouter();
   const store = createStore();
   // 同步路由状态(router state)到store
-  sync(store, router);
+  // sync(store, router);
 
   // 创建应用程序实例，将router和store注入
   const app = new Vue({

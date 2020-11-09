@@ -6,7 +6,7 @@
       @click="$router.push({ path: '/ZM/restPassword', query: { SOURCE: 3 } })"
       :disabled="!isLogin"
     >
-      重置密码r
+      重置密码
     </button>
   </div>
 </template>
