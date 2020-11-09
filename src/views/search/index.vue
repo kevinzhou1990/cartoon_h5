@@ -49,6 +49,15 @@ export default {
   mounted() {
     this.getCommonSearchWords()
 	  this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
+    setTimeout(() => {
+      // this.$children[0].$refs.searchInput.focus()
+	    // this.$children[0].$refs.searchInput.addEventListener('toucstart', () => {
+		    this.$children[0].$refs.searchInput.focus()
+      // })
+    }, 100)
+    // document.getElementById('search').addEventListener('click', () => {
+    //   document.querySelectorAll('input')[0].focus()
+    // })
   },
   activated() {
     // this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
