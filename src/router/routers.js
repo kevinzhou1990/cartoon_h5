@@ -161,7 +161,7 @@ export default [
     meta: {
       title: '搜索',
       transitionIn: 'slide-left',
-      keepAlive: true
+      keepAlive: false
     }
   },
   {
