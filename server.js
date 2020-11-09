@@ -10,6 +10,7 @@ const { createBundleRenderer } = require('vue-server-renderer');
 const cookieParser = require('cookie-parser');
 const isProd = process.env.NODE_ENV === 'production';
 const useMicroCache = process.env.MICRO_CACHE !== 'false';
+const target = require('./config/romteAddress');
 const serverInfo =
   `express/${require('express/package.json').version} ` +
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
@@ -139,12 +140,12 @@ app.all('*', function(req, res, next) {
     next();
   }
 });
-
 // 服务器代理
 app.use(
   '/api',
   proxyMiddleWare({
-    target: 'http://10.1.15.98:9501/',
+    // target: 'http://10.1.15.98:9501/',
+    target: isProd ? target.prod : target.dev,
     // target: 'http://192.168.10.245:9501/',
     changeOrigin: true,
     pathRewrite: {},

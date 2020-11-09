@@ -5,7 +5,7 @@
       <div class="dialog-msg">{{ message }}</div>
       <div class="dialog-button zm-b-t" v-if="type === 'alert'" @click="confirm">确认</div>
       <div class="dialog-button zm-b-t" v-else>
-        <div @click="cancel" class="zm-b-r">{{ options.cancel.text || '取消' }}</div>
+        <div @click="cancel" class="zm-b-r" :style="{ color: options.cancel.text_color || '' }">{{ options.cancel.text || '取消' }}</div>
         <div @click="confirm">{{ options.confirm.text || '确认' }}</div>
       </div>
     </div>
@@ -42,7 +42,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-family: 'pingfang-blod';
-  z-index: 99;
+  z-index: 999;
   bottom: 0;
   top: 0;
   left: 0;
