@@ -9,8 +9,6 @@ import {
   CID,
   INSTALL_TIME
 } from '@/lib/utils/const';
-// import { setCookie } from '@/lib/utils';
-// import env from '@/lib/utils/env';
 
 const token = {
   state: {
@@ -29,13 +27,11 @@ const token = {
   },
   actions: {
     refreshToken: ({ commit }, data) => {
-      return new Promise(resolve => {
-        refreshToken(data).then(res => {
-          if (res.code === 0) {
-            commit('UPDATE_TOKEN', res.data);
-          }
-          resolve(res);
-        });
+      return refreshToken(data).then(res => {
+        if (res.code === 0) {
+          commit('UPDATE_TOKEN', res.data);
+        }
+        return res;
       });
     },
     getToken: ({ commit }) => {

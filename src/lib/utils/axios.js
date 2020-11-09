@@ -234,7 +234,9 @@ axios.request = function(option) {
 
 axios.reset = function(option) {
   if (isArray(option)) {
-    option.forEach(item => _requestMQ.request(isFunction(_defaults.config) ? _defaults.config(item) || item : item));
+    option.forEach(item =>
+      _requestMQ.request(isFunction(_defaults.config) ? _defaults.config(item) || item : item)
+    );
   } else {
     _requestMQ.request(isFunction(_defaults.config) ? _defaults.config(option) || option : option);
   }
@@ -249,7 +251,10 @@ axios.awaitTo = function(promise) {
 
 ['get', 'delete', 'post', 'patch', 'put'].forEach(method => {
   axios[method] = function(...args) {
-    return axios.call(this === axios ? (method === 'get' || method === 'delete' ? args[1] : args[2]) : this, { args: args, method });
+    return axios.call(
+      this === axios ? (method === 'get' || method === 'delete' ? args[1] : args[2]) : this,
+      { args: args, method }
+    );
   };
 });
 
@@ -258,6 +263,7 @@ axios.awaitTo = function(promise) {
     get: axios.get.bind(r),
     delete: axios.delete.bind(r),
     post: axios.post.bind(r),
+    put: axios.put.bind(r),
     patch: axios.patch.bind(r)
   };
 });
