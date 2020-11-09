@@ -3,11 +3,16 @@ import crypto from 'crypto-js';
 import env from './utils/env';
 import { router } from '../router/index';
 import { getRandomStr, getCookie } from './utils';
+import target from '../../config/romteAddress';
 //创建axios实例
 const service = axios.create({
   timeout: 2000, // 超时
   withCredentials: true,
-  baseURL: env.isServer() ? 'http://10.1.15.98:9501/' : '/',
+  baseURL: env.isServer()
+    ? process.env.NODE_ENV === 'production'
+      ? target.prod
+      : target.dev
+    : '/',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded'
