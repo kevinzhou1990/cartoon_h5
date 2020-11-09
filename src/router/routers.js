@@ -77,14 +77,14 @@ export default [
       keepAlive: false
     }
   },
-	{
-		path: '/setting',
-		name: 'setting',
-		component: () => import(/* webpackChunkName setting */ '@/views/mine/setting/index'),
-		meta: {
-			title: '设置'
-		}
-	},
+  {
+    path: '/setting',
+    name: 'setting',
+    component: () => import(/* webpackChunkName setting */ '@/views/mine/setting/index'),
+    meta: {
+      title: '设置'
+    }
+  },
   {
     path: '/reader',
     name: 'reader',
@@ -183,5 +183,26 @@ export default [
       keepAlive: false
     }
   },
-  ...loginRouters
+  ...loginRouters,
+  {
+    path: '/404',
+    name: '404',
+    component: () => import(/* webpackChunkName: Download */ '@/views/404/404'),
+    meta: {
+      title: '404',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/500',
+    component: () => import(/* webpackChunkName: Download */ '@/views/404/500'),
+    meta: {
+      title: '500',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/*',
+    redirect: '/404'
+  }
 ];
