@@ -144,8 +144,8 @@ app.all('*', function(req, res, next) {
 app.use(
   '/api',
   proxyMiddleWare({
-    // target: 'http://10.1.15.98:9501/',
-    target: isProd ? target.prod : target.dev,
+    target: 'http://10.1.15.99:9501/',
+    // target: isProd ? target.prod : target.dev,
     // target: 'http://192.168.10.245:9501/',
     changeOrigin: true,
     pathRewrite: {},
