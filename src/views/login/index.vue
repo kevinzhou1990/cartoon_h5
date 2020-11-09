@@ -94,6 +94,7 @@ import ZMLoginValiAlert from '@/views/login/components/ZMLoginValiAlert'
 import myMixins from '@/views/login/mixins/index'
 import { loginByPass, loginByValidateCode } from './api/index'
 import { encryptDes } from './common/index'
+import Dialog from '@/common/plugin/dialog'
 const defaultLoginImg = require('./images/loginBanner.png')
 const passLoginImg = require('./images/banner_close.png')
 const openEyeLoginImg = require('./images/more.png') // todo 修改为偷看的图片
@@ -212,6 +213,24 @@ export default {
         this.$store.commit('SET_USERS_INFO', resData.data.user || {})
         // 登陆成功，回倒原来的页面
         this.$router.replace(this.$store.state.login.backRouter)
+      } else if (resData.code === 1210){
+	      Dialog('啊噢～你的密码错误次数超过限制了', 'confirm', {
+		      cancel: {
+			      text: '取消',
+			      text_color: '#999999'
+		      },
+		      confirm: {
+			      text: '忘记密码',
+            callback: () => {
+              this.$router.push({
+                path: '/ZM/forgetPassword',
+                query: {
+                  SOURCE: 3
+                }
+              })
+            }
+		      }
+	      })
       } else {
         this.$toast(resData.msg || '系统繁忙请稍后重试')
       }
