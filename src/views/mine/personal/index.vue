@@ -113,17 +113,28 @@ export default {
       let params = {
         gender: value.value
       };
-      this.$store.dispatch('updateUserInfo', params).then((res) => {
+      this.updateInfo(params, (res) => {
         if (res.code === 0){
-          this.getInfo()
+          this.getInfo();
         } else {
-          this.$toast(res.msg || '系统出错,请稍后重试');
+          this.Toast(res.msg || '系统出错,请稍后重试', {
+            type: 'fail',
+            duration: 2000
+          });
         }
-      })
+      });
     },
     jumpUpdateNickname(){
       this.$router.push({
         path: '/personal/update-nickname'
+      })
+    },
+    //修改信息(性别，头像)
+    updateInfo(params, callback){
+      this.$store.dispatch('updateUserInfo', params).then((res) => {
+        if (typeof callback === 'function' && callback){
+          callback(res)
+        }
       })
     },
     //获取用户信息
@@ -140,7 +151,17 @@ export default {
       if (JSON.stringify(userinfo) !== '{}' && typeof userinfo === 'object'){
         return true
       } else {
-        this.$toast('用户信息验证失败!');
+        setTimeout(() => {
+          this.Toast('用户信息验证失败!', {
+            type: 'fail',
+            duration: 2000
+          });
+        }, 250);
+
+        //未登录，跳转到首页
+        // this.$router.replace({
+        //   path: '/'
+        // });
         return false
       }
     },
@@ -156,17 +177,33 @@ export default {
       }
     },
     //选择图片后准备裁剪
-    async changeAvatar(e){
+    changeAvatar(e){
       this.file = e;
       this.setAvatar = true
     },
     //更新头像
     updateAvatar(src) {
-      this.info.avatar = src;
-      this.setAvatar = false;
+      let params = {
+        avatar: src
+      };
+      this.updateInfo(params, (res) => {
+        if (res.code === 0){
+          this.Toast('头像修改成功', {
+            type: 'success',
+            duration: 2000
+          });
+          this.getInfo();
+        } else {
+          this.Toast('头像修改失败，请稍后重试', {
+            type: 'fail',
+            duration: 2000
+          });
+        }
+      });
     },
     //上传头像到后台
     uploadAvatar(src){
+      this.setAvatar = false;
       let formData = new FormData();
       formData.append('file', src);
       this.$store.dispatch('uploadFile', formData).then((res) => {
@@ -174,9 +211,9 @@ export default {
         if (res.code === 0){
           this.updateAvatar(res.data.path)
         } else {
-          this.$toast(res.msg || '系统出错,请稍后重试');
+          this.$toast(res.msg || '上传图片失败!');
         }
-      })
+      });
     }
   }
 };

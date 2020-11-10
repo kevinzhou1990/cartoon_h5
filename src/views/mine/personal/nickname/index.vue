@@ -63,7 +63,10 @@
               path: '/personal'
             });
           } else {
-            this.$toast(res.msg || '系统出错,请稍后重试');
+            this.Toast(res.msg || '系统出错,请稍后重试', {
+              type: 'fail',
+              duration: 2000
+            });
           }
           this.isLoading = false
         })
