@@ -64,7 +64,6 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import Avatar from './avatar'
-import { uploadFile } from '@/common/api/user';
 export default {
   components: { ZMHeader, Avatar },
   data(){
@@ -188,10 +187,12 @@ export default {
       };
       this.updateInfo(params, (res) => {
         if (res.code === 0){
-          this.Toast('头像修改成功', {
-            type: 'success',
-            duration: 2000
-          });
+          setTimeout(() => {
+            this.Toast('头像修改成功', {
+              type: 'success',
+              duration: 2000
+            });
+          }, 300);
           this.getInfo();
         } else {
           this.Toast('头像修改失败，请稍后重试', {

@@ -100,9 +100,10 @@
       // 获取图片宽高
       getImgSize(url) {
         return new Promise((resolve) => {
-          let $img = document.createElement('img')
-          $img.src = url
-          $img.style.opacity = 0
+          let $img = document.createElement('img');
+          $img.crossOrigin = 'Anonymous';
+          $img.src = url;
+          $img.style.opacity = 0;
           $img.addEventListener('error', () => {
             document.body.removeChild($img)
             resolve(false)
