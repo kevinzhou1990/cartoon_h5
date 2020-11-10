@@ -38,7 +38,7 @@
         <div
             class="login-btn m-8"
             :class="{'theme-bg': isClickLoginBtnFlag}"
-            @click.stop="handleClickNextStep"
+            @click.stop="handleClickNextStep(2)"
         >
           下一步
         </div>

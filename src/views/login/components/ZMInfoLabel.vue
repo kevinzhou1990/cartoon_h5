@@ -1,6 +1,6 @@
 <template>
   <div class=user-main>
-    {{loginType? validateText: passwordText}}
+    {{ loginType === 0 ? validateText: passwordText }}
     <span style="color: #12E079;" @click.stop="handleClickInfo(1)">《用户协议》</span>
     和
     <span style="color: #12E079;" @click.stop="handleClickInfo(2)">《隐私保护协议》</span>政策
