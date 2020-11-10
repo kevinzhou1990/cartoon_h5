@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="search">
-      <div class="content">
-        <form action="" @submit.prevent=''>
+      <div class="content" id="search">
+        <form action="javascript:return true" @submit.prevent=''>
           <input
+              autoFocus
               v-model.trim="searchValue"
+              ref="searchInput"
               type="search"
               class="content-input"
               :placeholder="placeholderValue"

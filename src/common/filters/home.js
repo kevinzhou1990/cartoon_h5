@@ -7,7 +7,7 @@ import Vue from 'vue'
  */
 Vue.filter('authorFormate', (val) => {
   if (!val) return '-'
-  if (Object.prototype.toString.call(val) === '[object Array]') {
+  if (typeof val === 'object') {
     return val.length >= 1 ? val.join('/') : '--'
   }
   return val

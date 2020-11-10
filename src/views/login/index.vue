@@ -97,8 +97,8 @@ import { encryptDes } from './common/index'
 import Dialog from '@/common/plugin/dialog'
 const defaultLoginImg = require('./images/loginBanner.png')
 const passLoginImg = require('./images/banner_close.png')
-const openEyeLoginImg = require('./images/more.png') // todo 修改为偷看的图片
-const telLoginImg = require('./images/refresh.png') // todo 修改为思考的图片
+const openEyeLoginImg = require('./images/login_tk.png')
+const telLoginImg = require('./images/login_think.png')
 export default {
   name: 'Login-index',
   mixins: [myMixins],
