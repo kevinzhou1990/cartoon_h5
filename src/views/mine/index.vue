@@ -1,20 +1,74 @@
 <template>
   <div class="mine">
-    <button class="logout" @click="logout" :disabled="!isLogin">退出登录</button>
-    <button
-      class="logout"
-      @click="$router.push({ path: '/ZM/restPassword', query: { SOURCE: 3 } })"
-      :disabled="!isLogin"
-    >
-      重置密码
-    </button>
+    <div class="mine-info">
+      <div class="mine-header flex">
+        <img src="../../assets/img/headAa.png" alt="" class="mine-avatar" />
+        <div class="flex flex-1 mine-name">
+          <div class="flex-1">进入你的漫画世界</div>
+          <svg-icon icon-class="more_ba" size="small" />
+        </div>
+      </div>
+      <img src="../../assets/img/cat_abc.png" alt="" />
+    </div>
+    <ul class="mine-list mine-game-config">
+      <li class="flex">
+        <svg-icon icon-class="game_aa" />
+        <div class="flex-1 flex item-name">
+          <div class="flex-1">游戏</div>
+          <svg-icon icon-class="more_bb" size="small" />
+        </div>
+      </li>
+    </ul>
+    <ul class="mine-list">
+      <li class="flex" v-for="(item, i) in itemList" :key="i">
+        <svg-icon :icon-class="item.icon" />
+        <div class="flex-1 flex item-name zm-b-b">
+          <div class="flex-1">
+            {{ item.name }}
+          </div>
+          <svg-icon icon-class="more_bb" size="small" />
+        </div>
+      </li>
+    </ul>
+    <!--    <button class="logout" @click="logout" :disabled="!isLogin">退出登录</button>-->
+    <!--    <button-->
+    <!--      class="logout"-->
+    <!--      @click="$router.push({ path: '/ZM/restPassword', query: { SOURCE: 3 } })"-->
+    <!--      :disabled="!isLogin"-->
+    <!--    >-->
+    <!--      重置密码-->
+    <!--    </button>-->
   </div>
 </template>
 
 <script>
 import { logout } from '@/common/api/mine';
 import { mapState } from 'vuex';
+import SvgIcon from '@/common/components/svg';
 export default {
+  components: { SvgIcon },
+  data() {
+    return {
+      itemList: [
+        {
+          icon: 'help_aa',
+          name: '帮助中心'
+        },
+        {
+          icon: 'feedback_aa',
+          name: '问题反馈'
+        },
+        {
+          icon: 'set_aa',
+          name: '设置'
+        },
+        {
+          icon: 'about_aa',
+          name: '关于我们'
+        }
+      ]
+    };
+  },
   computed: {
     ...mapState({
       isLogin: state => state.status.isLogin
@@ -36,21 +90,55 @@ export default {
 
 <style lang="scss" scoped>
 .mine {
-  text-align: center;
-  padding: 60px 16px;
-  .logout {
-    color: #ffffff;
-    font-size: 14px;
-    padding: 12px 38px;
-    border-radius: 22px;
-    border: none;
-    background: #12e079;
-    font-family: 'pingfang-blod';
-    &:focus {
-      outline: none;
+  .flex {
+    display: flex;
+    .flex-1 {
+      flex: 1;
     }
-    &:disabled {
-      opacity: 0.5;
+  }
+  .mine-info {
+    position: relative;
+    & > img {
+      height: 52px;
+      position: absolute;
+      right: 0;
+      top: 104px;
+    }
+  }
+  .mine-header {
+    background: url('../../assets/img/head_bg.png') 0 0 transparent;
+    background-size: 100%;
+    box-sizing: border-box;
+    padding: 60px 16px 32px 16px;
+    font-size: 18px;
+    .mine-avatar {
+      height: 64px;
+      width: 64px;
+    }
+    .mine-name {
+      height: 64px;
+      line-height: 64px;
+      padding-left: 16px;
+      align-items: center;
+    }
+  }
+  .mine-game-config {
+    border-bottom: 8px solid #f5f5f5;
+  }
+  .mine-list {
+    li {
+      height: 56px;
+      line-height: 56px;
+      padding-left: 16px;
+      font-size: 12px;
+      align-items: center;
+      .flex-1 {
+        margin-left: 16px;
+      }
+      .item-name {
+        padding-right: 16px;
+        align-items: center;
+      }
     }
   }
 }
