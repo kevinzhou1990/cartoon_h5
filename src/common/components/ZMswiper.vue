@@ -173,7 +173,7 @@ export default {
 
   .bannermasek {
     position: absolute;
-    top: 92%;
+    top: 93%;
     left: 0;
     z-index: 1;
     width: 100%;
