@@ -71,12 +71,13 @@
       </mt-loadmore>
       </template>
       <!--只有评论页面有-->
-      <no-data-view
-        v-else-if="!commentsList.length && remarkType !== 1"
-        class="no-more"
-        type="comment"
-        textContent="还有没评论哦，快来抢沙发～"
-      ></no-data-view>
+      <section v-else-if="!commentsList.length" class="no-more">
+        <no-data-view
+          v-if="remarkType !== 1"
+          type="comment"
+          textContent="还有没评论哦，快来抢沙发～"
+        ></no-data-view>
+      </section>
     </div>
     <!--只有评论页面有-->
     <div class="comments-add" v-if="remarkType === 0">
@@ -252,7 +253,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  $TITLEHEIGHT: 240px;
+  $TITLEHEIGHT: 152px;
 .comments-page {
   .comments-title {
     font-family: 'pingfang-blod';
@@ -271,7 +272,9 @@ export default {
     .comments-title-content {
       position: absolute;
       bottom: 40px;
-      left: 16px;
+      left: 0;
+      padding: 0 16px;
+      width: calc(100% - 32px);
       color: #fff;
       .collect-container {
         display: flex;
@@ -300,6 +303,9 @@ export default {
       font-family: 'pingfang-blod';
       font-size: 18px;
       margin-bottom: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: keep-all;
       & + p {
         font-family: 'pingfang-blod';
         font-size: 14px;
@@ -316,14 +322,14 @@ export default {
   }
   .comments-contents {
     position: relative;
-    padding-top: 216px;
+    padding-top: 128px;
     background: transparent;
     z-index: 3;
     img.icon {
       width: 110px;
       position: absolute;
       right: 60px;
-      top: 151px;
+      top: 63px;
       z-index: 2;
     }
     .comments-contents-top {
@@ -341,7 +347,8 @@ export default {
       margin-right: 8px;
     }
     .no-more{
-      height: calc(100vh - #{$TITLEHEIGHT} - 44px);
+      height: calc(100vh - #{$TITLEHEIGHT} - 88px);
+      background: #ffffff;
     }
   }
   .loadmore-container {
@@ -444,6 +451,7 @@ export default {
     color: #bbb;
     background: #fff;
     padding-bottom: 8px;
+    padding-top: 8px;
     font-family: 'pingfang-blod';
     position: fixed;
     bottom: 0;
