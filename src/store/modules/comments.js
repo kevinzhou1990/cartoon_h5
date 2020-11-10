@@ -37,6 +37,9 @@ const comments = {
           .then(res => {
             console.log(res, 'eval');
             let list = data.page === 1 ? res.data.data : [...state.commentList, ...res.data.data];
+            if (res.data.cartoon.score) {
+              res.data.cartoon.score = res.data.cartoon.score.toFixed(1);
+            }
             commit('UPDATE_COMMENT_LIST', list);
             commit('UPDATE_DETAILS', res.data.cartoon);
             commit('UPDATE_DATA_NUMBER', res.data.count);

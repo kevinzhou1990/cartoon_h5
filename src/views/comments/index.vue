@@ -182,9 +182,6 @@ export default {
               duration: 1000
             });
           }
-          if (this.details.score) {
-            this.details.score = this.details.score.toFixed(1);
-          }
           this.totalPages = r.data.total_pages || 0;
           this.isLoadNext = true;
           if (this.currentPage >= this.totalPages) {
