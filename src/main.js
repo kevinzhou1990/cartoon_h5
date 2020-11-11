@@ -6,6 +6,7 @@ import { createStore } from './store';
 import env from '@/lib/utils/env';
 import '@/common/beforeEach';
 import Toast from '@/common/plugin/toast';
+import Loading from '@/common/plugin/loading';
 import './assets/style/index.scss';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
@@ -19,6 +20,7 @@ if (env.isClient()) {
 
 // swpier组件
 Vue.use(MintUI);
+Vue.use(Loading);
 Vue.prototype.Toast = Toast;
 Vue.config.productionTip = false;
 

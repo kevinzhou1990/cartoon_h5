@@ -63,7 +63,7 @@
 
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
-import Avatar from './avatar'
+import Avatar from './avatar';
 export default {
   components: { ZMHeader, Avatar },
   data(){
@@ -205,15 +205,19 @@ export default {
     //上传头像到后台
     uploadAvatar(src){
       this.setAvatar = false;
+      this.$Loading.open();
       let formData = new FormData();
       formData.append('file', src);
       this.$store.dispatch('uploadFile', formData).then((res) => {
         console.log(res);
-        if (res.code === 0){
-          this.updateAvatar(res.data.path)
-        } else {
-          this.$toast(res.msg || '上传图片失败!');
-        }
+        setTimeout(() => {
+          this.$Loading.hide();
+          if (res.code === 0){
+            this.updateAvatar(res.data.path)
+          } else {
+            this.$toast(res.msg || '上传图片失败!');
+          }
+        }, 500)
       });
     }
   }
