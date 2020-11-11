@@ -2,9 +2,9 @@
   <div class="mine">
     <div class="mine-info">
       <div class="mine-header flex">
-        <img src="../../assets/img/headAa.png" alt="" class="mine-avatar" />
+        <img :src="userInfo.avatar || defaultHead" alt="" class="mine-avatar" />
         <div class="flex flex-1 mine-name">
-          <div class="flex-1">进入你的漫画世界</div>
+          <div class="flex-1">{{ userInfo.nickname || '进入你的漫画世界' }}</div>
           <svg-icon icon-class="more_ba" size="small" />
         </div>
       </div>
@@ -20,7 +20,7 @@
       </li>
     </ul>
     <ul class="mine-list">
-      <li class="flex" v-for="(item, i) in itemList" :key="i">
+      <li class="flex" v-for="(item, i) in itemList" :key="i" @click="redicrectTo(item.path)">
         <svg-icon :icon-class="item.icon" />
         <div class="flex-1 flex item-name zm-b-b">
           <div class="flex-1">
@@ -30,14 +30,7 @@
         </div>
       </li>
     </ul>
-    <!--    <button class="logout" @click="logout" :disabled="!isLogin">退出登录</button>-->
-    <!--    <button-->
-    <!--      class="logout"-->
-    <!--      @click="$router.push({ path: '/ZM/restPassword', query: { SOURCE: 3 } })"-->
-    <!--      :disabled="!isLogin"-->
-    <!--    >-->
-    <!--      重置密码-->
-    <!--    </button>-->
+    <!--    <button @click="logout">logout</button>-->
   </div>
 </template>
 
@@ -45,6 +38,7 @@
 import { logout } from '@/common/api/mine';
 import { mapState } from 'vuex';
 import SvgIcon from '@/common/components/svg';
+import defaultHead from '@/assets/img/headAa.png';
 export default {
   components: { SvgIcon },
   data() {
@@ -52,29 +46,37 @@ export default {
       itemList: [
         {
           icon: 'help_aa',
-          name: '帮助中心'
+          name: '帮助中心',
+          path: '/help'
         },
         {
           icon: 'feedback_aa',
-          name: '问题反馈'
+          name: '问题反馈',
+          path: '/feedback'
         },
         {
           icon: 'set_aa',
-          name: '设置'
+          name: '设置',
+          path: '/setting'
         },
         {
           icon: 'about_aa',
-          name: '关于我们'
+          name: '关于我们',
+          path: '/about'
         }
-      ]
+      ],
+      defaultHead
     };
   },
   computed: {
     ...mapState({
-      isLogin: state => state.status.isLogin
+      userInfo: state => state.login.userInfo
     })
   },
   methods: {
+    redicrectTo(address) {
+      this.$router.push({ path: address });
+    },
     async logout() {
       const data = await logout();
       if (data.code === 0) {
@@ -114,6 +116,7 @@ export default {
     .mine-avatar {
       height: 64px;
       width: 64px;
+      border-radius: 32px;
     }
     .mine-name {
       height: 64px;

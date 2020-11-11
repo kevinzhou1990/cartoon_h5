@@ -183,6 +183,24 @@ export default [
       keepAlive: false
     }
   },
+  {
+    path: '/help',
+    name: 'help',
+    component: () => import(/* webpackChunkName: help */ '@/views/help'),
+    meta: {
+      title: '帮助中心',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/feedback',
+    name: 'feedback',
+    component: () => import(/* webpackChunkName: feedback */ '@/views/feedback'),
+    meta: {
+      title: '问题反馈',
+      keepAlive: false
+    }
+  },
   ...loginRouters,
   {
     path: '/404',

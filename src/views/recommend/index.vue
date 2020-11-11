@@ -37,7 +37,7 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import ZMNotNetwork from '@/common/components/noNetwork';
-import ZMNavBar from './components/ZMNavBar';
+import ZMNavBar from '@/common/components/ZMNavBar';
 import ZMTable from './components/ZMTable';
 import ZMList from './components/ZMList';
 import ZMswiper from '@/common/components/ZMswiper';
