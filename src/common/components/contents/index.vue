@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import '@/assets/style/1px.scss';
 import SvgIcon from '@/common/components/svg';
 export default {
   name: 'Contents',

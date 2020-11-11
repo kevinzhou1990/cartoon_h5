@@ -125,6 +125,9 @@ export default {
 		 * @date: 10/17/20-4:00 下午
 		 */
 		async handleClickSurePassword() {
+			if (!this.regExp.test(this.passwordVal)) {
+				return this.$toast('密码格式不正确，请重新设置！')
+			}
 			const reqData = {
 				// country_code: this.telCode,
 				// mobile: this.telPhoneNum,

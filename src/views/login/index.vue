@@ -46,7 +46,7 @@
                     class="login-content-b-phone"
                     maxlength="20"
                     placeholder="请输入密码"
-                    @focus="changLoginImg('pass')"
+                    @focus="changLoginImg(passwordShowFlag ? 'sms' : 'pass')"
                 />
                 <span
                     class="login-content-b-right"
@@ -192,6 +192,10 @@ export default {
 				  this.$toast('手机号或密码不能为空')
 				  return
 			  }
+			  if (!this.regExp.test(this.passwordVal)) {
+          this.$toast('账号或密码错误')
+          return
+        }
       }
       const reqValiData = {
 	      country_code: this.telCode,
@@ -212,7 +216,7 @@ export default {
         clearInterval(this.timer)
         this.$store.commit('SET_USERS_INFO', resData.data.user || {})
         // 登陆成功，回倒原来的页面
-        this.$router.replace(this.$store.state.login.backRouter)
+        this.$router.replace(this.$store.state.login.backRouter || '/home')
       } else if (resData.code === 1210){
 	      Dialog('啊噢～你的密码错误次数超过限制了', 'confirm', {
 		      cancel: {
@@ -258,9 +262,9 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
     //  非协议的router才存入上一次的路由'
-    if (from.path !== '/ZM/userAgreement' && from.path !== '/ZM/forgetPassword') {
+    const excludeRouter = ['/ZM/userAgreement', '/ZM/forgetPassword', '/ZM/restPassword']
+    if (!excludeRouter.includes(from.path)) {
       vm.$store.commit('SET_LAST_ROUTER', from.path)
-      console.log('1111')
     }
     })
   }

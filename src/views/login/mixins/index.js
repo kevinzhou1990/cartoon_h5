@@ -10,6 +10,7 @@ const timeTypeData = {
 export default {
   data() {
     return {
+	    regExp: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{6,20}$/,
       downImg,
 	    telPhoneNum: '', // 手机号码
 	    validateNum: '', // 验证码
@@ -45,7 +46,7 @@ export default {
   computed: {
     // 是高亮现实login btn
     isClickLoginBtnFlag() {
-      if ((this.showValidateFlag || this.isShowCountDown) && (this.validateNum.length || (this.passwordVal && this.passwordVal.length))) {
+      if ((this.showValidateFlag || this.isShowCountDown) && (this.validateNum.length >= 6 || (this.passwordVal && this.passwordVal.length >= 6))) {
         return true
       } else {
         return false
