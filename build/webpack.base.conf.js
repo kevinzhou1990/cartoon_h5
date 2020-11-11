@@ -72,7 +72,7 @@ module.exports = {
         use: isProd
           ? extractCSS.extract({
               fallback: 'style-loader',
-              use: ['css-loader?minimize', 'sass-loader', 'postcss-loader']
+              use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
             })
           : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
@@ -81,7 +81,7 @@ module.exports = {
         use: isProd
           ? extractCSS.extract({
               fallback: 'style-loader',
-              use: ['css-loader?minimize', 'sass-loader', 'postcss-loader']
+              use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
             })
           : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
       },
