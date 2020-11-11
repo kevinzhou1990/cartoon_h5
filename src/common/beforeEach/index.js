@@ -5,7 +5,6 @@ const updateList = ['/home', '/shelf', '/mine'];
 
 router.beforeEach((to, from, next) => {
   storeInstance.dispatch('updateActive', to.name);
-  console.log(storeInstance.state.main);
   if (!storeInstance.state.token.access_token) {
     storeInstance.dispatch('getToken', {});
   }
@@ -13,6 +12,7 @@ router.beforeEach((to, from, next) => {
   if (updateList.indexOf(to.path) !== -1) {
     // 跳转的路由在更新红点路由中则触发更新红点
     storeInstance.dispatch('getLoginStatus');
+    storeInstance.dispatch('getUserInfo');
   }
   next();
 });
