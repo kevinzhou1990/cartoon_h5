@@ -10,6 +10,7 @@ const timeTypeData = {
 export default {
   data() {
     return {
+	    regExp: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{6,20}$/,
       downImg,
 	    telPhoneNum: '', // 手机号码
 	    validateNum: '', // 验证码

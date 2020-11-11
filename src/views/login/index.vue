@@ -192,6 +192,10 @@ export default {
 				  this.$toast('手机号或密码不能为空')
 				  return
 			  }
+			  if (!this.regExp.test(this.passwordVal)) {
+          this.$toast('账号或密码错误')
+          return
+        }
       }
       const reqValiData = {
 	      country_code: this.telCode,
