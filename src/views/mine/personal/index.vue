@@ -46,7 +46,7 @@
             <li class="zm-b-b" data-type="phone">
               <section>
                 <span>手机号</span>
-                <span class="content pr-0">{{ info.mobile }}</span>
+                <span class="content pr-0">{{ info.mobile_text }}</span>
               </section>
             </li>
             <li class="zm-b-b">
