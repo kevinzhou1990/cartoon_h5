@@ -107,6 +107,7 @@ export default {
       }
     },
 	  nextPage() {
+      if (this.allLoaded) return
       this.currentPage++
       this.getData()
 		  this.$refs.loadmore.onTopLoaded()
