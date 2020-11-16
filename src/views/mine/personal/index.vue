@@ -118,7 +118,7 @@ export default {
         } else {
           this.Toast(res.msg || '系统出错,请稍后重试', {
             type: 'fail',
-            duration: 2000
+            duration: 3000
           });
         }
       });
@@ -153,7 +153,7 @@ export default {
         setTimeout(() => {
           this.Toast('用户信息验证失败!', {
             type: 'fail',
-            duration: 2000
+            duration: 3000
           });
         }, 250);
 
@@ -190,14 +190,14 @@ export default {
           setTimeout(() => {
             this.Toast('头像修改成功', {
               type: 'success',
-              duration: 2000
+              duration: 3000
             });
           }, 300);
           this.getInfo();
         } else {
           this.Toast('头像修改失败，请稍后重试', {
             type: 'fail',
-            duration: 2000
+            duration: 3000
           });
         }
       });

@@ -55,7 +55,7 @@
             setTimeout(() => {
               this.Toast('昵称修改成功!', {
                 type: 'success',
-                duration: 2000
+                duration: 3000
               });
             }, 250);
 
@@ -65,7 +65,7 @@
           } else {
             this.Toast(res.msg || '系统出错,请稍后重试', {
               type: 'fail',
-              duration: 2000
+              duration: 3000
             });
           }
           this.isLoading = false

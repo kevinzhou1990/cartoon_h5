@@ -1,7 +1,9 @@
 <template>
-  <div class="loading-container" v-if="show">
-    <div class="loading">加载中...</div>
-  </div>
+  <transition name="loading-pop">
+    <div class="loading-container" v-if="show">
+      <div class="loading">加载中...</div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -16,22 +18,11 @@
 </script>
 
 <style lang="scss" scoped>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-
-    to {
-      opacity: 1;
-    }
+  .loading-pop-enter, .loading-pop-leave-active {
+    opacity: 0
   }
 
   .loading-container {
-    animation: fadeIn .3s;
     position: fixed;
     display: flex;
     align-items: center;
@@ -40,5 +31,14 @@
     width: 100%;
     height: 100%;
     z-index: 99999;
+    text-align: center;
+    -webkit-transition: opacity .3s linear;
+    transition: opacity .3s linear;
+    .loading{
+      padding: 40px 50px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+    }
   }
 </style>
