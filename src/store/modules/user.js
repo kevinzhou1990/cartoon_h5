@@ -7,6 +7,9 @@ const user = {
         getUserInfo().then(res => {
           commit('SET_USERS_INFO', res.data.user);
           resolve(res);
+        }).catch((err) => {
+          console.log(err);
+          resolve(err);
         });
       });
     },
@@ -15,6 +18,9 @@ const user = {
       return new Promise(resolve => {
         updateUserInfo(data).then(res => {
           resolve(res);
+        }).catch((err) => {
+          console.log(err);
+          resolve(err);
         });
       });
     },
@@ -23,9 +29,12 @@ const user = {
       return new Promise(resolve => {
         uploadFile(data).then(res => {
           resolve(res);
+        }).catch((err) => {
+          console.log(err);
+          resolve(err);
         });
       });
-    },
+    }
   }
 };
 export default user;

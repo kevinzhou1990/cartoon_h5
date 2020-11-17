@@ -217,7 +217,7 @@ export default {
           } else {
             this.$toast(res.msg || '上传图片失败!');
           }
-        }, 500)
+        }, 300)
       });
     }
   }
