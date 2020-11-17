@@ -1,6 +1,7 @@
 import axios from './utils/axios';
 import crypto from 'crypto-js';
 import env from './utils/env';
+import Toast from '@/common/plugin/toast';
 import { router } from '../router/index';
 import { getRandomStr, getCookie } from './utils';
 import target from '../../config/romteAddress';
@@ -94,7 +95,11 @@ service.intercept({
   //请求失败
   fail(res) {
     const code = parseInt(res.status);
-    return { code, msg: res.data.msg, res: res.data };
+    Toast(res.msg || '系统出错,请稍后重试', {
+      type: 'fail',
+      duration: 3000
+    });
+    return { code, msg: res.msg, res: res.data };
   },
 
   //请求完成

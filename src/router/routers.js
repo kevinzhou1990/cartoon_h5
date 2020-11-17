@@ -193,6 +193,15 @@ export default [
     }
   },
   {
+    path: '/help/detail',
+    name: 'help-detail',
+    component: () => import(/* webpackChunkName: help-detail */ '@/views/help/detail'),
+    meta: {
+      title: '帮助详情',
+      keepAlive: false
+    }
+  },
+  {
     path: '/feedback',
     name: 'feedback',
     component: () => import(/* webpackChunkName: feedback */ '@/views/feedback'),

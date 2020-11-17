@@ -289,6 +289,7 @@
       },
       // 选择图片
       fileChange(event) {
+        //lrz压缩并且调整ios上图片反转的问题
         const lrz = require('lrz');
         const fileObj = event.target.files[0];
         let that = this;

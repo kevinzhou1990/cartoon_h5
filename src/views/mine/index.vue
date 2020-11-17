@@ -1,7 +1,7 @@
 <template>
   <div class="mine">
     <div class="mine-info">
-      <div class="mine-header flex">
+      <div class="mine-header flex" @click="redicrectTo('/personal')">
         <img :src="userInfo.avatar || defaultHead" alt="" class="mine-avatar" />
         <div class="flex flex-1 mine-name">
           <div class="flex-1">{{ userInfo.nickname || '进入你的漫画世界' }}</div>
@@ -75,6 +75,12 @@ export default {
   },
   methods: {
     redicrectTo(address) {
+      const p = ['/feedback', '/personal'];
+      if (p.indexOf(address) !== -1) {
+        if (JSON.stringify(this.$store.state.login.userInfo) === '{}') {
+          return false;
+        }
+      }
       this.$router.push({ path: address });
     },
     async logout() {
@@ -92,6 +98,7 @@ export default {
 
 <style lang="scss" scoped>
 .mine {
+  font-family: 'pingfang-blod';
   .flex {
     display: flex;
     .flex-1 {

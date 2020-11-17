@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       scrollHandler: throttle(this.handlerScroll, 100, this),
-      defaultHead: 'this.src="' + require('./img/default_head.png') + '"',
+      defaultHead: 'this.src="' + require('../../assets/img/default_head.png') + '"',
       titleText: '',
       showAddComment: false
     };
