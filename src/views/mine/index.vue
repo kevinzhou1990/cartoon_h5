@@ -20,7 +20,17 @@
       </li>
     </ul>
     <ul class="mine-list">
-      <li class="flex" v-for="(item, i) in itemList" :key="i" @click="redicrectTo(item.path)">
+      <li
+        class="flex"
+        v-for="(item, i) in itemList"
+        :key="i"
+        @click="redicrectTo(item.path)"
+        v-if="
+          needLoginRoute.indexOf(item.path) === -1 ||
+            (needLoginRoute.indexOf(item.path) !== -1 &&
+              JSON.stringify($store.state.login.userInfo) !== '{}')
+        "
+      >
         <svg-icon :icon-class="item.icon" />
         <div class="flex-1 flex item-name zm-b-b">
           <div class="flex-1">
@@ -30,7 +40,6 @@
         </div>
       </li>
     </ul>
-    <!--    <button @click="logout">logout</button>-->
   </div>
 </template>
 
@@ -65,7 +74,8 @@ export default {
           path: '/about'
         }
       ],
-      defaultHead
+      defaultHead,
+      needLoginRoute: ['/feedback', '/personal', '/setting']
     };
   },
   computed: {
@@ -75,7 +85,7 @@ export default {
   },
   methods: {
     redicrectTo(address) {
-      const p = ['/feedback', '/personal'];
+      const p = this.needLoginRoute;
       if (p.indexOf(address) !== -1) {
         if (JSON.stringify(this.$store.state.login.userInfo) === '{}') {
           return false;
@@ -142,10 +152,8 @@ export default {
       padding-left: 16px;
       font-size: 12px;
       align-items: center;
-      .flex-1 {
-        margin-left: 16px;
-      }
       .item-name {
+        margin-left: 16px;
         padding-right: 16px;
         align-items: center;
       }
