@@ -103,7 +103,6 @@ export default {
     }
   },
   mounted() {
-    console.log('测试')
     this.getInfo()
   },
   methods: {
