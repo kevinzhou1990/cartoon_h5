@@ -133,6 +133,10 @@ app.all('*', function(req, res, next) {
     'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'
   );
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+  if(req && req.cookies && req.cookies.access_token){
+    req.headers.authorization = req.cookies.access_token;
+  }
+
   // 跨域请求CORS中的预请求
   if (req.method === 'OPTIONS') {
     res.send(200); //让options请求快速返回
