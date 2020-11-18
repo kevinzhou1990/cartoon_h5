@@ -31,7 +31,7 @@ export default {
       lastSpot: 0,
       currentIndex: 0, // 选择tab的下标
       isSelected: this.acticeIndex,
-      // dataList: this.tabListData,
+      dataList: this.tabListData,
       scrollItemTimer: null
     };
   },
@@ -39,12 +39,9 @@ export default {
     this.$nextTick(() => {
       console.log(this.tabListData, '======');
       const _index =
-        this.tabListData && Object.keys(this.tabListData).indexOf(this.acticeIndex + '');
+        this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
       const key = this.acticeIndex;
-      console.log(Object.keys(this.tabListData));
-      if (_index > -1) {
-        this.start(key, _index);
-      }
+      _index && this.start(key, _index);
       // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
       // const key = this.acticeIndex;
       // this.start(key, _index);
