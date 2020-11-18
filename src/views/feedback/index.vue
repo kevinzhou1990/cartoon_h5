@@ -84,15 +84,19 @@ export default {
       if (!this.content) {
         return false;
       }
-      this.$store
-        .dispatch('addFeedback', {
-          content: this.content,
-          image_urls: this.imgList,
-          help_id: ''
-        })
-        .then(res => {
-          console.log(res);
-        });
+      const data = {
+        content: this.content,
+        'image_urls[]': this.imgList,
+        help_id: ''
+      };
+      this.$store.dispatch('addFeedback', data).then(res => {
+        if (res.code === 0) {
+          this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
+          this.$router.go(-1);
+        } else {
+          this.Toast(res.msg, { type: 'fail', duration: 1000 });
+        }
+      });
     },
     changeLen() {
       const len = this.content.length;

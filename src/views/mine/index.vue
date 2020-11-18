@@ -1,7 +1,7 @@
 <template>
   <div class="mine">
-    <div class="mine-info">
-      <div class="mine-header flex" @click="redicrectTo('/personal')">
+    <div class="mine-info" @click="redicrectTo('/personal')">
+      <div class="mine-header flex">
         <img :src="userInfo.avatar || defaultHead" alt="" class="mine-avatar" />
         <div class="flex flex-1 mine-name">
           <div class="flex-1">{{ userInfo.nickname || '进入你的漫画世界' }}</div>
@@ -20,17 +20,7 @@
       </li>
     </ul>
     <ul class="mine-list">
-      <li
-        class="flex"
-        v-for="(item, i) in itemList"
-        :key="i"
-        @click="redicrectTo(item.path)"
-        v-if="
-          needLoginRoute.indexOf(item.path) === -1 ||
-            (needLoginRoute.indexOf(item.path) !== -1 &&
-              JSON.stringify($store.state.login.userInfo) !== '{}')
-        "
-      >
+      <li class="flex" v-for="(item, i) in itemList" :key="i" @click="redicrectTo(item.path)">
         <svg-icon :icon-class="item.icon" />
         <div class="flex-1 flex item-name zm-b-b">
           <div class="flex-1">
@@ -88,10 +78,14 @@ export default {
       const p = this.needLoginRoute;
       if (p.indexOf(address) !== -1) {
         if (JSON.stringify(this.$store.state.login.userInfo) === '{}') {
-          return false;
+          this.$router.push({ path: '/ZMLogin' });
+        } else {
+          this.$router.push({ path: address });
         }
+      } else {
+        this.$router.push({ path: address });
       }
-      this.$router.push({ path: address });
+      // this.$router.push({ path: address });
     },
     async logout() {
       const data = await logout();

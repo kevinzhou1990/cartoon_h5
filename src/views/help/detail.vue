@@ -6,8 +6,12 @@
       <p>答：{{ detail.answer }}</p>
     </article>
     <div class="button">
-      <span class="zm-b"><svg-icon icon-class="solve_ba" size="small" />明白了</span>
-      <span class="zm-b" @click="$router.push({ path: '/feedback', query: { source: 1 } })"
+      <span class="zm-b" @click="$router.go(-1)"
+        ><svg-icon icon-class="solve_ba" size="small" />明白了</span
+      >
+      <span
+        class="zm-b"
+        @click="$router.push({ path: '/feedback', query: { source: 1, ...$route.query } })"
         ><svg-icon icon-class="solve_bb" size="small" />没看懂</span
       >
     </div>
