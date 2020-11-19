@@ -21,7 +21,7 @@
         </div>
         <div
             class="vali-main-content-btn zm-b-t"
-            :class="{'btn-color': valiValue}"
+            :class="{'btn-color': valiValue.length===4}"
             @click.stop="handelClickNextSetp"
         >
           下一步
