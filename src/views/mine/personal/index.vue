@@ -195,7 +195,7 @@ export default {
           }, 300);
           this.getInfo();
         } else {
-          this.Toast('头像修改失败，请稍后重试', {
+          this.Toast(res.msg || '头像修改失败，请稍后重试', {
             type: 'fail',
             duration: 3000
           });
