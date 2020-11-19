@@ -32,11 +32,13 @@
         </div>
       </div>
     </div>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>
   </div>
 </template>
 
 <script>
 import ZMHomeLabel from './ZMHomeLabel';
+import ZMHomeAD from './ZMHomeAD';
 import myMixins from '@/common/mixin/myMixins';
 export default {
   name: 'ZMClassicsComics',
@@ -51,16 +53,19 @@ export default {
     return {
       labelName: '经典漫画',
       classicsComicsList: [],
-      recId: 4
+      recId: 4,
+      ad_list: []
     };
   },
   components: {
-    ZMHomeLabel
+    ZMHomeLabel,
+    ZMHomeAD
   },
   created() {
     this.labelName = this.classicsComicsData.name;
     this.classicsComicsList = this.classicsComicsData.cartoon_list;
     this.recId = this.classicsComicsData.rec_id;
+    this.ad_list = this.classicsComicsData.ad_list
   },
   methods: {}
 };

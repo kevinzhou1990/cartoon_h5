@@ -35,6 +35,7 @@
         <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
       </div>
     </div>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list" style="margin-top: 16px;"></z-m-home-a-d>
   </div>
 </template>
 
@@ -42,6 +43,7 @@
 import '../../../common/filters/home';
 import ZMHomeLabel from './ZMHomeLabel';
 import myMixins from '@/common/mixin/myMixins';
+import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMLikeComics',
   mixins: [myMixins],
@@ -57,20 +59,22 @@ export default {
       likeComicsList: [],
       likeBannerData: null,
       bannerTitleName: '玛蒂娜生活日记',
-      recId: 5
+      recId: 5,
+      ad_list: []
       // bannerChapterContent: '流失之光工作室  |  更新至06话'
     };
   },
   components: {
-    ZMHomeLabel
+    ZMHomeLabel,
+    ZMHomeAD
   },
   created() {
     this.labelName = this.likeComicsData.name;
     this.recId = this.likeComicsData.rec_id || 5;
     this.likeComicsList = this.likeComicsData.cartoon_list;
     this.likeBannerData = this.likeComicsData.top || {};
-  },
-  methods: {}
+    this.ad_list = this.likeComicsData.ad_list
+  }
 };
 </script>
 
