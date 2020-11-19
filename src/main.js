@@ -20,8 +20,8 @@ if (env.isClient()) {
 
 // swpier组件
 Vue.use(MintUI);
-Vue.use(Loading);
 Vue.prototype.Toast = Toast;
+Vue.prototype.$Loading = Loading;
 Vue.config.productionTip = false;
 
 export function createApp() {

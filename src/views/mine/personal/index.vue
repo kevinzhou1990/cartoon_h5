@@ -158,9 +158,9 @@ export default {
         }, 250);
 
         //未登录，跳转到首页
-        // this.$router.replace({
-        //   path: '/'
-        // });
+        this.$router.replace({
+          path: '/'
+        });
         return false
       }
     },
