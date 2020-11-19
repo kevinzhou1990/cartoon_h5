@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { logout } from '@/common/api/mine';
 import { mapState } from 'vuex';
 import SvgIcon from '@/common/components/svg';
 import defaultHead from '@/assets/img/headAa.png';
@@ -84,16 +83,6 @@ export default {
         }
       } else {
         this.$router.push({ path: address });
-      }
-      // this.$router.push({ path: address });
-    },
-    async logout() {
-      const data = await logout();
-      if (data.code === 0) {
-        this.$toast('退出成功!');
-        this.$store.commit('LOGIN_STATUS', false);
-      } else {
-        this.$toast(data.msg || '退出失败!');
       }
     }
   }

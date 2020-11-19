@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     this.isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-    this.isAndroid = navigator.userAgent.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+    this.isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
   },
   methods: {
     createIframe() {
