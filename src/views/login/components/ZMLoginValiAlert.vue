@@ -88,6 +88,7 @@ export default {
 	      this.$emit('getSMS', randCode)
 	      this.valiValue = ''
       } else {
+        this.refreshValidate()
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
       }
       console.log('click event next step')
@@ -98,6 +99,7 @@ export default {
 	   * @date: 10/21/20-4:30 下午
 	   */
 	  async refreshValidate() {
+	    this.valiValue = ''
       const resData = await getImgCode()
       if (resData && resData.code === 0) {
         this.validateImg = resData.data.image
