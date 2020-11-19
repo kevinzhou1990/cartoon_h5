@@ -364,6 +364,7 @@
     -ms-user-select: none;
     -khtml-user-select: none;
     user-select: none;
+    touch-action:none;
 
     .header{
       height: 44px;
