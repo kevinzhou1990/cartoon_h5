@@ -1,5 +1,13 @@
 import { getUserInfo, updateUserInfo, uploadFile } from '@/common/api/user';
 const user = {
+  state: {
+    remoteAddress: []
+  },
+  mutations: {
+    UPDATE_REMOTE_ADDRESS: (state, data) => {
+      state.remoteAddress = data;
+    }
+  },
   actions: {
     //获取用户信息
     getUserInfo: ({ commit }) => {
@@ -7,6 +15,7 @@ const user = {
         getUserInfo()
           .then(res => {
             commit('SET_USERS_INFO', res.data.user);
+            commit('UPDATE_REMOTE_ADDRESS', res.data.promote);
             resolve(res);
           })
           .catch(err => {

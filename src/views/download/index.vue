@@ -3,26 +3,7 @@
 </template>
 
 <script>
-// let u = navigator.userAgent;
-// let isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-// let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-// // 下载地址
 let iosUrl = 'https://itunes.apple.com/cn/app/'; // todo 待定
-// /* eslint-disable */
-// let androidUrl = ''; // todo  地址待定
-// let createIframe = (function() {
-//   let iframe;
-//   return function() {
-//     if (iframe) {
-//       return iframe;
-//     } else {
-//       iframe = document.createElement('iframe');
-//       iframe.style.display = 'none';
-//       document.body.appendChild(iframe);
-//       return iframe;
-//     }
-//   };
-// })();
 export default {
   name: 'download',
   data() {
@@ -33,7 +14,8 @@ export default {
   },
   mounted() {
     this.isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-    this.isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
+    this.isAndroid =
+      navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
   },
   methods: {
     createIframe() {

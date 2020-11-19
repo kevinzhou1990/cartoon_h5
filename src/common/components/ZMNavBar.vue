@@ -38,10 +38,9 @@ export default {
   mounted() {
     this.$nextTick(() => {
       console.log(this.tabListData, '======');
-      const _index =
-        this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
+      const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
       const key = this.acticeIndex;
-      _index && this.start(key, _index);
+      if (_index > -1) this.start(key, _index);
       // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
       // const key = this.acticeIndex;
       // this.start(key, _index);

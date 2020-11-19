@@ -9,9 +9,7 @@
       <span class="zm-b" @click="$router.go(-1)"
         ><svg-icon icon-class="solve_ba" size="small" />明白了</span
       >
-      <span
-        class="zm-b"
-        @click="$router.push({ path: '/feedback', query: { source: 1, ...$route.query } })"
+      <span :class="understand ? 'zm-b no' : 'zm-b'" @click="doNotUnderstand"
         ><svg-icon icon-class="solve_bb" size="small" />没看懂</span
       >
     </div>
@@ -25,7 +23,6 @@ import '@/assets/style/1px.scss';
 export default {
   data() {
     return {
-      understand: false,
       feedback: false
     };
   },
@@ -36,9 +33,25 @@ export default {
   computed: {
     detail() {
       return this.$store.state.help.detail;
+    },
+    understand() {
+      return this.$store.state.help.understand;
     }
   },
-  methods: {}
+  methods: {
+    doNotUnderstand() {
+      if (!this.understand) {
+        this.$store.commit('UPDATE_UNDERSTAND');
+        this.$router.push({ path: '/feedback', query: { source: 1, ...this.$route.query } });
+      }
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.name === 'help') {
+      this.$store.commit('UPDATE_UNDERSTAND');
+    }
+    next();
+  }
 };
 </script>
 
@@ -73,6 +86,9 @@ export default {
       }
       & > svg {
         margin-right: 8px;
+      }
+      &.no {
+        opacity: 0.5;
       }
     }
   }

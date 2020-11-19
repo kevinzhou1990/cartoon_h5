@@ -51,7 +51,8 @@ if (env.isClient()) {
       'detail',
       'status',
       'user',
-      'login'
+      'login',
+      'help'
     ]
   });
   store = new Vuex.Store({

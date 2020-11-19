@@ -11,10 +11,10 @@
       <img src="../../assets/img/cat_abc.png" alt="" />
     </div>
     <ul class="mine-list mine-game-config">
-      <li class="flex">
+      <li class="flex" v-for="(game, index) in remoteAddress" :key="index" @click="gameMsg(game)">
         <svg-icon icon-class="game_aa" />
         <div class="flex-1 flex item-name">
-          <div class="flex-1">游戏</div>
+          <div class="flex-1">{{ game.name }}</div>
           <svg-icon icon-class="more_bb" size="small" />
         </div>
       </li>
@@ -64,12 +64,14 @@ export default {
         }
       ],
       defaultHead,
-      needLoginRoute: ['/feedback', '/personal', '/setting']
+      needLoginRoute: ['/feedback', '/personal', '/setting'],
+      gameRemoteList: []
     };
   },
   computed: {
     ...mapState({
-      userInfo: state => state.login.userInfo
+      userInfo: state => state.login.userInfo,
+      remoteAddress: state => state.user.remoteAddress
     })
   },
   methods: {
@@ -84,6 +86,9 @@ export default {
       } else {
         this.$router.push({ path: address });
       }
+    },
+    gameMsg(game) {
+      window.location = game.jump_address;
     }
   }
 };

@@ -12,7 +12,7 @@
       </div>
     </z-m-header>
     <div class="feedback-content">
-      <p v-if="isDetail">"我充值了，但是没有反应..."这个问题的解答没看懂。</p>
+      <p v-if="isDetail">"{{ name && name.substr(0, 10) }}..."这个问题的解答没看懂。</p>
       <div class="textarea">
         <textarea
           cols="30"
@@ -72,12 +72,20 @@ export default {
       isTips: false,
       // 图片地址数组
       imgList: [],
-      file: ''
+      file: '',
+      name: ''
     };
   },
   components: { ZMHeader, SvgIcon, ZMImg },
+  computed: {
+    detail() {
+      return this.$store.state.help.detail;
+    }
+  },
   mounted() {
+    console.log('mounted', this.$route.query, this.$store.state.help.detail);
     this.isDetail = parseInt(this.$route.query.source) === 1;
+    this.name = this.detail.question;
   },
   methods: {
     commitQa() {
@@ -87,7 +95,7 @@ export default {
       const data = {
         content: this.content,
         'image_urls[]': this.imgList,
-        help_id: ''
+        help_id: this.$route.query.id
       };
       this.$store.dispatch('addFeedback', data).then(res => {
         if (res.code === 0) {

@@ -4,7 +4,8 @@ const help = {
     tabListData: {},
     list: [],
     detail: {},
-    allData: []
+    allData: [],
+    understand: false
   },
   mutations: {
     UPDATEHELPLIST: (state, list) => {
@@ -33,6 +34,9 @@ const help = {
         });
         state.list = list;
       }
+    },
+    UPDATE_UNDERSTAND: state => {
+      state.understand = !state.understand;
     }
   },
   actions: {
