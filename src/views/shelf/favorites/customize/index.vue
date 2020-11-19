@@ -17,13 +17,24 @@
       </div>
     </div>
 
-    <div class="main-container">
+    <div class="main-container" v-if="customizeList.length >= 11">
+      <div class="bg-container" data-type="new">
+        <div class="add">
+          <svg-icon icon-class="add_bb" />
+        </div>
+      </div>
+      <div class="item-container">
+        <div class="full-name">收藏夹数量已满</div>
+      </div>
+    </div>
+
+    <div class="main-container" v-else @click="jumpDownloadPage">
       <div class="bg-container" data-type="new">
         <div class="add">
           <svg-icon icon-class="add_aa" />
         </div>
       </div>
-      <div class="item-container" @click="jumpDownloadPage">
+      <div class="item-container">
         <div class="name">新建收藏夹</div>
       </div>
     </div>
@@ -109,6 +120,10 @@ $PADDING: 16px;
     .name {
       font-size: 14px;
       color: #222222;
+    }
+    .full-name{
+      font-size: 14px;
+      color: #e6e6e6;
     }
     .collect-tip {
       width: 230px;
