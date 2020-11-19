@@ -93,7 +93,7 @@ export default {
   },
   mounted() {
     const userInfo = this.$store.state.login.userInfo
-    this.telPhoneNum = userInfo.mobile
+    this.telPhoneNum = userInfo.mobile_text
 	  this.telCode = userInfo.mobile_code
   },
 	methods: {
