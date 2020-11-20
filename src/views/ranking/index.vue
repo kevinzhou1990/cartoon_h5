@@ -152,7 +152,7 @@ export default {
     // this.setQuery(this.currentRank);
     this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
-    const rank = this.$route.query.rank || this.rankingList[0].rank_id;
+    const rank = this.$store.state.ranking.currentRank;
     const list = this.rankingList;
     for (let i = 0; i < list.length; i++) {
       if (list[i].rank_id === rank) this.activeName = list[i].name;
@@ -178,10 +178,7 @@ export default {
   },
   methods: {
     switchRank(rank) {
-      // this.activeRank = rank.rank_id;
-      // this.activeName = rank.name;
       this.setQuery(rank);
-      // this.getRankingByCate();
     },
     //获取排行分类对应漫画
     getRankingByCate() {
