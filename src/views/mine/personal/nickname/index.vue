@@ -78,6 +78,7 @@
 <style lang="scss" scoped>
   $HEADERHEIGHT: 44px;
   $PADDING: 16px;
+  //修改placeholder颜色
   *::-webkit-input-placeholder {
     color: #bbbbbb;
   }
@@ -149,7 +150,7 @@
           font-family: 'pingfang-blod';
           width: calc(100% - #{$PADDING * 3 + 5px});
           height: 100%;
-          padding: $PADDING $PADDING * 2 + 5px $PADDING $PADDING;
+          padding: $PADDING - 1px $PADDING * 2 + 5px $PADDING - 2px $PADDING;
           border: none;
           outline: none;
           font-size: 12px;

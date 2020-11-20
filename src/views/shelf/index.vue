@@ -54,14 +54,14 @@ export default {
           name: '历史'
         }
       ],
-      isLogin: true
+      isLogin: true,
+      isLoading: true
     };
   },
   computed: {
     ...mapState({
       // isLogin: (state) => state.status.isLogin,
       shelfTab: (state) => state.collect.shelfTab,
-      isLoading: (state) => state.status.isLoading,
       isUpdate: (state) => state.status.hasUpdate
     })
   },
@@ -100,7 +100,7 @@ export default {
     //更新登录态
     update(boolean){
       this.isLogin = boolean;
-      this.$store.commit('LOGIN_STATUS', boolean)
+      this.isLoading = false;
     }
   }
 };

@@ -242,7 +242,7 @@ $DEEPGRAY: #999;
     align-items: center;
   }
   .topic-comment {
-    padding: 16px;
+    padding: 16px 0 16px 16px;
     border-top: 8px solid #f5f5f5;
     .topic-gray {
       display: flex;
@@ -286,6 +286,7 @@ $DEEPGRAY: #999;
       color: $DARK;
     }
     .option {
+      padding-right: 16px;
       svg {
         vertical-align: bottom;
       }

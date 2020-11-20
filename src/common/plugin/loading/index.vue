@@ -1,7 +1,7 @@
 <template>
   <transition name="loading-pop">
     <div class="loading-container" v-if="show">
-      <div class="loading">加载中...</div>
+      <div class="loading"></div>
     </div>
   </transition>
 </template>
@@ -35,10 +35,10 @@
     -webkit-transition: opacity .3s linear;
     transition: opacity .3s linear;
     .loading{
-      padding: 40px 50px;
-      border-radius: 5px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
+      width: 96px;
+      height: 81px;
+      background: url('./img/toastloading.webp') no-repeat;
+      background-size: 100%;
     }
   }
 </style>

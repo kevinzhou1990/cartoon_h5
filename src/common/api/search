@@ -18,7 +18,7 @@ export const commonSearchWords = function () {
 export const searchResult = function (keywords) {
   return request({
     method: 'get',
-	  url: `/api/search/asocial/${keywords}`
+	  url: `/api/search/asocial/${encodeURIComponent(keywords)}`
   })
 }
 /**

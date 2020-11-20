@@ -42,6 +42,7 @@
       </div>
       <div class="maybe-main-content-item-line zm-b-t" v-if="index < maybeLikeComicsList.length - 1"></div>
     </div>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>
   </div>
 </template>
 
@@ -49,6 +50,7 @@
 import ZMHomeLabel from './ZMHomeLabel'
 import '@/common/filters/home'
 import myMixins from '@/common/mixin/myMixins'
+import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMPossibale',
   mixins: [myMixins],
@@ -66,16 +68,19 @@ export default {
       ba_img: require('@/assets/img/save_ba.png'),
       bb_img: require('@/assets/img/save_bb.png'),
       nums: [1, 2, 3],
-      recId: 6
+      recId: 6,
+      ad_list: []
     }
   },
   components: {
-    ZMHomeLabel
+    ZMHomeLabel,
+    ZMHomeAD
   },
   created() {
     this.labelName = this.maybeLikeComics.name
     this.recId = this.maybeLikeComics.rec_id || 6
     this.maybeLikeComicsList = this.maybeLikeComics.cartoon_list
+    this.ad_list = this.maybeLikeComics.ad_list
   },
   methods: {
     /**

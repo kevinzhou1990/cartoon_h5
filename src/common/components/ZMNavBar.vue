@@ -4,7 +4,7 @@
       ref="scrollItem"
       class="item"
       :class="{ active: isSelected == name }"
-      v-for="(item, name, index) in dataList"
+      v-for="(item, name, index) in tabListData"
       :key="name"
       @click.stop="start(name, index)"
     >
@@ -23,7 +23,7 @@ export default {
     },
     acticeIndex: {
       type: Number,
-      default: 1
+      default: 0
     }
   },
   data() {
@@ -37,9 +37,13 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      console.log(this.tabListData, '======');
       const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
       const key = this.acticeIndex;
-      this.start(key, _index);
+      if (_index > -1) this.start(key, _index);
+      // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
+      // const key = this.acticeIndex;
+      // this.start(key, _index);
     });
   },
   methods: {
@@ -54,6 +58,7 @@ export default {
        */
       this.lastSpot = this.$refs.scrollBox.scrollLeft;
       const nextSpace = 7; //每次移动距离
+      // console.log(this.currentIndex, nextSpace);
       this.scrollItemTimer = setInterval(() => {
         this.$nextTick(() => {
           if (this.$refs && this.$refs.scrollItem) {

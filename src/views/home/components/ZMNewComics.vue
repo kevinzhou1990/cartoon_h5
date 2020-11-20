@@ -23,15 +23,20 @@
         <span class="new-main-content-item-des">{{ item.intro }}</span>
       </div>
     </div>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>
   </div>
 </template>
 
 <script>
 import '../../../common/filters/home';
 import myMixins from '@/common/mixin/myMixins';
+import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMNewComics',
   mixins: [myMixins],
+  components: {
+    ZMHomeAD
+  },
   props: {
     newCamicsData: {
       type: Object,
@@ -42,13 +47,15 @@ export default {
     return {
       newComicsName: '新漫即将抵达',
       newComicsList: [],
-      recId: 1
+      recId: 1,
+      ad_list: []
     };
   },
   created() {
     this.newComicsName = this.newCamicsData.name;
     this.newComicsList = this.newCamicsData.cartoon_list;
     this.recId = this.newCamicsData.rec_id || 1
+    this.ad_list = this.newCamicsData.ad_list
   },
   methods: {}
 };

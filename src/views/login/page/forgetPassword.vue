@@ -321,7 +321,7 @@ export default {
   }
   .login-btn {
     font-family: PingFangSC-Semibold;
-    margin: 8px auto;
+    margin: 8px 16px;
     background: #A2F5CB;
     border-radius: 4px;
     height: 52px;

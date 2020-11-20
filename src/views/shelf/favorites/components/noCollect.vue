@@ -6,9 +6,10 @@
       <div class="main-container" @click="jumpIndex">
         <div class="content">
           <div class="img-container">
-            <div class="img1 img" :style="{background: 'url('+cover[0].cover+')','background-size': '100%'}"></div>
-            <div class="img2 img" :style="{background: 'url('+cover[1].cover+')','background-size': '100%'}"></div>
-            <div class="img3 img" :style="{background: 'url('+cover[2].cover+')','background-size': '100%'}"></div>
+            <div class="imgCover"></div>
+<!--            <div class="img1 img" :style="{background: 'url('+cover[0].cover+')','background-size': '100%'}"></div>-->
+<!--            <div class="img2 img" :style="{background: 'url('+cover[1].cover+')','background-size': '100%'}"></div>-->
+<!--            <div class="img3 img" :style="{background: 'url('+cover[2].cover+')','background-size': '100%'}"></div>-->
           </div>
 
           <div class="text">
@@ -86,7 +87,7 @@ export default {
       position: relative;
 
       .content {
-        padding: 0 16px;
+        padding-right: 16px;
 
         .text {
           color: #FFFFFF;
@@ -97,6 +98,13 @@ export default {
           height: 80px;
           position: absolute;
           bottom: 0;
+          .imgCover{
+            width: 240px;
+            height: 100%;
+            background: url('./img/save_img_aa.png') no-repeat;
+            background-size: 100%;
+          }
+
           .img {
             background: url('../../../../assets/img/defaultBook.png') no-repeat;
             background-size: 100%;

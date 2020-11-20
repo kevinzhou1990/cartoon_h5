@@ -15,6 +15,7 @@ import ranking from './modules/ranking';
 import topic from './modules/topic';
 import comments from './modules/comments';
 import detail from './modules/detail';
+import help from './modules/help';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -32,6 +33,7 @@ const storeModules = {
   detail,
   status,
   user,
+  help,
   login
 };
 
@@ -39,7 +41,19 @@ let store = null;
 if (env.isClient()) {
   const createPersisted = createPersistedState({
     storage: sessionStorage,
-    paths: ['reader', 'recommend', 'token', 'collect', 'home', 'comments', 'detail', 'status', 'user', 'login']
+    paths: [
+      'reader',
+      'recommend',
+      'token',
+      'collect',
+      'home',
+      'comments',
+      'detail',
+      'status',
+      'user',
+      'login',
+      'help'
+    ]
   });
   store = new Vuex.Store({
     modules: { ...storeModules },

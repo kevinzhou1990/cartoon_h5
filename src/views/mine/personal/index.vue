@@ -103,7 +103,6 @@ export default {
     }
   },
   mounted() {
-    console.log('测试')
     this.getInfo()
   },
   methods: {
@@ -159,9 +158,9 @@ export default {
         }, 250);
 
         //未登录，跳转到首页
-        // this.$router.replace({
-        //   path: '/'
-        // });
+        this.$router.replace({
+          path: '/'
+        });
         return false
       }
     },
@@ -196,6 +195,7 @@ export default {
           }, 300);
           this.getInfo();
         } else {
+          console.log('头像修改失败！', res.msg);
           this.Toast('头像修改失败，请稍后重试', {
             type: 'fail',
             duration: 3000
@@ -216,9 +216,13 @@ export default {
           if (res.code === 0){
             this.updateAvatar(res.data.path)
           } else {
-            this.$toast(res.msg || '上传图片失败!');
+            this.Toast('头像修改失败，请稍后重试', {
+              type: 'fail',
+              duration: 3000
+            });
+            console.log('图片上传失败！', res.msg)
           }
-        }, 500)
+        }, 250)
       });
     }
   }

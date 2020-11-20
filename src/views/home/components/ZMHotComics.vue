@@ -24,6 +24,7 @@
     <div class="hot-main-btn" v-if="hotComicsList.length">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>
   </div>
 </template>
 
@@ -31,6 +32,7 @@
 import ZMHomeLabel from './ZMHomeLabel'
 import { getMoreComics } from '@/common/api/home'
 import myMixins from '@/common/mixin/myMixins'
+import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMHotComics',
   mixins: [myMixins],
@@ -47,16 +49,19 @@ export default {
       recId: 2,
       currentPage: 2,
       pageSize: 6,
-      totalPages: 1
+      totalPages: 1,
+      ad_list: []
     }
   },
   components: {
-    ZMHomeLabel
+    ZMHomeLabel,
+    ZMHomeAD
   },
   created() {
     this.labelName = this.hotComicsData.name
     this.hotComicsList = this.hotComicsData.cartoon_list
     this.recId = this.hotComicsData.rec_id
+    this.ad_list = this.hotComicsData.ad_list
   },
   methods: {
     /**
