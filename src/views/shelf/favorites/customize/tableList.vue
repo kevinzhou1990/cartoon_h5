@@ -40,6 +40,9 @@ export default {
       if (data.code === 0) {
         this.collectList = data.data.cartoon_list;
         this.title = data.data.group_info && data.data.group_info.name ? data.data.group_info.name : '';
+        if (data.data.cartoon_list.length){
+          this.title = this.title + '（' + data.data.cartoon_list.length + '）';
+        }
       } else {
         this.$toast(data.msg || '系统出错,请稍后重试');
       }
