@@ -212,24 +212,16 @@ export default [
   },
   ...loginRouters,
   {
-    path: '/404',
-    name: '404',
+    path: '/error',
+    name: 'error',
     component: () => import(/* webpackChunkName: Download */ '@/views/404/404'),
     meta: {
-      title: '404',
-      keepAlive: false
-    }
-  },
-  {
-    path: '/500',
-    component: () => import(/* webpackChunkName: Download */ '@/views/404/500'),
-    meta: {
-      title: '500',
+      title: 'error',
       keepAlive: false
     }
   },
   {
     path: '/*',
-    redirect: '/404'
+    redirect: '/error'
   }
 ];

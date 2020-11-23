@@ -4,14 +4,23 @@
       <div>
         <img src="../../assets/img/defaultRecordAa@3x.png" alt="" />
       </div>
-      <p>404：糟糕！页面不见了</p>
+      <p>{{ msg }}</p>
       <span @click="$router.replace({ path: 'home' })">回到首页</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      msg: '404：糟糕！页面不见了'
+    };
+  },
+  mounted() {
+    if (parseInt(this.$route.query.status) === 500) this.msg = '500：糟糕！网络服务错误';
+  }
+};
 </script>
 
 <style lang="scss" scoped>
