@@ -127,7 +127,7 @@ export default {
         transition: 'none'
       },
       topAjax: true,
-      scrollHeight: document.documentElement.scrollTop,
+      scrollHeight: 0,
       bottomAjax: false,
       bottomWrapStyle: {
         height: 0,
@@ -141,8 +141,6 @@ export default {
       comicsInfo: {}, // 目录数据
       authorOhter: [], // 作者其他漫画
       yourselfLikeComics: [] // 你可能喜欢的漫画
-
-      // otherHeight: 0
     };
   },
   computed: {
@@ -183,16 +181,13 @@ export default {
       }
     }
   },
-  // beforeMount() {
-  //   document.body.scrollTop = document.documentElement.scrollTop = 0
-  // },
   created() {
-    console.log(this.detailData);
     this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
     this.getAuthorOther();
     this.maybeLikeTitle = this.detailData && this.detailData.title;
   },
   mounted() {
+    this.scrollHeight = document.documentElement.scrollTop;
     this.scrolOnEventChange();
     this.$el.addEventListener('touchstart', this.touchStart, true);
     this.$el.addEventListener('touchend', this.touchEnd, true);
@@ -231,8 +226,8 @@ export default {
     handleCatalog() {
       this.$el.removeEventListener('tochstart', this.touchStart, true);
       this.$el.removeEventListener('touchend', this.touchEnd, true);
+      // this.$refs.remarkScroll.removeEventListener('scroll', this.getPageScroll, true);
       this.$parent.show = true;
-      console.log('点击了目录');
     },
     /**
      * @info: 获取可能喜欢的列表和作者的其他漫画
@@ -256,29 +251,15 @@ export default {
       }
       const touch = e.changedTouches[0];
       this.startTouchValue = touch.pageY;
-      // if (this.startTouchValue < this.startTouchDistance) {
-      //   this.$refs.remarkScroll.style['pointer-events'] = 'none';
-      //   // this.$el.removeEventListener('touchstart', this.touchStart);
-      // }
-      // this.timer = setTimeout(() => {
-      //   if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-      //   // this.$el.addEventListener('touchstart', this.touchStart);
-      // }, 400);
-      // if (this.$refs.remarkScroll.scrollTop > 100){
-      //   if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-      // }
       e.stopPropagation();
       this.$el.addEventListener('touchmove', this.touchMove);
       console.log('我开始滑动了。。。。', this.startTouchValue);
     },
     // touch 开始中
     touchMove(e) {
-      // e.preventDefault()
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
-      // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
       this.height = touch - this.startTouchValue;
-      // if (this.height < -200 || this.height > 100) return
       if (this.height > 10 && this.height < 200) {
         this.topWrapStyle.height = `${this.height}px`;
         this.$parent.$refs.mainContent.style.height =
@@ -286,23 +267,8 @@ export default {
       }
       if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');
-        // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
         this.bottomWrapStyle.height = `${Math.abs(this.height)}px`;
-        //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
-        //   console.log('this.otherHeight', document.getElementsByClassName('main-other')[0].getBoundingClientRect().y)
-        //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
-        //   // this.$refs.ohterEl.style.background = 'red'
-        //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
       }
-      // if (this.height < 0) {
-      //   this.$refs['main-detail'].style.marginTop = 0
-      //   this.$refs['remarkScroll'].style.top = (265 + 56 + Number(this.textHeight)) - Math.abs(this.height) + 'px'
-      //   this.$refs['remarkScroll'].style.backgroundColor = '#ffffff'
-      // } else {
-      //   this.$refs['main-detail'].style.marginTop = (265 + 56 + Number(this.textHeight)) - Math.abs(this.height) + 'px'
-      //   this.$refs['remarkScroll'].style.top = 0
-      //   this.$refs['remarkScroll'].style.backgroundColor = '#ffffff'
-      // }
       console.log('touchMove', this.height);
       console.log('我在滑动中。。。。');
     },
@@ -311,20 +277,14 @@ export default {
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       this.$el.removeEventListener('touchmove', this.touchMove);
-      // if (this.$el.scrollTop > 0) {
-      //   this.startTouchValue = touch
-      //   return
-      // }
       this.height = touch - this.startTouchValue;
       this.$parent.$refs['intro-content'].style.minHeight = '58px'; // 初始化简介的高度
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
-      // this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
       this.$parent.$refs.mainContent.style.height =
         document.getElementsByClassName('info-content')[0].offsetHeight +
         document.getElementsByClassName('main-content-box')[0].offsetHeight +
         'px';
-      // this.bottomAjax = false
       if (this.height < -100) {
         this.bottomAjax = true;
       } else {
@@ -349,36 +309,16 @@ export default {
     },
     // 获取滚动到页面顶部的高度
     getPageScroll() {
-      // let yScroll
-      // let self = window
-      // if (self.pageYOffset) {
-      //   yScroll = self.pageYOffset
-      // // xScroll = self.pageXOffset;
-      // } else if (document.documentElement && document.documentElement.scrollTop) {
-      //   yScroll = document.documentElement.scrollTop
-      // } else if (document.body) {
-      //   yScroll = document.body.scrollTop
-      // }
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
       if (yScroll >= 5) {
-        // this.$el.removeEventListener('tochstart', this.touchStart, true);
-        // // this.$el.removeEventListener('touchend', this.touchEnd, true)
-        // this.$el.removeEventListener('touchMove', this.touchMove, true);
-        // :style="{'margin-top': 265+textHeight+'px'}"
         this.$refs['main-detail'].style.marginTop = 265 + this.textHeight + 'px';
         this.$refs['remarkScroll'].style.top = 0;
         this.isShowBgColor = true;
-        // this.$refs['remarkScroll'].style.height = 'auto'
-        // this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
-        // this.$el.addEventListener('tochstart', this.touchStart, true);
-        // this.$el.addEventListener('touchend', this.touchEnd, true);
-        // this.$el.addEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = false;
         this.$refs['main-detail'].style.marginTop = 0;
         this.$refs['remarkScroll'].style.top = 265 + 56 + Number(this.textHeight) - yScroll + 'px';
-        // this.$refs['remarkScroll'].style.height = '100%'
       }
       if (yScroll > 260) {
         this.showFootFlag = true;

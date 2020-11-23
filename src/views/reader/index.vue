@@ -100,7 +100,6 @@ export default {
       if (this.fullRead) this.navigationStatus = this.fullRead;
     },
     $route: function(to, from) {
-      console.log(to, '+++++reader', from);
       this.pageinit();
     }
   },
@@ -108,6 +107,10 @@ export default {
     async pageinit() {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.comicsInfo.last_chapter_id = parseInt(this.$route.query.capterId);
+      // 更新漫画上报数据
+      this.$store.commit('UPDATE_REPORTMSG', {
+        last_chapter_id: parseInt(this.$route.query.capterId)
+      });
       await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
       if (!this.comicsList.length) {
         // 没有图片，回退到上一个页面
