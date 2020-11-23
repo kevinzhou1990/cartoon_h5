@@ -21,7 +21,9 @@ Vue.mixin({
 
 // 客户端挂载app之前，store状态替换
 if (window.__INITIAL_STATE__) {
-  store.replaceState(window.__INITIAL_STATE__);
+  // 存在本地store的情况下，使用本地的store
+  const localStore = JSON.parse(sessionStorage.getItem('vuex'));
+  store.replaceState(localStore || window.__INITIAL_STATE__);
 }
 
 // 数据预处理，路由导航跳转前，解析数据
