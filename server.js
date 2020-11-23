@@ -109,6 +109,7 @@ const serve = (path, cache) =>
     maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
   });
 app.set('trust proxy', true);
+app.disable('etag');
 app.use(cookieParser());
 app.use(compression({ threshold: 0 }));
 app.use('/dist', serve('./dist', true));

@@ -16,6 +16,7 @@ const detail = {
     getDetail({ commit }, cartoonId) {
       return getZMDetail(cartoonId)
         .then(res => {
+          console.log(res.data);
           commit('UPDATE_ZMDETAIL_DATA', res.data);
           return res;
         })

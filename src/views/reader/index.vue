@@ -252,6 +252,8 @@ export default {
     if (rp.code === 0) {
       // 上报成功，清除本地数据
       this.$store.dispatch('saveProcess', {});
+      // 更新漫画详情数据
+      this.$store.dispatch('getDetail', this.$route.query.cartoon_id);
     }
   }
 };
