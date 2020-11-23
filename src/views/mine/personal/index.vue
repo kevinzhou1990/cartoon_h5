@@ -195,7 +195,8 @@ export default {
           }, 300);
           this.getInfo();
         } else {
-          this.Toast(res.msg || '头像修改失败，请稍后重试', {
+          console.log('头像修改失败！', res.msg);
+          this.Toast('头像修改失败，请稍后重试', {
             type: 'fail',
             duration: 3000
           });
@@ -215,9 +216,13 @@ export default {
           if (res.code === 0){
             this.updateAvatar(res.data.path)
           } else {
-            this.$toast(res.msg || '上传图片失败!');
+            this.Toast('头像修改失败，请稍后重试', {
+              type: 'fail',
+              duration: 3000
+            });
+            console.log('图片上传失败！', res.msg)
           }
-        }, 300)
+        }, 250)
       });
     }
   }

@@ -123,6 +123,9 @@ app.all('*', function(req, res, next) {
     'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'
   );
   res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+  res.header('X-Forwarded-For', req.connection.remoteAddress);
+  res.header('x-real-ip', req.connection.remoteAddress);
+  // console.log('req-----------', req.hostname, req.connection.remoteAddress);
   if (req && req.cookies && req.cookies.access_token) {
     req.headers.authorization = req.cookies.access_token;
   }
@@ -142,10 +145,9 @@ app.use(
     target: isProd ? target.prod : target.dev,
     // target: 'http://192.168.10.245:9501/',
     changeOrigin: true,
-    pathRewrite: {},
     onProxyReq: (proxyReq, req, res) => {
-      console.log('接口请求url-----', req.url);
-      // proxyReq.setHeader('Authorization', req.cookies.token);
+      proxyReq.setHeader('X-Forwarded-For', req.connection.remoteAddress);
+      console.log('接口请求url-----', req.url, req.connection.remoteAddress);
     }
   })
 );
@@ -155,6 +157,7 @@ app.get(
   isProd
     ? render
     : (req, res) => {
+        console.log(req.connection.remoteAddress, 'remoteAddress');
         readyPromise.then(() => render(req, res));
       }
 );
