@@ -58,6 +58,7 @@ export default {
     background: #fff;
     border-radius: 8px;
     margin-right: 5px;
+    margin-left: 5px;
   }
 }
 </style>
