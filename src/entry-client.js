@@ -51,7 +51,6 @@ router.onReady(() => {
     )
       .then(() => {
         // 停止加载指示器
-        console.log('ok');
         next();
       })
       .catch(next);

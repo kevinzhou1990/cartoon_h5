@@ -13,14 +13,13 @@ let _options = {
   timeout: 30 * 1000,
   data: null,
   rely: false,
-  serialize: true,
   success: function() {},
   fail: function() {},
   complete: function() {},
   method: 'get',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
   },
   withCredentials: true
 };
@@ -196,10 +195,6 @@ function axios(opts) {
 
     if (isFunction(_defaults.config)) {
       opts = _defaults.config(opts) || opts;
-    }
-
-    if (opts.data && opts.serialize) {
-      opts.data = query.stringify(opts.data);
     }
 
     opts.__resolve = resolve;

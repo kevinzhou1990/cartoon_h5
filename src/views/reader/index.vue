@@ -242,6 +242,7 @@ export default {
       }
     }
     rpdata.chapter_info = chapter_info;
+    console.log(this.$store.state.reader.reportMsg, '==========');
     const rp = await reportReader(
       parseInt(this.$route.query.cartoon_id),
       this.$store.state.reader.reportMsg
