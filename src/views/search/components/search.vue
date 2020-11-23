@@ -73,6 +73,7 @@ export default {
 	   */
 	  handleClickCancel() {
 		  sessionStorage.removeItem('name')
+      this.$store.commit('SET_SEARCH_VAL', '')
       this.$router.replace(this.$store.state.home.backRouter || '/home')
       console.log('back to path....')
     },

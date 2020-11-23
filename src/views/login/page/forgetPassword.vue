@@ -141,7 +141,7 @@ export default {
 	   * @date: 10/17/20-4:00 下午
 	   */
 	  async handleClickSurePassword() {
-      if (!this.regExp.test(this.passwordVal)) {
+      if (!this.regExp.test(this.newPasswordVal)) {
         return this.$toast('密码格式不正确，请重新设置！')
       }
       const reqData = {
