@@ -73,6 +73,7 @@ export default {
 	   */
 	  handleClickCancel() {
 		  sessionStorage.removeItem('name')
+      this.$store.commit('SET_SEARCH_VAL', '')
       this.$router.replace(this.$store.state.home.backRouter || '/home')
       console.log('back to path....')
     },
@@ -117,8 +118,9 @@ export default {
 	   * @date: 10/27/20-10:41 上午
 	   */
 	  handleClickSearch(val) {
-      if (!val) return
-		  let searchContext = val.trim()
+	    debugger
+      if (!val && !this.placeholderValue) return
+		  let searchContext = val.trim() || this.placeholderValue
 		  setLocalStorage(searchContext)
 		  // 文本框的类容同步
 		  this.$router.push({

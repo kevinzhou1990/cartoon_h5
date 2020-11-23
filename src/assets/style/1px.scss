@@ -81,6 +81,7 @@ $T_B: height !default;
   position: relative;
   &:before {
     @include setLine;
+    border: 1px solid #eee;
     border-radius: 4px;
   }
 }

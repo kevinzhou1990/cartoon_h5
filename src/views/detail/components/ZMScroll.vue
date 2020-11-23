@@ -1,14 +1,15 @@
 <template>
-  <div class="main" ref="remarkScroll">
+  <div class="main" ref="remarkScroll" :style="{ top: 265 + 58 + textHeight + 'px' }">
     <div
       class="main-height"
       :style="topWrapStyle"
       @transitionend="transitionend"
       v-show="topAjax"
     ></div>
-    <div class="main-content" :style="{ 'margin-top': 265 + textHeight + 'px' }"></div>
+    <!--    <div class="main-content" :style="{'margin-top': 265+textHeight+'px'}"></div>-->
     <div
       class="main-catalogue box-shad"
+      ref="main-detail"
       v-if="detailData && detailData.is_online && !detailData.is_coming"
     >
       <div class="left" @click.stop="handleDownload">
@@ -21,7 +22,7 @@
         <span class="left-text">目录</span>
       </div>
     </div>
-    <div class="main-catalogue box-shad no-time" v-else>
+    <div class="main-catalogue box-shad no-time" ref="main-detail" v-else>
       <div class="new-comics">{{ isOnlineText.text }}</div>
       <div class="new-comics-time" :style="{ color: isOnlineText.textColorFlag ? '#BBBBBB' : '' }">
         {{ isOnlineText.timeText }}
@@ -139,49 +140,34 @@ export default {
       cartoonId: '', // 漫画id
       comicsInfo: {}, // 目录数据
       authorOhter: [], // 作者其他漫画
-      yourselfLikeComics: [], // 你可能喜欢的漫画
-
-      readerChapter: '阅读 第一话',
-      isOnlineText: { text: '很遗憾', timeText: '这本漫画下架了' },
-      maybeTitle: '--'
-
-      // otherHeight: 0
+      yourselfLikeComics: [] // 你可能喜欢的漫画
     };
   },
-  computed: {},
-  mounted() {
-    this.$nextTick(() => {
-	    document.body.scrollTop = document.documentElement.scrollTop = 0;
-	    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
-	    this.maybeLikeTitle = this.detailData && this.detailData.title;
-	    this.scrolOnEventChange();
-	    this.$el.addEventListener('touchstart', this.touchStart, true);
-	    this.$el.addEventListener('touchend', this.touchEnd, true);
-	    this.detailData && this.detailData.is_online && this.initData();
-	    this.getAuthorOther();
-    })
-  },
-  methods: {
-    // 数据初始化
-    initData() {
-      this.readerChapter =
-        this.detailData && this.detailData.last.has_read === 1
-          ? `继续 ${this.detailData.last.title}`
-          : '阅读 第一话';
+  computed: {
+    readerChapter() {
+      if (this.detailData && this.detailData.last.has_read === 1) {
+        return `继续 ${this.detailData.last.title}`;
+      } else {
+        return '阅读 第一话';
+      }
+    },
+    isOnlineText() {
       if (this.detailData && this.detailData.is_online) {
         if (this.detailData.is_coming) {
-          this.isOnlineText = {
+          return {
             text: '新漫即将抵达',
             timeText: this.detailData.on_time_text || '--'
           };
         }
       } else {
-        this.isOnlineText = {
+        return {
           text: '很遗憾',
           timeText: '这本漫画下架了',
           textColorFlag: true
         };
       }
+    },
+    maybeTitle() {
       let titleContext = '';
       if (this.detailData && this.detailData.title) {
         if (this.detailData.title.length > 5) {
@@ -189,11 +175,24 @@ export default {
         } else {
           titleContext = this.detailData.title;
         }
-        this.maybeTitle = `喜欢《${titleContext}》的也会喜欢`;
+        return `喜欢《${titleContext}》的也会喜欢`;
       } else {
-        this.maybeTitle = '--';
+        return '--';
       }
-    },
+    }
+  },
+  created() {
+    this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
+    this.getAuthorOther();
+    this.maybeLikeTitle = this.detailData && this.detailData.title;
+  },
+  mounted() {
+    this.scrollHeight = document.documentElement.scrollTop;
+    this.scrolOnEventChange();
+    this.$el.addEventListener('touchstart', this.touchStart, true);
+    this.$el.addEventListener('touchend', this.touchEnd, true);
+  },
+  methods: {
     /**
      * @info: 点击开始继续阅读漫画
      * @author: PengGeng
@@ -216,6 +215,7 @@ export default {
      * @date: 8/17/20-6:24 下午
      */
     handleDownload() {
+      this.$router.push('/download');
       console.log('download in 。。。');
     },
     /**
@@ -226,8 +226,8 @@ export default {
     handleCatalog() {
       this.$el.removeEventListener('tochstart', this.touchStart, true);
       this.$el.removeEventListener('touchend', this.touchEnd, true);
+      // this.$refs.remarkScroll.removeEventListener('scroll', this.getPageScroll, true);
       this.$parent.show = true;
-      console.log('点击了目录');
     },
     /**
      * @info: 获取可能喜欢的列表和作者的其他漫画
@@ -251,29 +251,15 @@ export default {
       }
       const touch = e.changedTouches[0];
       this.startTouchValue = touch.pageY;
-      if (this.startTouchValue < this.startTouchDistance) {
-        this.$refs.remarkScroll.style['pointer-events'] = 'none';
-        // this.$el.removeEventListener('touchstart', this.touchStart);
-      }
-      this.timer = setTimeout(() => {
-        if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-        // this.$el.addEventListener('touchstart', this.touchStart);
-      }, 300);
-      if (this.$refs.remarkScroll.scrollTop > 100) {
-        if (this.$refs['remarkScroll']) this.$refs.remarkScroll.style['pointer-events'] = 'auto';
-      }
       e.stopPropagation();
       this.$el.addEventListener('touchmove', this.touchMove);
       console.log('我开始滑动了。。。。', this.startTouchValue);
     },
     // touch 开始中
     touchMove(e) {
-      e.preventDefault();
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
-      // console.log('touch', touch, 'startTouchValue', this.startTouchValue)
       this.height = touch - this.startTouchValue;
-      // if (this.height < -200 || this.height > 100) return
       if (this.height > 10 && this.height < 200) {
         this.topWrapStyle.height = `${this.height}px`;
         this.$parent.$refs.mainContent.style.height =
@@ -281,13 +267,7 @@ export default {
       }
       if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');
-        // document.getElementsByClassName('main-other')[0].style.backgroundColor = 'red'
         this.bottomWrapStyle.height = `${Math.abs(this.height)}px`;
-        //   // this.$parent.$refs.mainContent.style.height = (284 + (height) - 58) + 'px'
-        //   console.log('this.otherHeight', document.getElementsByClassName('main-other')[0].getBoundingClientRect().y)
-        //   this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-other')[0].sc- 28 + (-height) + 'px'
-        //   // this.$refs.ohterEl.style.background = 'red'
-        //   // this.$parent.$refs.mainContent.style.height = (284 - 28) + 'px'
       }
       console.log('touchMove', this.height);
       console.log('我在滑动中。。。。');
@@ -297,16 +277,14 @@ export default {
       if (this.startTouchValue < this.startTouchDistance) return;
       const touch = e.changedTouches[0].pageY;
       this.$el.removeEventListener('touchmove', this.touchMove);
-      // if (this.$el.scrollTop > 0) {
-      //   this.startTouchValue = touch
-      //   return
-      // }
       this.height = touch - this.startTouchValue;
-      this.$parent.$refs.mainContent.style.height = this.marginTop + this.textHeight + 'px';
-      // this.$parent.$refs['intro-content'].style.height = this.textHeight
+      this.$parent.$refs['intro-content'].style.minHeight = '58px'; // 初始化简介的高度
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
-      // this.bottomAjax = false
+      this.$parent.$refs.mainContent.style.height =
+        document.getElementsByClassName('info-content')[0].offsetHeight +
+        document.getElementsByClassName('main-content-box')[0].offsetHeight +
+        'px';
       if (this.height < -100) {
         this.bottomAjax = true;
       } else {
@@ -331,29 +309,16 @@ export default {
     },
     // 获取滚动到页面顶部的高度
     getPageScroll() {
-      // let yScroll
-      // let self = window
-      // if (self.pageYOffset) {
-      //   yScroll = self.pageYOffset
-      // // xScroll = self.pageXOffset;
-      // } else if (document.documentElement && document.documentElement.scrollTop) {
-      //   yScroll = document.documentElement.scrollTop
-      // } else if (document.body) {
-      //   yScroll = document.body.scrollTop
-      // }
       let yScroll = this.$refs.remarkScroll.scrollTop;
       console.log('scroll的距离' + yScroll);
-      if (yScroll >= 10) {
-        // this.$el.removeEventListener('tochstart', this.touchStart, true);
-        // // this.$el.removeEventListener('touchend', this.touchEnd, true)
-        // this.$el.removeEventListener('touchMove', this.touchMove, true);
+      if (yScroll >= 5) {
+        this.$refs['main-detail'].style.marginTop = 265 + this.textHeight + 'px';
+        this.$refs['remarkScroll'].style.top = 0;
         this.isShowBgColor = true;
-        this.$refs.remarkScroll.style['pointer-events'] = 'auto';
       } else {
-        // this.$el.addEventListener('tochstart', this.touchStart, true);
-        // this.$el.addEventListener('touchend', this.touchEnd, true);
-        // this.$el.addEventListener('touchMove', this.touchMove, true);
         this.isShowBgColor = false;
+        this.$refs['main-detail'].style.marginTop = 0;
+        this.$refs['remarkScroll'].style.top = 265 + 56 + Number(this.textHeight) - yScroll + 'px';
       }
       if (yScroll > 260) {
         this.showFootFlag = true;
@@ -406,7 +371,7 @@ export default {
 .main {
   /*  overflow-scrolling: touch;*/
   /*-webkit-overflow-scrolling: touch;*/
-  /*position: absolute;*/
+  position: absolute;
   font-weight: bold;
   margin: 0 auto;
   color: #222222;
@@ -426,7 +391,7 @@ export default {
   }
   &-bottom {
     display: block;
-    touch-action: none;
+    /*touch-action: none;*/
     height: 50px;
     margin-bottom: -50px;
     line-height: 50px;
@@ -476,6 +441,7 @@ export default {
   }
 
   &-other {
+    min-height: 100%;
     /*background: #FFFFFF;*/
   }
 

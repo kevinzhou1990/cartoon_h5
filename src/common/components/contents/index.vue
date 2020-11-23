@@ -103,7 +103,7 @@ export default {
   },
   mounted() {
     this.comicsInfo.sort = this.comicsInfo.sort || 1;
-    this.$store.dispatch('getContentsData', this.$route.query.cartoon_id);
+    // this.$store.dispatch('getContentsData', this.$route.query.cartoon_id);
   },
   watch: {
     show(n, o) {
@@ -116,6 +116,7 @@ export default {
       }
     },
     'comicsInfo.cartoon_id': function(n, o) {
+      console.log(n, 'cartoon_id');
       this.$store.dispatch('getContentsData', n);
     }
   },

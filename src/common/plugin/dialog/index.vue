@@ -28,7 +28,7 @@ export default {
       }
     },
     confirm() {
-	    this.options.cancel.callback && this.options.confirm.callback();
+	    this.options.confirm.callback();
       this.show = false;
     }
   }

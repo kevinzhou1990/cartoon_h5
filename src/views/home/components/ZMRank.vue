@@ -19,7 +19,7 @@
              :key="articleItem.cartoon_id"
         >
           <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id, 1, item.cate.rank_id)">
-            <div class="rank-item-content-item-img" :style="{ background: 'url('+articleItem.cover+') no-repeat center / cover' }"></div>
+            <img class="rank-item-content-item-img" :src='articleItem.cover' />
             <div class="rank-item-content-item-info">
               <div class="info-rank">
                 <div class="info-rank-l"><span class="l-c">{{`0${ articleItem.rank }`}}</span></div>
@@ -74,6 +74,11 @@ export default {
   },
   mounted() {
     this.rankList = (this.rankData && this.rankData.rank_list) || []
+    // window.showDefaultImg = function(a) {
+    //   console.log('111')
+    //   a.src = '../images/newDefaultBook.png'
+    //   a.onerror = null // 防止死循环
+    // }
     // 做横向滚动时 所设置的监听事件
     // // this.$refs['rank-scroll'].addEventListener('touchstart', this.touchStart)
     // // this.$refs['rank-scroll'].addEventListener('touchend', this.touchEnd)
@@ -139,7 +144,6 @@ export default {
 .pt8 {
   padding-top: 8px;
 }
-
 .rank-main {
   position: relative;
   display: flex;
