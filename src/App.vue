@@ -11,8 +11,8 @@
 export default {
   name: 'App',
   mounted() {
-    console.log(this.$route.meta.keepAlive, this.$route.name)
-    console.log('测试地址202010151741')
+    console.log(this.$route.meta.keepAlive, this.$route.name);
+    console.log('测试地址202010151741');
   }
 };
 </script>
@@ -22,7 +22,7 @@ $BORDER_COLOR: #eee;
 @import './assets/style/1px.scss';
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'pingfang-blod';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
