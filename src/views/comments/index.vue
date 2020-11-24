@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="comments-contents" ref="commentContainer">
+    <div class="comments-contents" :class="!commentsList.length || isFixed ? 'fixed-contents' : ''" ref="commentContainer">
       <div class="comments-contents-top"></div>
       <img src="@/assets/img/main_icon.png" class="icon" alt />
       <template v-if="commentsList.length">
@@ -75,7 +75,7 @@
         <no-data-view
           v-if="remarkType !== 1"
           type="comment"
-          textContent="还有没评论哦，快来抢沙发～"
+          textContent="还没有评论哦，快来抢沙发～"
         ></no-data-view>
       </section>
     </div>
@@ -120,7 +120,8 @@ export default {
       //总页数
       totalPages: 0,
       //是否加载下一页评论数据
-      isLoadNext: true
+      isLoadNext: true,
+      isFixed: false
     };
   },
   asyncData({ store, route }) {
@@ -164,6 +165,8 @@ export default {
           this.nextPage()
         }
       }
+      //禁用ios下拉回弹
+      this.isFixed = this.scrollTop <= 0 && !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
     },
     //获取评论列表
     getCommentsList(isRefresh) {
@@ -347,6 +350,10 @@ export default {
       height: calc(100vh - #{$TITLEHEIGHT} - 88px);
       background: #ffffff;
     }
+  }
+  .fixed-contents{
+    position: fixed !important;
+    width: 100%;
   }
   .loadmore-container {
     background: white;
