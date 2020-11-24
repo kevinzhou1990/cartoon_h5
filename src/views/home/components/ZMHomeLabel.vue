@@ -5,7 +5,7 @@
 */
 <template>
   <div class="main-label" @click.stop="hotMore">
-    <span>{{ labelName }}</span>
+    <span class="main-label-l">{{ labelName }}</span>
     <span class="main-label-r">更多</span>
   </div>
 </template>
@@ -53,6 +53,12 @@ $label-right-fonSize: 10px;
   justify-content: space-between;
   font-weight: bold;
   font-size: $label-fontSize;
+  &-l {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+  }
   &-r {
     color: $label-color;
     font-size: $label-right-fonSize;

@@ -49,7 +49,7 @@
         :comicsList="yourselfLikeComics"
         :style="{ 'padding-bottom': bottomAjax ? '0' : '20px' }"
       ></z-m-comics-scroll>
-      <z-m-no-data></z-m-no-data>
+      <z-m-no-data class="no-data"></z-m-no-data>
       <!-- -->
     </div>
     <div class="main-foot" v-if="showFootFlag">
@@ -367,6 +367,9 @@ export default {
   font-family: 'pingfang-blod';
   font-size: 14px;
   color: #222222;
+}
+.no-data {
+  padding: 20px 0 40px 0 !important;
 }
 .main {
   /*  overflow-scrolling: touch;*/

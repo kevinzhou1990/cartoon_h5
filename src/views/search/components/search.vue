@@ -118,7 +118,6 @@ export default {
 	   * @date: 10/27/20-10:41 上午
 	   */
 	  handleClickSearch(val) {
-	    debugger
       if (!val && !this.placeholderValue) return
 		  let searchContext = val.trim() || this.placeholderValue
 		  setLocalStorage(searchContext)

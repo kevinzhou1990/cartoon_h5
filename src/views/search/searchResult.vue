@@ -11,7 +11,7 @@
     <z-m-loading v-if="showFlag" style="margin-top: 68px;"></z-m-loading>
     <template v-else>
       <div class="result-list" v-if="dataList.length">
-        <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
+        <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :auto-fill='false' ref="loadmore">
           <z-m-search-result-list
               :cartoonList="dataList"
               :count="count"
@@ -55,7 +55,7 @@ export default {
 	    count: 0,
       currentPage: 1,
 	    allLoaded: false,
-	    pageSize: 30,
+	    pageSize: 5,
 	    everyoneData: {
 		    leftName: '大家都在搜',
 		    rightFlag: false,
@@ -110,7 +110,7 @@ export default {
       if (this.allLoaded) return
       this.currentPage++
       this.getData()
-		  this.$refs.loadmore.onTopLoaded()
+		  this.$refs.loadmore.onBottomLoaded()
     }
   }
 }
@@ -119,8 +119,8 @@ export default {
 <style scoped lang="scss">
 .result-list {
   position: relative;
-  height: auto;
-  overflow:scroll;
+  height: 100%;
+  overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
 .search-result-main {
