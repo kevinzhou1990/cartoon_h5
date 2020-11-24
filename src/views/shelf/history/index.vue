@@ -102,7 +102,7 @@ export default {
       }
 
       .content {
-        padding-top: 16px;
+        padding-top: 15px;
         padding-bottom: 15px;
         position: relative;
 

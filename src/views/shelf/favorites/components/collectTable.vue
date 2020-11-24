@@ -84,7 +84,7 @@ export default {
           background: #12e079;
           color: #FFFFFF;
           text-align: center;
-          border-radius: 2px;
+          border-radius: 4px;
           transform: scale(0.83);
           position: absolute;
           top: 12px;
@@ -106,7 +106,7 @@ export default {
           white-space: nowrap;
         }
         .main-content-item-status {
-          padding: 2px 0 8px 0;
+          padding-top: 2px;
           color: #bbbbbb;
           width: 120%;
           transform: scale(0.83);

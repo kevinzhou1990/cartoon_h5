@@ -170,6 +170,6 @@ $BUTTONPADDING: 16px;
   }
 }
 .main-container {
-  padding-top: calc(#{$BUTTONHEIGHT} + #{$BUTTONPADDING * 2});
+  padding-top: calc(#{$BUTTONHEIGHT} + #{$BUTTONPADDING} + #{$BUTTONPADDING / 2});
 }
 </style>

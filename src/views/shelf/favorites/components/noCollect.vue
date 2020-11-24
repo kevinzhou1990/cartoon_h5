@@ -148,4 +148,7 @@ export default {
     }
   }
 
+  .no-data{
+    padding-top: 8px;
+  }
 </style>

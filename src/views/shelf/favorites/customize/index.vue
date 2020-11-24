@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="main-container zm-b-b" v-for="item in customizeList" :key="item.group_id" @click="jumpDetails(item.group_id)" v-if="item.group_id">
       <div
         class="bg-container bg"
@@ -70,74 +70,88 @@ $CONTAINERHEIGHT: 108px;
 $IMGWIDTH: 60px;
 $IMGHEIGHT: 76px;
 $PADDING: 16px;
-.main-container {
-  position: relative;
-  padding: $PADDING;
-  font-family: 'pingfang-blod';
-  height: calc(#{$CONTAINERHEIGHT} - #{$PADDING * 2});
-  .bg-container {
-    width: $IMGWIDTH;
-    height: $IMGHEIGHT;
-    border-radius: 4px;
-    float: left;
+.container {
+  padding-top: 8px;
+
+  .main-container {
     position: relative;
-    &[data-type=new]:before {
-      content: ' ';
+    padding: $PADDING;
+    font-family: 'pingfang-blod';
+    height: calc(#{$CONTAINERHEIGHT} - #{$PADDING * 2});
+
+    .bg-container {
+      width: $IMGWIDTH;
+      height: $IMGHEIGHT;
+      border-radius: 4px;
+      float: left;
+      position: relative;
+
+      &[data-type=new]:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 199%;
+        border: 1px solid #eeeeee;
+        height: 199%;
+        -webkit-transform-origin: left top;
+        transform-origin: left top;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        border-radius: 8px;
+      }
+    }
+
+    .bg {
+      background: url('../../../../assets/img/default_group.png') no-repeat;
+    }
+
+    .add {
       position: absolute;
-      left: 0;
-      top: 0;
-      width: 199%;
-      border: 1px solid #eeeeee;
-      height: 199%;
-      -webkit-transform-origin: left top;
-      transform-origin: left top;
-      -webkit-transform: scale(0.5);
-      transform: scale(0.5);
-      border-radius: 8px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
-  }
-  .bg {
-    background: url('../../../../assets/img/default_group.png') no-repeat;
-  }
-  .add {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .item-container {
-    position: absolute;
-    top: 50%;
-    left: calc(#{$PADDING} * 2 + #{$IMGWIDTH});
-    transform: translate(0%, -50%);
-    .ellipsis {
-      max-width: 230px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-break: break-all;
+
+    .item-container {
+      position: absolute;
+      top: 50%;
+      left: calc(#{$PADDING} * 2 + #{$IMGWIDTH});
+      transform: translate(0%, -50%);
+
+      .ellipsis {
+        max-width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+      }
+
+      .name {
+        font-size: 14px;
+        color: #222222;
+      }
+
+      .full-name {
+        font-size: 14px;
+        color: #e6e6e6;
+      }
+
+      .collect-tip {
+        width: 230px;
+        color: #bbbbbb;
+        margin-top: 8px;
+        margin-left: -20px;
+        transform: scale(0.83);
+      }
     }
-    .name {
-      font-size: 14px;
-      color: #222222;
+
+    .more {
+      position: absolute;
+      right: $PADDING;
+      top: 50%;
+      transform: translate(0%, -50%);
     }
-    .full-name{
-      font-size: 14px;
-      color: #e6e6e6;
-    }
-    .collect-tip {
-      width: 230px;
-      color: #bbbbbb;
-      margin-top: 8px;
-      margin-left: -20px;
-      transform: scale(0.83);
-    }
-  }
-  .more {
-    position: absolute;
-    right: $PADDING;
-    top: 50%;
-    transform: translate(0%, -50%);
   }
 }
 </style>
