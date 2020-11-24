@@ -12,7 +12,7 @@ export default {
   name: 'App',
   mounted() {
     console.log(this.$route.meta.keepAlive, this.$route.name);
-    console.log('测试地址202010151741');
+    console.log('漫画H5--202011241803');
   }
 };
 </script>
