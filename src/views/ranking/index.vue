@@ -1,7 +1,7 @@
 <template>
   <div class="ranking">
     <ZMHeader :titleText="activeName" ref="header" :has-border="hasBoder" />
-    <div class="ranking-wrap" v-if="rankingList.length > 0">
+    <div class="ranking-wrap" v-if="rankingList.length">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
           :class="rank.rank_id === parseInt(activeRank) ? 'actived' : ''"
@@ -120,7 +120,7 @@
       </div>
     </div>
 
-    <no-data-view v-else type="ranking" textContent="还没有排行榜诞生～"></no-data-view>
+    <no-data-view v-else class="no-data" type="ranking" textContent="还没有排行榜诞生～"></no-data-view>
   </div>
 </template>
 
