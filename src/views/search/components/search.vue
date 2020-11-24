@@ -5,7 +5,6 @@
         <form action="javascript:return true" @submit.prevent=''>
           <input
               id="searchInput"
-              autoFocus
               v-model.trim="searchValue"
               ref="searchInput"
               type="search"
@@ -118,6 +117,7 @@ export default {
 	   * @date: 10/27/20-10:41 上午
 	   */
 	  handleClickSearch(val) {
+	    debugger
       if (!val && !this.placeholderValue) return
 		  let searchContext = val.trim() || this.placeholderValue
 		  setLocalStorage(searchContext)

@@ -115,7 +115,7 @@ export default {
     },
     // 登陆title
     loginValueTitle() {
-      return this.loginType === 0 ? '手机号登陆' : '密码登录';
+      return this.loginType === 0 ? '手机号登录' : '密码登录';
     }
   },
   mounted() {

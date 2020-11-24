@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       histroyData: {
-        leftName: '历史搜索',
+        leftName: '历史记录',
         rightFlag: true,
         wordsList: []
       },
@@ -50,14 +50,14 @@ export default {
     this.getCommonSearchWords()
 	  this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
     setTimeout(() => {
-	    document.getElementById('searchInput').focus()
+      document.getElementById('searchInput').focus()
       // 针对IOS 问题解决input的获取焦点 好像没什么效果
       // document.getElementById('search').addEventListener('click', () => {
       //   // this.$children[0].$refs.searchInput.focus()
       //   document.getElementById('searchInput').focus()
 	    //   console.log('search join in ......')
       // })
-    }, 500)
+    }, 300)
   },
   activated() {
     // this.histroyData.wordsList = (localStorage.getItem('HISTROY_WORDS') && JSON.parse(localStorage.getItem('HISTROY_WORDS'))) || []
