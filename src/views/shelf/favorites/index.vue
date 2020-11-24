@@ -29,8 +29,8 @@
         ></no-collect>
       </div>
 
-      <div v-if="active === 'customize'" class="animation-active-in">
-        <customize :customizeList="customizeList"></customize>
+      <div v-else-if="active === 'customize'" class="animation-active-in">
+        <customize :customizeList="customizeList" v-if="customizeList.length"></customize>
       </div>
     </div>
   </div>
