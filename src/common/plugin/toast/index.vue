@@ -2,7 +2,7 @@
   <div class="toast-wrap" :class="`toast-wrap-${toastStyle}`">
     <div class="toast-content" :class="`toast-content-${toastStyle}`" @click="callback">
       <SvgIcon :iconClass="typeMap[type]" class="toast-icon" v-if="toastStyle === 'fixed'" />
-      {{message}}
+      {{ message }}
       <svg-icon iconClass="more_bb" size="small" v-if="toastStyle === 'free'" class="toast-more" />
     </div>
   </div>
@@ -18,7 +18,8 @@ export default {
       typeMap: {
         success: 'success_aa',
         fail: 'fail_aa',
-        tag: 'mark_aa'
+        tag: 'mark_aa',
+        warning: 'warn_aa'
       }
     };
   },
@@ -38,44 +39,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-
-    to {
-      opacity: 1;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-
-    to {
-      opacity: 0;
-    }
+  50% {
+    opacity: 0.5;
   }
 
-  .toast-show {
-    animation: fadeIn .3s;
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
   }
 
-  .toast-hidden {
-    animation: fadeOut .3s;
+  50% {
+    opacity: 0.5;
   }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.toast-show {
+  animation: fadeIn 0.3s;
+}
+
+.toast-hidden {
+  animation: fadeOut 0.3s;
+}
 
 .toast-wrap {
-  animation: fadeIn .3s;
+  animation: fadeIn 0.3s;
   position: fixed;
   display: flex;
   align-items: center;

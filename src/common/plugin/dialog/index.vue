@@ -1,11 +1,13 @@
 <template>
   <div class="dialog-wrap" v-if="show">
     <div class="dialog-content">
-      <SvgIcon iconClass="ca" size="large" class="dialog-icon" />
+      <svg-icon :iconClass="options.icon || 'ca'" size="large" class="dialog-icon" />
       <div class="dialog-msg">{{ message }}</div>
       <div class="dialog-button zm-b-t" v-if="type === 'alert'" @click="confirm">确认</div>
       <div class="dialog-button zm-b-t" v-else>
-        <div @click="cancel" class="zm-b-r" :style="{ color: options.cancel.text_color || '' }">{{ options.cancel.text || '取消' }}</div>
+        <div @click="cancel" class="zm-b-r" :style="{ color: options.cancel.text_color || '' }">
+          {{ options.cancel.text || '取消' }}
+        </div>
         <div @click="confirm">{{ options.confirm.text || '确认' }}</div>
       </div>
     </div>
@@ -23,12 +25,12 @@ export default {
   methods: {
     cancel() {
       if (this.type === 'confirm') {
-	      this.show = false;
-	      this.options.cancel.callback && this.options.cancel.callback();
+        this.show = false;
+        this.options.cancel.callback && this.options.cancel.callback();
       }
     },
     confirm() {
-	    this.options.confirm.callback();
+      this.options.confirm.callback();
       this.show = false;
     }
   }
