@@ -1,5 +1,5 @@
 <template>
-  <transition name="agreement">
+  <transition name="agreement" appear>
     <div class="agree-main" :class="{'box': agreementFlag}">
       <z-m-header :title-text="agreeType" v-show="agreementFlag" has-border></z-m-header>
       <div class="agree-main-content" v-html="userContent"></div>

@@ -4,8 +4,8 @@
       <z-m-header :title-text="loginValueTitle" hasBorder>
         <a slot="left" class="navigation_arrow_left" @click.stop="handleClickClose"></a>
       </z-m-header>
+      <img class="login-banner" :src="loginImg" alt="" />
       <div class="login-content">
-        <img class="login-content-banner" :src="loginImg" alt="" />
         <div class="m-16 login-content-b zm-b-radius">
           <span class="login-content-b-left b-a" @click="handleClickAreaCode"
             >{{ telCode }}
@@ -275,6 +275,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::-webkit-input-placeholder {
+  font-family: PingFangSC-Semibold;
+  font-size: 12px;
+  color: #BBBBBB;
+}
+input {
+  caret-color: #12e079;
+}
 .fade-enter-active {
   animation: fadeInUp 0.5s;
 }
@@ -380,15 +388,15 @@ $label-color: #222222;
     background: url('./images/close.png') no-repeat center;
     background-size: 100%;
   }
+  .login-banner {
+    margin: auto;
+    width: 100%;
+    height: 108px;
+    /*background: url("./images/loginBanner.png") no-repeat center;*/
+    /*background-size: 100%;*/
+  }
   .login-content {
     margin: 4px 16px;
-    &-banner {
-      margin: 4px auto;
-      width: auto;
-      height: 108px;
-      /*background: url("./images/loginBanner.png") no-repeat center;*/
-      /*background-size: 100%;*/
-    }
     &-b {
       width: auto;
       position: relative;
@@ -407,7 +415,7 @@ $label-color: #222222;
         position: relative;
         outline: none;
         border: none;
-        /*height: 42px;*/
+        line-height: 120%;
       }
       &-va {
         position: absolute;
@@ -447,7 +455,7 @@ $label-color: #222222;
     height: 52px;
     line-height: 52px;
     text-align: center;
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 14px;
   }
   .login-pa {

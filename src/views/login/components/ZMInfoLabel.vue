@@ -37,17 +37,19 @@ export default {
 
 <style scoped lang="scss">
 .user-main {
-  position: relative;
+  position: fixed;
+  margin: auto 16px;
   width: auto;
   overflow: hidden;
-  padding-top: 68px;
-  font-size: 10px;
+  /*padding-top: 68px;*/
+  bottom: 16px;
+  font-size: 12px;
   color: #BBBBBB;
   letter-spacing: 0;
   align-items: center;
   text-align: center;
-  transform: scale(0.83);
+  /*transform: scale(0.83);*/
   /*-webkit-transform-origin-x: 0;*/
-  -webkit-transform-origin-y: 0;
+  /*-webkit-transform-origin-y: 0;*/
 }
 </style>
