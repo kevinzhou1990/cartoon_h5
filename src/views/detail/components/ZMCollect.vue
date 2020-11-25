@@ -143,7 +143,7 @@ export default {
     }
     &-bottom {
       display: flex;
-      padding: 0 8px;
+      padding: 0 6px 0 8px;
       line-height: 16px;
       &-img {
         width: 16px;
