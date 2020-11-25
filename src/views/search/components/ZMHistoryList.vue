@@ -1,5 +1,8 @@
 <template>
-  <div class="history-main" v-if="wordsData && wordsData.wordsList.length">
+  <div class="history-main"
+       :class="{mt: !isShowActiveFlag && !wordsData.rightFlag}"
+       v-if="wordsData && wordsData.wordsList.length"
+  >
     <div class="label">
       <span>{{ wordsData.leftName }}</span>
       <span class="right-cancel" @click.stop="handleClickDel" v-if="!isShowActiveFlag && wordsData.rightFlag"></span>
@@ -35,7 +38,7 @@ export default {
   },
   data() {
     return {
-	    isShowActiveFlag: false // 现实删除历史按钮
+	    isShowActiveFlag: false // 显示删除历史按钮
     }
   },
   components: {
@@ -84,6 +87,10 @@ export default {
   .dl {
     color: #BBBBBB !important;
   }
+.mt {
+  margin-top: 40px;
+  padding-top: 0 !important;
+}
 .history-main {
   position: relative;
   overflow: hidden;
@@ -110,7 +117,7 @@ export default {
   .content {
     display: flex;
     flex-wrap: wrap;
-    margin: 8px auto;
+    margin: auto;
     &-bg {
       margin: 8px;
       /*max-width: 150px;*/

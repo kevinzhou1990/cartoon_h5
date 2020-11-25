@@ -63,6 +63,7 @@
             ></span>
           </div>
           <div
+              style="margin: 8px auto"
               class="login-btn m-8"
               :class="{'theme-bg': isSetBtnFlag}"
               @click.stop="handleClickSurePassword"
@@ -95,7 +96,7 @@ export default {
   data() {
     return {
 	    forgetFlag: false,
-		  titleContent: '忘记密码',
+		  titleContent: '重新设置密码',
       nextCheckCode: '', // 调用设置密码完成需要使用
 	    isSetBtnFlag: false, // 设置
 	    newPasswordVal: '' // 新密码
@@ -269,9 +270,9 @@ export default {
         position: absolute;
         right: 16px;
         width: auto;
-        font-size: 10px;
+        font-size: 12px;
         color: #E6E6E6;
-        transform: scale(0.83);
+        /*transform: scale(0.83);*/
         /*-webkit-transform-origin-x: 0;*/
       }
     }
@@ -279,9 +280,9 @@ export default {
       display: block;
       padding: 12px 0;
       color: #BBBBBB;
-      font-size: 10px;
+      font-size: 12px;
       text-align: center;
-      transform: scale(0.83);
+      /*transform: scale(0.83);*/
       /*-webkit-transform-origin-x: 0;*/
     }
     &-p {

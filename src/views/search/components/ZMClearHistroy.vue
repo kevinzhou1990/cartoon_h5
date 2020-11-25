@@ -72,7 +72,7 @@ export default {
   height: 32px;
   /*justify-content: space-between;*/
   background: #F5F5F5;
-  border-radius: 16px;
+  border-radius: 18px;
   .left {
     display: block;
     padding: 0;

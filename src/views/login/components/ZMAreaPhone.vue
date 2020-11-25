@@ -1,7 +1,9 @@
 <template>
   <transition name="area">
-  <div class="area-main" v-show="areaFlag">
-    <div class="area-gray"></div>
+    <div class="area-main" v-show="areaFlag">
+<!--    <transition name="bgOpacity" appear mode="out-in">-->
+      <div class="area-gray"></div>
+<!--    </transition>-->
     <div class="area-content" v-if="dataList.length">
       <div class="area-content-title">
         选择国家/地区
@@ -97,6 +99,12 @@ export default {
   .area-leave-active {
     animation: fadeInDown 0.5s;
   }
+  .bgOpacity-enter-active {
+    animation: bgFadeIn 0.5s;
+  }
+  .bgOpacity-leave-active {
+    animation: bgFadeIn 0.5s;
+  }
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -116,6 +124,17 @@ export default {
 
     to {
       opacity: 1;
+      transform: translate3d(0, 100%, 0);
+    }
+  }
+  @keyframes bgFadeIn {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      opacity: 0.5;
       transform: translate3d(0, 100%, 0);
     }
   }

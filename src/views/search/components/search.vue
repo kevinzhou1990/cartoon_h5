@@ -157,11 +157,14 @@ input[type="text"]{
 input[type=search]::-webkit-search-cancel-button{
   -webkit-appearance: none;
 }
+input {
+  caret-color: #12e079;
+}
 .search {
   /*position: relative;*/
   display: flex;
   height: 52px;
-  margin: 8px auto;
+  margin: 4px auto;
   font-family: 'pingfang-blod';
   .content {
     position: relative;
