@@ -268,6 +268,7 @@ export default {
               color: #bbbbbb;
               transform: scale(0.84);
               transform-origin: right;
+              //保留空格
               white-space: pre-wrap;
             }
 

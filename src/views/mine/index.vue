@@ -128,6 +128,8 @@ export default {
       line-height: 64px;
       padding-left: 16px;
       align-items: center;
+      //保留空格
+      white-space: pre-wrap;
     }
   }
   .mine-game-config {
