@@ -13,7 +13,7 @@
     </z-m-search-result>
     <section v-else>
       <z-m-history-list :words-data="histroyData"></z-m-history-list>
-      <z-m-history-list :words-data="everyoneData"></z-m-history-list>
+      <z-m-history-list :words-data="everyoneData" :class="{'mt-40' : histroyData.wordsList.length}"></z-m-history-list>
     </section>
   </div>
 </template>
@@ -89,5 +89,9 @@ export default {
   position: relative;
   margin: 0 auto;
   padding: 0;
+}
+.mt-40 {
+  margin-top: 40px;
+  padding-top: 0 !important;
 }
 </style>

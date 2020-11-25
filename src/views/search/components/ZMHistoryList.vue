@@ -1,6 +1,5 @@
 <template>
   <div class="history-main"
-       :class="{mt: !isShowActiveFlag && !wordsData.rightFlag}"
        v-if="wordsData && wordsData.wordsList.length"
   >
     <div class="label">
@@ -59,9 +58,6 @@ export default {
       this.wordsData.wordsList = []
       this.isShowActiveFlag = false
     },
-	  handleClickClearFlag(val) {
-		  this.isShowActiveFlag = val
-    },
 	  /**
 	   * @info: go to comics detail
 	   * @author: PengGeng
@@ -87,10 +83,6 @@ export default {
   .dl {
     color: #BBBBBB !important;
   }
-.mt {
-  margin-top: 40px;
-  padding-top: 0 !important;
-}
 .history-main {
   position: relative;
   overflow: hidden;
