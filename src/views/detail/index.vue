@@ -191,7 +191,7 @@ export default {
       this.zmCollectData = {
         score: cartoonData.score ? cartoonData.score.toFixed(1) : 0, // 评分
         evalNum: cartoonData.eval_num || 0, // 评价数
-        shelfNum: cartoonData.shelf_num || 0 // 被加入书架量
+        shelfNum: cartoonData.shelf_num_text || 0 // 被加入书架量
       };
 
       if (this.textContent) {
