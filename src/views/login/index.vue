@@ -192,7 +192,7 @@ export default {
           return;
         }
         if (!this.regExp.test(this.passwordVal)) {
-          this.Toast('账号或密码错误', { type: 'warning', duration: 1000 });
+          this.Toast('密码格式不正确，请重新输入', { type: 'warning', duration: 1000 });
           return;
         }
       }

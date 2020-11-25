@@ -10,15 +10,22 @@
     ></z-m-search>
     <z-m-loading v-if="showFlag" style="margin-top: 68px;"></z-m-loading>
     <template v-else>
-      <div class="result-list" v-if="dataList.length">
-        <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" :auto-fill='false' ref="loadmore">
-          <z-m-search-result-list
-              :cartoonList="dataList"
-              :count="count"
-          ></z-m-search-result-list>
-          <z-m-no-data v-if="allLoaded"></z-m-no-data>
-        </mt-loadmore>
-      </div>
+        <is-scroll
+                 ref="ZMScroll"
+                 v-if="dataList.length"
+                 class="result-list"
+                 :topAjax=false
+                 :bottom-ajax="bottomAjax"
+                 :is-bottom-ajax="isBottomAjax"
+                 @to-bottom-ajax="nextPage">
+          <div slot="srcoll-main">
+            <z-m-search-result-list
+                :cartoonList="dataList"
+                :count="count"
+            ></z-m-search-result-list>
+            <z-m-no-data v-if="!bottomAjax"></z-m-no-data>
+          </div>
+        </is-scroll>
       <section v-else style="position: relative; margin-top: 68px;">
         <no-data-view
             :type="'search'"
@@ -36,6 +43,7 @@
 
 <script>
 import ZMSearch from './components/search'
+import isScroll from '@/common/components/scrollAjax/index';
 import ZMSearchResultList from '@/views/search/components/ZMSearchResultList'
 import ZMSearchRecommend from '@/views/search/components/ZMSearchRecommend'
 import noDataView from '@/common/components/noDataView'
@@ -54,14 +62,15 @@ export default {
 	    totalPages: 0,
 	    count: 0,
       currentPage: 1,
-	    allLoaded: false,
-	    pageSize: 5,
+	    pageSize: 30,
 	    everyoneData: {
 		    leftName: '大家都在搜',
 		    rightFlag: false,
 		    wordsList: ['桃花运是冒险', '桃花运是冒险1', '桃花运是冒险2', '桃花运是冒险3', '桃花运是冒险4']
 	    },
-	    showFlag: false
+	    showFlag: false,
+      bottomAjax: true,
+      isBottomAjax: true
     }
   },
   components: {
@@ -71,12 +80,16 @@ export default {
 	  noDataView,
 	  ZMHistoryList,
 	  ZMLoading,
-	  ZMNoData
+	  ZMNoData,
+    isScroll
   },
   mounted() {
     this.searchVal = this.$route.query.searchValue || ''
     sessionStorage.setItem('name', this.searchVal)
     this.getData()
+    // this.$nextTick(() => {
+    //   this.$refs.ZMScroll && this.$refs['ZMScroll'].resetInit()
+    // })
   },
   methods: {
 	  /**
@@ -100,17 +113,18 @@ export default {
         this.count = resData.data.count
 	      this.showFlag = false
         if (this.currentPage >= this.totalPages){
-          this.allLoaded = true
+          this.bottomAjax = false
+          this.isBottomAjax = false
         }
+        this.$refs.ZMScroll && this.$refs['ZMScroll'].resetInit()
       } else {
         this.$toast(resData.msg || '系统出错,请稍后重试')
       }
     },
 	  nextPage() {
-      if (this.allLoaded) return
+      if (!this.bottomAjax) return
       this.currentPage++
       this.getData()
-		  this.$refs.loadmore.onBottomLoaded()
     }
   }
 }
@@ -118,9 +132,9 @@ export default {
 
 <style scoped lang="scss">
 .result-list {
-  position: relative;
   height: 100%;
-  overflow: scroll;
+  padding-bottom: 0!important;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
 }
 .search-result-main {

@@ -29,7 +29,11 @@
 import {throttle} from 'lib/utils'
 export default {
   props: {
-    bottomAjax: { // 是否现实上拉加载
+    topAjax: { // 是否可以往下拉
+      type: Boolean,
+      default: true
+    },
+    bottomAjax: { // 是否上拉加载
       type: Boolean,
       default: false
     },
@@ -41,7 +45,7 @@ export default {
   data() {
     return {
       topTips: '下拉刷新数据',
-      topAjax: true, // 是否可以往下拉
+      // topAjax: true, // 是否可以往下拉
       startY: 0, // 手指点击屏幕的到顶部的距离
       move: 0, // 手指滑动的距离
       topScrollLength: 40, // 手指滑动超过50 开始请求
