@@ -212,6 +212,8 @@ export default {
 }
 .point-customs-active {
   display: inline-block;
+  margin-bottom: 21px;
+  align-items: center;
   width: 8px;
   height: 0.1rem;
   background: #12e079;

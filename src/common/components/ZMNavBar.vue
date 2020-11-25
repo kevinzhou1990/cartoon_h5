@@ -155,9 +155,13 @@ $item-color: #bbbbbb;
   &:after {
     content: ' ';
     display: block;
+    position: absolute;
+    left: 50%;
+    top: 52px;
+    width: 24px;
+    transform: translateX(-50%);
     border-bottom: 2px solid $item-selected-color;
-    /*width: 24px;*/
-    margin: 0 8px;
+    /*margin: 0 8px;*/
   }
 }
 </style>

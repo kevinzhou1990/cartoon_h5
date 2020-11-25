@@ -189,7 +189,7 @@ export default {
               padding: 0 2px;
               min-width: 32px;
               height: 20px;
-              border: 1px solid $chapter-color;
+              border: 1px solid rgba(0,0,0,0.2);
               border-radius: 4px;
               text-align: center;
               line-height: 20px;

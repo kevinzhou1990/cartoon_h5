@@ -85,6 +85,7 @@ export default {
     }
 
     &-title {
+      font-size: 14px;
       display: inline-block;
       padding: 8px 0 2px 0;
       overflow: hidden;
