@@ -102,7 +102,7 @@ export default {
       }
 
       .content {
-        padding-top: 15px;
+        padding-top: 16px;
         padding-bottom: 15px;
         position: relative;
 
@@ -128,7 +128,6 @@ export default {
           }
 
           .other {
-            width: calc(100% * 1.202);
             display: -webkit-flex;
             display: flex;
             -webkit-justify-content: flex-start;

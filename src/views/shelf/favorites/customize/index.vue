@@ -141,7 +141,6 @@ $PADDING: 16px;
         width: 230px;
         color: #bbbbbb;
         margin-top: 8px;
-        margin-left: -20px;
         /*transform: scale(0.83);*/
       }
     }

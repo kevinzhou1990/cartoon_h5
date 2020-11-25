@@ -107,7 +107,6 @@ export default {
         .main-content-item-status {
           padding-top: 2px;
           color: #bbbbbb;
-          width: 120%;
           /*transform: scale(0.83);*/
           /*-webkit-transform-origin: 0;*/
           overflow: hidden;
