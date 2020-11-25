@@ -329,6 +329,11 @@
           .catch(function(error) {
             //失败时执行
             console.log('lrz失败', error);
+            that.onCancel();
+            that.Toast('图片加载失败,请稍后重试', {
+              type: 'fail',
+              duration: 3000
+            });
           })
           .always(function() {
             //不管成功或失败，都会执行

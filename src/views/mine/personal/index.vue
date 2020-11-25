@@ -268,6 +268,7 @@ export default {
               color: #bbbbbb;
               transform: scale(0.84);
               transform-origin: right;
+              white-space: pre-wrap;
             }
 
             .avatar{

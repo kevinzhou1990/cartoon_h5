@@ -17,6 +17,7 @@
         <div class="input-container">
           <input
             placeholder="给自己起个响亮的名字吧，不超过10个字哦～"
+            @input="testNickname"
             class="nickname-input"
             v-model= nickname
             maxlength="10"
@@ -70,6 +71,10 @@
           }
           this.isLoading = false
         })
+      },
+      testNickname(){
+        //去除首空格
+        this.nickname = this.nickname.replace(/(^\s*)/g, '')
       }
     }
   };
