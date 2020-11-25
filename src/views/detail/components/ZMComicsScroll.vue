@@ -88,10 +88,10 @@ export default {
 
       }
       &-chapter {
-        font-size: 10px;
+        font-size: 12px;
         color: #bbbbbb;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;

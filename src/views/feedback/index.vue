@@ -218,7 +218,7 @@ export default {
         height: 100%;
       }
       span {
-        transform: scale(0.83);
+        /*transform: scale(0.83);*/
         transform-origin: center;
       }
       input {
@@ -244,7 +244,7 @@ export default {
     span {
       display: inline-block;
       color: #999;
-      transform: scale(0.83);
+      /*transform: scale(0.83);*/
       transform-origin: center;
     }
   }

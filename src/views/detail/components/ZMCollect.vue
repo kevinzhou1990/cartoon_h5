@@ -126,9 +126,9 @@ export default {
       }
       &-img {
         padding: 4px 0;
-        font-size: 10px;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        font-size: 12px;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
         letter-spacing: 0;
         white-space: nowrap;
         &-text {
@@ -152,9 +152,9 @@ export default {
       &-text {
         padding-left: 4px;
         color: rgba(255, 255, 255, 0.6);
-        font-size: 10px;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        font-size: 12px;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
       }
     }
     &-line {

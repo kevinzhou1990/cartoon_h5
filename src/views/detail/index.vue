@@ -272,7 +272,7 @@ export default {
 $content-color: #ffffff;
 $content-title-fontSize: 18px;
 $content-author-fontSize: 12px;
-$content-label-fontSize: 10px;
+$content-label-fontSize: 12px;
 @mixin headerRight {
   width: 24px;
   height: 24px;
@@ -347,8 +347,8 @@ $content-label-fontSize: 10px;
         &-label {
           display: flex;
           font-size: $content-label-fontSize;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
+          /*transform: scale(0.83);*/
+          /*-webkit-transform-origin-x: 0;*/
 
           &-content {
             position: relative;

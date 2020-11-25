@@ -288,9 +288,9 @@ export default {
 
         .collect-content-left-img {
           padding: 4px 0;
-          font-size: 10px;
-          transform: scale(0.83);
-          -webkit-transform-origin-x: 0;
+          font-size: 12px;
+          /*transform: scale(0.83);*/
+          /*-webkit-transform-origin-x: 0;*/
           letter-spacing: 0;
           white-space: nowrap;
           .collect-content-left-img-text {

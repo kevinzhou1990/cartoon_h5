@@ -77,9 +77,9 @@ export default {
   $COVERHEIGHT: 96px;
   $PADDINGLEFT: 16px;
   .scale{
-    -webkit-transform: scale(0.83);
-    transform: scale(0.83);
-    transform-origin: 0;
+    /*-webkit-transform: scale(0.83);*/
+    /*transform: scale(0.83);*/
+    /*transform-origin: 0;*/
   }
 
   .ellipsis {

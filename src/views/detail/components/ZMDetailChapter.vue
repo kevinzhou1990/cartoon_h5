@@ -60,10 +60,10 @@ export default {
 $font-color: #bbbbbb !default;
 @mixin font10px($font-color) {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   color: $font-color;
-  transform: scale(0.83);
-  -webkit-transform-origin-x: 0;
+  /*transform: scale(0.83);*/
+  /*-webkit-transform-origin-x: 0;*/
 }
 .main-chapter {
   display: inline-block;
@@ -73,12 +73,12 @@ $font-color: #bbbbbb !default;
   align-content: center;
   &-text {
     box-sizing: border-box;
-    font-size: 10px;
+    font-size: 12px;
     margin: 16px 0 8px 16px;
     color: #bbbbbb;
     letter-spacing: 0;
-    transform: scale(0.83);
-    -webkit-transform-origin-x: 0;
+    /*transform: scale(0.83);*/
+    /*-webkit-transform-origin-x: 0;*/
   }
   &-info {
     display: flex;
@@ -122,8 +122,8 @@ $font-color: #bbbbbb !default;
         vertical-align: middle;
         background: url('../../../assets/img/more_chapter.png') no-repeat;
         background-size: 100%;
-        transform: scale(0.83);
-        -webkit-transform-origin-y: 0;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-y: 0;*/
       }
     }
   }

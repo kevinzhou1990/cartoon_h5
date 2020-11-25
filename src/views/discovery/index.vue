@@ -266,9 +266,9 @@ export default {
       z-index: 1;
       span {
         display: inline-block;
-        font-size: 10px;
-        transform: scale(0.83);
-        transform-origin: 0;
+        font-size: 12px;
+        /*transform: scale(0.83);*/
+        /*transform-origin: 0;*/
       }
     }
   }
@@ -284,8 +284,8 @@ export default {
     z-index: 3;
     span {
       display: inline-block;
-      font-size: 10px;
-      transform: scale(0.83);
+      font-size: 12px;
+      /*transform: scale(0.83);*/
     }
   }
   .discovery-filter-icon-loading {

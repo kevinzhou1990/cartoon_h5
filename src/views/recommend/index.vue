@@ -240,7 +240,7 @@ $xLineLength: 3px !default;
 }
 .icon-r-g {
   @include iconBg;
-  right: 20px;
+  right: 21px;
   transition: all 0.3s ease-in-out;
   background: url('./images/block_bb.png') no-repeat;
   background-size: 100%;
@@ -251,7 +251,7 @@ $xLineLength: 3px !default;
   @include imgSet(list_ba) /*background: url("./images/list_ba.png") no-repeat;*/ /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
 }
 .icon-l-g-r {
-  right: 20px;
+  right: 21px;
   @include iconBg;
   @include imgSet(block_ba) /*background: url("./images/block_ba.png") no-repeat;*/ /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
 }

@@ -132,7 +132,7 @@ export default {
     white-space: nowrap;
     word-break: break-word;
     overflow-x: hidden;
-    margin-left: 48px;
+    margin-left: 40px;
     &-text {
       width: 327px;
       padding-left: 16px;

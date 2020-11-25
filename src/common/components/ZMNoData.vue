@@ -21,8 +21,8 @@ export default {
   text-align: center;
   padding: 20px 0;
   color: #BBBBBB;
-  font-size: 10px;
-  transform: scale(0.83);
+  font-size: 12px;
+  /*transform: scale(0.83);*/
   width: 100%;
 }
 </style>

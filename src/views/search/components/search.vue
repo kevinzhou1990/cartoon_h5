@@ -169,7 +169,7 @@ input {
   .content {
     position: relative;
     margin: 8px 16px;
-    padding-left: 40px;
+    padding-left: 35px;
     font-size: 12px;
     color: #BBBBBB;
     letter-spacing: 0;

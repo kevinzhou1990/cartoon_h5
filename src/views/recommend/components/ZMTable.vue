@@ -60,9 +60,9 @@ export default {
 @mixin chapterSize {
   font-weight: bold;
   color: #bbbbbb;
-  font-size: 10px;
-  transform: scale(0.83);
-  -webkit-transform-origin: 0;
+  font-size: 12px;
+  /*transform: scale(0.83);*/
+  /*-webkit-transform-origin: 0;*/
 }
 
 .main-content {

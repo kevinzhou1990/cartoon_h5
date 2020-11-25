@@ -78,14 +78,13 @@ export default {
         padding: 8px 4px;
         position: relative;
         .update-tip{
-          width: calc(36px / 0.83);
-          height: calc(18px / 0.83);
-          line-height: calc(18px / 0.83);
+          width: 36px;
+          height: 18px;
+          line-height: 18px;
           background: #12e079;
           color: #FFFFFF;
           text-align: center;
           border-radius: 4px;
-          transform: scale(0.83);
           position: absolute;
           top: 12px;
           right: 8px;
@@ -109,8 +108,8 @@ export default {
           padding-top: 2px;
           color: #bbbbbb;
           width: 120%;
-          transform: scale(0.83);
-          -webkit-transform-origin: 0;
+          /*transform: scale(0.83);*/
+          /*-webkit-transform-origin: 0;*/
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -121,7 +120,7 @@ export default {
       color: #BBBBBB;
       margin: 40px auto;
       text-align: center;
-      transform: scale(0.83);
+      /*transform: scale(0.83);*/
     }
 
     .no-data{

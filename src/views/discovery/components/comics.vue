@@ -54,8 +54,8 @@ export default {
     white-space: nowrap;
     span {
       display: inline-block;
-      transform: scale(0.83);
-      transform-origin: 0;
+      /*transform: scale(0.83);*/
+      /*transform-origin: 0;*/
     }
   }
 }

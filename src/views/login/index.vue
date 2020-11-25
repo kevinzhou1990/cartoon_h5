@@ -351,6 +351,7 @@ $label-color: #222222;
 }
 .theme-bg {
   background: #12e079 !important;
+  color: #ffffff !important;
 }
 .b-a {
   &:after {
@@ -421,9 +422,9 @@ $label-color: #222222;
         position: absolute;
         right: 16px;
         width: auto;
-        font-size: 10px;
+        font-size: 12px;
         color: #e6e6e6;
-        transform: scale(0.83);
+        /*transform: scale(0.83);*/
         /*-webkit-transform-origin-x: 0;*/
       }
       &-right {

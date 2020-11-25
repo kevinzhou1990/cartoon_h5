@@ -90,14 +90,14 @@ export default {
         word-break: break-word;
       }
       &-author {
-        font-size: 10px;
-        transform: scale(0.83);
+        font-size: 12px;
         color: #BBBBBB;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
         word-break: break-word;
-        -webkit-transform-origin-x: 0;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
       }
     }
   }

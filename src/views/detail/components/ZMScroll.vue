@@ -357,8 +357,8 @@ export default {
   text-align: center;
 }
 .new-comics {
-  font-size: 10px;
-  transform: scale(0.83);
+  font-size: 12px;
+  /*transform: scale(0.83);*/
   /*-webkit-transform-origin-x: 0;*/
   padding: 0 0 2px 0;
   color: #bbbbbb;
@@ -430,14 +430,16 @@ export default {
     }
 
     .center {
-      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin: 10px 22px;
       width: 135px;
       height: 36px;
       background: #12e079;
       border-radius: 4px;
       text-align: center;
-      line-height: 36px;
+      /*line-height: 36px;*/
       font-size: 14px;
       color: #ffffff;
     }

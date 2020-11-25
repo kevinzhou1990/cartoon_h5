@@ -142,7 +142,7 @@ $PADDING: 16px;
         color: #bbbbbb;
         margin-top: 8px;
         margin-left: -20px;
-        transform: scale(0.83);
+        /*transform: scale(0.83);*/
       }
     }
 

@@ -173,16 +173,16 @@ export default {
             padding: 0 2px;
             color: $chapter-color;
             font-size: $chapter-fontSize;
-            transform: scale(0.83);
-            -webkit-transform-origin-x: 0;
+            /*transform: scale(0.83);*/
+            /*-webkit-transform-origin-x: 0;*/
           }
 
           &-label {
             margin: 2px 2px;
             color: $chapter-color;
-            font-size: $chapter-fontSize;
-            transform: scale(0.83);
-            -webkit-transform-origin-x: 0;
+            font-size: 12px;
+            /*transform: scale(0.83);*/
+            /*-webkit-transform-origin-x: 0;*/
 
             .s-border {
               display: inline-block;

@@ -102,9 +102,9 @@ export default {
   $font-color: #BBBBBB !default;
   @mixin font10px($font-color) {
     color: $font-color;
-    font-size: 10px;
-    transform: scale(0.83);
-    -webkit-transform-origin-x: 0;
+    font-size: 12px;
+    /*transform: scale(0.83);*/
+    /*-webkit-transform-origin-x: 0;*/
   }
 .main-remark {
   position: relative;
@@ -120,10 +120,10 @@ export default {
       position: absolute;
       right: 12px;
       color: #BBBBBB;
-      font-size: 10px;
+      font-size: 12px;
       line-height: 26px;
-      transform: scale(0.83);
-      -webkit-transform-origin-x: 0;
+      /*transform: scale(0.83);*/
+      /*-webkit-transform-origin-x: 0;*/
       margin-right: 4px;
       &:after {
         display: inline-block;

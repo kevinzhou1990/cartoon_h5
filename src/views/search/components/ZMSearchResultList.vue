@@ -125,8 +125,8 @@ export default {
         width: 317px;
         line-height: 14px;
         color: #BBBBBB;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
         &-author {
           display: inline-block;
           vertical-align: middle;
@@ -150,9 +150,9 @@ export default {
       &-label {
         margin: 4px 0;
         color: #BBBBBB;
-        font-size: 10px;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        font-size: 12px;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
         .s-border {
           display: inline-block;
           min-width: 32px;
@@ -165,11 +165,11 @@ export default {
         }
       }
       &-com {
-        font-size: 10px;
+        font-size: 12px;
         width: 317px;
         color: #BBBBBB;
-        transform: scale(0.83);
-        -webkit-transform-origin-x: 0;
+        /*transform: scale(0.83);*/
+        /*-webkit-transform-origin-x: 0;*/
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-word;
