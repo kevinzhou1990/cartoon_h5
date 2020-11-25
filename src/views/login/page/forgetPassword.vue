@@ -108,6 +108,7 @@ export default {
   },
   mounted() {
     this.forgetFlag = true
+    this.telPhoneNum = sessionStorage.getItem('text_phone')
   },
   methods: {
 	  back() {
