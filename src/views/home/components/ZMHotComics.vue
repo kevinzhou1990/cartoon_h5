@@ -21,7 +21,7 @@
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>
     </div>
-    <div class="hot-main-btn" v-if="hotComicsList.length">
+    <div class="hot-main-btn" v-if="hotComicsList.length >= 6">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
     <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>

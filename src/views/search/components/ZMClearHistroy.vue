@@ -53,13 +53,13 @@ export default {
 
 <style scoped lang="scss">
 .active-in {
-  animation: slidein 500ms;
+  animation: slidein 0.5s;
 }
 .active-out {
-  animation: slideout 500ms;
+  animation: slideout 0.5s;
 }
 @keyframes slidein {
-  from { margin-right: -116px }
+  from { margin-right: -58px }
   to   { margin-right: 0 }
 }
 @keyframes slideout {
@@ -72,13 +72,13 @@ export default {
   height: 32px;
   /*justify-content: space-between;*/
   background: #F5F5F5;
-  border-radius: 18px;
+  border-radius: (18/0.83) + px;
   .left {
     display: block;
     padding: 0;
     box-sizing: content-box;
-    width: 82px;
-    height: 37px;
+    width: (68/0.83)+px;
+    height: (32/0.83)+px;
     line-height: 36px;
     font-family: pingfang-blod;
     font-size: 12px;
@@ -86,7 +86,7 @@ export default {
     letter-spacing: 0;
     text-align: center;
     background: #FF3456;
-    border-radius: 16px;
+    border-radius: (16/0.83) + px;
     -webkit-transform-origin-x: 0;
     -webkit-transform-origin-y: 0;
   }
