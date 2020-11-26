@@ -96,11 +96,13 @@ service.intercept({
 
   //请求失败
   fail(res) {
+    if (res.status !== 999){
+      Toast(res.msg || '系统出错,请稍后重试', {
+        type: 'fail',
+        duration: 3000
+      });
+    }
     const code = parseInt(res.status);
-    Toast(res.msg || '系统出错,请稍后重试', {
-      type: 'fail',
-      duration: 3000
-    });
     return { code, msg: res.msg, res: res.data };
   },
 
