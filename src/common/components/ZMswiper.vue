@@ -213,11 +213,18 @@ export default {
   line-height: 6px;
   transition: width 0.3s ease-in-out;
 }
+.swiper-container-horizontal > .swiper-pagination-bullets {
+  bottom: 8px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
 .point-customs-active {
   /*display: inline-block;*/
   /*margin-bottom: 21px;*/
   align-items: center;
-  margin: 21px auto;
+  /*margin: 21px auto;*/
   width: 10px;
   height: 4px;
   line-height: 6px;
