@@ -21,7 +21,7 @@
         <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
       </div>
     </div>
-    <div class="hot-main-btn" v-if="hotComicsList.length >= 6">
+    <div class="hot-main-btn" v-if="hotComicsList.length >= 6 || nowPages!==1">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
     </div>
     <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list"></z-m-home-a-d>
@@ -50,7 +50,8 @@ export default {
       currentPage: 2,
       pageSize: 6,
       totalPages: 1,
-      ad_list: []
+      ad_list: [],
+      nowPages: 1 // 当前在第几页
     }
   },
   components: {
@@ -70,11 +71,11 @@ export default {
      * @date: 8/20/20-11:16 上午
      */
     async handleChange() {
+      this.nowPages = this.currentPage
       const reqData = {
         page: this.currentPage,
         page_size: this.pageSize
       }
-      console.log(reqData)
       const resData = await getMoreComics(this.recId, reqData)
       if (resData && resData.code === 0){
         this.hotComicsList = resData.data.cartoon_list

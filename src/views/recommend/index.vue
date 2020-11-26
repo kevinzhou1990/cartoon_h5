@@ -13,7 +13,7 @@
       <z-m-nav-bar :tabListData="tabListData" :acticeIndex="acticeIndex" @getRecommendData="getComicsList"></z-m-nav-bar>
     </div>
     <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
-      <div class="ba" v-if="dataList.length && !isLightIcon">
+      <div class="ba" v-if="adBannerList.length && !isLightIcon">
         <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight" :banner-width="343"></z-mswiper>
       </div>
       <div>
@@ -67,7 +67,7 @@ export default {
       blockBa: require('./images/block_ba.png'),
       showDataFlag: false, // 显示是否显示没有网络的情况
       isRecLoading: false,
-      adBannerList: [defaultBanner, defaultBanner, defaultBanner], // 广告
+      adBannerList: [], // 广告
       bannerHeight: 86,
       currentPage: 1,
       allLoaded: false,
@@ -97,6 +97,7 @@ export default {
     this.$store.commit('SET_REC_DATA', JSON.parse(sessionStorage.getItem('vuex')).home.recData);
     this.$nextTick(() => {
       this.wrapperHeight = document.documentElement.clientHeight - 90;
+      this.adBannerList = (this.dataList && this.dataList.ad_list) || []
     });
   },
   methods: {
@@ -113,7 +114,8 @@ export default {
       this.isRecLoading = true;
       const res = this.$store.dispatch('getRecommendList', { secId: this.SEC_ID || 1, pageInfo: reqData });
       res.then((resData) => {
-        if (res.code === 0) {
+        if (resData.code === 0) {
+          this.adBannerList = resData.data && resData.data.ad_list
           this.isRecLoading = false;
           if (this.currentPage >= this.pageInfo.totalPage) {
             setTimeout(() => {

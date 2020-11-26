@@ -167,7 +167,7 @@ export default {
   .swiper-img {
     width: 100%;
     height: 300px;
-    background: url("../../assets/img/defaultBanner.png") no-repeat center;
+    /*background: url("../../assets/img/defaultBanner.png") no-repeat center;*/
     background-size: 100%;
   }
 
