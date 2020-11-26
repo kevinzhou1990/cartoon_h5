@@ -10,7 +10,7 @@
       <z-m-swiper :bannerList="bannerList" isBottomImg></z-m-swiper>
       <is-scroll
         ref="zm-scroll"
-        @on-top-ajax="resfreshPage"
+        :top-ajax="topAjax"
         :bottom-ajax="bottomAjax"
         :is-bottom-ajax="isBottomAjax"
         @to-bottom-ajax="nextPage"
@@ -84,7 +84,8 @@ export default {
     return {
       bottomAjax: false, // 是否上拉加载文字
       isBottomAjax: false, // 是否触发上拉加载的回调
-      isNoMoreData: false // 是否还有更多数据
+      isNoMoreData: false, // 是否还有更多数据
+      topAjax: false
     };
   },
   asyncData({ store, route }) {
