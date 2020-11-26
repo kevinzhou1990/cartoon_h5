@@ -49,7 +49,7 @@ export default {
   methods: {
     start(key, index) {
       this.isSelected = key;
-      this.currentIndex = index;
+      this.currentIndex = index || 0;
       this.$emit('getRecommendData', this.isSelected);
       /**
        * 1)先让选中的元素滚到可视区域的最左边 scrollLeft

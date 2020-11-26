@@ -58,12 +58,12 @@ export default {
       swiperObjOptions: {
         preventClicksPropagation: false,
         // autoplay
-        autoplay: {
-          delay: 3000,
-          stopOnLastSlide: false,
-          // 触摸滑动后是否继续轮播
-          disableOnInteraction: false
-        },
+        // autoplay: {
+        //   delay: 3000,
+        //   stopOnLastSlide: false,
+        //   // 触摸滑动后是否继续轮播
+        //   disableOnInteraction: false
+        // },
         on: {
           click(swiper, event) {
             // 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
@@ -187,8 +187,9 @@ export default {
   display: inline-block;
   width: 6px;
   height: 6px;
+  line-height: 6px;
   border: 1px solid #ffffff;
-  margin: 0 4px;
+  margin: 0 4px !important;
   border-radius: 50%;
   transition: width 0.3s ease-in-out;
 }
@@ -196,6 +197,7 @@ export default {
   display: inline-block;
   width: 6px;
   height: 6px;
+  line-height: 6px;
   border: 1px solid #ffffff;
   margin: 20px 4px;
   border-radius: 50%;
@@ -208,14 +210,17 @@ export default {
   border: 1px solid #ffffff;
   margin: -4px 4px;
   border-radius: 50%;
+  line-height: 6px;
   transition: width 0.3s ease-in-out;
 }
 .point-customs-active {
-  display: inline-block;
-  margin-bottom: 21px;
+  /*display: inline-block;*/
+  /*margin-bottom: 21px;*/
   align-items: center;
-  width: 8px;
-  height: 0.1rem;
+  margin: 21px auto;
+  width: 10px;
+  height: 4px;
+  line-height: 6px;
   background: #12e079;
   border: 1px solid #ffffff;
   border-radius: 3px;
