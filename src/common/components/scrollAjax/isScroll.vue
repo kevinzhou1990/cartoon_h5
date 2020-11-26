@@ -13,7 +13,7 @@
         <slot name="srcoll-main"></slot>
       </div>
       <div
-          style="text-align: center; color: #222222; line-height: 50px; height: 50px; transition: .2s;"
+          class="bottom-text"
           v-show="bottomAjax"
       >
         <span>{{ bottomTips }}</span>
@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     touchStart(e) {
+      if (!this.topAjax) return
       if (document.getElementsByClassName('main-scroll')[0].scrollTop > 0) {
         e.stopPropagation()
       }
@@ -80,7 +81,7 @@ export default {
       this.$refs['refreshScroll'].addEventListener('touchmove', this.touchMove, true)
     },
     touchMove(e) {
-	    this.getScrollTop()
+      this.getScrollTop()
       let touch = e.changedTouches[0]
       this.move = touch.clientY - this.startY // 滑动的距离
       if (this.move > 20 && this.move < 50){ // 滑动到多少距离后显示什么文字
@@ -129,16 +130,12 @@ export default {
     // 获取滚动条当前的位置
     getScrollTop() {
       let scrollTop = 0
-      // if (document.getElementsByClassName('main-scroll') && document.getElementsByClassName('main-scroll')[0].scrollTop) {
-      //   scrollTop = document.getElementsByClassName('main-scroll')[0].scrollTop
-      // } else {
       scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      // if (scrollTop <= 150){
+	    //   this.topAjax = true
+      // } else {
+	    //   this.topAjax = false
       // }
-      if (scrollTop <= 150){
-	      this.topAjax = true
-      } else {
-	      this.topAjax = false
-      }
       console.log('scrollTop', scrollTop)
       return scrollTop
     },
@@ -175,11 +172,7 @@ export default {
         // throttle(function () {
         //   console.log('触发了吗？')
         // }, 200)
-        // TODO 还是请求上拉翻页的数据
       }
-      // setTimeout(() => {
-      //   this.bottomAjax = false
-      // }, 2000)
     },
     // 初始化滑动数据
     resetInit() {
@@ -187,7 +180,7 @@ export default {
         this.topWrapStyle.transition = 'height 500ms'
         this.topWrapStyle.height = '50px'
         // this.topTips = '下拉刷新'
-	      this.topAjax = true // 是否可以往下拉
+	      // this.topAjax = true // 是否可以往下拉
         this.startY = 0 // 手指点击屏幕的到顶部的距离
         this.move = 0 // 手指滑动的距离
 	      this.topWrapStyle.marginTop = '-50px'
@@ -240,6 +233,13 @@ export default {
     .main-bottom, .main-scroll{
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+    }
+    .bottom-text {
+      text-align: center;
+      color: #222222;
+      line-height: 50px;
+      height: 50px;
+      transition: .2s;
     }
   }
 </style>
