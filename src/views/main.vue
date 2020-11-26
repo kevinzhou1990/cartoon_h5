@@ -34,7 +34,7 @@
 
 <script>
 import svgIcon from '../common/components/svg';
-import { mapState, mapMutations } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'v-main',
   components: { svgIcon },
@@ -81,6 +81,7 @@ export default {
     background-clip: padding-box;
     background-color: #fff;
     height: 49px;
+    z-index: 9999;
     .red-point {
       position: relative;
       &:after {
