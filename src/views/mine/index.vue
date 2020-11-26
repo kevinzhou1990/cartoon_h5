@@ -12,7 +12,8 @@
     </div>
     <ul class="mine-list mine-game-config">
       <li class="flex" v-for="(game, index) in remoteAddress" :key="index" @click="gameMsg(game)">
-        <svg-icon icon-class="game_aa" />
+        <img :src="game.icon" alt="" v-if="game.icon" />
+        <svg-icon icon-class="game_aa" v-else />
         <div class="flex-1 flex item-name">
           <div class="flex-1">{{ game.name }}</div>
           <svg-icon icon-class="more_bb" size="small" />
@@ -65,12 +66,16 @@ export default {
       ],
       defaultHead,
       needLoginRoute: ['/feedback', '/personal', '/setting'],
-      gameRemoteList: []
+      gameRemoteList: [],
+      userInfo: {}
     };
+  },
+  mounted() {
+    this.userInfo = this.$store.state.login.userInfo;
   },
   computed: {
     ...mapState({
-      userInfo: state => state.login.userInfo,
+      // userInfo: state => state.login.userInfo,
       remoteAddress: state => state.user.remoteAddress
     })
   },
@@ -134,6 +139,9 @@ export default {
   }
   .mine-game-config {
     border-bottom: 8px solid #f5f5f5;
+    img {
+      width: 24px;
+    }
   }
   .mine-list {
     li {
