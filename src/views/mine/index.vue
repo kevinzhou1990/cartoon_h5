@@ -10,7 +10,7 @@
       </div>
       <img src="../../assets/img/cat_abc.png" alt="" />
     </div>
-    <ul class="mine-list mine-game-config">
+    <ul class="mine-list mine-game-config" v-if="remoteAddress.length">
       <li class="flex" v-for="(game, index) in remoteAddress" :key="index" @click="gameMsg(game)">
         <img :src="game.icon" alt="" v-if="game.icon" />
         <svg-icon icon-class="game_aa" v-else />
