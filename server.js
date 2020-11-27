@@ -80,7 +80,7 @@ function render(req, res) {
     }
   };
   const context = {
-    title: '漫画威龙', // default title
+    title: '哇咔漫画', // default title
     url: req.url,
     cookies: req.cookies
   };
@@ -90,6 +90,7 @@ function render(req, res) {
     if (err) {
       return handleError(err);
     }
+    // console.log(html)
     res.send(html);
     if (!isProd) {
       console.log(`whole request: ${Date.now() - s}ms`);
@@ -114,6 +115,7 @@ app.use(cookieParser());
 app.use(compression({ threshold: 0 }));
 app.use('/dist', serve('./dist', true));
 app.use('/assets', serve('./assets', true));
+app.use('/favicon.ico', serve('./favicon.ico', true));
 app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl));
