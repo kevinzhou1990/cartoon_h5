@@ -36,7 +36,7 @@ const config = merge(base, {
       name: 'manifest'
     }),
     new HtmlWebPlugin({
-      title: '漫画威龙',
+      title: '哇咔漫画',
       filename: 'index.html',
       template: path.resolve(__dirname, '../index-client.html')
     }),
