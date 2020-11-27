@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      special: {},
       scrollHandler: throttle(this.handlerScroll, 100, this),
       defaultHead: 'this.src="' + require('../../assets/img/default_head.png') + '"',
       titleText: '',
@@ -85,7 +86,7 @@ export default {
   },
   mixins: [myMixins],
   computed: {
-    special() {
+    specialData() {
       return this.$store.state.topic.special;
     },
     commentsList() {
@@ -96,6 +97,7 @@ export default {
     }
   },
   mounted() {
+    this.special = JSON.parse(JSON.stringify(this.specialData));
     setTimeout(() => {
       if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
         this.showAddComment = true;
