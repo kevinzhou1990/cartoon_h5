@@ -106,7 +106,6 @@ export default {
     }
   },
   created() {
-    vm = this
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps)
     // this.swiperOptions = this.swiperOptionsObject
     // console.log('Current Swiper instance object', this.swiper)
