@@ -79,7 +79,7 @@ export default {
       cartoon_id: '', // 漫画id
       ref: undefined, // 来源id
       refId: undefined, // 具体来源id的细分id
-      textLength: 52, // 简介默认展示47个字符 刚好占两行
+      textLength: 59, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
