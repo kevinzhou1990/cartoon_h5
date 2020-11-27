@@ -24,7 +24,7 @@
           <div class="main-content-box-left-label">
             <span
               class="main-content-box-left-label-content zm-b-radius"
-              :style="index === 1 ? { 'margin-left': 0 } : ''"
+              :style="index === 0 ? { 'margin-left': '0px !important'} : ''"
               v-for="(tagItem, index) in ZMDetailData.tag"
               :key="index"
               >{{ tagItem }}</span
@@ -38,7 +38,7 @@
           v-if="ZMDetailData.cover"
         ></div>
       </div>
-      <div style="padding: 0 32px 24px 32px;" class="info-content" ref="intro-content">
+      <div class="info-content" ref="intro-content">
         {{ showMoreFlag ? ZMDetailData.intro : ZMDetailInfo || '--' }}
         <a
           href="javascirpt:void(0)"
@@ -79,7 +79,7 @@ export default {
       cartoon_id: '', // 漫画id
       ref: undefined, // 来源id
       refId: undefined, // 具体来源id的细分id
-      textLength: 44, // 简介默认展示47个字符 刚好占两行
+      textLength: 52, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介两行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
@@ -146,21 +146,26 @@ export default {
      */
     getElHeight() {
       this.showMoreFlag = true;
+      let that = this
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
         const introContentHeight = this.$refs['intro-content'].offsetHeight;
         const marginTop = introContentHeight - 58 - 56 / 2;
         const resultTop = mainContentBox > 175 ? marginTop + (mainContentBox - 175) : marginTop;
-        this.textHeight =
-          this.$refs['intro-content'].offsetHeight > 116
+        that.textHeight =
+          that.$refs['intro-content'].offsetHeight > 116
             ? resultTop - 20
             : mainContentBox > 175
             ? mainContentBox - 175 - 20
             : 0;
-        this.$refs.mainContent.style.height =
+        that.$refs.mainContent.style.height =
           document.getElementsByClassName('info-content')[0].offsetHeight +
-          document.getElementsByClassName('main-content-box')[0].offsetHeight +
+          document.getElementsByClassName('main-content-box')[0].offsetHeight + 30 +
           'px';
+        console.log('11', that.$refs.mainContent.offsetHeight)
+        that.$children[2].$refs.remarkScroll.style.top = that.$refs.mainContent.offsetHeight + 30 + 'px'
+        console.log(that.$children[2].$refs.remarkScroll.style.top)
+        // this.$parents.$refs['remarkScroll'].style.top
       }, 10);
     },
     /**
@@ -293,7 +298,9 @@ $content-label-fontSize: 12px;
 
 .info-content {
   display: block;
-  width: 311px;
+  /*padding: 0 32px 24px 32px;*/
+  padding: 16px;
+  width: 343px;
   overflow: hidden;
   word-break: break-word;
   text-overflow: ellipsis;
@@ -315,13 +322,13 @@ $content-label-fontSize: 12px;
     z-index: 1;
     &-box {
       display: flex;
-      padding: 8px 32px 0 32px;
-
+      justify-content: space-between;
+      padding: 8px 16px 0 16px;
       &-left {
         display: flex;
         flex-direction: column;
         padding-right: 8px;
-        width: 175px;
+        width: 207px;
         &-title {
           /*display: inline-block;*/
           display: -webkit-box;

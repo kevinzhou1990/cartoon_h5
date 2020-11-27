@@ -23,7 +23,7 @@
             <span class="remark-content-top-num">{{ remarkData.praise_num_text }}</span>
           </div>
         </div>
-        <div style="padding: 0 16px 0 53px; word-break: break-word;">
+        <div class="remark-content-text">
           {{ remarkData.content }}
         </div>
     </div>
@@ -111,7 +111,7 @@ export default {
   font-size: 12px;
   color: #222222;
   font-weight: bold;
-  padding: 20px 0 40px 0;
+  padding: 16px 0 40px 0;
   .remark-title {
     display: flex;
     justify-content: space-between;
@@ -166,6 +166,10 @@ export default {
         line-height: 24px;
         /*padding-left: 76px;*/
       }
+    }
+    &-text {
+      padding: 0 16px 16px 53px;
+      word-break: break-word;
     }
   }
   .no-remark {

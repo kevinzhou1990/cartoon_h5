@@ -1,5 +1,5 @@
 <template>
-  <div class="main" ref="remarkScroll" :style="{ top: 265 + 58 + textHeight + 'px' }">
+  <div class="main" ref="remarkScroll" :style="{ top: 330 + 'px' }">
     <div
       class="main-height"
       :style="topWrapStyle"
@@ -119,7 +119,7 @@ export default {
     this.startTouchValue = 0; // 手指触摸到屏幕距离顶部的距离
     this.touchDistance = '1.33333333rem'; // 滑动的距离
     this.startTouchDistance = 310; // 手指触摸到屏幕多少距离才能触发滑动事件
-    this.marginTop = 284;
+    this.marginTop = 306;
     this.height = 0;
     return {
       topWrapStyle: {
@@ -261,9 +261,10 @@ export default {
       const touch = e.changedTouches[0].pageY;
       this.height = touch - this.startTouchValue;
       if (this.height > 10 && this.height < 200) {
+        this.$refs['remarkScroll'].style.top = 330 + this.height + 'px'
         this.topWrapStyle.height = `${this.height}px`;
         this.$parent.$refs.mainContent.style.height =
-          this.marginTop + this.textHeight + this.height - 56 + 'px';
+          this.marginTop + this.textHeight + this.height + 'px';
       }
       if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');
@@ -281,9 +282,8 @@ export default {
       this.$parent.$refs['intro-content'].style.minHeight = '58px'; // 初始化简介的高度
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
-      this.$parent.$refs.mainContent.style.height =
-        document.getElementsByClassName('info-content')[0].offsetHeight +
-        document.getElementsByClassName('main-content-box')[0].offsetHeight +
+      this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight +
+        document.getElementsByClassName('main-content-box')[0].offsetHeight + 20 +
         'px';
       if (this.height < -100) {
         this.bottomAjax = true;
@@ -293,6 +293,7 @@ export default {
       this.bottomWrapStyle.transition = 'height 200ms';
       this.bottomWrapStyle.height = '0';
       this.height = 0;
+      this.$refs['remarkScroll'].style.top = this.$parent.$refs.mainContent.offsetHeight + 20 + 'px'
       console.log('我结束滑动了。。。。', this.height);
     },
     // 清除下拉动画
@@ -318,7 +319,7 @@ export default {
       } else {
         this.isShowBgColor = false;
         this.$refs['main-detail'].style.marginTop = 0;
-        this.$refs['remarkScroll'].style.top = 265 + 56 + Number(this.textHeight) - yScroll + 'px';
+        this.$refs['remarkScroll'].style.top = this.$parent.$refs.mainContent.offsetHeight + 20 + 'px'
       }
       if (yScroll > 260) {
         this.showFootFlag = true;
@@ -385,7 +386,6 @@ export default {
   overflow-y: scroll;
   overflow-scrolling: touch;
   box-sizing: border-box;
-
   &-height {
     display: block;
     height: 50px;
@@ -409,13 +409,16 @@ export default {
   &-catalogue {
     display: flex;
     justify-content: center;
+    align-items: center;
     background: #ffffff;
     margin: 0 16px;
     width: 343px;
     height: 56px;
     .left {
       display: flex;
-      padding: 16px 22px;
+      justify-content: center;
+      align-items: center;
+      padding: 0 22px;
 
       &-dn {
         width: 24px;
@@ -433,7 +436,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 10px 22px;
+      /*margin: 10px 22px;*/
       width: 135px;
       height: 36px;
       background: #12e079;
