@@ -1,16 +1,25 @@
 <template>
+<!--  <div id="app" :class="isShow ? 'animation-active-in' : ''">-->
   <div id="app">
     <keep-alive>
-      <router-view v-if="$route.meta.keepAlive" />
+      <router-view v-if="$route.meta.keepAlive && isShow"/>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-if="!$route.meta.keepAlive && isShow"></router-view>
+
+    <div v-if="!isShow" class="app-loading"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+  data(){
+    return {
+      isShow: false
+    }
+  },
   mounted() {
+    this.isShow = true;
     console.log(this.$route.meta.keepAlive, this.$route.name);
     console.log('漫画H5--202011241803');
   }
@@ -20,6 +29,16 @@ export default {
 <style lang="scss">
 $BORDER_COLOR: #eee;
 @import './assets/style/1px.scss';
+
+.app-loading{
+  position: fixed;
+  font-size: 40px;
+  color: red;
+  width: 100%;
+  height: 100%;
+  background: url('./views/home/images/homeLoading.gif') 100% 100% no-repeat;
+  background-size: cover;
+}
 
 #app {
   font-family: 'pingfang-blod';
