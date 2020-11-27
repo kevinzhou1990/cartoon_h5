@@ -220,7 +220,7 @@ export default {
     background: #fff;
     position: relative;
     z-index: 2;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -14px 24px rgba(0, 0, 0, 0.1);
     &.discovery-comics-list-top {
       padding-top: 44px;
       .discovery-filter-result {
@@ -311,8 +311,9 @@ export default {
     }
   }
   .discovery-nodata {
+    text-align: center;
     img {
-      width: 100%;
+      width: 160px;
     }
   }
 }

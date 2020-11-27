@@ -44,22 +44,22 @@ export default {
       tagActived: {
         left: 26,
         top: 18,
-        width: 40
+        width: 0
       },
       placeActived: {
         left: 26,
         top: 18,
-        width: 40
+        width: 0
       },
       statusActived: {
         left: 26,
         top: 18,
-        width: 40
+        width: 0
       },
       sortActived: {
         left: 26,
         top: 18,
-        width: 40
+        width: 0
       }
     };
   },
@@ -132,7 +132,7 @@ export default {
       position: absolute;
       border-radius: 4px;
       box-sizing: border-box;
-      width: 40px;
+      width: 0px;
       height: 20px;
       background: #12e079;
       transition-property: width, left, top;
