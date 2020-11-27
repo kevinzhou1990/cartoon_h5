@@ -181,8 +181,8 @@ export default {
       };
       console.log(cartoonData.last, '-----');
       if (!this.showNavFlag) {
-        // 在详情里面货到了显示title再次点击漫画的时候触发
-        this.titleText = cartoonData.title;
+        // 在详情里面得到显示title再次点击漫画的时候触发
+        this.titleText = cartoonData && cartoonData.title;
         this.headerBgColor = '#FFFFFF';
       } else {
         this.headerBgColor = this.mainColor = cartoonData.bk_color || '#222';
@@ -243,7 +243,7 @@ export default {
     },
     isChangeHeader: function(newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
-        this.titleText = this.ZMDetailData.title;
+        this.titleText = this.ZMDetailData && this.ZMDetailData.title;
         this.headerBgColor = '#FFFFFF';
         this.showNavFlag = false;
       } else {
