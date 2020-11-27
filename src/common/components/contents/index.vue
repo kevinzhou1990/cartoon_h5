@@ -1,53 +1,54 @@
 <template>
-  <div
-    v-if="show"
-    :class="
-      `${
-        show
-          ? 'contents-wrap contents-transition'
-          : 'contents-wrap contents-transition contents-wrap-close'
-      }`
-    "
-    ref="contents"
-    @touchstart.stop="handlerStart"
-    @touchmove.stop="handlerMove"
-    @touchend.stop="handlerEnd"
-    :style="show ? `top:${touchPois.y};` : ''"
-  >
-    <div class="contents-title">
-      目录
-      <span class="contents-close" @click="closeContent">
-        <SvgIcon size="default" iconClass="close_aa" />
-      </span>
-    </div>
-    <div class="contents-last">
-      <div>{{ comicsInfo.status_text }}</div>
-      <div class="zm-b zm-b-radius" @click="switchSort">
-        <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
-        <span>{{ `${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}` }}</span>
+  <div v-if="show" class="contents-contents">
+    <div
+      :class="
+        `${
+          show
+            ? 'contents-wrap contents-transition'
+            : 'contents-wrap contents-transition contents-wrap-close'
+        }`
+      "
+      ref="contents"
+      @touchstart.stop="handlerStart"
+      @touchmove.stop="handlerMove"
+      @touchend.stop="handlerEnd"
+      :style="show ? `top:${touchPois.y};` : ''"
+    >
+      <div class="contents-title">
+        目录
+        <span class="contents-close" @click="closeContent">
+          <SvgIcon size="default" iconClass="close_aa" />
+        </span>
       </div>
-    </div>
-    <ul class="contents-list" ref="chapter">
-      <li @click="goto(item)" v-for="item in chapterData" :key="item.chapter_id">
-        <div class="process" :style="`width:${item.read_per}%`" />
-        <span class="contents-current" v-if="item.chapter_id === comicsInfo.last_chapter_id" />
-        <div :class="`contents-list-item ${parseInt(item.read_per) === 100 ? 'done' : ''}`">
-          <span>{{ item.title }}</span>
-          <div class="chapter-title">
-            <span class="chapter-title-content">{{ item.intro }}</span>
-            <span
-              class="read-process"
-              v-if="parseInt(item.read_per) !== 100 && parseInt(item.read_per) !== 0"
-              >{{ `${item.read_per}%` }}</span
-            >
-          </div>
-          <div>
-            <SvgIcon size="small" iconClass="more_bb" />
-          </div>
+      <div class="contents-last">
+        <div>{{ comicsInfo.status_text }}</div>
+        <div class="zm-b zm-b-radius" @click="switchSort">
+          <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
+          <span>{{ `${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}` }}</span>
         </div>
-      </li>
-      <li></li>
-    </ul>
+      </div>
+      <ul class="contents-list" ref="chapter">
+        <li @click="goto(item)" v-for="item in chapterData" :key="item.chapter_id">
+          <div class="process" :style="`width:${item.read_per}%`" />
+          <span class="contents-current" v-if="item.chapter_id === comicsInfo.last_chapter_id" />
+          <div :class="`contents-list-item ${parseInt(item.read_per) === 100 ? 'done' : ''}`">
+            <span>{{ item.title }}</span>
+            <div class="chapter-title">
+              <span class="chapter-title-content">{{ item.intro }}</span>
+              <span
+                class="read-process"
+                v-if="parseInt(item.read_per) !== 100 && parseInt(item.read_per) !== 0"
+                >{{ `${item.read_per}%` }}</span
+              >
+            </div>
+            <div>
+              <SvgIcon size="small" iconClass="more_bb" />
+            </div>
+          </div>
+        </li>
+        <li></li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -103,7 +104,6 @@ export default {
   },
   mounted() {
     this.comicsInfo.sort = this.comicsInfo.sort || 1;
-    // this.$store.dispatch('getContentsData', this.$route.query.cartoon_id);
   },
   watch: {
     show(n, o) {
@@ -218,6 +218,12 @@ export default {
 $background: #f5f5f5;
 $maincolor: #12e079;
 $nousecolor: #bbb;
+.contents-contents {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
 .contents-transition {
   transition: top 0.5s;
 }
