@@ -94,7 +94,7 @@ export default {
       }
       const data = {
         content: this.content,
-        'image_urls[]': this.imgList,
+        image_urls: this.imgList,
         help_id: this.$route.query.id
       };
       this.$store.dispatch('addFeedback', data).then(res => {
@@ -159,6 +159,7 @@ export default {
   .textarea {
     background: #f5f5f5;
     padding: 8px;
+    margin-top: 16px;
     border-radius: 4px;
     position: relative;
     textarea {
