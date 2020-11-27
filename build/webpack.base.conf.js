@@ -59,13 +59,13 @@ module.exports = {
     rules: [
       // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
-        test: /\.(css|sass|scss)$/,
+        test: /\.(css|scss|sass)$/,
         use: isProd
           ? extractCSS.extract({
               fallback: 'style-loader',
               use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
             })
-          : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader?indentedSyntax']
+          : ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
       {
         test: /\.vue$/,
