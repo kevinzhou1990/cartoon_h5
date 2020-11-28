@@ -67,7 +67,7 @@
         {{ loginBtnValue }}
       </div>
       <div class="login-pa" v-if="loginType === 0" @click.stop="handleClickLoginType(1)">
-        密码登陆
+        密码登录
       </div>
       <div v-else class="login-label">
         <span @click.stop="handleClickLoginType(0)">手机号登录</span>
@@ -399,7 +399,8 @@ $label-color: #222222;
     margin: 4px 16px;
     &-b {
       width: auto;
-      position: relative;
+      display: flex;
+      align-items: center;
       font-size: $label-fontSize;
       color: $label-color;
       height: 47px;

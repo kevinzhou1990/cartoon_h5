@@ -96,7 +96,7 @@ export default {
   data() {
     return {
 	    forgetFlag: false,
-		  titleContent: '重新设置密码',
+		  titleContent: '忘记密码',
       nextCheckCode: '', // 调用设置密码完成需要使用
 	    isSetBtnFlag: false, // 设置
 	    newPasswordVal: '' // 新密码
@@ -162,6 +162,13 @@ export default {
     }
   },
   watch: {
+    nexSuccessFlag(val) {
+      if (val) {
+        this.titleContent = '重新设置密码'
+      } else {
+        this.titleContent = '忘记密码'
+      }
+    },
 	  newPasswordVal(val) {
       if (val.length >= 6) {
         this.isSetBtnFlag = true

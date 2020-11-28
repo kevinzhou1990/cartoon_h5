@@ -64,7 +64,7 @@ export default {
         preventClicksPropagation: false,
         // autoplay
         autoplay: {
-          delay: 3000,
+          delay: 4500,
           stopOnLastSlide: false,
           // 触摸滑动后是否继续轮播
           disableOnInteraction: false

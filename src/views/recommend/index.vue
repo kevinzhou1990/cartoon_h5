@@ -10,7 +10,7 @@
       <div style="z-index: 999" :class="isLightIcon ? 'icon-l-g-r' : 'icon-r-g'" @click.stop="handleClickLightIcon"></div>
     </div>
     <div class="nav-bar">
-      <z-m-nav-bar :tabListData="tabListData" :acticeIndex="acticeIndex" @getRecommendData="getComicsList"></z-m-nav-bar>
+      <z-m-nav-bar :tabListData="tabListData" :activeIndex="activeIndex" @getRecommendData="getComicsList"></z-m-nav-bar>
     </div>
     <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
       <div class="ba" v-if="adBannerList.length && !isLightIcon">
@@ -43,7 +43,7 @@ import ZMList from './components/ZMList';
 import ZMswiper from '@/common/components/ZMswiper';
 import ZMRecLoading from '@/views/recommend/components/ZMRecLoading';
 import ZMNoData from '@/common/components/ZMNoData';
-const defaultBanner = require('@/assets/img/defaultBanner.png');
+// const defaultBanner = require('@/assets/img/defaultBanner.png');
 export default {
   name: 'recommentd',
   components: {
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       titleText: '更多推荐',
-      acticeIndex: 1,
+      activeIndex: null,
       isLightIcon: false, // false 右边高亮  true 左边高亮
       listBb: require('./images/list_bb.png'),
       listBa: require('./images/list_ba.png'),
@@ -71,7 +71,8 @@ export default {
       bannerHeight: 86,
       currentPage: 1,
       allLoaded: false,
-      wrapperHeight: 0
+      wrapperHeight: 0,
+      times: 1
     };
   },
   computed: {
@@ -92,7 +93,7 @@ export default {
     return store.dispatch('getRecommendList', { secId: route.query.SEC_ID || 1, pageInfo: { page: 1, page_size: 30 } });
   },
   mounted() {
-    this.acticeIndex = Number(this.$route.query.SEC_ID) || 1;
+    this.activeIndex = Number(this.$route.query.SEC_ID) || 1;
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true';
     this.$store.commit('SET_REC_DATA', JSON.parse(sessionStorage.getItem('vuex')).home.recData);
     this.$nextTick(() => {
@@ -141,11 +142,12 @@ export default {
      * @date: 9/4/20-4:54 下午
      */
     getComicsList(val) {
+      if (Number(val) === this.activeIndex) return
       // console.log('getComicsList.....', val);
       this.allLoaded = false;
       this.$refs.recommendList.scrollTop = 0;
-      this.acticeIndex = Number(val);
-      this.$store.commit('UPDATE_SEC_ID', this.acticeIndex);
+      this.activeIndex = Number(val);
+      this.$store.commit('UPDATE_SEC_ID', this.activeIndex);
       this.currentPage = 1;
       this.getData();
     },

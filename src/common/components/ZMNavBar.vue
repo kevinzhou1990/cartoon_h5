@@ -21,7 +21,7 @@ export default {
       type: Object,
       default: () => {}
     },
-    acticeIndex: {
+    activeIndex: {
       type: Number,
       default: 0
     }
@@ -30,7 +30,7 @@ export default {
     return {
       lastSpot: 0,
       currentIndex: 0, // 选择tab的下标
-      isSelected: this.acticeIndex,
+      isSelected: this.activeIndex,
       dataList: this.tabListData,
       scrollItemTimer: null
     };
@@ -38,11 +38,13 @@ export default {
   mounted() {
     this.$nextTick(() => {
       console.log(this.tabListData, '======');
-      const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
-      const key = this.acticeIndex;
+      const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
+      const navIndex = this.$store.state.recommend.SEC_ID || ''
+      const key = navIndex || this.activeIndex;
+      // sessionStorage.setItem('navIndex', key)
       if (_index > -1) this.start(key, _index);
-      // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.acticeIndex + '');
-      // const key = this.acticeIndex;
+      // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
+      // const key = this.activeIndex;
       // this.start(key, _index);
     });
   },
