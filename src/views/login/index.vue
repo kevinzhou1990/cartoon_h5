@@ -208,7 +208,6 @@ export default {
       };
       const fetchAPIName =
         this.loginType === 0 ? loginByValidateCode(reqValiData) : loginByPass(reqPassData);
-      const toastText = this.loginType === 0 ? '验证码' : '密码'
       const resData = await fetchAPIName;
       if (resData && resData.code === 0) {
         this.countTimeSMS = 0;
@@ -218,8 +217,8 @@ export default {
         this.$store.commit('SET_USERS_INFO', resData.data.user || {});
         // 登陆成功，回倒原来的页面
         this.$router.replace(this.$store.state.login.backRouter || '/home');
-      } else if (resData.code === 1210) {
-        Dialog(resData.msg || `啊噢～你的${toastText}错误次数超过限制了`, 'confirm', {
+      } else if (resData.code === 1210 && this.loginType !== 0) {
+        Dialog(resData.msg || `啊噢～你的密码错误次数超过限制了`, 'confirm', {
           cancel: {
             text: '取消',
             text_color: '#999999'
