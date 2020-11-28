@@ -63,9 +63,11 @@
 
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
+import personalMixin from './mixin'
 import Avatar from './avatar';
 export default {
   components: { ZMHeader, Avatar },
+  mixins: [ personalMixin ],
   data(){
     return {
       genderVisible: false,
@@ -131,6 +133,11 @@ export default {
     //修改信息(性别，头像)
     updateInfo(params, callback){
       this.$store.dispatch('updateUserInfo', params).then((res) => {
+        if (res.code === 1209 || res.code === 1204){
+          this.jumpLogin();
+          return
+        }
+
         if (typeof callback === 'function' && callback){
           callback(res)
         }
@@ -150,17 +157,7 @@ export default {
       if (JSON.stringify(userinfo) !== '{}' && typeof userinfo === 'object'){
         return true
       } else {
-        setTimeout(() => {
-          this.Toast('用户信息验证失败!', {
-            type: 'fail',
-            duration: 3000
-          });
-        }, 250);
-
-        //未登录，跳转到首页
-        this.$router.replace({
-          path: '/'
-        });
+        this.jumpLogin();
         return false
       }
     },

@@ -32,8 +32,10 @@
 
 <script>
   import ZMHeader from '@/common/components/ZMHeader';
+  import personalMixin from '../mixin';
   export default {
     components: { ZMHeader },
+    mixins: [ personalMixin ],
     data(){
       return {
         nickname: this.$store.state.login.userInfo.nickname,
@@ -63,6 +65,8 @@
             this.$router.replace({
               path: '/personal'
             });
+          } else if (res.code === 1209 || res.code === 1204){
+              this.jumpLogin();
           } else {
             this.Toast(res.msg || '系统出错,请稍后重试', {
               type: 'fail',
