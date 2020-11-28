@@ -5,7 +5,7 @@
         <template v-if="!nexSuccessFlag">
           <div class="rest-main-content">
             <span class="rest-main-content-text">当前登陆手机号</span>
-            <span class="rest-main-content-tel">{{ telCode }} {{ telPhoneNum }}</span>
+            <span class="rest-main-content-tel">{{ telCode }} {{ maskPhoneNum }}</span>
           </div>
           <div class="rest-main-sms zm-b-radius m-8">
             <span class="rest-main-sms-left">验证码</span>
@@ -88,12 +88,14 @@ export default {
       isShowCountDown: false,
       titleContent: '密码重置',
 	    nextCheckCode: '', // 调用设置密码完成需要使用
-	    newPasswordVal: '' // 新密码
+	    newPasswordVal: '', // 新密码
+      maskPhoneNum: ''
     }
   },
   mounted() {
     const userInfo = this.$store.state.login.userInfo
-    this.telPhoneNum = userInfo.mobile_text
+    this.maskPhoneNum = userInfo.mobile_text
+    this.telPhoneNum = userInfo.mobile
 	  this.telCode = userInfo.mobile_code
   },
 	methods: {
@@ -262,7 +264,7 @@ export default {
     }
     .login-btn {
       font-family: PingFangSC-Semibold;
-      margin: 8px auto;
+      margin: 16px auto;
       background: #A2F5CB;
       border-radius: 4px;
       height: 52px;
