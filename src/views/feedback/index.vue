@@ -1,6 +1,6 @@
 <template>
   <div class="feedback">
-    <z-m-header title-text="问题反馈" show-right hasBorder>
+    <z-m-header title-text="问题反馈" show-right hasBorder :leftBtnFlag="true" @goBack="goBack">
       <div slot="right" class="header-right">
         <div
           slot="right"
@@ -62,6 +62,7 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import ZMImg from './components/img';
+import Dialog from '@/common/plugin/dialog';
 export default {
   data() {
     return {
@@ -76,14 +77,13 @@ export default {
       name: ''
     };
   },
-  components: { ZMHeader, SvgIcon, ZMImg },
+  components: { ZMHeader, SvgIcon, ZMImg, Dialog },
   computed: {
     detail() {
       return this.$store.state.help.detail;
     }
   },
   mounted() {
-    console.log('mounted', this.$route.query, this.$store.state.help.detail);
     this.isDetail = parseInt(this.$route.query.source) === 1;
     this.name = this.detail.question;
   },
@@ -99,6 +99,7 @@ export default {
       };
       this.$store.dispatch('addFeedback', data).then(res => {
         if (res.code === 0) {
+          this.$store.commit('UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
           this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
           this.$router.go(-1);
         } else {
@@ -107,7 +108,7 @@ export default {
       });
     },
     changeLen() {
-      const len = this.content.length;
+      const len = this.content.trim().length;
       this.textNumber = len;
       if (len > 189 && !this.isTips) {
         setTimeout(() => {
@@ -131,6 +132,24 @@ export default {
     // 删除已选择的图片
     delPic(idx) {
       this.imgList.splice(idx, 1);
+    },
+    goBack() {
+      if (this.content.length > 0) {
+        this.$dialog('返回将不保存编辑的反馈', 'confirm', {
+          confirm: {
+            text: '返回',
+            callback: () => {
+              this.$router.back();
+            }
+          },
+          cancel: {
+            text: '再想想',
+            callback: () => {}
+          }
+        });
+      } else {
+        this.$router.back();
+      }
     }
   }
 };

@@ -35,13 +35,18 @@ export default {
       return this.$store.state.help.detail;
     },
     understand() {
-      return this.$store.state.help.understand;
+      const list = this.$store.state.help.list;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].help_id === parseInt(this.$route.query.id)) {
+          return list[i].readed;
+        }
+      }
+      // return this.$store.state.help.understand;
     }
   },
   methods: {
     doNotUnderstand() {
       if (!this.understand) {
-        this.$store.commit('UPDATE_UNDERSTAND');
         this.$router.push({ path: '/feedback', query: { source: 1, ...this.$route.query } });
       }
     }

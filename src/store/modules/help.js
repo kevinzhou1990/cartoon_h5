@@ -22,21 +22,28 @@ const help = {
     },
     HELP_LIST_FILTER: (state, id) => {
       const data = state.allData;
+      let list = [];
+      console.log(data, id, list);
       for (let i = 0; i < data.length; i++) {
         if (data[i].group_id === parseInt(id)) {
-          state.list = data[i].items;
+          list = data[i].items;
         }
       }
       if (parseInt(id) === 0) {
-        const list = [];
+        list = [];
         data.forEach(item => {
           list.push(...item.items);
         });
-        state.list = list;
       }
+      state.list = list;
     },
-    UPDATE_UNDERSTAND: state => {
-      state.understand = !state.understand;
+    UPDATE_UNDERSTAND: (state, helpId) => {
+      const list = state.list;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].help_id === helpId) {
+          list[i].readed = !list[i].readed;
+        }
+      }
     }
   },
   actions: {
@@ -52,6 +59,9 @@ const help = {
           const list = [];
           helps.forEach(item => {
             list.push(...item.items);
+          });
+          list.map(item => {
+            item.readed = false;
           });
           tabListData[0] = '全部';
           commit('UPDATEHELPLIST', list);

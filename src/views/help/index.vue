@@ -35,7 +35,6 @@ export default {
   },
   components: { ZMHeader, ZMNavBar, SvgIcon },
   mounted() {
-    console.log('help....');
     this.$store.dispatch('getHelpList');
   },
   computed: {
