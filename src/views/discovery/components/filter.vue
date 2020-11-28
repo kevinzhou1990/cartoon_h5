@@ -1,20 +1,72 @@
 <template>
   <div class="filter-component" ref="filter">
-    <div class="filter-tags zm-b-b">
-      <span @click="updateFilter('tag', item)" v-for="item in tags" :key="item.tag_id" :class="`${item.tag_id === checked.tag_id ? 'active' : ''}`">{{ item.name }}</span>
-      <span class="filter-tag-actived" :style="{ left: `${tagActived.left}px`, top: `${tagActived.top}px`, width: `${tagActived.width}px` }"></span>
+    <div class="filter-tags zm-b-b" ref="tag">
+      <span
+        @click="updateFilter('tag', item)"
+        v-for="item in tags"
+        :key="item.tag_id"
+        :class="`${item.tag_id === checked.tag_id ? 'active' : ''}`"
+        >{{ item.name }}</span
+      >
+      <span
+        class="filter-tag-actived"
+        :style="{
+          left: `${tagActived.left}px`,
+          top: `${tagActived.top}px`,
+          width: `${tagActived.width}px`
+        }"
+      ></span>
     </div>
     <div class="filter-pleace zm-b-b">
-      <span @click="updateFilter('place', item)" v-for="item in places" :key="item.tag_id" :class="`${item.tag_id === checked.place_id ? 'active' : ''}`">{{ item.name }}</span>
-      <span class="filter-tag-actived" :style="{ left: `${placeActived.left}px`, top: `${placeActived.top}px`, width: `${placeActived.width}px` }"></span>
+      <span
+        @click="updateFilter('place', item)"
+        v-for="item in places"
+        :key="item.tag_id"
+        :class="`${item.tag_id === checked.place_id ? 'active' : ''}`"
+        >{{ item.name }}</span
+      >
+      <span
+        class="filter-tag-actived"
+        :style="{
+          left: `${placeActived.left}px`,
+          top: `${placeActived.top}px`,
+          width: `${placeActived.width}px`
+        }"
+      ></span>
     </div>
     <div class="filter-status zm-b-b">
-      <span v-for="item in status" @click="updateFilter('status', item)" :key="item.id" :class="`${item.id === checked.status ? 'active' : ''}`">{{ item.name }}</span>
-      <span class="filter-tag-actived" :style="{ left: `${statusActived.left}px`, top: `${statusActived.top}px`, width: `${statusActived.width}px` }"></span>
+      <span
+        v-for="item in status"
+        @click="updateFilter('status', item)"
+        :key="item.id"
+        :class="`${item.id === checked.status ? 'active' : ''}`"
+        >{{ item.name }}</span
+      >
+      <span
+        class="filter-tag-actived"
+        :style="{
+          left: `${statusActived.left}px`,
+          top: `${statusActived.top}px`,
+          width: `${statusActived.width}px`
+        }"
+      ></span>
     </div>
     <div class="filter-sort zm-b-b">
-      <span v-for="item in sort" @click="updateFilter('sort', item)" :key="item.id" :class="`${item.id === checked.sort ? 'active' : ''}`">{{ item.name }}</span>
-      <span class="filter-tag-actived" :style="{ left: `${sortActived.left}px`, top: `${sortActived.top}px`, width: `${sortActived.width}px` }"></span>
+      <span
+        v-for="item in sort"
+        @click="updateFilter('sort', item)"
+        :key="item.id"
+        :class="`${item.id === checked.sort ? 'active' : ''}`"
+        >{{ item.name }}</span
+      >
+      <span
+        class="filter-tag-actived"
+        :style="{
+          left: `${sortActived.left}px`,
+          top: `${sortActived.top}px`,
+          width: `${sortActived.width}px`
+        }"
+      ></span>
     </div>
   </div>
 </template>
@@ -64,8 +116,11 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch('getFilterItem');
+    // await this.$store.dispatch('getFilterItem');
     this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
+    // 获取默认active的位置，设置给tag
+    const ele = this.$refs['tag'].querySelector('span.active');
+    this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
   },
 
   methods: {

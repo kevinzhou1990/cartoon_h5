@@ -1,19 +1,20 @@
-/**
-* @info: 滑动组件
-* @author: PengGeng
-* @date: 8/11/20-2:43 下午
-*/
+/** * @info: 滑动组件 * @author: PengGeng * @date: 8/11/20-2:43 下午 */
 <template>
   <div class="container">
-    <swiper :options="swiperOptions" class="swiper-wrapper" ref="mySwiper" v-if="bannerList.length>0">
+    <swiper
+      :options="swiperOptions"
+      class="swiper-wrapper"
+      ref="mySwiper"
+      v-if="bannerList.length > 0"
+    >
       <swiper-slide class="swiper-slide" v-for="(item, index) in bannerList" :key="index">
         <img
-            :src="item.img"
-            class="swiper-img"
-            :style="{ height: bannerHeight+'px', 'min-width': bannerWidth+ 'px'}"
-            @click.prevent="showInfo(index)"
+          :src="item.img"
+          class="swiper-img"
+          :style="{ height: bannerHeight + 'px', 'min-width': bannerWidth + 'px' }"
+          @click.prevent="showInfo(index)"
         />
-<!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
+        <!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -106,7 +107,7 @@ export default {
     }
   },
   created() {
-    this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps)
+    this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps);
     // this.swiperOptions = this.swiperOptionsObject
     // console.log('Current Swiper instance object', this.swiper)
     // this.swiper.slideTo(3, 1000, false)
@@ -118,23 +119,23 @@ export default {
      * @date: 8/19/20-3:58 下午
      */
     showInfo(index) {
-      const BANNER_DATA = this.bannerList
+      const BANNER_DATA = this.bannerList;
       // 1-标签，2=专题，3=漫画详情页；4-内部URL；5-外部URL
-      const bannerType = BANNER_DATA[index]['jump_type']
-      console.log(bannerType)
+      const bannerType = BANNER_DATA[index]['jump_type'];
+      console.log(bannerType);
       const JUMP_ADDRESS = {
         1: () => {
-          this.$router.push('/discovery')
-          console.log('jump to 标签')
+          this.$router.push({ path: '/discovery', query: { tag: BANNER_DATA[index].tag_id } });
+          console.log('jump to 标签');
         },
         2: () => {
           this.$router.push({
-            path: '/recommend',
+            path: '/topic',
             query: {
-              SEC_ID: BANNER_DATA[index].special_id || 0
+              id: BANNER_DATA[index].special_id || 0
             }
           });
-          console.log('jump to 专题')
+          console.log('jump to 专题');
         },
         3: () => {
           this.$router.push({
@@ -142,24 +143,28 @@ export default {
             query: {
               cartoon_id: BANNER_DATA[index].cartoon_id || ''
             }
-          })
-          console.log('jump to 漫画详情页')
+          });
+          console.log('jump to 漫画详情页');
         },
         4: () => {
-          window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : this.$toast('暂时不支持跳转，谢谢！')
-          console.log('jump to 内部URL')
+          window.location.href = BANNER_DATA[index].jump_address
+            ? BANNER_DATA[index].jump_address
+            : this.$toast('暂时不支持跳转，谢谢！');
+          console.log('jump to 内部URL');
         },
         5: () => {
-          window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : this.$toast('暂时不支持跳转，谢谢！')
-          console.log('jump to 外部URL')
+          window.location.href = BANNER_DATA[index].jump_address
+            ? BANNER_DATA[index].jump_address
+            : this.$toast('暂时不支持跳转，谢谢！');
+          console.log('jump to 外部URL');
         }
-      }
+      };
       if (BANNER_DATA[index] && BANNER_DATA[index]['jump_type']) {
-        JUMP_ADDRESS[BANNER_DATA[index]['jump_type']]()
+        JUMP_ADDRESS[BANNER_DATA[index]['jump_type']]();
       } else {
-        this.$toast('暂时不支持跳转，谢谢！')
+        this.$toast('暂时不支持跳转，谢谢！');
       }
-      console.log(JUMP_ADDRESS[bannerType]())
+      console.log(JUMP_ADDRESS[bannerType]());
     }
     /**
      * TODO 跳转链接待协商
@@ -179,21 +184,21 @@ export default {
     //   //     console.log('jump to 标签')
     //   //   },
     //   //   2: () => {
-	  //   //     this.$router.push({
-		//   //       path: '/recommend',
-		//   //       query: {
-		// 	//         SEC_ID: BANNER_DATA[index].special_id || 0
-		//   //       }
-	  //   //     });
+    //   //     this.$router.push({
+    //   //       path: '/recommend',
+    //   //       query: {
+    // 	//         SEC_ID: BANNER_DATA[index].special_id || 0
+    //   //       }
+    //   //     });
     //   //     console.log('jump to 专题')
     //   //   },
     //   //   3: () => {
-	  //   //     this.$router.push({
-		//   //       path: '/detail',
-		//   //       query: {
-		// 	//         cartoon_id: BANNER_DATA[index].cartoon_id || ''
-		//   //       }
-	  //   //     })
+    //   //     this.$router.push({
+    //   //       path: '/detail',
+    //   //       query: {
+    // 	//         cartoon_id: BANNER_DATA[index].cartoon_id || ''
+    //   //       }
+    //   //     })
     //   //     console.log('jump to 漫画详情页')
     //   //   },
     //   //   4: () => {
@@ -201,7 +206,7 @@ export default {
     //   //     console.log('jump to 内部URL')
     //   //   },
     //   //   5: () => {
-	  //   //     window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
+    //   //     window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
     //   //     console.log('jump to 外部URL')
     //   //   }
     //   // }
@@ -271,7 +276,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .point-customs-active {
   /*display: inline-block;*/

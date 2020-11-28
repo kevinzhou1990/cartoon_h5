@@ -68,8 +68,11 @@ export default {
   },
   asyncData({ store, route }) {
     return Promise.all([
-      store.dispatch('getFilterItem'),
-      store.dispatch('getComicsList', { ...store.state.discovery.checked, page: 1 })
+      store.dispatch('getFilterItem', parseInt(route.query.tag || 0)),
+      store.dispatch('getComicsList', {
+        ...store.state.discovery.checked,
+        page: 1
+      })
     ]);
   },
   data() {
@@ -91,14 +94,16 @@ export default {
     };
   },
   mounted() {
+    console.log('mounted', this.$store.state.discovery.checked);
     // 监听滚动事件，列表距头部小于等于48px，筛选条件贴边
-    console.log('dddd');
+    // this.$store.commit('UPDATECHECKED', { tag_id: parseInt(this.$route.query.tag || 0) });
     this.scrollHandler = throttle(this.handlerScroll, 100, this);
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   watch: {
     checked: {
       handler: function(n, o) {
+        console.log('watch', n);
         if (n.tag_id !== '' && n.place_id !== '' && n.status !== '' && n.sort !== '') {
           this.getComics(n, 1);
           const s = this.$store.state.discovery.status.filter(item => {
@@ -141,6 +146,7 @@ export default {
   },
   methods: {
     async getComics(filter, page) {
+      console.log(filter, '----');
       this.loadingStatus = true;
       await this.$store.dispatch('getComicsList', { ...filter, page, page_size: 30 });
       this.page = this.page + 1;
@@ -152,6 +158,7 @@ export default {
       this.listTop = height;
     },
     handlerScroll() {
+      console.log('handlerscroll', this.checked);
       const scrollTop = this.$refs.fliterResult.getBoundingClientRect().top;
       this.scrollToTop = scrollTop <= 94;
       // 当加载下一页提示在可见区域，加载下一页
@@ -185,6 +192,7 @@ export default {
       }
     },
     handlerTouchend() {
+      console.log('handlertouchend', this.checked);
       this.touchPos.moveY = 0;
       const scrollTop = this.$refs.list.getBoundingClientRect().top;
       const fh = this.$refs.discoveryFilter.$el.clientHeight;

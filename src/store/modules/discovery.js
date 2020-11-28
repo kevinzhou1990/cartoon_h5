@@ -29,6 +29,7 @@ const discovery = {
       };
     },
     UPDATECHECKED: (state, data) => {
+      console.log('UPDATECHECED', data);
       state.checked = { ...state.checked, ...data };
     },
     UPDATECOMICSLIST: (state, data) => {
@@ -39,13 +40,16 @@ const discovery = {
     }
   },
   actions: {
-    getFilterItem: async ({ commit }) => {
+    getFilterItem: async ({ commit }, tagId) => {
       const res = await getFilterItem();
+      console.log('getfilteritem', tagId);
       if (res.code === 0) {
         commit('UPDATESTATE', res.data);
+        commit('UPDATECHECKED', { tag_id: tagId });
       }
     },
     getComicsList: async ({ commit, state }, data) => {
+      console.log('data', data);
       const res = await getComicsList(data);
       if (res.code === 0) {
         let list = JSON.parse(JSON.stringify(state.comicsList));
