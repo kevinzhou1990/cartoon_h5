@@ -65,7 +65,7 @@ export default {
 	   * @date: 10/21/20-11:44 上午
 	   */
 	  changeTelPhoneNum(val) {
-		  this.telPhoneNum = val.toString().replace(/[^\d]/g, '') || ''
+		  this.telPhoneNum = val && val.toString().replace(/[^\d]/g, '') || ''
 	  },
 	  /**
 	   * @info: 处理验证码输入
@@ -73,7 +73,7 @@ export default {
 	   * @date: 10/21/20-11:45 上午
 	   */
 	  changeValidateNum(val) {
-		  this.validateNum = val.toString().replace(/[^\d]/g, '') || ''
+		  this.validateNum = val && val.toString().replace(/[^\d]/g, '') || ''
 	  },
 	  /**
 	   * @info: 倒计时
