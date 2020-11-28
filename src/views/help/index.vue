@@ -16,7 +16,7 @@
               <div>答：{{ item.answer }}</div>
             </div>
           </div>
-          <div class="flex icon">
+          <div class="flex div-icon">
             <svg-icon icon-class="more_bb" size="small" />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default {
       flex: 1;
     }
   }
-  .icon {
+  .div-icon {
     align-items: center;
     padding-right: 16px;
   }
