@@ -294,7 +294,7 @@
         const fileObj = event.target.files[0];
         let that = this;
         lrz(fileObj, {
-          quality: 0.7
+          quality: 1
         })
           .then(function(rst) {
             console.log(rst);

@@ -51,11 +51,11 @@
 
 <style lang="scss" scoped>
   .main{
-    margin-top: 44px;
-    padding: 40px 0 0;
+    padding-top: 44px;
     color: #222222;
 
     .icon-container{
+      padding: 40px 0 0;
       margin: 0 auto;
       text-align: center;
       .icon{
