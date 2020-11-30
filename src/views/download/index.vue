@@ -1,5 +1,5 @@
 <template>
-  <div class="download"></div>
+  <div class="download" @click="handleClickDownloadAPP"></div>
 </template>
 
 <script>
@@ -8,8 +8,8 @@ export default {
   name: 'download',
   data() {
     return {
-      isIos: true,
-      isAndroid: true
+      isIos: false,
+      isAndroid: false
     };
   },
   mounted() {
@@ -33,13 +33,13 @@ export default {
     },
     handleClickDownloadAPP() {
       if (this.isAndroid) {
-        // todo android 待定
-        return this.openApp('carmarket://splash');
+        return this.openApp('comic://lmm.comic');
       } else {
         return this.openApp('ZMCartoon://');
       }
     },
     openApp(url) {
+      // android  TODO 下载地址：/api/android/down
       let openIframe = this.createIframe();
       let isChrome = window.navigator.userAgent.indexOf('Chrome') !== -1;
       if (this.isIos) {

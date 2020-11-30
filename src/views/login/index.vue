@@ -278,6 +278,8 @@ export default {
   font-family: PingFangSC-Semibold;
   font-size: 12px;
   color: #BBBBBB;
+  height: 100%;
+  line-height: 1;
 }
 input {
   caret-color: #12e079;
@@ -403,7 +405,7 @@ $label-color: #222222;
       align-items: center;
       font-size: $label-fontSize;
       color: $label-color;
-      height: 47px;
+      height: 48px;
       line-height: 47px;
       &-left {
         position: relative;

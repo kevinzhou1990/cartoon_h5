@@ -257,7 +257,7 @@ export default {
   line-height: 6px;
   border: 1px solid #ffffff;
   margin: 20px 4px;
-  border-radius: 50%;
+  border-radius: 9px;
   transition: width 0.3s ease-in-out;
 }
 .point-customs-recommend {
@@ -266,12 +266,12 @@ export default {
   height: 0.1rem;
   border: 1px solid #ffffff;
   margin: -4px 4px;
-  border-radius: 50%;
+  border-radius: 9px;
   line-height: 6px;
   transition: width 0.3s ease-in-out;
 }
 .swiper-container-horizontal > .swiper-pagination-bullets {
-  bottom: 8px !important;
+  bottom: 12px !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -281,12 +281,12 @@ export default {
   /*margin-bottom: 21px;*/
   align-items: center;
   /*margin: 21px auto;*/
-  width: 10px;
-  height: 4px;
+  width: 12px;
+  height: 6px;
   line-height: 6px;
   background: #12e079;
   border: 1px solid #ffffff;
-  border-radius: 3px;
+  border-radius: 9px;
   opacity: 1;
   transition: width 0.3s ease-in-out;
 }
