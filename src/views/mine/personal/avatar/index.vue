@@ -317,7 +317,8 @@
                   containerBoxData.height = Math.floor(result.height * that.scaleRate);
                   containerBoxData.width = clientWidth
                   selectData.left = 0;
-                  selectData.top = 0;
+                  // selectData.top = 0;
+                  selectData.top = containerBoxData.height / 2 - containerBoxData.width / 2;
                   selectData.width = containerBoxData.width
                 }
                 that.setPreview()
