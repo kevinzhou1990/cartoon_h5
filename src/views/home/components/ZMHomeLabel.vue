@@ -51,6 +51,7 @@ $label-right-fonSize: 10px;
   display: flex;
   padding: 0 8px;
   justify-content: space-between;
+  align-items: center;
   font-weight: bold;
   font-size: $label-fontSize;
   &-l {

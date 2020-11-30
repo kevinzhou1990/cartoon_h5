@@ -50,6 +50,7 @@
       </div>
     </section>
     <z-m-scroll
+      v-if="isZMScrollFlag"
       :isChangeHeader.sync="isChangeHeader"
       :detail-data="ZMDetailData"
       :textHeight="textHeight"
@@ -69,6 +70,7 @@ export default {
   name: 'comicsDetail',
   data() {
     return {
+      isZMScrollFlag: false,
       showNavFlag: true,
       titleText: '',
       headerBgColor: '',
@@ -105,12 +107,14 @@ export default {
     }
   },
   mounted() {
+    this.isZMScrollFlag = false
     console.log('客服端进入详情页面');
     const queryData = this.$route.query || {};
     this.cartoon_id = queryData.cartoon_id || '';
     this.ref = queryData.ref;
     this.refId = queryData.ref_id;
     setTimeout(() => {
+      this.isZMScrollFlag = true
       this.getZMDetail(this.ZMDetailData);
       this.infoHeight =
         document.getElementsByClassName('info-content') &&
@@ -127,6 +131,7 @@ export default {
             .width.replace('px', '')
         );
       console.log(this.infoHeight);
+      // const headerHeight = document.getElementsByClassName('header-main')[0].offsetHeight
     }, 200);
   },
   methods: {
@@ -317,7 +322,7 @@ $content-label-fontSize: 12px;
   &-content {
     position: fixed;
     color: $content-color;
-    min-height: 260px;
+    min-height: 264px;
     /*height: auto;*/
     z-index: 1;
     &-box {

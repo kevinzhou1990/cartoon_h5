@@ -118,10 +118,10 @@ $font-color: #bbbbbb !default;
       &:after {
         display: inline-block;
         content: ' ';
-        padding: 2px;
+        /*padding: 2px;*/
         width: 16px;
         height: 16px;
-        vertical-align: middle;
+        vertical-align: sub;
         background: url('../../../assets/img/more_chapter.png') no-repeat;
         background-size: 100%;
         /*transform: scale(0.83);*/

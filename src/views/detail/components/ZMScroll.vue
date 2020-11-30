@@ -1,5 +1,9 @@
 <template>
-  <div class="main" ref="remarkScroll" :style="{ top: topHeight + 'px' }">
+  <div
+      class="main"
+      ref="remarkScroll"
+      :style="{ top: topHeight + 'px' }"
+  >
     <div
       class="main-height"
       :style="topWrapStyle"
@@ -122,6 +126,7 @@ export default {
     this.marginTop = 306;
     this.height = 0;
     return {
+      isZMScrollFlag: false,
       topWrapStyle: {
         height: 24,
         transition: 'none'
@@ -183,13 +188,19 @@ export default {
     }
   },
   created() {
+    let textLengthFlag = false
     this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
     this.getAuthorOther();
     this.maybeLikeTitle = this.detailData && this.detailData.title;
     this.$nextTick(() => {
-      const bgHeight = document.getElementsByClassName('main-content')[0].offsetHeight
+      // const bgHeight = document.getElementsByClassName('main-content')[0].offsetHeight
       const headerHeight = document.getElementsByClassName('header-main')[0].offsetHeight
-      this.topHeight = bgHeight + headerHeight - 62 / 2 + 10
+      textLengthFlag = this.maybeLikeTitle && this.maybeLikeTitle.length > 11
+      const BG_HEGITH = textLengthFlag ? 25 : 0
+      // document.getElementsByClassName('main-content')[0].style.height = bgHeight + BG_HEGITH + 'px'
+      this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('main-content')[0].offsetHeight + BG_HEGITH +
+        'px';
+      this.topHeight = document.getElementsByClassName('main-content')[0].offsetHeight + headerHeight - 20
     })
   },
   mounted() {

@@ -192,6 +192,9 @@ export default {
       color: #12E079;
       letter-spacing: 0;
       text-align: center;
+      &:active {
+        background: #12e079;
+      }
     }
   }
 }
