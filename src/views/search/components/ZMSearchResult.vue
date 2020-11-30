@@ -123,6 +123,8 @@ export default {
   width: auto;
   background: #FFFFFF;
   &-content {
+    /*display: inline-block;*/
+    position: relative;
     height: 44px;
     line-height: 44px;
     font-family: pingfang-blod;
@@ -132,10 +134,10 @@ export default {
     white-space: nowrap;
     word-break: break-word;
     overflow-x: hidden;
-    margin-left: 40px;
+    margin-left: 48px;
     &-text {
       width: 327px;
-      padding-left: 16px;
+      padding-left: 8px;
       color: #BBBBBB;
     }
   }
