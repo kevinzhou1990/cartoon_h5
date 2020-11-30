@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
       let userInfo = storeInstance.state.login.userInfo;
       if (JSON.stringify(userInfo) !== '{}' && typeof userInfo === 'object'){
         // 跳转的路由在更新红点路由中则触发更新红点, 有登录态时更新红点
-        storeInstance.dispatch('getLoginStatus');
+        storeInstance.dispatch('getRedPointStatus');
       } else {
         storeInstance.commit('UPDATE_STATUS', false)
       }

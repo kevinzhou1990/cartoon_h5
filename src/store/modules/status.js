@@ -9,7 +9,7 @@ const status = {
     }
   },
   actions: {
-    getLoginStatus: ({ commit }) => {
+    getRedPointStatus: ({ commit }) => {
       return new Promise(resolve => {
         getUpdateStatus().then(res => {
           commit('UPDATE_STATUS', res.data.has_update);
