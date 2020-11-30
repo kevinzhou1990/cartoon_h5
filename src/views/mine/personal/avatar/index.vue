@@ -290,56 +290,58 @@
       // 选择图片
       fileChange(event) {
         //lrz压缩并且调整ios上图片反转的问题
-        const lrz = require('lrz');
-        const fileObj = event.target.files[0];
-        let that = this;
-        lrz(fileObj, {
-          quality: 1
-        })
-          .then(function(rst) {
-            console.log(rst);
-            //成功时执行
-            const reader = new FileReader();
-            reader.onload = () => {
-              const { selectData, containerBoxData } = that;
-              that.imgURL = reader.result;
-              that.getImgSize(that.imgURL).then((result) => {
-                const clientWidth = document.body.clientWidth - 80;
-                if (result.width > result.height) { // 350为外盒子宽高
-                  that.scaleRate = clientWidth / result.width;
-                  containerBoxData.width = clientWidth;
-                  containerBoxData.height = Math.floor(result.height * that.scaleRate);
-                  selectData.top = 0;
-                  selectData.left = (clientWidth - containerBoxData.height) / 2;
-                  selectData.width = containerBoxData.height
-                } else {
-                  that.scaleRate = clientWidth / result.width;
-                  containerBoxData.height = Math.floor(result.height * that.scaleRate);
-                  containerBoxData.width = clientWidth
-                  selectData.left = 0;
-                  // selectData.top = 0;
-                  selectData.top = containerBoxData.height / 2 - containerBoxData.width / 2;
-                  selectData.width = containerBoxData.width
-                }
-                that.setPreview()
-              });
-            };
+        // const lrz = require('lrz');
+        import('lrz').then((_module) => {
+          const fileObj = event.target.files[0];
+          let that = this;
+          _module(fileObj, {
+            quality: 1
+          })
+            .then(function(rst) {
+              console.log(rst);
+              //成功时执行
+              const reader = new FileReader();
+              reader.onload = () => {
+                const { selectData, containerBoxData } = that;
+                that.imgURL = reader.result;
+                that.getImgSize(that.imgURL).then((result) => {
+                  const clientWidth = document.body.clientWidth - 80;
+                  if (result.width > result.height) { // 350为外盒子宽高
+                    that.scaleRate = clientWidth / result.width;
+                    containerBoxData.width = clientWidth;
+                    containerBoxData.height = Math.floor(result.height * that.scaleRate);
+                    selectData.top = 0;
+                    selectData.left = (clientWidth - containerBoxData.height) / 2;
+                    selectData.width = containerBoxData.height
+                  } else {
+                    that.scaleRate = clientWidth / result.width;
+                    containerBoxData.height = Math.floor(result.height * that.scaleRate);
+                    containerBoxData.width = clientWidth
+                    selectData.left = 0;
+                    // selectData.top = 0;
+                    selectData.top = containerBoxData.height / 2 - containerBoxData.width / 2;
+                    selectData.width = containerBoxData.width
+                  }
+                  that.setPreview()
+                });
+              };
 
-            reader.readAsDataURL(rst.file)
-          })
-          .catch(function(error) {
-            //失败时执行
-            console.log('lrz失败', error);
-            that.onCancel();
-            that.Toast('图片加载失败,请稍后重试', {
-              type: 'fail',
-              duration: 3000
+              reader.readAsDataURL(rst.file)
+            })
+            .catch(function(error) {
+              //失败时执行
+              console.log('lrz失败', error);
+              that.onCancel();
+              that.Toast('图片加载失败,请稍后重试', {
+                type: 'fail',
+                duration: 3000
+              });
+            })
+            .always(function() {
+              //不管成功或失败，都会执行
+              event.target.value = '';
             });
-          })
-          .always(function() {
-            //不管成功或失败，都会执行
-            event.target.value = '';
-          });
+        });
       },
       // 确认
       onEnter() {
