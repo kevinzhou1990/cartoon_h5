@@ -16,11 +16,12 @@ const detail = {
     getDetail({ commit }, cartoonId) {
       return getZMDetail(cartoonId)
         .then(res => {
-          console.log(res.data);
-          commit('UPDATE_ZMDETAIL_DATA', res.data);
+          if (res) commit('UPDATE_ZMDETAIL_DATA', res.data);
           return res;
         })
-        .catch(error => error);
+        .catch(error => {
+          console.log(error, '=========');
+        });
     },
     getOtherInfo({ commit }, cartoonId) {
       return getAuthorOther(cartoonId)

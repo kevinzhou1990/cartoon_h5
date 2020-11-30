@@ -164,7 +164,6 @@ export default {
       } else {
         this.$toast('暂时不支持跳转，谢谢！');
       }
-      console.log(JUMP_ADDRESS[bannerType]());
     }
     /**
      * TODO 跳转链接待协商
