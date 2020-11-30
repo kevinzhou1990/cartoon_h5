@@ -199,6 +199,9 @@ $DEEPGRAY: #999;
     // font-family: 'pingfang-regular';
     color: $DARK;
     padding: 0 16px;
+    img {
+      width: 100% !important;
+    }
   }
   .topic-zan {
     padding: 32px 0;
