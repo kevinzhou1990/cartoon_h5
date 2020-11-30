@@ -1,5 +1,5 @@
 <template>
-  <div class="main" ref="remarkScroll" :style="{ top: 330 + 'px' }">
+  <div class="main" ref="remarkScroll" :style="{ top: topHeight + 'px' }">
     <div
       class="main-height"
       :style="topWrapStyle"
@@ -123,7 +123,7 @@ export default {
     this.height = 0;
     return {
       topWrapStyle: {
-        height: this.touchDistance,
+        height: 24,
         transition: 'none'
       },
       topAjax: true,
@@ -135,6 +135,7 @@ export default {
       },
       authorTitle: '作者其他漫画',
       maybeLikeTitle: '喜欢《神灯精灵…》的也会喜欢',
+      topHeight: 0,
       isShowBgColor: false,
       showFootFlag: false,
       cartoonId: '', // 漫画id
@@ -185,6 +186,11 @@ export default {
     this.cartoonId = this.$route.query.cartoon_id || this.detailData.cartoon_id || '';
     this.getAuthorOther();
     this.maybeLikeTitle = this.detailData && this.detailData.title;
+    this.$nextTick(() => {
+      const bgHeight = document.getElementsByClassName('main-content')[0].offsetHeight
+      const headerHeight = document.getElementsByClassName('header-main')[0].offsetHeight
+      this.topHeight = bgHeight + headerHeight - 62 / 2 + 10
+    })
   },
   mounted() {
     this.scrollHeight = document.documentElement.scrollTop;
@@ -265,6 +271,7 @@ export default {
         this.topWrapStyle.height = `${this.height}px`;
         this.$parent.$refs.mainContent.style.height =
           this.marginTop + this.textHeight + this.height + 'px';
+        this.$refs['remarkScroll'].style.top = this.$parent.$refs.mainContent.offsetHeight + 10 + 'px'
       }
       if (this.height < -100 && this.height > -200) {
         console.log('进来了。。。。。');
@@ -283,17 +290,19 @@ export default {
       this.topWrapStyle.transition = 'height 200ms';
       this.topWrapStyle.height = `${this.touchDistance}`;
       this.$parent.$refs.mainContent.style.height = document.getElementsByClassName('info-content')[0].offsetHeight +
-        document.getElementsByClassName('main-content-box')[0].offsetHeight + 20 +
+        document.getElementsByClassName('main-content-box')[0].offsetHeight + 10 +
         'px';
       if (this.height < -100) {
         this.bottomAjax = true;
       } else {
         this.bottomAjax = false;
       }
+      if (this.height > 0) {
+        this.$refs['remarkScroll'].style.top = this.$parent.$refs.mainContent.offsetHeight + 20 + 'px'
+      }
       this.bottomWrapStyle.transition = 'height 200ms';
       this.bottomWrapStyle.height = '0';
       this.height = 0;
-      this.$refs['remarkScroll'].style.top = this.$parent.$refs.mainContent.offsetHeight + 20 + 'px'
       console.log('我结束滑动了。。。。', this.height);
     },
     // 清除下拉动画
@@ -409,6 +418,7 @@ export default {
   &-catalogue {
     display: flex;
     justify-content: center;
+    font-size: 14px;
     align-items: center;
     background: #ffffff;
     margin: 0 16px;
@@ -421,14 +431,19 @@ export default {
       padding: 0 22px;
 
       &-dn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 24px;
         height: 24px;
       }
 
       &-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding-left: 8px;
         white-space: nowrap;
-        line-height: 24px;
       }
     }
 
@@ -445,6 +460,9 @@ export default {
       /*line-height: 36px;*/
       font-size: 14px;
       color: #ffffff;
+      &:active {
+        background: #0ead5e;
+      }
     }
   }
 

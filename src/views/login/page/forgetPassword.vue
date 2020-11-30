@@ -281,6 +281,9 @@ export default {
         color: #E6E6E6;
         /*transform: scale(0.83);*/
         /*-webkit-transform-origin-x: 0;*/
+        &:active {
+          color: #0ead5e;
+        }
       }
     }
     &-label {

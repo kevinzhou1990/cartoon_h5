@@ -82,6 +82,8 @@ $font-color: #bbbbbb !default;
   }
   &-info {
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
     margin: 16px 0 8px 16px;
     width: 311px;
@@ -92,7 +94,7 @@ $font-color: #bbbbbb !default;
     color: #222222;
     line-height: 56px;
     &-title {
-      padding: 0 12px 0 16px;
+      padding: 0 12px 0 4px;
       width: 47px;
       overflow: hidden;
       white-space: nowrap;

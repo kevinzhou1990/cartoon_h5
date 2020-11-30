@@ -7,7 +7,7 @@
             暂无评分
           </div>
           <template v-else>
-            <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score }}</span>
+            <span class="collect-content-left-p" @click="handleScoreInfo">{{ zmCollectData && zmCollectData.score.toFixed(1) }}</span>
             <div class="collect-content-left-img" @click="handleScoreInfo">
               <div class="collect-content-left-img-text">{{ zmCollectData && zmCollectData.evalNum }}人评分</div>
               <div style="display: flex;">
@@ -27,7 +27,7 @@
           <span class="collect-content-bottom-text">{{ zmCollectData && zmCollectData.shelfNum }}人收藏</span>
         </div>
       </div>
-      <span class="collect-content-line zm-b-l"></span>
+      <div class="collect-content-line"></div>
       <div class="collect-content-right" @click.stop="handleCollect">
         <img :src="zmCollectData && zmCollectData.hasFavor === 0 ? collected:collect" alt width="24px" height="24px" />
         <!--        <span style="background: url('../images/save_collect.png') no-repeat; height: 24px; width: 24px; z-index: 9;"></span>-->
@@ -115,10 +115,10 @@ export default {
     display: flex;
     z-index: 2;
     &-left {
+      display: flex;
       font-family: pingfang-blod;
       color: #FFFFFF;
-      width: 123px;
-      display: flex;
+      width: 119px;
       &-p {
         font-size: 20px;
         color: #ffffff;
@@ -158,15 +158,31 @@ export default {
       }
     }
     &-line {
+      position: relative;
+      display: inline-block;
       height: 24px;
       margin: 16px 0;
       color: #ffffff;
       opacity: 0.1;
+      &:before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        width: 0.02666667rem;
+        color: #eee;
+        border-left: 0.02666667rem solid #FFFFFF;
+        top: 0;
+        bottom: 0;
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scaleX(0.5);
+        transform: scaleX(0.5);
+      }
     }
     &-right {
       display: flex;
       flex-direction: column;
-      padding: 4px 12px;
+      padding: 4px 16px;
       &-c {
         padding: 4px 0;
       }

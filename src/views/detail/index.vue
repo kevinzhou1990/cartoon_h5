@@ -33,7 +33,7 @@
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
         <div
-          :style="{ background: 'url(' + ZMDetailData.cover + ')no-repeat center / contain' }"
+          :style="{ background: 'url(' + ZMDetailData.cover + ') no-repeat', 'background-size': 'cover' }"
           class="main-content-box-right"
           v-if="ZMDetailData.cover"
         ></div>
@@ -79,8 +79,8 @@ export default {
       cartoon_id: '', // 漫画id
       ref: undefined, // 来源id
       refId: undefined, // 具体来源id的细分id
-      textLength: 59, // 简介默认展示47个字符 刚好占两行
-      textContent: '', // 简介两行的内容
+      textLength: 53, // 简介默认展示47个字符 刚好占两行
+      textContent: '', // 简介行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
       comicsInfo: {},
@@ -317,7 +317,7 @@ $content-label-fontSize: 12px;
   &-content {
     position: fixed;
     color: $content-color;
-    min-height: 284px;
+    min-height: 260px;
     /*height: auto;*/
     z-index: 1;
     &-box {
@@ -362,6 +362,7 @@ $content-label-fontSize: 12px;
             min-width: 32px;
             height: 20px;
             margin: 0 4px;
+            padding: 0 4px;
             text-align: center;
             line-height: 22px;
             opacity: 0.6;
