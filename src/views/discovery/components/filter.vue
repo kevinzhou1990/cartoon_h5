@@ -119,8 +119,22 @@ export default {
     // await this.$store.dispatch('getFilterItem');
     this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
     // 获取默认active的位置，设置给tag
-    const ele = this.$refs['tag'].querySelector('span.active');
-    this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
+    setTimeout(() => {
+      const tags = this.$refs['tag'];
+      const ele = tags.querySelector('span.active');
+      if (ele) {
+        this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
+      }
+    }, 100);
+    // const _this = this;
+    // this.$nextTick(function() {
+    //   const tags = _this.$refs['tag'];
+    //   const ele = tags.querySelector('span.active');
+    //   console.log(tags, ele);
+    //   if (ele) {
+    //     _this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
+    //   }
+    // });
   },
 
   methods: {
@@ -132,7 +146,6 @@ export default {
     updateFilter(type, data) {
       // 获取点击事件的标签，移动active tag的位置
       const ele = event.srcElement;
-      console.log(ele.offsetLeft, ele.offsetTop, ele.clientWidth, '目标');
       let d = {};
       switch (type) {
         case 'tag':
@@ -161,6 +174,9 @@ export default {
         this.$store.commit('UPDATECHECKED', d);
       }, 300);
     }
+  },
+  beforeDestroy() {
+    console.log('=====components desctroy');
   }
 };
 </script>
@@ -187,7 +203,6 @@ export default {
       position: absolute;
       border-radius: 4px;
       box-sizing: border-box;
-      width: 0px;
       height: 20px;
       background: #12e079;
       transition-property: width, left, top;

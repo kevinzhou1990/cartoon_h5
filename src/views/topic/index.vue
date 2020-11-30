@@ -8,7 +8,7 @@
     <div class="topic-title">{{ special.title }}</div>
     <section class="topic-author">
       <div class="topic-author-info">
-        <img class="avatar" :src="special.avatar" alt="头像" />
+        <img class="avatar" :src="special.avatar" @error="getDefaultHead" alt="头像" />
         <div>
           <div class="topic-author-name">{{ special.nickname }}</div>
           <div class="topic-gray">{{ special.created_at_text }}</div>
@@ -77,16 +77,15 @@ export default {
   },
   data() {
     return {
-      special: {},
       scrollHandler: throttle(this.handlerScroll, 100, this),
-      defaultHead: 'this.src="' + require('../../assets/img/default_head.png') + '"',
+      defaultHead: require('../../assets/img/default_head.png'),
       titleText: '',
       showAddComment: false
     };
   },
   mixins: [myMixins],
   computed: {
-    specialData() {
+    special() {
       return this.$store.state.topic.special;
     },
     commentsList() {
@@ -97,7 +96,10 @@ export default {
     }
   },
   mounted() {
-    this.special = JSON.parse(JSON.stringify(this.specialData));
+    // this.$nextTick(() => {
+    //   console.log(this.special.title, this.specialData.title);
+    // });
+    // this.special = JSON.parse(JSON.stringify(this.specialData));
     setTimeout(() => {
       if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
         this.showAddComment = true;
@@ -105,6 +107,7 @@ export default {
     }, 300);
     window.addEventListener('scroll', this.scrollHandler, false);
   },
+  watch: {},
   methods: {
     async getComments(page) {
       if (page > this.totalPage) {
@@ -142,6 +145,10 @@ export default {
       } else {
         this.showAddComment = false;
       }
+    },
+    getDefaultHead(e) {
+      e.target.src = this.defaultHead;
+      // console.log(e.target.src);
     }
   },
   beforeDestroy() {

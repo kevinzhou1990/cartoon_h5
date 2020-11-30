@@ -94,7 +94,6 @@ export default {
     };
   },
   mounted() {
-    console.log('mounted', this.$store.state.discovery.checked);
     // 监听滚动事件，列表距头部小于等于48px，筛选条件贴边
     // this.$store.commit('UPDATECHECKED', { tag_id: parseInt(this.$route.query.tag || 0) });
     this.scrollHandler = throttle(this.handlerScroll, 100, this);
@@ -146,7 +145,6 @@ export default {
   },
   methods: {
     async getComics(filter, page) {
-      console.log(filter, '----');
       this.loadingStatus = true;
       await this.$store.dispatch('getComicsList', { ...filter, page, page_size: 30 });
       this.page = this.page + 1;
@@ -192,7 +190,6 @@ export default {
       }
     },
     handlerTouchend() {
-      console.log('handlertouchend', this.checked);
       this.touchPos.moveY = 0;
       const scrollTop = this.$refs.list.getBoundingClientRect().top;
       const fh = this.$refs.discoveryFilter.$el.clientHeight;
