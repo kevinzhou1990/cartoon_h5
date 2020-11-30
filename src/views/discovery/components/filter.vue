@@ -117,11 +117,11 @@ export default {
   },
   async mounted() {
     // await this.$store.dispatch('getFilterItem');
-    this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
     // 获取默认active的位置，设置给tag
     setTimeout(() => {
       const tags = this.$refs['tag'];
       const ele = tags.querySelector('span.active');
+      this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
       if (ele) {
         this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
       }
