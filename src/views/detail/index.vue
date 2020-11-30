@@ -32,7 +32,7 @@
           <z-m-collect :zmCollectData="zmCollectData"></z-m-collect>
         </div>
         <div
-          :style="{ background: 'url(' + ZMDetailData.cover + ') no-repeat', 'background-size': 'cover' }"
+          :style="{ background: 'url(' + ZMDetailData.cover + ') no-repeat', 'background-size': '100%' }"
           class="main-content-box-right"
           v-if="ZMDetailData.cover"
         ></div>
