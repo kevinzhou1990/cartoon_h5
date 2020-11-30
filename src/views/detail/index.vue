@@ -4,15 +4,14 @@
       ref="detailHeader"
       :title-text="titleText"
       :background-color="headerBgColor"
-      show-right
       :show-nav-flag="showNavFlag"
       :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     >
-      <div
-        slot="right"
-        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"
-        @click="handleClickShare"
-      ></div>
+<!--      <div-->
+<!--        slot="right"-->
+<!--        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"-->
+<!--        @click="handleClickShare"-->
+<!--      ></div>-->
     </z-m-header>
     <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
       <div class="main-content-box">
@@ -81,7 +80,7 @@ export default {
       cartoon_id: '', // 漫画id
       ref: undefined, // 来源id
       refId: undefined, // 具体来源id的细分id
-      textLength: 53, // 简介默认展示47个字符 刚好占两行
+      textLength: 50, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介行的内容
       textHeight: 0, // 简介展开的高度
       show: false, // 显示目录
@@ -107,12 +106,12 @@ export default {
     }
   },
   mounted() {
-    this.isZMScrollFlag = false
     console.log('客服端进入详情页面');
     const queryData = this.$route.query || {};
     this.cartoon_id = queryData.cartoon_id || '';
     this.ref = queryData.ref;
     this.refId = queryData.ref_id;
+    this.isZMScrollFlag = false
     setTimeout(() => {
       this.isZMScrollFlag = true
       this.getZMDetail(this.ZMDetailData);
@@ -168,8 +167,8 @@ export default {
           document.getElementsByClassName('main-content-box')[0].offsetHeight + 30 +
           'px';
         console.log('11', that.$refs.mainContent.offsetHeight)
-        that.$children[2].$refs.remarkScroll.style.top = that.$refs.mainContent.offsetHeight + 30 + 'px'
-        console.log(that.$children[2].$refs.remarkScroll.style.top)
+        that.$children[3].$refs.remarkScroll.style.top = that.$refs.mainContent.offsetHeight + 20 + 'px'
+        console.log(that.$children[3].$refs.remarkScroll.style.top)
         // this.$parents.$refs['remarkScroll'].style.top
       }, 10);
     },

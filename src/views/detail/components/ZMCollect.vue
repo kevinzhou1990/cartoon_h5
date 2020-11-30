@@ -182,7 +182,7 @@ export default {
     &-right {
       display: flex;
       flex-direction: column;
-      padding: 4px 16px;
+      padding: 4px 12px;
       &-c {
         padding: 4px 0;
       }
