@@ -16,7 +16,13 @@ Router.prototype.replace = function replace(location) {
 export const router = new Router({
   mode: 'history',
   fallback: false,
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: (to, from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
   routes: routers
 });
 
