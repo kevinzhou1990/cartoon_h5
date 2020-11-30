@@ -1,6 +1,9 @@
 <template>
   <div class="comics-component" @click="handleZMInfo(comics.cartoon_id, ref)">
-    <div class="comics-component-cover" :style="`background-image:url(${comics.cover})`"></div>
+    <div
+      class="comics-component-cover"
+      :style="`background-image:url(${comics.cover}),url(${defaultBook})`"
+    ></div>
     <div class="comics-component-title">{{ comics.title }}</div>
     <div class="comics-component-update">
       <span>{{ comics.status_text }}</span>
@@ -10,6 +13,7 @@
 
 <script>
 import myMixins from '@/common/mixin/myMixins';
+import defaultBook from '@/assets/img/defaultBook.png';
 export default {
   name: 'comics',
   mixins: [myMixins],
@@ -18,9 +22,13 @@ export default {
   },
   data() {
     return {
-      ref: 6
+      ref: 6,
+      defaultBook
     };
   }
+  // mounted() {
+  //   console.log(defaultBook);
+  // }
 };
 </script>
 
