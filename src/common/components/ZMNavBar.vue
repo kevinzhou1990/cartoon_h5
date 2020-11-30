@@ -39,13 +39,9 @@ export default {
     this.$nextTick(() => {
       console.log(this.tabListData, '======');
       const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
-      const navIndex = this.$store.state.recommend.SEC_ID || ''
-      const key = navIndex || this.activeIndex;
-      // sessionStorage.setItem('navIndex', key)
+      // const navIndex = this.$store.state.recommend.SEC_ID || '';
+      const key = this.activeIndex;
       if (_index > -1) this.start(key, _index);
-      // const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
-      // const key = this.activeIndex;
-      // this.start(key, _index);
     });
   },
   methods: {

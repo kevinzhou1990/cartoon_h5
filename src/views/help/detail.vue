@@ -41,7 +41,6 @@ export default {
           return list[i].readed;
         }
       }
-      // return this.$store.state.help.understand;
     }
   },
   methods: {
@@ -53,7 +52,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (to.name === 'help') {
-      this.$store.commit('UPDATE_UNDERSTAND');
+      this.$store.commit('UPDATEHELPDETAIL', {});
     }
     next();
   }

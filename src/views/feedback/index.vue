@@ -7,7 +7,8 @@
           :class="textNumber > 0 ? 'title-right active' : 'title-right'"
           @click="commitQa"
         >
-          提交
+          <i class="icon-loading" v-if="isLoading" />
+          <i v-else>提交</i>
         </div>
       </div>
     </z-m-header>
@@ -74,7 +75,9 @@ export default {
       // 图片地址数组
       imgList: [],
       file: '',
-      name: ''
+      name: '',
+      // 发布状态
+      isLoading: false
     };
   },
   components: { ZMHeader, SvgIcon, ZMImg, Dialog },
@@ -89,7 +92,7 @@ export default {
   },
   methods: {
     commitQa() {
-      if (!this.content) {
+      if (!this.content && !this.isLoading) {
         return false;
       }
       const data = {
@@ -97,7 +100,9 @@ export default {
         image_urls: this.imgList,
         help_id: this.$route.query.id
       };
+      this.isLoading = true;
       this.$store.dispatch('addFeedback', data).then(res => {
+        this.isLoading = false;
         if (res.code === 0) {
           this.$store.commit('UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
           this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
@@ -118,15 +123,23 @@ export default {
     },
     // 选择文件上传图片
     choseFile(event) {
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      // console.log(event.target.files[0], '-----');
-      this.$store.dispatch('uploadFile', formData).then(res => {
-        if (res.code === 0) {
-          this.imgList.push(res.data.path);
-        } else {
-          this.$toast(res.msg || '上传失败');
-        }
+      this.$Loading.open();
+      const file = event.target.files[0];
+      const lrz = require('lrz');
+      const _this = this;
+      lrz(file, {
+        quality: 1
+      }).then(function(file) {
+        const formData = new FormData();
+        formData.append('file', file.file);
+        _this.$store.dispatch('uploadFile', formData).then(res => {
+          _this.$Loading.hide();
+          if (res.code === 0) {
+            _this.imgList.push(res.data.path);
+          } else {
+            _this.$toast(res.msg || '上传失败');
+          }
+        });
       });
     },
     // 删除已选择的图片
@@ -164,9 +177,21 @@ export default {
   .title-right {
     font-size: 12px;
     color: #e6e6e6;
+    i {
+      font-style: normal;
+    }
     &.active {
       color: #222;
     }
+  }
+  .icon-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url('../../assets/img/load_ba.png') no-repeat 0 0 transparent;
+    background-size: 100%;
+    vertical-align: middle;
+    animation: roates 1s linear infinite;
   }
   .feedback-content {
     padding: 44px 16px 0 16px;
@@ -264,8 +289,18 @@ export default {
     span {
       display: inline-block;
       color: #999;
-      /*transform: scale(0.83);*/
       transform-origin: center;
+    }
+  }
+  @keyframes roates {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

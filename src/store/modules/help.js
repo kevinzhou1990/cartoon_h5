@@ -5,9 +5,13 @@ const help = {
     list: [],
     detail: {},
     allData: [],
-    understand: false
+    understand: false,
+    activeIndex: 0
   },
   mutations: {
+    UPDATE_ACTIVED_INDEX: (state, index) => {
+      state.activeIndex = index;
+    },
     UPDATEHELPLIST: (state, list) => {
       state.list = list;
     },
@@ -23,7 +27,6 @@ const help = {
     HELP_LIST_FILTER: (state, id) => {
       const data = state.allData;
       let list = [];
-      console.log(data, id, list);
       for (let i = 0; i < data.length; i++) {
         if (data[i].group_id === parseInt(id)) {
           list = data[i].items;
@@ -48,7 +51,7 @@ const help = {
   },
   actions: {
     getHelpList({ commit }) {
-      helpList().then(res => {
+      return helpList().then(res => {
         if (res.code === 0) {
           const tabListData = {};
           const group = res.data.group;
@@ -68,6 +71,7 @@ const help = {
           commit('INITALLDATA', res.data.help);
           commit('UPDATEHELPTABLISTDATA', tabListData);
         }
+        return res;
       });
     },
     getHelpDetail({ commit }, id) {

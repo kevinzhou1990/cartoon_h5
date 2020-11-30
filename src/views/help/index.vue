@@ -1,7 +1,11 @@
 <template>
   <div class="helper box">
-    <z-m-header title-text="帮助中心" has-border />
-    <z-m-nav-bar :tabListData="tabListData" @getRecommendData="filterData" />
+    <z-m-header title-text="帮助中心" />
+    <z-m-nav-bar
+      :tabListData="tabListData"
+      :activeIndex="activeIndex"
+      @getRecommendData="filterData"
+    />
     <ul class="helper-list">
       <li
         class="helper-item"
@@ -35,7 +39,9 @@ export default {
   },
   components: { ZMHeader, ZMNavBar, SvgIcon },
   mounted() {
-    this.$store.dispatch('getHelpList');
+    this.$store.dispatch('getHelpList').then(res => {
+      this.filterData(this.activeIndex);
+    });
   },
   computed: {
     tabListData() {
@@ -43,6 +49,9 @@ export default {
     },
     qalist() {
       return this.$store.state.help.list;
+    },
+    activeIndex() {
+      return this.$store.state.help.activeIndex;
     }
   },
   methods: {
@@ -50,6 +59,7 @@ export default {
       this.$router.push({ path: '/help/detail', query: { id } });
     },
     filterData(key) {
+      this.$store.commit('UPDATE_ACTIVED_INDEX', parseInt(key));
       this.$store.commit('HELP_LIST_FILTER', key);
     }
   }
