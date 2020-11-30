@@ -3,7 +3,8 @@
 </template>
 
 <script>
-let iosUrl = 'https://itunes.apple.com/cn/app/'; // todo 待定
+const iosUrl = 'https://itunes.apple.com/cn/app/'; // todo 待定
+const androidUrl = location.href.indexOf('localhost') > -1 ? 'http://10.1.15.98:9501/api/android/down' : `${location.origin}/api/android/down`
 export default {
   name: 'download',
   data() {
@@ -57,14 +58,14 @@ export default {
         // 判断是否是android
         if (isChrome) {
           // chrome浏览器用iframe打不开得直接去打开，算一个坑
-          window.location.href = url;
+          window.location.href = url
         } else {
           //抛出你的scheme
           openIframe.src = url;
         }
-        // setTimeout(function () {
-        //   window.location.href = androidUrl;
-        // }, 500);
+        setTimeout(function () {
+          window.location.href = androidUrl;
+        }, 500);
       }
     }
   }
