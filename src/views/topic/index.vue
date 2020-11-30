@@ -157,6 +157,14 @@ export default {
 };
 </script>
 
+<style lang="scss">
+article {
+  img {
+    width: 100% !important;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 $GREEN: #12e079;
 $GRAY: #bbb;
@@ -206,9 +214,9 @@ $DEEPGRAY: #999;
     // font-family: 'pingfang-regular';
     color: $DARK;
     padding: 0 16px;
-    img {
-      width: 100% !important;
-    }
+    ///deep/ img {
+    //  width: 100%;
+    //}
   }
   .topic-zan {
     padding: 32px 0;
