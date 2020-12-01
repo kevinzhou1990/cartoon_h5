@@ -1,7 +1,7 @@
 <template>
   <div class="collect-main">
     <div class="collect-content">
-      <div>
+      <div style="padding-left: 8px;">
         <div class="collect-content-left">
           <div style="font-size: 14px; color: rgba(255,255,255,0.60); padding: 5px 8px;" v-if="zmCollectData && zmCollectData.evalNum === 0">
             暂无评分
@@ -29,7 +29,7 @@
       </div>
       <div class="collect-content-line"></div>
       <div class="collect-content-right" @click.stop="handleCollect">
-        <img :src="zmCollectData && zmCollectData.hasFavor === 0 ? collected:collect" alt width="24px" height="24px" />
+        <img :src="zmCollectData && zmCollectData.hasFavor === 0 ? collected:collect" alt width="17px" height="18px" />
         <!--        <span style="background: url('../images/save_collect.png') no-repeat; height: 24px; width: 24px; z-index: 9;"></span>-->
         <span class="collect-content-right-c">收藏</span>
       </div>
@@ -105,7 +105,7 @@ export default {
 <style scoped lang="scss">
 .collect-main {
   position: relative;
-  width: 175px;
+  width: 207px;
   height: 56px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -182,7 +182,8 @@ export default {
     &-right {
       display: flex;
       flex-direction: column;
-      padding: 4px 12px;
+      padding: 9px 24px;
+      align-items: center;
       &-c {
         padding: 4px 0;
       }
