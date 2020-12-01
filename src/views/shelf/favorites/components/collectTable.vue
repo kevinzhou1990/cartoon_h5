@@ -123,6 +123,7 @@ export default {
     }
 
     .no-data{
+      touch-action: none;
       height: calc(100vh - 76px);
     }
   }

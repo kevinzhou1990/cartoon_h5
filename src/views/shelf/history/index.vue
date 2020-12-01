@@ -146,7 +146,6 @@ export default {
 
           .tag {
             margin-top: 8px;
-            width: calc(100% * 1.202);
             .tag-item {
               border: 1px solid #eeeeee;
               border-radius: 4px;
@@ -175,6 +174,7 @@ export default {
     }
 
     .no-data{
+      touch-action: none;
       height: calc(100vh - 109px);
     }
   }
