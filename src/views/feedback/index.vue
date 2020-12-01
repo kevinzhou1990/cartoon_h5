@@ -147,7 +147,7 @@ export default {
       this.imgList.splice(idx, 1);
     },
     goBack() {
-      if (this.content.length > 0) {
+      if (this.content.length > 0 || this.imgList.length > 0) {
         this.$dialog('返回将不保存编辑的反馈', 'confirm', {
           confirm: {
             text: '返回',

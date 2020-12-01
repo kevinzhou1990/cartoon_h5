@@ -157,13 +157,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
-article {
-  img {
-    width: 100% !important;
-  }
-}
-</style>
+<!--<style lang="scss">-->
+<!--article {-->
+<!--  img {-->
+<!--    width: 100% !important;-->
+<!--  }-->
+<!--}-->
+<!--</style>-->
 
 <style lang="scss" scoped>
 $GREEN: #12e079;
@@ -214,9 +214,9 @@ $DEEPGRAY: #999;
     // font-family: 'pingfang-regular';
     color: $DARK;
     padding: 0 16px;
-    ///deep/ img {
-    //  width: 100%;
-    //}
+    & >>> img {
+      width: 100%;
+    }
   }
   .topic-zan {
     padding: 32px 0;
