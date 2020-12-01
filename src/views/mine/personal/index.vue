@@ -3,7 +3,7 @@
     <avatar v-if="setAvatar" return-type="file" :input-file="file" @cancel="setAvatar = false" @enter="uploadAvatar"></avatar>
 
     <div class="personal" v-else>
-      <z-m-header title-text="个人设置" has-border />
+      <z-m-header title-text="个人设置" has-border leftBtnFlag @goBack="goBack"/>
 
       <div class="main">
         <div class="base-info">
@@ -128,6 +128,12 @@ export default {
     jumpUpdateNickname(){
       this.$router.push({
         path: '/personal/update-nickname'
+      })
+    },
+    //自主跳我的页面，不选择默认返回上一个路由，防止修改完昵称后返回上一层出现personal路由
+    goBack(){
+      this.$router.push({
+        path: '/mine'
       })
     },
     //修改信息(性别，头像)
