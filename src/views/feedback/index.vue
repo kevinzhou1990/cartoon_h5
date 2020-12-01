@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     commitQa() {
-      if (!this.content && !this.isLoading) {
+      if (!this.content.trim() && !this.isLoading) {
         return false;
       }
       const data = {
