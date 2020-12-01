@@ -16,7 +16,7 @@
             <span class="maybe-main-content-item-desc-title-text">{{ item.title }}</span>
           </div>
           <div class="maybe-main-content-item-desc-chapter">
-            <span style="display: inline-block; line-height: 10px; max-width: 155px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ item.author | authorFormate }}</span>
+            <span class="maybe-main-content-item-desc-chapter-author">{{ item.author | authorFormate }}</span>
             <span class="p-l10">{{ item.publish_status || '--' }}</span>
           </div>
           <div class="maybe-main-content-item-desc-label">
@@ -67,26 +67,8 @@ export default {
       }
     }
   },
-  created() {
-  },
   components: {
     ZMswiper
-  },
-  methods: {
-    /**
-     * @info: TODO 去漫画详情
-     * @author: PengGeng
-     * @date: 8/11/20-10:04 上午
-     */
-    // handleClickComicsInfo(val) {
-    //   console.log('go to comics info......', val)
-    //   this.$router.push({
-    //     path: '/detail',
-    //     query: {
-    //       cartoon_id: val
-    //     }
-    //   })
-    // }
   }
 }
 </script>
@@ -170,20 +152,24 @@ export default {
           }
 
           &-chapter {
-            padding: 0 2px;
+            display: flex;
+            align-items: center;
+            padding: 0 2px 2px 2px;
             color: $chapter-color;
             font-size: $chapter-fontSize;
-            /*transform: scale(0.83);*/
-            /*-webkit-transform-origin-x: 0;*/
+            &-author {
+              display: inline-block;
+              max-width: 155px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
           }
 
           &-label {
             margin: 2px 2px;
             color: $chapter-color;
             font-size: 12px;
-            /*transform: scale(0.83);*/
-            /*-webkit-transform-origin-x: 0;*/
-
             .s-border {
               display: inline-block;
               padding: 0 2px;
