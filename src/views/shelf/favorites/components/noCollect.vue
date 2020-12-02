@@ -24,6 +24,7 @@
       <div class="title">热门收藏</div>
       <collect-table
         type="hotCollect"
+        refs=4
         :dataList="dataList"
       ></collect-table>
     </div>

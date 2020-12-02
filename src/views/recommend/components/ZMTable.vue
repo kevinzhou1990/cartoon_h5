@@ -5,29 +5,21 @@
 */
 <template>
   <div class="main-content">
-    <div style="display: flex; flex-flow: row wrap;">
-      <div
-        class="main-content-item"
-        v-for="item in dataList"
-        :key="item.cartoon_id"
-        @click.stop="handleZMInfo(item.cartoon_id, 4)"
-      >
-        <span
-          class="main-content-item-img"
-          :style="{background: 'url('+item.cover+')','background-size': 'contain'}"
-        ></span>
-        <span class="main-content-item-title">{{ item.title }}</span>
-        <span class="main-content-item-chapter">{{ item.publish_status }}</span>
-      </div>
-    </div>
+    <common-info
+      :dataList = "dataList"
+      refs = 4
+      showStatus
+    ></common-info>
   </div>
 </template>
 
 <script>
 import myMixins from '@/common/mixin/myMixins'
+import commonInfo from '@/common/components/WKTableItem'
 export default {
   name: 'ZMTable',
   mixins: [myMixins],
+  components: { commonInfo },
   props: {
     dataList: {
       type: Array,
@@ -36,22 +28,6 @@ export default {
   },
   data() {
     return {}
-  },
-  methods: {
-    /**
-     * @info: TODO 去漫画详情
-     * @author: PengGeng
-     * @date: 8/11/20-10:01 上午
-     */
-    handleClickInfo(val) {
-      console.log('go to comics info......', val);
-      this.$router.push({
-        path: '/detail',
-        query: {
-          cartoon_id: val
-        }
-      });
-    }
   }
 };
 </script>

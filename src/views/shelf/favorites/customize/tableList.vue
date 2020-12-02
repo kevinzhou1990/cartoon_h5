@@ -9,6 +9,7 @@
     <div class="main-container">
       <collect-table
         type="myCollect"
+        refs = 5
         :refId="$route.params.favorite_id"
         :dataList="collectList"
       ></collect-table>

@@ -1,23 +1,15 @@
 <template>
   <div class="main-content">
     <template v-if="dataList.length">
-      <div class="container">
-        <div
-          class="main-content-item"
-          v-for="item in dataList"
-          :key="item.cartoon_id"
-          @click="handleZMInfo(item.cartoon_id, ref, refId)"
-        >
-          <div class="update-tip" v-if="item.has_new && type === 'myCollect'">更新</div>
-          <span
-            class="main-content-item-img"
-            :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"
-          ></span>
-          <span class="main-content-item-title">{{ item.title }}</span>
-          <span class="main-content-item-status" v-if="type === 'myCollect'">{{ item.publish_status }}</span>
-          <span class="main-content-item-status" v-else>收藏 {{item.shelf_num_text}}</span>
-        </div>
-      </div>
+      <common-info
+        :dataList = "dataList"
+        :refs = "refs"
+        :refId = "refId"
+        :showCollect = "type === 'hotCollect'"
+        :showStatus = "type === 'myCollect'"
+        :hasUpdate = "type === 'myCollect'"
+      ></common-info>
+
       <div class="container-end" v-if="type !== 'myCollect' || dataList.length > 5">不要再扯了，真的没有了～</div>
     </template>
 
@@ -27,32 +19,26 @@
 
 <script>
 import noDataView from '@/common/components/noDataView';
-import myMixins from '@/common/mixin/myMixins'
+import myMixins from '@/common/mixin/myMixins';
+import commonInfo from '@/common/components/WKTableItem'
 export default {
   name: 'collectTable',
   mixins: [ myMixins ],
-  components: { noDataView },
+  components: { noDataView, commonInfo },
   props: {
     type: {
       type: String,
       default: ''
     },
+    refs: {
+      default: undefined
+    },
     refId: {
-      type: String || Number,
+      type: String,
       default: undefined
     },
     dataList: {
       type: Array
-    }
-  },
-  computed: {
-    ref(){
-      let arr = {
-        'myCollect': 5,
-        'hotCollect': 4
-      };
-
-      return arr[this.type]
     }
   },
   data() {
@@ -67,59 +53,11 @@ export default {
     position: relative;
     width: auto;
     padding: 0 12px 16px;
-    .container{
-      display: flex;
-      flex-flow: row wrap;
-      .main-content-item {
-        font-family: 'pingfang-blod';
-        display: flex;
-        flex-direction: column;
-        width: 109px;
-        padding: 8px 4px;
-        position: relative;
-        .update-tip{
-          width: 36px;
-          height: 18px;
-          line-height: 18px;
-          background: #12e079;
-          color: #FFFFFF;
-          text-align: center;
-          border-radius: 4px;
-          position: absolute;
-          top: 12px;
-          right: 8px;
-        }
-        .main-content-item-img {
-          height: 145px;
-          width: 109px;
-          border-radius: 4px;
-          background: url('../../../../assets/img/defaultBook.png') no-repeat;
-          background-size: 100%;
-        }
-        .main-content-item-title {
-          font-size: 14px;
-          display: inline-block;
-          padding: 8px 0 2px 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .main-content-item-status {
-          padding-top: 2px;
-          color: #bbbbbb;
-          /*transform: scale(0.83);*/
-          /*-webkit-transform-origin: 0;*/
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-    }
+
     .container-end{
       color: #BBBBBB;
       margin: 40px auto;
       text-align: center;
-      /*transform: scale(0.83);*/
     }
 
     .no-data{

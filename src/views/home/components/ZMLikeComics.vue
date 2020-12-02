@@ -21,21 +21,15 @@
       </div>
     </div>
     <div class="like-main-other">
-      <div
-        class="like-main-other-item"
-        v-for="item in likeComicsList"
-        :key="item.cartoon_id"
-        @click="handleZMInfo(item.cartoon_id, 2, recId)"
-      >
-        <span
-          class="like-main-other-item-img"
-          :style="{background: 'url('+item.cover+')', 'background-size': '100%'}"
-        ></span>
-        <span class="like-main-other-item-title">{{ item.title || '--'}}</span>
-        <span class="like-main-other-item-chapter">{{ item.publish_status || '--'}}</span>
-      </div>
+      <common-info
+        :dataList = "likeComicsList"
+        refs = 2
+        :refId = "recId"
+        :flexWrap="false"
+        showStatus
+      ></common-info>
     </div>
-    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list" style="margin-top: 16px;"></z-m-home-a-d>
+    <z-m-home-a-d v-if="ad_list.length" :ad-data="ad_list" style="margin-top: 8px;"></z-m-home-a-d>
   </div>
 </template>
 
@@ -43,6 +37,7 @@
 import '../../../common/filters/home';
 import ZMHomeLabel from './ZMHomeLabel';
 import myMixins from '@/common/mixin/myMixins';
+import commonInfo from '@/common/components/WKTableItem'
 import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMLikeComics',
@@ -66,7 +61,8 @@ export default {
   },
   components: {
     ZMHomeLabel,
-    ZMHomeAD
+    ZMHomeAD,
+    commonInfo
   },
   created() {
     this.labelName = this.likeComicsData.name;
@@ -93,7 +89,7 @@ $chapter-color: #bbbbbb;
   font-weight: bold;
   &-banner {
     position: relative;
-    margin: 12px 8px;
+    margin: 12px 8px 4px 8px;
     width: 343px;
     height: 172px;
     background: url('../../../assets/img/defaultBanner.png') no-repeat;
@@ -125,39 +121,11 @@ $chapter-color: #bbbbbb;
     }
   }
   &-other {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 8px;
+    margin: 0 4px;
     overflow-x: scroll;
     &::-webkit-scrollbar {
       display: none;
       width: 0 !important;
-    }
-    &-item {
-      display: flex;
-      flex-direction: column;
-      margin: 0 4px;
-      &-img {
-        width: 109px;
-        height: 145px;
-        border-radius: 4px;
-        padding: 4px 2px;
-        background: url('../../../assets/img/defaultBook.png') no-repeat;
-        background-size: 100%;
-      }
-      &-title {
-        width: 109px;
-        color: $like-color;
-        font-size: $banner-fontSize;
-        padding: 4px 0 2px 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      &-chapter {
-        font-size: 12px;
-        color: $chapter-color;
-      }
     }
   }
 }

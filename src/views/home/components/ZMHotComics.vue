@@ -10,16 +10,12 @@
         :rec-id="recId">
     </z-m-home-label>
     <div class="hot-main-content">
-      <div
-          class="hot-main-content-item"
-          v-for="item in hotComicsList"
-          :key="item.cartoon_id"
-          @click="handleZMInfo(item.cartoon_id, 2, recId)"
-      >
-        <span class="hot-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></span>
-        <span class="hot-main-content-item-title">{{ item.title || '-' }}</span>
-        <span class="hot-main-content-item-chapter"> {{ item.publish_status || '待更新' }}</span>
-      </div>
+      <common-info
+        :dataList = "hotComicsList"
+        refs = 2
+        :refId = "recId"
+        showStatus
+      ></common-info>
     </div>
     <div class="hot-main-btn" v-if="hotComicsList.length >= 6 || nowPages!==1">
       <span class="hot-main-btn-content" @click="handleChange">换一批</span>
@@ -32,6 +28,7 @@
 import ZMHomeLabel from './ZMHomeLabel'
 import { getMoreComics } from '@/common/api/home'
 import myMixins from '@/common/mixin/myMixins'
+import commonInfo from '@/common/components/WKTableItem'
 import ZMHomeAD from './ZMHomeAD'
 export default {
   name: 'ZMHotComics',
@@ -56,7 +53,8 @@ export default {
   },
   components: {
     ZMHomeLabel,
-    ZMHomeAD
+    ZMHomeAD,
+    commonInfo
   },
   created() {
     this.labelName = this.hotComicsData.name
@@ -103,43 +101,7 @@ export default {
     font-size: $main-fontSize;
 
     &-content {
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      padding: 12px 8px 8px 0px;
-
-      &-item {
-        width: 109px;
-        display: flex;
-        padding: 4px 0 4px 8px;
-        flex-direction: column;
-
-        &-img {
-          width: 109px;
-          height: 145px;
-          background: url("../../../assets/img/defaultBook.png") no-repeat;
-          background-size: cover;
-          /*padding: 8px;*/
-          border-radius: 4px;
-          margin-bottom: 4px;
-        }
-
-        &-title {
-          padding: 4px 0 2px 0;
-          font-size: $title-fontSize;
-          font-weight: bold;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        &-chapter {
-          padding: 2px 0 8px 0;
-          font-size: $chapter-fontSize;
-          color: $chapter-color;
-          font-weight: bold;
-        }
-      }
+      padding: 8px 4px 12px 4px;
     }
 
     &-btn {
