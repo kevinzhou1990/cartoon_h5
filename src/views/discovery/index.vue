@@ -48,7 +48,6 @@ import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import DiscoveryFilter from './components/filter';
 import commonInfo from '@/common/components/WKTableItem';
-import Comics from './components/comics';
 import { throttle } from '@/lib/utils';
 export default {
   name: 'Discovery',
@@ -56,7 +55,6 @@ export default {
     ZMHeader,
     SvgIcon,
     DiscoveryFilter,
-    Comics,
     commonInfo
   },
   computed: {
