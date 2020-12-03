@@ -35,7 +35,7 @@
       <template v-else>
         <transition name="rest">
           <div class="login-content">
-            <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
+            <span class="login-content-label">密码为6-20位，建议包含数字、字母组合</span>
             <div class="login-content-p zm-b-radius m-8">
               <input
                   v-model="newPasswordVal"
