@@ -1,7 +1,7 @@
 <template>
   <transition name="loading-pop">
     <div class="loading-container" v-if="show">
-      <div class="loading"></div>
+      <div class="loading" ref="loading"></div>
     </div>
   </transition>
 </template>
@@ -37,7 +37,6 @@
     .loading{
       width: 96px;
       height: 81px;
-      background: url('./img/toastloading.webp') no-repeat;
       background-size: 100%;
     }
   }

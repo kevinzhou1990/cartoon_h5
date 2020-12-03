@@ -23,6 +23,7 @@
     "fingerprintjs2": "^2.1.2",
     "https": "^1.0.0",
     "lib-flexible": "^0.3.2",
+    "lottie-web": "^5.7.4",
     "lrz": "^4.9.41",
     "mint-ui": "^2.2.13",
     "px2rem-loader": "^0.1.9",
