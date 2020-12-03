@@ -39,38 +39,39 @@
 </template>
 
 <script>
-import ZMswiper from '@/common/components/ZMswiper'
-import myMixins from '@/common/mixin/myMixins'
-import '@/common/filters/home'
-export default {
-  name: 'ZMPossibale',
-  mixins: [myMixins],
-  props: {
-    dataList: {
-      type: Array,
-      default: () => []
-    }
-  },
-  data() {
-    return {
-      bannerHeight: 90,
-      isBottomImg: false,
-      nums: [1, 2, 3],
-      swiperOptions: {
-        pagination: {
-          el: '.swiper-pagination',
-          // type: 'custom',
-          clickable: true, //点击分页器的指示点分页器会控制Swiper切换
-          bulletClass: 'point-customs-recommend',
-          bulletActiveClass: 'point-customs-active'
-        }
+  import ZMswiper from '@/common/components/ZMswiper';
+  import myMixins from '@/common/mixin/myMixins';
+  import '@/common/filters/home';
+
+  export default {
+    name: 'ZMPossibale',
+    mixins: [myMixins],
+    props: {
+      dataList: {
+        type: Array,
+        default: () => []
       }
+    },
+    data() {
+      return {
+        bannerHeight: 90,
+        isBottomImg: false,
+        nums: [1, 2, 3],
+        swiperOptions: {
+          pagination: {
+            el: '.swiper-pagination',
+            // type: 'custom',
+            clickable: true, //点击分页器的指示点分页器会控制Swiper切换
+            bulletClass: 'point-customs-recommend',
+            bulletActiveClass: 'point-customs-active'
+          }
+        }
+      };
+    },
+    components: {
+      ZMswiper
     }
-  },
-  components: {
-    ZMswiper
-  }
-}
+  };
 </script>
 <style scoped lang="scss">
   $maybe-fontSize: 18px;
@@ -98,7 +99,6 @@ export default {
     padding: 8px;
     color: $maybe-color;
     font-size: $maybe-fontSize;
-    font-weight: bold;
 
     &-content {
       width: 343px;
@@ -129,6 +129,7 @@ export default {
             padding: 8px 2px 4px 2px;
             justify-content: space-between;
             font-size: $title-fontSize;
+
             &-text {
               display: block;
               overflow: hidden;
@@ -136,6 +137,7 @@ export default {
               white-space: nowrap;
               text-overflow: ellipsis;
             }
+
             &-c {
               display: flex;
               justify-content: space-between;
@@ -157,6 +159,7 @@ export default {
             padding: 0 2px 2px 2px;
             color: $chapter-color;
             font-size: $chapter-fontSize;
+
             &-author {
               display: inline-block;
               max-width: 155px;
@@ -170,15 +173,33 @@ export default {
             margin: 2px 2px;
             color: $chapter-color;
             font-size: 12px;
+
             .s-border {
-              display: inline-block;
+              position: relative;
+              /*display: inline-block;*/
               padding: 0 2px;
               min-width: 32px;
-              height: 20px;
-              border: 1px solid rgba(0,0,0,0.2);
-              border-radius: 4px;
+              /*height: 20px;*/
+              /*border: 1px solid rgba(0, 0, 0, 0.2);*/
+              /*border-radius: 4px;*/
               text-align: center;
-              line-height: 20px;
+              align-items: center;
+              /*line-height: 20px;*/
+              &:before {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 200%;
+                color: #eee;
+                height: 200%;
+                -webkit-transform-origin: left top;
+                transform-origin: left top;
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                border: 1px solid rgba(0,0,0,0.2);
+                border-radius: 4px;
+              }
             }
           }
 
