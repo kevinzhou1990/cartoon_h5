@@ -1,12 +1,14 @@
 <template>
-  <!--  <div id="app" :class="isShow ? 'animation-active-in' : ''">-->
-  <div id="app">
-    <keep-alive v-if="isClient">
-      <router-view v-if="$route.meta.keepAlive && isShow" />
-    </keep-alive>
-    <router-view v-if="(!$route.meta.keepAlive && isShow) || !isClient"></router-view>
-
+  <!--  还在加载客户端代码状态下设置超出隐藏，防止在loading图下出现滚动条-->
+  <div id="app" :class="!isShow ? 'h-overflow': ''">
     <div v-if="!isShow" class="app-loading"></div>
+
+    <!--  服务端代码视图设置为透明，等待客户端代码加载完成，即关掉loading显示客户端视图，优化视觉效果-->
+    <!--  服务端代码不走keep-alive，否则ssr没效果-->
+    <router-view v-if="(!$route.meta.keepAlive) || !isClient" :class="!isClient ? 'opacity' : ''"></router-view>
+    <keep-alive v-else>
+      <router-view :class="!isClient ? 'opacity' : ''" />
+    </keep-alive>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ export default {
   mounted() {
     this.isShow = true;
     console.log(this.$route.meta.keepAlive, this.$route.name, this.isClient);
-    console.log('漫画H5--202011241803');
+    console.log('漫画H5--202012031750');
   }
 };
 </script>
@@ -36,14 +38,22 @@ export default {
 $BORDER_COLOR: #eee;
 @import './assets/style/1px.scss';
 
+.opacity {
+  opacity: 0;
+}
+
+.h-overflow {
+  overflow: hidden;
+}
+
 .app-loading {
   position: fixed;
-  font-size: 40px;
-  color: red;
   width: 100%;
   height: 100%;
   background: url('./views/home/images/homeLoading.gif') 100% 100% no-repeat;
   background-size: cover;
+  z-index: 999;
+  touch-action: none;
 }
 
 #app {
