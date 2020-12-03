@@ -25,11 +25,13 @@
         <!-- <div class="discovery-update">
           <span>下拉刷新</span>
         </div>-->
-        <ul ref="fliterResult" v-if="comicsList.length">
-          <li v-for="(item, index) in comicsList" :key="index">
-            <comics :comics="item" />
-          </li>
-        </ul>
+        <div ref="fliterResult" v-if="comicsList.length" class="result-container">
+          <common-info
+            :dataList = "comicsList"
+            refs = 6
+            showStatus
+          ></common-info>
+        </div>
         <div class="discovery-nodata" v-else>
           <img src="@/assets/img/network.png" alt="无数据" />
         </div>
@@ -45,6 +47,7 @@
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
 import DiscoveryFilter from './components/filter';
+import commonInfo from '@/common/components/WKTableItem';
 import Comics from './components/comics';
 import { throttle } from '@/lib/utils';
 export default {
@@ -53,7 +56,8 @@ export default {
     ZMHeader,
     SvgIcon,
     DiscoveryFilter,
-    Comics
+    Comics,
+    commonInfo
   },
   computed: {
     checked() {
@@ -221,11 +225,14 @@ export default {
 .discovery-page {
   padding-top: 44px;
   .discovery-comics-list {
-    padding: 0 16px;
+    padding: 0 12px;
     background: #fff;
     position: relative;
     z-index: 2;
     box-shadow: 0 -14px 24px rgba(0, 0, 0, 0.1);
+    .result-container{
+      margin-top: -8px;
+    }
     &.discovery-comics-list-top {
       padding-top: 44px;
       .discovery-filter-result {

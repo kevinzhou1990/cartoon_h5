@@ -16,7 +16,7 @@
         :style="{background: item.cover ? 'url('+item.cover+'), url(' + defaultCover + ')' : '','background-size': '100%', 'background-repeat': 'no-repeat'}"
       ></span>
       <span class="main-content-item-title">{{ item.title }}</span>
-      <span class="main-content-item-status" v-if="showStatus">{{ item.publish_status || '--'}}</span>
+      <span class="main-content-item-status" v-if="showStatus">{{ item.publish_status || item.status_text || '--'}}</span>
       <span class="main-content-item-status" v-if="showCollect">收藏 {{item.shelf_num_text || '--'}}</span>
     </div>
   </div>
