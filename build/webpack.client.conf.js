@@ -38,7 +38,7 @@ const config = merge(base, {
     new HtmlWebPlugin({
       title: '哇咔漫画',
       filename: 'index.html',
-      template: path.resolve(__dirname, '../index-client.html')
+      template: path.resolve(__dirname, '../index.html')
     }),
     new VueSSRClientPlugin()
   ]

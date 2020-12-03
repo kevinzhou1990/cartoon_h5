@@ -8,7 +8,7 @@
     <div class="topic-title">{{ special.title }}</div>
     <section class="topic-author">
       <div class="topic-author-info">
-        <img class="avatar" :src="special.avatar" @error="getDefaultHead" alt="头像" />
+        <img class="avatar" :src="special.avatar" @error="getDefaultHead" />
         <div>
           <div class="topic-author-name">{{ special.nickname }}</div>
           <div class="topic-gray">{{ special.created_at_text }}</div>
@@ -34,7 +34,7 @@
       <ul v-if="commentsList.length">
         <li v-for="item in commentsList" :key="item.id" @click="jumpDownloadPage">
           <div>
-            <img class="avatar" :src="item.avatar" :onerror="defaultHead" alt="头像" />
+            <img class="avatar" :src="item.avatar" @error="getDefaultHead" />
           </div>
           <div class="zm-b-b">
             <div class="topic-comment-user">{{ item.nickname || '默认' }}</div>
@@ -148,7 +148,6 @@ export default {
     },
     getDefaultHead(e) {
       e.target.src = this.defaultHead;
-      // console.log(e.target.src);
     }
   },
   beforeDestroy() {

@@ -4,7 +4,7 @@
       <div slot="right" class="header-right">
         <div
           slot="right"
-          :class="textNumber > 0 ? 'title-right active' : 'title-right'"
+          :class="textNumber > 4 ? 'title-right active' : 'title-right'"
           @click="commitQa"
         >
           <i class="icon-loading" v-if="isLoading" />
@@ -19,7 +19,7 @@
           cols="30"
           rows="10"
           maxlength="200"
-          placeholder="说说你的疑问点，不少于5个字哦～"
+          :placeholder="isDetail ? '说说你的疑问点，不少于5个字哦～' : '不少于5字哦～'"
           v-model="content"
           @input="changeLen"
         ></textarea>
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     commitQa() {
-      if (!this.content.trim() && !this.isLoading) {
+      if (!this.content.trim().length > 4 && !this.isLoading) {
         return false;
       }
       const data = {

@@ -1,5 +1,5 @@
 <template>
-  <div class="comics-component" @click="handleZMInfo(comics.cartoon_id, ref)">
+  <div class="comics-component" @click="handleZMInfo(comics.cartoon_id, source)">
     <div
       class="comics-component-cover"
       :style="`background-image:url(${comics.cover}),url(${defaultBook})`"
@@ -18,17 +18,14 @@ export default {
   name: 'comics',
   mixins: [myMixins],
   props: {
-    comics: { type: Object }
+    comics: { type: Object },
+    source: { type: Number }
   },
   data() {
     return {
-      ref: 6,
       defaultBook
     };
   }
-  // mounted() {
-  //   console.log(defaultBook);
-  // }
 };
 </script>
 

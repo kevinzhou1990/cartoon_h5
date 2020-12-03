@@ -85,24 +85,15 @@ function render(req, res) {
     cookies: req.cookies
   };
   // 执行服务端渲染，返回的是服务端渲染的模板
-  // if (routesSSR.indexOf(req.path) > -1) {
   renderer.renderToString(context, (err, html) => {
     if (err) {
       return handleError(err);
     }
-    // console.log(html)
     res.send(html);
     if (!isProd) {
       console.log(`whole request: ${Date.now() - s}ms`);
     }
   });
-  // } else {
-  //   // 客户端渲染，返回客户端渲染模板
-  //   const content = fs.readFileSync(templateClient, 'utf-8');
-  //   res.body = content;
-  //   res.send(content);
-  //   console.log('非服务端渲染，进入客户端');
-  // }
 }
 
 const serve = (path, cache) =>
@@ -161,7 +152,6 @@ app.get(
   isProd
     ? render
     : (req, res) => {
-        console.log(req.connection.remoteAddress, 'remoteAddress');
         readyPromise.then(() => render(req, res));
       }
 );
