@@ -124,21 +124,29 @@ export default {
     // 选择文件上传图片
     choseFile(event) {
       this.$Loading.open();
-      const file = event.target.files[0];
-      const lrz = require('lrz');
-      const _this = this;
-      lrz(file, {
-        quality: 1
-      }).then(function(file) {
-        const formData = new FormData();
-        formData.append('file', file.file);
-        _this.$store.dispatch('uploadFile', formData).then(res => {
+      import('lrz').then((module) => {
+        const file = event.target.files[0];
+        const _this = this;
+        module(file, {
+          quality: 1
+        }).then(function(file) {
+          console.log(file)
+          _this.$store.dispatch('uploadFile', file.formData).then(res => {
+            _this.$Loading.hide();
+            if (res.code === 0) {
+              _this.imgList.push(res.data.path);
+            } else {
+              _this.$toast(res.msg || '上传失败');
+            }
+          });
+        }).catch(function(error) {
+          //失败时执行
           _this.$Loading.hide();
-          if (res.code === 0) {
-            _this.imgList.push(res.data.path);
-          } else {
-            _this.$toast(res.msg || '上传失败');
-          }
+          console.log('lrz失败', error);
+          _this.$toast('图片加载失败,请稍后重试');
+        }).always(function() {
+          //不管成功或失败，都会执行
+          event.target.value = '';
         });
       });
     },
