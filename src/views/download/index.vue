@@ -40,20 +40,20 @@ export default {
       }
     },
     openApp(url) {
-      // android  TODO 下载地址：/api/android/down
+      // android
       let openIframe = this.createIframe();
       let isChrome = window.navigator.userAgent.indexOf('Chrome') !== -1;
       if (this.isIos) {
+        // 判断是否是ios
+        window.location.href = url;
         let loadDateTime = Date.now();
         setTimeout(function() {
           let timeOutDateTime = Date.now();
           console.log(timeOutDateTime - loadDateTime);
-          if (timeOutDateTime - loadDateTime < 1000) {
+          if (timeOutDateTime - loadDateTime < 2200) {
             window.location.href = iosUrl;
           }
-        }, 25);
-        // 判断是否是ios
-        window.location.href = url;
+        }, 2000);
       } else {
         // 判断是否是android
         if (isChrome) {
