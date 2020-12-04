@@ -5,6 +5,7 @@ const recommend = {
     SEC_ID: 1,
     // 推荐漫画数据
     dataList: [],
+    adBanner: [],
     pageInfo: {
       totalPage: 0,
       page_size: 30
@@ -19,6 +20,9 @@ const recommend = {
     },
     UPDATE_PAGE_INFO: (state, info) => {
       state.pageInfo = { ...state.pageInfo, ...info };
+    },
+    UPDATE_ADBANNER: (state, adList) => {
+      state.adBanner = adList;
     }
   },
   actions: {
@@ -26,9 +30,12 @@ const recommend = {
       return getMoreComics(data.secId, data.pageInfo)
         .then(res => {
           let list = state.dataList;
-          data.pageInfo.page === 1 ? (list = res.data.cartoon_list) : (list = [...list, ...res.data.cartoon_list]);
+          data.pageInfo.page === 1
+            ? (list = res.data.cartoon_list)
+            : (list = [...list, ...res.data.cartoon_list]);
           commit('UPDATE_DATA_LIST', list);
           commit('UPDATE_PAGE_INFO', { totalPage: res.data.total_pages });
+          commit('UPDATE_ADBANNER', res.data.ad_list);
           return res;
         })
         .catch(err => err);

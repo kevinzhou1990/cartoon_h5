@@ -6,15 +6,31 @@
           <div class="icon-bg" :class="isLightIcon ? 'trl-l' : 'trl-r'"></div>
         </div>
       </z-m-header>
-      <div style="z-index: 999" :class="isLightIcon ? 'icon-l-g' : 'icon-l-g-l'" @click.stop="handleClickLightIcon"></div>
-      <div style="z-index: 999" :class="isLightIcon ? 'icon-l-g-r' : 'icon-r-g'" @click.stop="handleClickLightIcon"></div>
+      <div
+        style="z-index: 999"
+        :class="isLightIcon ? 'icon-l-g' : 'icon-l-g-l'"
+        @click.stop="handleClickLightIcon"
+      ></div>
+      <div
+        style="z-index: 999"
+        :class="isLightIcon ? 'icon-l-g-r' : 'icon-r-g'"
+        @click.stop="handleClickLightIcon"
+      ></div>
     </div>
     <div class="nav-bar">
-      <z-m-nav-bar :tabListData="tabListData" :activeIndex="activeIndex" @getRecommendData="getComicsList"></z-m-nav-bar>
+      <z-m-nav-bar
+        :tabListData="tabListData"
+        :activeIndex="activeIndex"
+        @getRecommendData="getComicsList"
+      ></z-m-nav-bar>
     </div>
     <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
       <div class="ba" v-if="adBannerList.length && !isLightIcon">
-        <z-mswiper :banner-list="adBannerList" :bannerHeight="bannerHeight" :banner-width="343"></z-mswiper>
+        <z-mswiper
+          :banner-list="adBannerList"
+          :bannerHeight="bannerHeight"
+          :banner-width="343"
+        ></z-mswiper>
       </div>
       <div>
         <section v-if="dataList.length">
@@ -67,7 +83,7 @@ export default {
       blockBa: require('./images/block_ba.png'),
       showDataFlag: false, // 显示是否显示没有网络的情况
       isRecLoading: false,
-      adBannerList: [], // 广告
+      // adBannerList: [], // 广告
       bannerHeight: 86,
       currentPage: 1,
       allLoaded: false,
@@ -87,10 +103,16 @@ export default {
     },
     SEC_ID() {
       return this.$store.state.recommend.SEC_ID;
+    },
+    adBannerList() {
+      return this.$store.state.recommend.adBanner;
     }
   },
   asyncData({ store, route }) {
-    return store.dispatch('getRecommendList', { secId: route.query.SEC_ID || 1, pageInfo: { page: 1, page_size: 30 } });
+    return store.dispatch('getRecommendList', {
+      secId: route.query.SEC_ID || 1,
+      pageInfo: { page: 1, page_size: 30 }
+    });
   },
   mounted() {
     this.activeIndex = Number(this.$route.query.SEC_ID) || 1;
@@ -98,7 +120,7 @@ export default {
     this.$store.commit('SET_REC_DATA', JSON.parse(sessionStorage.getItem('vuex')).home.recData);
     this.$nextTick(() => {
       this.wrapperHeight = document.documentElement.clientHeight - 90;
-      this.adBannerList = (this.dataList && this.dataList.ad_list) || []
+      // this.adBannerList = (this.dataList && this.dataList.ad_list) || [];
     });
   },
   methods: {
@@ -113,10 +135,12 @@ export default {
         page_size: this.pageInfo.page_size
       };
       this.isRecLoading = true;
-      const res = this.$store.dispatch('getRecommendList', { secId: this.SEC_ID || 1, pageInfo: reqData });
-      res.then((resData) => {
+      const res = this.$store.dispatch('getRecommendList', {
+        secId: this.SEC_ID || 1,
+        pageInfo: reqData
+      });
+      res.then(resData => {
         if (resData.code === 0) {
-          this.adBannerList = resData.data && resData.data.ad_list
           this.isRecLoading = false;
           if (this.currentPage >= this.pageInfo.totalPage) {
             setTimeout(() => {
@@ -142,7 +166,7 @@ export default {
      * @date: 9/4/20-4:54 下午
      */
     getComicsList(val) {
-      if (Number(val) === this.activeIndex) return
+      if (Number(val) === this.activeIndex) return;
       // console.log('getComicsList.....', val);
       this.allLoaded = false;
       this.$refs.recommendList.scrollTop = 0;
@@ -252,12 +276,14 @@ $xLineLength: 3px !default;
 .icon-l-g-l {
   right: 40px;
   @include iconBg;
-  @include imgSet(list_ba) /*background: url("./images/list_ba.png") no-repeat;*/ /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
+  @include imgSet(list_ba) /*background: url("./images/list_ba.png") no-repeat;*/
+    /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
 }
 .icon-l-g-r {
   right: 21px;
   @include iconBg;
-  @include imgSet(block_ba) /*background: url("./images/block_ba.png") no-repeat;*/ /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
+  @include imgSet(block_ba) /*background: url("./images/block_ba.png") no-repeat;*/
+    /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
 }
 .nav-bar {
   position: relative;
