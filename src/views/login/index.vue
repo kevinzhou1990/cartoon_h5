@@ -276,13 +276,12 @@ export default {
 <style scoped lang="scss">
 ::-webkit-input-placeholder {
   font-family: PingFangSC-Semibold;
-  font-size: 12px;
   color: #BBBBBB;
   height: 100%;
-  line-height: 1;
 }
 input {
   caret-color: #12e079;
+  align-items: center;
 }
 .fade-enter-active {
   animation: fadeInUp 0.5s;
@@ -406,7 +405,7 @@ $label-color: #222222;
       font-size: $label-fontSize;
       color: $label-color;
       height: 48px;
-      line-height: 47px;
+      /*line-height: 1;*/
       &-left {
         position: relative;
         display: inline-block;
@@ -418,7 +417,7 @@ $label-color: #222222;
         position: relative;
         outline: none;
         border: none;
-        line-height: 120%;
+        /*line-height: 120%;*/
       }
       &-va {
         position: absolute;
