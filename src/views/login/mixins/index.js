@@ -55,7 +55,7 @@ export default {
 	  // 发送短信验证码的文字
     validateSMSText() {
       const btnValue = this.countTimeSMS >= 1 ? '重新获取' : '获取验证码'
-      return this.isShowCountDown ? this.times : btnValue
+      return this.isShowCountDown ? `${this.times}s` : btnValue
     }
   },
   methods: {
