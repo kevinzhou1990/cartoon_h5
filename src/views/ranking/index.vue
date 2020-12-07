@@ -23,7 +23,7 @@
               class="comics-cover"
               :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
               :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id)"
+              @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
             />
             <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
               <div class="ranking-info">
@@ -45,7 +45,7 @@
                   }}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, 1, activeRank)">
                 {{ comics.title }}
               </p>
               <div style="position: relative">
@@ -76,7 +76,7 @@
               class="comics-cover"
               :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
               :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id)"
+              @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
             />
             <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
               <div class="ranking-info">
@@ -98,7 +98,7 @@
                   }}
                 </span>
               </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id)">
+              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, 1, activeRank)">
                 {{ comics.title }}
               </p>
               <div style="position: relative">

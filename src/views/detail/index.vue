@@ -78,8 +78,6 @@ export default {
       isChangeHeader: false,
       zmCollectData: null,
       cartoon_id: '', // 漫画id
-      ref: undefined, // 来源id
-      refId: undefined, // 具体来源id的细分id
       textLength: 50, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介行的内容
       textHeight: 0, // 简介展开的高度
@@ -98,7 +96,12 @@ export default {
     ZMContents
   },
   asyncData({ store, route }) {
-    return store.dispatch('getDetail', route.query.cartoon_id || '');
+    const params = {
+      cartoon_id: route.query.cartoon_id,
+      ref: route.query.ref, // 来源id
+      ref_id: route.query.refId // 具体来源id的细分id
+    };
+    return store.dispatch('getDetail', params);
   },
   computed: {
     ZMDetailData() {
@@ -109,8 +112,6 @@ export default {
     console.log('客服端进入详情页面');
     const queryData = this.$route.query || {};
     this.cartoon_id = queryData.cartoon_id || '';
-    this.ref = queryData.ref;
-    this.refId = queryData.ref_id;
     this.isZMScrollFlag = false
     setTimeout(() => {
       this.isZMScrollFlag = true
@@ -246,7 +247,12 @@ export default {
   watch: {
     $route(to, from) {
       if (to.query.cartoon_id !== from.query.cartoon_id) {
-        this.$store.dispatch('getDetail', to.query.cartoon_id);
+        const params = {
+          cartoon_id: to.query.cartoon_id,
+          ref: to.query.ref,
+          ref_id: to.query.refId
+        };
+        this.$store.dispatch('getDetail', params);
         window.location.reload();
       }
     },

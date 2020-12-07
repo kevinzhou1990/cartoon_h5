@@ -13,8 +13,8 @@ const detail = {
     }
   },
   actions: {
-    getDetail({ commit }, cartoonId) {
-      return getZMDetail(cartoonId)
+    getDetail({ commit }, params = {}) {
+      return getZMDetail(params.cartoon_id || '', {ref: params.ref || '', ref_id: params.ref_id || ''})
         .then(res => {
           if (res) commit('UPDATE_ZMDETAIL_DATA', res.data);
           return res;
