@@ -92,7 +92,7 @@ $label-fontSize: 16px;
         position: relative;
         width: 152px;
         height: 152px;
-        background: url('../images/newDefaultBook.png') no-repeat;
+        background-img: url('../images/newDefaultBook.png') no-repeat;
         background-size: 100%;
         border-radius: 4px;
         background-position: center;

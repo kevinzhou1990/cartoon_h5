@@ -385,7 +385,7 @@ $content-label-fontSize: 12px;
         margin-left: 8px;
         height: 160px;
         border-radius: 4px;
-        background: url('../../assets/img/defaultBook.png') no-repeat;
+        background-img: url('../../assets/img/defaultBook.png') no-repeat;
         background-size: contain;
       }
     }

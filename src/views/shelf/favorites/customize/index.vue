@@ -103,7 +103,7 @@ $PADDING: 16px;
     }
 
     .bg {
-      background: url('../../../../assets/img/default_group.png') no-repeat;
+      background-image: url('../../../../assets/img/default_group.png');
     }
 
     .add {

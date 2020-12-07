@@ -92,7 +92,7 @@ $chapter-color: #bbbbbb;
     margin: 12px 8px 4px 8px;
     width: 343px;
     height: 172px;
-    background: url('../../../assets/img/defaultBanner.png') no-repeat;
+    background-img: url('../../../assets/img/defaultBanner.png') no-repeat;
     background-size: 100%;
     background-position: center;
     border-radius: 4px;

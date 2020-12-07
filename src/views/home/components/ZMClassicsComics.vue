@@ -106,7 +106,7 @@ $chapter-color: #bbbbbb;
           width: 72px;
           height: 96px;
           border-radius: 4px;
-          background: url('../../../assets/img/defaultBook.png') no-repeat;
+          background-img: url('../../../assets/img/defaultBook.png') no-repeat;
           background-size: cover;
           background-position-y: bottom;
         }

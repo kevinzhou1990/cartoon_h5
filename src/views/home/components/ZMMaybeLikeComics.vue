@@ -13,12 +13,16 @@
         @click="handleZMInfo(item.cartoon_id, 2, recId)"
     >
       <div class="maybe-main-content-item">
-        <div class="maybe-main-content-item-img" :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"></div>
+        <div class="maybe-main-content-item-img"
+             :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"
+        ></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
             <div class="maybe-main-content-item-desc-title-c" @click.stop="handleClickCollect">
-              <img class="maybe-main-content-item-desc-title-c-img" :src="isCollectFlag ? ba_img : bb_img">
+              <img
+                  class="maybe-main-content-item-desc-title-c-img"
+                  :src="isCollectFlag ? ba_img : bb_img">
               <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
             </div>
           </div>
@@ -141,7 +145,7 @@ export default {
         width: 90px;
         height: 120px;
         border-radius: 4px;
-        background: url("../../../assets/img/defaultBook.png") no-repeat;
+        background-img: url("../../../assets/img/defaultBook.png") no-repeat;
         background-size: cover;
       }
       &-desc {

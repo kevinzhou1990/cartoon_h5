@@ -39,8 +39,8 @@ export default {
     this.$nextTick(() => {
       console.log(this.tabListData, '======');
       const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
-      // const navIndex = this.$store.state.recommend.SEC_ID || '';
-      const key = this.activeIndex;
+      const navIndex = this.$store.state.recommend.SEC_ID || '';
+      const key = navIndex || this.activeIndex;
       if (_index > -1) this.start(key, _index);
     });
   },
