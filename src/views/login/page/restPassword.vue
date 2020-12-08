@@ -23,13 +23,13 @@
                 @click.stop="handleClickGetValidate(3)">
                  {{ isShowCountDown ? times: countTimeSMS >=1 ? '重新获取' : '获取验证码' }}
               </span>
-            <div
-                class="login-btn m-8"
-                :class="{'theme-bg': isClickLoginBtnFlag}"
-                @click.stop="handleClickNextStep(3)"
-            >
-              下一步
-            </div>
+          </div>
+          <div
+              class="login-btn m-8"
+              :class="{'theme-bg': isClickLoginBtnFlag}"
+              @click.stop="handleClickNextStep(3)"
+          >
+            下一步
           </div>
       </template>
       <template v-else>
@@ -53,7 +53,8 @@
               ></span>
             </div>
             <div
-                class="login-btn m-8"
+                style="margin: 16px 0 0 0;"
+                class="login-btn"
                 :class="{'theme-bg': isSetBtnFlag}"
                 @click.stop="handleClickSurePassword"
             >
@@ -224,47 +225,45 @@ export default {
         color: #BBBBBB;
       }
       &-tel {
-        padding: 4px 0 20px 0;
+        padding: 4px 0 40px 0;
         color: #222222;
         font-size: 18px;
         font-family: PingFangSC-Semibold;
       }
     }
     &-sms {
+      position: relative;
+      display: flex;
       font-family: pingfang-blod;
       margin: auto 16px;
       width: auto;
-      position: relative;
-      font-size: 12px;
       color: #222222;
-      height: 48px;
-      line-height: 47px;
+      height: 47px;
+      align-items: center;
       &-left {
-        position: relative;
-        display: inline-block;
+        display: flex;
+        height: 47px;
         width: 88px;
-        text-align: center;
+        padding-top: 1px;
+        justify-content: center;
+        align-items: center;
       }
       &-phone {
-        /*margin-left: 8px;*/
         position: relative;
         outline: none;
         border: none;
-        /*height: 42px;*/
       }
       &-va {
         position: absolute;
         right: 16px;
         width: auto;
-        font-size: 12px;
         color: #E6E6E6;
-        /*transform: scale(0.83);*/
-        /*-webkit-transform-origin-x: 0;*/
+        padding-top: 1px;
       }
     }
     .login-btn {
       font-family: PingFangSC-Semibold;
-      margin: 16px auto;
+      margin: 16px;
       background: #A2F5CB;
       border-radius: 4px;
       height: 52px;
@@ -316,11 +315,15 @@ export default {
       }
       &-p {
         position: relative;
+        display: flex;
         font-size: $label-fontSize;
         color: $label-color;
+        caret-color: #12e079;
         height: 47px;
-        line-height: 47px;
-        width: 343px;
+        margin-top: 28px;
+        /*line-height: 47px;*/
+        align-items: center;
+        width: 342px;
         &-pas {
           position: relative;
           margin: auto 16px;
