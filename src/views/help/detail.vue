@@ -82,6 +82,9 @@ export default {
       height: 44px;
       line-height: 44px;
       vertical-align: middle;
+      * {
+        font-style: normal;
+      }
       &:before {
         border-radius: 44px;
       }
@@ -94,7 +97,6 @@ export default {
       }
       &.no * {
         opacity: 0.1;
-        font-style: normal;
       }
     }
   }
