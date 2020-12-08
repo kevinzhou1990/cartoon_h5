@@ -155,7 +155,6 @@ $item-color: #bbbbbb;
       position: relative;
       color: $item-selected-color;
       transition-duration: 0.3s;
-      line-height: 54px;
       /*border-bottom: 1px solid rgba(#eeeeee, 0.5);*/
       /*border-width: 24px;*/
       /*border-bottom: 2px solid red;*/
