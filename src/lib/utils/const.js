@@ -8,4 +8,4 @@ export const CHANNEL = 0; // APP渠道，目前固定为0
 export const DEVICE_ID = uuidv4(); // 设备唯一标识
 export const DEVICE_MODEL = '网页设备'; // 设备型号
 export const CID = ''; // 推送标识
-export const INSTALL_TIME = '1578294652'; // APP安装时间，APP必须
+export const INSTALL_TIME = ''; // APP安装时间，APP必须
