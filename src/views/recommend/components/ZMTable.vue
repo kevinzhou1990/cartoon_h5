@@ -34,7 +34,6 @@ export default {
 
 <style scoped lang="scss">
 @mixin chapterSize {
-  font-weight: bold;
   color: #bbbbbb;
   font-size: 12px;
   /*transform: scale(0.83);*/

@@ -1,14 +1,16 @@
 <template>
-  <div class="scroll-box" ref="scrollBox">
-    <div
-      ref="scrollItem"
-      class="item"
-      :class="{ active: isSelected == name }"
-      v-for="(item, name, index) in tabListData"
-      :key="name"
-      @click.stop="start(name, index)"
-    >
-      {{ item }}
+  <div class="main">
+    <div class="scroll-box" :class="{'b-d': showBorderBottom }" ref="scrollBox">
+      <div
+          ref="scrollItem"
+          class="item"
+          :class="{ active: isSelected == item.index}"
+          v-for="(item, index) in tabListData"
+          :key="item.index"
+          @click.stop="start(item.index, index)"
+      >
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -17,13 +19,23 @@
 export default {
   name: 'NavBar',
   props: {
+    /**
+     * tabListData type Array
+     * eg: [{name: name, index: sec_id}]
+     * name: String  名字
+     * sec_id: Number ID
+     */
     tabListData: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     },
     activeIndex: {
       type: Number,
       default: 0
+    },
+    showBorderBottom: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -36,9 +48,17 @@ export default {
     };
   },
   mounted() {
+    const that = this
     this.$nextTick(() => {
-      console.log(this.tabListData, '======');
-      const _index = this.dataList && Object.keys(this.dataList).indexOf(this.activeIndex + '');
+      let _index = 0
+      if (this.dataList && this.dataList.length) {
+        for (let i = 0; i < this.dataList.length; i++){
+          if (this.dataList[i].index === that.activeIndex) {
+            _index = i
+            break
+          }
+        }
+      }
       const navIndex = this.$store.state.recommend.SEC_ID || '';
       const key = navIndex || this.activeIndex;
       if (_index > -1) this.start(key, _index);
@@ -47,7 +67,7 @@ export default {
   methods: {
     start(key, index) {
       this.isSelected = key;
-      this.currentIndex = index || 0;
+      this.currentIndex = key || 0;
       this.$emit('getRecommendData', this.isSelected);
       /**
        * 1)先让选中的元素滚到可视区域的最左边 scrollLeft
@@ -60,9 +80,9 @@ export default {
       this.scrollItemTimer = setInterval(() => {
         this.$nextTick(() => {
           if (this.$refs && this.$refs.scrollItem) {
-            let offsetWidth = this.$refs.scrollItem[this.currentIndex].offsetWidth; //item
+            let offsetWidth = this.$refs.scrollItem[index].offsetWidth; //item
             let scrollLeft =
-              this.$refs.scrollItem && this.$refs.scrollItem[this.currentIndex].offsetLeft; //选中的元素滚到可视区域的最左边
+              this.$refs.scrollItem && this.$refs.scrollItem[index].offsetLeft; //选中的元素滚到可视区域的最左边
             const containWidth = this.$refs.scrollBox.offsetWidth; //容器的宽度
             let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2; //最终要停留的点
             if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
@@ -89,77 +109,71 @@ export default {
 $BORDER_COLOR: red;
 $item-selected-color: #222222;
 $item-color: #bbbbbb;
-.bar-zindex {
-  position: relative;
-  left: 0;
-  top: 44px;
-  z-index: 9;
-  background: #ffffff;
-  &:before {
-    content: ' ';
-    position: absolute;
-    /*display:inline-block;*/
-    min-width: 475px;
-    bottom: 0;
-    height: 1px;
-    color: #eee;
-    left: 0;
-    right: 0;
-    border-bottom: 1px solid #eee;
-    -webkit-transform-origin: 0 100%;
-    transform-origin: 0 100%;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-  }
-}
-.scroll-box {
-  position: fixed;
-  font-family: 'pingfang-blod';
-  width: 100%;
-  background-color: #ffffff;
-  z-index: 9;
-  height: 56px;
-  line-height: 52px;
+.b-d {
   border-top: solid 1px #eeeeee;
-  border-bottom: solid 1px #eeeeee;
-  white-space: nowrap;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  color: $item-color;
-  box-sizing: border-box;
-  &::-webkit-scrollbar {
-    width: 0 !important;
-    height: 0 !important;
-    display: none;
-  }
-  .item {
-    display: inline-block;
-    padding: 0 16px;
-    white-space: nowrap;
-    max-width: 80px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 56px;
-    line-height: 52px;
-  }
-  .item:nth-last-of-type(1) {
-    margin-right: 0;
-  }
 }
-.active {
+.main {
   position: relative;
-  color: $item-selected-color;
-  transition-duration: 0.3s;
-  &:after {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 52px;
-    width: 24px;
-    transform: translateX(-50%);
-    border-bottom: 2px solid $item-selected-color;
-    /*margin: 0 8px;*/
+  padding-top: 56px;
+  width: 100%;
+  box-sizing: border-box;
+  .scroll-box {
+    position: fixed;
+    z-index: 9;
+    top: 56px;
+    left: 0;
+    height: 56px;
+    font-family: 'pingfang-blod';
+    width: 100%;
+    background-color: #ffffff;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    color: $item-color;
+    box-sizing: border-box;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none;
+    }
+    .item {
+      position: relative;
+      display: inline-block;
+      padding: 0 16px;
+      white-space: nowrap;
+      max-width: 80px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 53px;
+      line-height: 53px;
+      border-bottom: solid 1px #eeeeee;
+    }
+    .item:nth-last-of-type(1) {
+      margin-right: 0;
+    }
+    .active {
+      position: relative;
+      color: $item-selected-color;
+      transition-duration: 0.3s;
+      line-height: 54px;
+      /*border-bottom: 1px solid rgba(#eeeeee, 0.5);*/
+      /*border-width: 24px;*/
+      /*border-bottom: 2px solid red;*/
+      &:after {
+        content: ' ';
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        bottom: -2px;
+        width: 24px;
+        transform: translateX(-50%);
+        border-bottom: 3px solid $item-selected-color;
+        z-index: 1000;
+        /*border-bottom: 2px solid $item-selected-color;*/
+        /*margin: 0 8px;*/
+      }
+    }
   }
 }
+
 </style>

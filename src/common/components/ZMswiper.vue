@@ -14,9 +14,8 @@
           alt="banner"
           class="swiper-img"
           :style="{ height: bannerHeight + 'px', 'min-width': bannerWidth + 'px' }"
-          @click.prevent="showInfo(index)"
+          :name="JSON.stringify(item)"
         />
-        <!--        <div class="swiper-img" :style="{ height: bannerHeight+'px', background: 'url('+item.img+')' }"></div>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -32,6 +31,7 @@ import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter';
 
 MySwiperClass.use([Pagination, Autoplay]);
 const { Swiper, SwiperSlide } = getAwesomeSwiper(MySwiperClass);
+let vm = null
 export default {
   name: 'ZMswiper',
   props: {
@@ -75,7 +75,7 @@ export default {
         on: {
           click(swiper, event) {
             // 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
-            // vm.goBannerInfo(swiper.realIndex)
+            vm.showInfo(swiper.realIndex, JSON.parse(event.target.name))
           }
         },
         pagination: {
@@ -110,6 +110,7 @@ export default {
     }
   },
   created() {
+    vm = this
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps);
     // this.swiperOptions = this.swiperOptionsObject
     // console.log('Current Swiper instance object', this.swiper)
@@ -122,21 +123,21 @@ export default {
      * @author: PengGeng
      * @date: 8/19/20-3:58 下午
      */
-    showInfo(index) {
-      const BANNER_DATA = this.bannerList;
+    showInfo(index, ObjData) {
+      // const BANNER_DATA = this.bannerList;
       // 1-标签，2=专题，3=漫画详情页；4-内部URL；5-外部URL
-      const bannerType = BANNER_DATA[index]['jump_type'];
+      const bannerType = ObjData['jump_type'];
       console.log(bannerType);
       const JUMP_ADDRESS = {
         1: () => {
-          this.$router.push({ path: '/discovery', query: { tag: BANNER_DATA[index].tag_id } });
+          this.$router.push({ path: '/discovery', query: { tag: ObjData.tag_id } });
           console.log('jump to 标签');
         },
         2: () => {
           this.$router.push({
             path: '/topic',
             query: {
-              id: BANNER_DATA[index].special_id || 0
+              id: ObjData.special_id || 0
             }
           });
           console.log('jump to 专题');
@@ -145,76 +146,30 @@ export default {
           this.$router.push({
             path: '/detail',
             query: {
-              cartoon_id: BANNER_DATA[index].cartoon_id || ''
+              cartoon_id: ObjData.cartoon_id || ''
             }
           });
           console.log('jump to 漫画详情页');
         },
         4: () => {
-          window.location.href = BANNER_DATA[index].jump_address
-            ? BANNER_DATA[index].jump_address
+          window.location.href = ObjData.jump_address
+            ? ObjData.jump_address
             : this.$toast('暂时不支持跳转，谢谢！');
           console.log('jump to 内部URL');
         },
         5: () => {
-          window.location.href = BANNER_DATA[index].jump_address
-            ? BANNER_DATA[index].jump_address
+          window.location.href = ObjData.jump_address
+            ? ObjData.jump_address
             : this.$toast('暂时不支持跳转，谢谢！');
           console.log('jump to 外部URL');
         }
       };
-      if (BANNER_DATA[index] && BANNER_DATA[index]['jump_type']) {
-        JUMP_ADDRESS[BANNER_DATA[index]['jump_type']]();
+      if (ObjData && ObjData['jump_type']) {
+        JUMP_ADDRESS[ObjData['jump_type']]();
       } else {
         this.$toast('暂时不支持跳转，谢谢！');
       }
     }
-    /**
-     * TODO 跳转链接待协商
-     * @info: 跳转banner的详情
-     * @author: PengGeng
-     * @date: 8/19/20-3:58 下午
-     */
-    // goBannerInfo(index) {
-    //   this.$emit('adBannerInfo', index)
-    //   // const BANNER_DATA = this.bannerList
-    //   // // 1-标签，2=专题，3=漫画详情页；4-内部URL；5-外部URL
-    //   // const bannerType = BANNER_DATA[index]['jump_type']
-    //   // console.log(bannerType)
-    //   // const JUMP_ADDRESS = {
-    //   //   1: () => {
-    //   //     this.$router.push('/discovery')
-    //   //     console.log('jump to 标签')
-    //   //   },
-    //   //   2: () => {
-    //   //     this.$router.push({
-    //   //       path: '/recommend',
-    //   //       query: {
-    // 	//         SEC_ID: BANNER_DATA[index].special_id || 0
-    //   //       }
-    //   //     });
-    //   //     console.log('jump to 专题')
-    //   //   },
-    //   //   3: () => {
-    //   //     this.$router.push({
-    //   //       path: '/detail',
-    //   //       query: {
-    // 	//         cartoon_id: BANNER_DATA[index].cartoon_id || ''
-    //   //       }
-    //   //     })
-    //   //     console.log('jump to 漫画详情页')
-    //   //   },
-    //   //   4: () => {
-    //   //     window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
-    //   //     console.log('jump to 内部URL')
-    //   //   },
-    //   //   5: () => {
-    //   //     window.location.href = BANNER_DATA[index].jump_address ? BANNER_DATA[index].jump_address : location.href
-    //   //     console.log('jump to 外部URL')
-    //   //   }
-    //   // }
-    //   // console.log(JUMP_ADDRESS[bannerType]())
-    // }
   }
 };
 </script>
@@ -246,9 +201,9 @@ export default {
 }
 .point-customs-zero {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  line-height: 6px;
+  width: 4px;
+  height: 4px;
+  line-height: 4px;
   border: 1px solid #ffffff;
   margin: 0 4px !important;
   border-radius: 50%;
@@ -256,9 +211,9 @@ export default {
 }
 .point-customs {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  line-height: 6px;
+  width: 4px;
+  height: 4px;
+  line-height: 4px;
   border: 1px solid #ffffff;
   margin: 20px 4px;
   border-radius: 9px;
@@ -285,9 +240,9 @@ export default {
   /*margin-bottom: 21px;*/
   align-items: center;
   /*margin: 21px auto;*/
-  width: 12px;
-  height: 6px;
-  line-height: 6px;
+  width: 10px;
+  height: 4px;
+  line-height: 4px;
   background: #12e079;
   border: 1px solid #ffffff;
   border-radius: 9px;

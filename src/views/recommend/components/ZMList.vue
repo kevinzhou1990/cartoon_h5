@@ -177,14 +177,12 @@
             .s-border {
               position: relative;
               /*display: inline-block;*/
-              padding: 0 2px;
+              padding: 3px 6px;
               min-width: 32px;
-              /*height: 20px;*/
               /*border: 1px solid rgba(0, 0, 0, 0.2);*/
               /*border-radius: 4px;*/
               text-align: center;
               align-items: center;
-              /*line-height: 20px;*/
               &:before {
                 content: " ";
                 position: absolute;
@@ -204,7 +202,7 @@
           }
 
           &-content {
-            font-weight: bold;
+            margin-top: 4px;
             width: 245px;
             color: $content-color;
             font-size: $content-fontSize;
@@ -220,7 +218,6 @@
         &-line {
           display: flex;
           box-sizing: border-box;
-          font-weight: normal;
           opacity: 0.8;
           margin: 6px 0;
           /*width: 1143px;*/

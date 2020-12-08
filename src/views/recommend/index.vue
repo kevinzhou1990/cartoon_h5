@@ -17,13 +17,11 @@
         @click.stop="handleClickLightIcon"
       ></div>
     </div>
-    <div class="nav-bar">
-      <z-m-nav-bar
-        :tabListData="tabListData"
-        :activeIndex="activeIndex"
-        @getRecommendData="getComicsList"
-      ></z-m-nav-bar>
-    </div>
+    <z-m-nav-bar
+      :tabListData="tabListData"
+      :activeIndex="activeIndex"
+      @getRecommendData="getComicsList"
+    ></z-m-nav-bar>
     <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
       <div class="ba" v-if="adBannerList.length && !isLightIcon">
         <z-mswiper
@@ -215,6 +213,7 @@ $xLineLength: 3px !default;
 }
 .loadmore-se {
   position: relative;
+  margin-top: 16px;
   /*height: 100vh;*/
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
@@ -286,9 +285,9 @@ $xLineLength: 3px !default;
     /*background-size: 100%;*/ /*transition: all 0.8s ease-in-out;*/;
 }
 .nav-bar {
-  position: relative;
-  width: 100%;
-  height: 56px;
+  /*position: relative;*/
+  /*width: 100%;*/
+  /*height: 56px;*/
   /*box-sizing: border-box;*/
 }
 .point-customs {

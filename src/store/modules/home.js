@@ -80,10 +80,13 @@ const home = {
     },
     getRecTab({ commit }) {
       return getTabs().then(res => {
-        let recData = {};
+        let recData = [];
         res.data.data.map(item => {
           if (item.rec_id > 1) {
-            recData[item.rec_id] = item.name;
+            recData.push({
+              name: item.name,
+              index: item.rec_id
+            })
           }
         });
         commit('SET_REC_DATA', recData);
