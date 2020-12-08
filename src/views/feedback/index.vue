@@ -124,30 +124,33 @@ export default {
     // 选择文件上传图片
     choseFile(event) {
       this.$Loading.open();
-      import('lrz').then((module) => {
+      import('lrz').then(module => {
         const file = event.target.files[0];
         const _this = this;
         module(file, {
           quality: 1
-        }).then(function(file) {
-          console.log(file)
-          _this.$store.dispatch('uploadFile', file.formData).then(res => {
+        })
+          .then(function(file) {
+            console.log(file);
+            _this.$store.dispatch('uploadFile', file.formData).then(res => {
+              _this.$Loading.hide();
+              if (res.code === 0) {
+                _this.imgList.push(res.data.path);
+              } else {
+                _this.$toast(res.msg || '上传失败');
+              }
+            });
+          })
+          .catch(function(error) {
+            //失败时执行
             _this.$Loading.hide();
-            if (res.code === 0) {
-              _this.imgList.push(res.data.path);
-            } else {
-              _this.$toast(res.msg || '上传失败');
-            }
+            console.log('lrz失败', error);
+            _this.$toast('图片加载失败,请稍后重试');
+          })
+          .always(function() {
+            //不管成功或失败，都会执行
+            event.target.value = '';
           });
-        }).catch(function(error) {
-          //失败时执行
-          _this.$Loading.hide();
-          console.log('lrz失败', error);
-          _this.$toast('图片加载失败,请稍后重试');
-        }).always(function() {
-          //不管成功或失败，都会执行
-          event.target.value = '';
-        });
       });
     },
     // 删除已选择的图片
@@ -204,7 +207,7 @@ export default {
   .feedback-content {
     padding: 44px 16px 0 16px;
     p {
-      padding: 16px 0;
+      padding-top: 16px;
       font-size: 10px;
     }
   }
@@ -221,12 +224,17 @@ export default {
       background: transparent;
       border: none;
       font-family: pingfang-blod;
+      caret-color: #12e079;
+      &::placeholder {
+        color: #bbbbbb;
+      }
     }
     span {
       position: absolute;
       bottom: 4px;
       right: 5px;
       display: inline-block;
+      color: #bbbbbb;
     }
     i {
       font-style: normal;

@@ -1,6 +1,6 @@
 <template>
   <div class="helper-detail box">
-    <z-m-header title-text="" hasBorder />
+    <z-m-header title-text="" />
     <article>
       <h2 class="zm-b-b">问：{{ detail.question }}</h2>
       <p>答：{{ detail.answer }}</p>
@@ -10,7 +10,7 @@
         ><svg-icon icon-class="solve_ba" size="small" />明白了</span
       >
       <span :class="understand ? 'zm-b no' : 'zm-b'" @click="doNotUnderstand"
-        ><svg-icon icon-class="solve_bb" size="small" />没看懂</span
+        ><svg-icon icon-class="solve_bb" size="small" /><i>没看懂</i></span
       >
     </div>
   </div>
@@ -90,9 +90,11 @@ export default {
       }
       & > svg {
         margin-right: 8px;
+        margin-top: -1px;
       }
-      &.no {
-        opacity: 0.5;
+      &.no * {
+        opacity: 0.1;
+        font-style: normal;
       }
     }
   }

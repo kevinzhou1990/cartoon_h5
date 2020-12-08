@@ -111,18 +111,21 @@ export default {
   .mine-info {
     position: relative;
     & > img {
-      height: 52px;
+      height: 48px;
       position: absolute;
       right: 0;
       top: 104px;
     }
   }
   .mine-header {
+    position: fixed;
+    top: 0;
     background: url('../../assets/img/head_bg.png') 0 0 transparent;
     background-size: 100%;
     box-sizing: border-box;
     padding: 60px 16px 32px 16px;
     font-size: 18px;
+    width: 100%;
     .mine-avatar {
       height: 64px;
       width: 64px;
@@ -139,6 +142,7 @@ export default {
   }
   .mine-game-config {
     border-bottom: 8px solid #f5f5f5;
+    padding-top: 154px;
     img {
       width: 24px;
     }

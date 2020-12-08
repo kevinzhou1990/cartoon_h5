@@ -115,10 +115,19 @@ export default {
       }
     };
   },
-  async mounted() {
-    // await this.$store.dispatch('getFilterItem');
+  mounted() {
     // 获取默认active的位置，设置给tag
+    // console.log(this.$refs.tag.clientHeight);
+    // this.$nextTick(() => {
+    //   const ele = this.$refs.tag.querySelector('.active');
+    //   console.log(ele);
+    //   if (ele) {
+    //     this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
+    //   }
+    //   console.log(this.$refs.filter.clientHeight);
+    // });
     setTimeout(() => {
+      this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
       const tags = this.$refs['tag'];
       const ele = tags.querySelector('span.active');
       this.$parent.getFilterHeight(this.$refs['filter'].clientHeight);
@@ -126,15 +135,6 @@ export default {
         this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
       }
     }, 100);
-    // const _this = this;
-    // this.$nextTick(function() {
-    //   const tags = _this.$refs['tag'];
-    //   const ele = tags.querySelector('span.active');
-    //   console.log(tags, ele);
-    //   if (ele) {
-    //     _this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
-    //   }
-    // });
   },
 
   methods: {
