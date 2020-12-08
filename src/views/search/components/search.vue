@@ -180,7 +180,7 @@ input {
     line-height: 36px;
     &-input {
       border: none;
-      width: 248px;
+      width: 228px;
       /*height: 32px;*/
       outline: none;
     }
