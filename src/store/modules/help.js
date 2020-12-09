@@ -1,7 +1,7 @@
 import { helpList, helpDetail, commitFeedback } from '@/common/api/help';
 const help = {
   state: {
-    tabListData: {},
+    tabListData: [],
     list: [],
     detail: {},
     allData: [],
@@ -53,10 +53,12 @@ const help = {
     getHelpList({ commit }) {
       return helpList().then(res => {
         if (res.code === 0) {
-          const tabListData = {};
+          const tabListData = [];
           const group = res.data.group;
+          tabListData[0] = { index: 0, name: '全部' };
           group.forEach(item => {
-            tabListData[item.group_id] = item.group_name;
+            tabListData.push({ name: item.group_name, index: item.group_id });
+            // tabListData[item.group_id] = item.group_name;
           });
           const helps = res.data.help;
           const list = [];
@@ -66,7 +68,6 @@ const help = {
           list.map(item => {
             item.readed = false;
           });
-          tabListData[0] = '全部';
           commit('UPDATEHELPLIST', list);
           commit('INITALLDATA', res.data.help);
           commit('UPDATEHELPTABLISTDATA', tabListData);

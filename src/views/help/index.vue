@@ -51,7 +51,7 @@ export default {
       return this.$store.state.help.list;
     },
     activeIndex() {
-      return this.$store.state.help.activeIndex;
+      return this.$store.state.recommend.SEC_ID;
     }
   },
   methods: {
@@ -59,7 +59,8 @@ export default {
       this.$router.push({ path: '/help/detail', query: { id } });
     },
     filterData(key) {
-      this.$store.commit('UPDATE_ACTIVED_INDEX', parseInt(key));
+      this.$store.commit('UPDATE_SEC_ID', parseInt(key));
+      // this.$store.commit('UPDATE_ACTIVED_INDEX', parseInt(key));
       this.$store.commit('HELP_LIST_FILTER', key);
     }
   }
@@ -69,7 +70,6 @@ export default {
 <style lang="scss" scoped>
 .helper {
   .helper-list {
-    padding-top: 72px;
     .helper-item {
       padding: 16px 0 0px 16px;
       font-size: 12px;
