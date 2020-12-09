@@ -14,7 +14,7 @@
           </li>
         </ul>
           <ul v-else>
-            {{ scrollTextList[0] || '111' }}
+            {{ firstName }}
           </ul>
         <ul></ul>
       </div>
@@ -31,7 +31,8 @@ export default {
     return {
       searchValue: '', // search values
       placeholderValue: '请输入你想要的内容', // search init values
-      scrollTextList: []
+      scrollTextList: [],
+      firstName: ''
     };
   },
   mounted() {
@@ -54,6 +55,7 @@ export default {
     async getData() {
       const resData = await searchWroldList()
       if (resData && resData.code === 0){
+        this.firstName = resData.data.hot_keywords[0]
         this.scrollTextList = resData.data.hot_keywords || []
 	      this.textScroll()
       } else {
@@ -71,16 +73,22 @@ export default {
       }
     },
     autoScrollLine() {
+	    let boxScrollTopTimers = null
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
       const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0]
       if (!parent) return
-      if (this.box.scrollTop >= parent.offsetHeight) {
-        this.box.scrollTop = 0;
+      console.log(parent.offsetHeight - this.box.scrollTop)
+      if (parent.offsetHeight - this.box.scrollTop <= 37) {
+        // let timers = null
+        boxScrollTopTimers = setTimeout(() => {
+          this.box.scrollTop = 0;
+        }, 3000)
       } else {
         this.box.scrollTop++;
       }
       /* 判断滚动的距离刚好为一条内容的高度时停掉定时器，隔1s之后重新启动定时器即可实现内容滚动停留效果 */
       if (this.box.scrollTop % this.box.offsetHeight === 0) {
+        boxScrollTopTimers && clearInterval(boxScrollTopTimers)
         clearInterval(this.timer);
         setTimeout(() => {
           this.timer = setInterval(this.autoScrollLine, 30);
