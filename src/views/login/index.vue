@@ -122,7 +122,6 @@ export default {
     this.$nextTick(() => {
       this.show = true;
     });
-    // this.test()
   },
   methods: {
     getSMSCode(val, randCode) {

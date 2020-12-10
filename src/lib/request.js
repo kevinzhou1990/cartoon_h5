@@ -97,6 +97,12 @@ service.intercept({
   //请求失败
   fail(res) {
     if (res.status !== 999){
+      if (res.status === 500) {
+        Toast('加载失败，请检查网络', {
+          duration: 2000
+        })
+        return
+      }
       Toast(res.msg || '系统出错,请稍后重试', {
         type: 'fail',
         duration: 3000

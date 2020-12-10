@@ -77,7 +77,6 @@ export default {
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
       const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0]
       if (!parent) return
-      console.log(parent.offsetHeight - this.box.scrollTop)
       if (parent.offsetHeight - this.box.scrollTop <= 37) {
         // let timers = null
         boxScrollTopTimers = setTimeout(() => {
