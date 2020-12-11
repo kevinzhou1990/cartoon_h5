@@ -8,7 +8,7 @@
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div
       class="like-main-banner"
-      :style="`background-image:url('${likeBannerData.cover}');`"
+      :style="{ background: 'url('+likeBannerData.cover+'), url(' + defaultBanner + ') no-repeat ', 'background-size': '100%' }"
       @click="handleZMInfo(likeBannerData.cartoon_id, 2, recId)"
     >
       <div class="like-main-banner-img">
@@ -92,9 +92,7 @@ $chapter-color: #bbbbbb;
     margin: 12px 8px 4px 8px;
     width: 343px;
     height: 172px;
-    background-img: url('../../../assets/img/defaultBanner.png') no-repeat;
-    background-size: 100%;
-    background-position: center;
+    background: url('../../../assets/img/defaultBanner.png') no-repeat;
     border-radius: 4px;
     &-img {
       position: absolute;

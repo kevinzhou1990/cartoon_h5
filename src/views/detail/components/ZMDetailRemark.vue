@@ -68,6 +68,11 @@ export default {
       userIcon: require('../images/default-icon.png')
     }
   },
+  created() {
+    this.$nextTick(() => {
+      this.userIcon = this.remarkData.avatar || require('../images/default-icon.png')
+    })
+  },
   methods: {
 	  /**
 	   * @info: 去评论详情
@@ -149,6 +154,7 @@ export default {
       &-img {
         width: 24px;
         height: 24px;
+        border-radius: 12px;
       }
       &-time {
         white-space: nowrap;

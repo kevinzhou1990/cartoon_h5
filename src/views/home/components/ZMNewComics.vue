@@ -13,7 +13,7 @@
         :key="item.cartoon_id"
         @click="handleZMInfo(item.cartoon_id, 2, recId)"
       >
-        <div class="new-main-content-item-img" :style="`background-image: url('${item.cover}'); `">
+        <div class="new-main-content-item-img" :style="{ background: 'url('+item.cover+'), url(' + defaultCover + ') no-repeat', 'background-size': '100%'}">
           <div class="new-main-content-item-img-text">
             <div class="content">{{ item.on_time || '待上架' }}</div>
           </div>
@@ -92,7 +92,7 @@ $label-fontSize: 16px;
         position: relative;
         width: 152px;
         height: 152px;
-        background-img: url('../images/newDefaultBook.png') no-repeat;
+        background-img: url('../../../assets/img/newDefaultBook.png') no-repeat;
         background-size: 100%;
         border-radius: 4px;
         background-position: center;

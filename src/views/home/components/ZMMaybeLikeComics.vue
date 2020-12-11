@@ -14,8 +14,7 @@
     >
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img"
-             :style="{ background: 'url('+item.cover+')', 'background-size': '100%'}"
-        ></div>
+             :style="{ background: 'url('+item.cover+'), url(' + defaultCover + ') no-repeat', 'background-size': '100%'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>
@@ -145,7 +144,7 @@ export default {
         width: 90px;
         height: 120px;
         border-radius: 4px;
-        background-img: url("../../../assets/img/defaultBook.png") no-repeat;
+        background: url("../../../assets/img/defaultBook.png");
         background-size: cover;
       }
       &-desc {

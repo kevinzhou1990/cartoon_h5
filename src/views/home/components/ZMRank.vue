@@ -19,7 +19,7 @@
              :key="articleItem.cartoon_id"
         >
           <div class="rank-item-content-item" @click.stop="handleZMInfo(articleItem.cartoon_id, 1, item.cate.rank_id)">
-            <img class="rank-item-content-item-img" :src='articleItem.cover' />
+            <img class="rank-item-content-item-img" :src='articleItem.cover' onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACYBAMAAADq7D0SAAAAJ1BMVEXm5ubZ2dnb29vj4+PX19fh4eHQ0NDe3t7V1dXS0tLCwsLFxcXKyspTWR7YAAADlUlEQVRo3u2XO6sTQRSABwd7zzpRS2d8pLFYHBbrwfXVRZcltU3wgoV3JWythUSwEUQi9qLBytJUWljon/KcM5PcGJvMrFjNhzB44X5859yZ+xCZTCaTyWQymUwm83853Zb/zCU7c17EY7cFFtn857qGYhLtumGuCKbqmcbrHgDA2WiZAc2f3rbT3hjTz+eNQDqU3YzejQaY4DGddqjShTHjfpIsA5LJdmqIAhCDNh7zTMKYqhSVd+HSETDzUpzi4liuw0icnnc+jMs0jJ8KcYwfj6fBIb0LgMvIhpM3iZc9DEkihM4rIpVNmOYyTaeZiCFhF974sgtLbNPFpUTZDQq7/Gv9nHf2fv0NkHGaS/YGubr++p3Lfq0/AVmfpE35gGTX1qsv5FDr1QdNtlHilFy2Wvmyn6uPQJgkWUsurX9+BubV6iGfxSR5ZVBcdvru26Ol0zV4LqasrCMXDfhihhw5CJxNXJlGVXFvxjyCwDhFhmH0gtQs8AwCafvXVHaOhzx6926Tpsp4WY9hgLa33oVs0iYpP9KAyi5w2DvidZA9SZDpgsrOkQttLxcvl0FWRM9ZdQWX3Z55lovFIsjcnVhX3wGXvQiyoxNZ7S7F3djeUBnv/yTNsUu5Wk1iFjY1JpRtZY82shpt52NcnTHHJ2WPZz8e05wuuPDf2bhvPse+7PZsQ9iZYxuUhy8MCWVqO2cIY1ftRgfKcMiTskJtvp7Ob9+XYVpEmNFURj5QdxfLRQ2MC2W1u3hoGBPKYBdVb8rUzUNfOBPKdlFuW1aPomRk2rPVO2WjmDHHf5cp5WJ3Jh/QjOMe/qL2ZUAc+thl1bZW2g72t+/L+r439GtfBNLe3+tSNZdBY1kUJ7uh94b0ZbdQFmmT0lZ671r4siubsiFz8n2oFbQ2WiYxbfrnxnzZnRZd0Vhrze6QoWyOU6bYqus72w9ld9rGShE/p7Wt3oZxGTIPK4u3tdNtmC9zd9glU5ZWNcchLJRBWzXWJrjKEudsL/swLqPtY5lIAZfWtFO1vftO9W1LY5YpttJWaNP+VQK4OaooLMmFaRZbOuXIdx5dDXXJNBvJKvqzuh/3qPKyxDJ+7WQLVCiXItEmhd21VcnLZ0p6BuggleUwG8JS10ZtSNPwkHKAi21NRatvhgwZBkWbtAS7pBhGcJVWkmsospR0vawY7OILT218VYYjw8HncCQhMplMJpPJZDKZTCbzL/gNi+9BFIzPgrUAAAAASUVORK5CYII=', this.onerror=null" />
             <div class="rank-item-content-item-info">
               <div class="info-rank">
                 <div class="info-rank-l"><span class="l-c">{{`0${ articleItem.rank }`}}</span></div>
@@ -193,7 +193,7 @@ export default {
           width: 72px;
           height: 96px;
           border-radius: 4px;
-          background: url("../images/newDefaultBook.png") no-repeat center;
+          background: url("../../../assets/img/newDefaultBook.png") no-repeat center;
           background-size: cover;
         }
         &-info {

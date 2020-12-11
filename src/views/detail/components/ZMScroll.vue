@@ -154,7 +154,7 @@ export default {
       if (this.detailData && this.detailData.last.has_read === 1) {
         return `继续 ${this.detailData.last.title}`;
       } else {
-        return '阅读 第一话';
+        return `阅读 ${this.detailData.last.title}`;
       }
     },
     isOnlineText() {

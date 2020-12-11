@@ -1,5 +1,11 @@
 export default {
-  data() {},
+  data() {
+    return {
+      defaultCover: require('../../assets/img/defaultBook.png'), // comics Icon
+      defaultBanner: require('../../assets/img/defaultBanner.png'), // banner
+      defaultBannerAb: require('../../assets/img/defaultBannerAb.png') // ad default
+    }
+  },
   methods: {
   /**
    * @info: 跳转到详情
