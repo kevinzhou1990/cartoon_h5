@@ -8,7 +8,9 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </z-m-header>
-    <Navigation :show="navigationStatus" />
+    <div v-if="isClientRender">
+      <Navigation :show="navigationStatus" />
+    </div>
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
@@ -45,6 +47,7 @@ import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
 import { getIndex, getPageHeight, getDistance, localReadProcess } from './tools';
+import env from '@/lib/utils/env';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -65,10 +68,15 @@ export default {
       pageIndex: 3,
       // 每张图片的高度
       imgHeight: [],
-      firstUse: true
+      firstUse: true,
+      isClientRender: false
     };
   },
+  created() {
+    this.isClientRender = env.isClient();
+  },
   mounted() {
+    this.isClientRender = env.isClient();
     this.pageinit();
     const reportMsg = {
       start_time: Math.floor(new Date().getTime() / 1000),
