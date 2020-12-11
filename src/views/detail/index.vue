@@ -7,11 +7,11 @@
       :show-nav-flag="showNavFlag"
       :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     >
-<!--      <div-->
-<!--        slot="right"-->
-<!--        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"-->
-<!--        @click="handleClickShare"-->
-<!--      ></div>-->
+      <!--      <div-->
+      <!--        slot="right"-->
+      <!--        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"-->
+      <!--        @click="handleClickShare"-->
+      <!--      ></div>-->
     </z-m-header>
     <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
       <div class="main-content-box">
@@ -23,7 +23,7 @@
           <div class="main-content-box-left-label">
             <span
               class="main-content-box-left-label-content zm-b-radius"
-              :style="index === 0 ? { 'margin-left': '0px !important'} : ''"
+              :style="index === 0 ? { 'margin-left': '0px !important' } : ''"
               v-for="(tagItem, index) in ZMDetailData.tag"
               :key="index"
               >{{ tagItem }}</span
@@ -33,7 +33,7 @@
         </div>
         <div
           class="main-content-box-right"
-          :style="{ background: 'url(' + ZMDetailData.cover + ') no-repeat center / cover'}"
+          :style="{ background: 'url(' + ZMDetailData.cover + ') no-repeat center / cover' }"
           v-if="ZMDetailData.cover"
         ></div>
       </div>
@@ -101,7 +101,7 @@ export default {
       ref: route.query.ref, // 来源id
       ref_id: route.query.refId // 具体来源id的细分id
     };
-    return store.dispatch('getDetail', params);
+    return store.dispatch('detail/getDetail', params);
   },
   computed: {
     ZMDetailData() {
@@ -112,9 +112,9 @@ export default {
     console.log('客服端进入详情页面');
     const queryData = this.$route.query || {};
     this.cartoon_id = queryData.cartoon_id || '';
-    this.isZMScrollFlag = false
+    this.isZMScrollFlag = false;
     setTimeout(() => {
-      this.isZMScrollFlag = true
+      this.isZMScrollFlag = true;
       this.getZMDetail(this.ZMDetailData);
       this.infoHeight =
         document.getElementsByClassName('info-content') &&
@@ -151,7 +151,7 @@ export default {
      */
     getElHeight() {
       this.showMoreFlag = true;
-      let that = this
+      let that = this;
       const mainContentBox = document.getElementsByClassName('main-content-box')[0].offsetHeight;
       setTimeout(() => {
         const introContentHeight = this.$refs['intro-content'].offsetHeight;
@@ -165,11 +165,13 @@ export default {
             : 0;
         that.$refs.mainContent.style.height =
           document.getElementsByClassName('info-content')[0].offsetHeight +
-          document.getElementsByClassName('main-content-box')[0].offsetHeight + 30 +
+          document.getElementsByClassName('main-content-box')[0].offsetHeight +
+          30 +
           'px';
-        console.log('11', that.$refs.mainContent.offsetHeight)
-        that.$children[3].$refs.remarkScroll.style.top = that.$refs.mainContent.offsetHeight + 20 + 'px'
-        console.log(that.$children[3].$refs.remarkScroll.style.top)
+        console.log('11', that.$refs.mainContent.offsetHeight);
+        that.$children[3].$refs.remarkScroll.style.top =
+          that.$refs.mainContent.offsetHeight + 20 + 'px';
+        console.log(that.$children[3].$refs.remarkScroll.style.top);
         // this.$parents.$refs['remarkScroll'].style.top
       }, 10);
     },
@@ -241,7 +243,7 @@ export default {
       }
 
       this.comicsInfo = comicsInfo;
-      this.$store.commit('UPDATE_COMIC', comicsInfo);
+      this.$store.commit('reader/UPDATE_COMIC', comicsInfo);
     }
   },
   watch: {

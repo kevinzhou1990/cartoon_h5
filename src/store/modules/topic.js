@@ -1,5 +1,6 @@
 import { getTopic, getTopicComments } from '@/common/api/topic';
 const topic = {
+  namespaced: true,
   state: {
     // 专题信息
     special: {
@@ -49,7 +50,11 @@ const topic = {
       }
       return getTopicComments(params.id, params.page)
         .then(res => {
-          const pageInfo = { count: res.data.count, page: state.pageInfo.page + 1, totalPage: res.data.total_pages };
+          const pageInfo = {
+            count: res.data.count,
+            page: state.pageInfo.page + 1,
+            totalPage: res.data.total_pages
+          };
           let list = [...state.commentsList];
           if (params.page !== 1) {
             list = [...list, ...res.data.data];

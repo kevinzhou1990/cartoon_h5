@@ -107,7 +107,7 @@ export default {
     }
   },
   asyncData({ store, route }) {
-    return store.dispatch('getRecommendList', {
+    return store.dispatch('recommend/getRecommendList', {
       secId: route.query.SEC_ID || 1,
       pageInfo: { page: 1, page_size: 30 }
     });
@@ -115,7 +115,11 @@ export default {
   mounted() {
     this.activeIndex = Number(this.$route.query.SEC_ID) || 1;
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true';
-    this.$store.commit('SET_REC_DATA', JSON.parse(sessionStorage.getItem('vuex')).home.recData);
+    console.log(this.$store);
+    this.$store.commit(
+      'home/SET_REC_DATA',
+      JSON.parse(sessionStorage.getItem('vuex')).home.recData
+    );
     this.$nextTick(() => {
       this.wrapperHeight = document.documentElement.clientHeight - 90;
       // this.adBannerList = (this.dataList && this.dataList.ad_list) || [];
@@ -133,7 +137,7 @@ export default {
         page_size: this.pageInfo.page_size
       };
       this.isRecLoading = true;
-      const res = this.$store.dispatch('getRecommendList', {
+      const res = this.$store.dispatch('recommend/getRecommendList', {
         secId: this.SEC_ID || 1,
         pageInfo: reqData
       });
@@ -169,7 +173,7 @@ export default {
       this.allLoaded = false;
       this.$refs.recommendList.scrollTop = 0;
       this.activeIndex = Number(val);
-      this.$store.commit('UPDATE_SEC_ID', this.activeIndex);
+      this.$store.commit('recommend/UPDATE_SEC_ID', this.activeIndex);
       this.currentPage = 1;
       this.getData();
     },

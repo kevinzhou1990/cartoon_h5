@@ -145,7 +145,7 @@ export default {
       this.initY = Math.round(e.changedTouches[0].clientY);
       this.initHeight = Math.round(272 * (this.readerProcess / 100));
       this.touching = 'touch';
-      this.$store.commit('UPDATE_READSCROLL');
+      this.$store.commit('reader/UPDATE_READSCROLL');
       this.startIndex = this.pageIndex;
     },
     handlerTouchMove(e) {
@@ -154,7 +154,7 @@ export default {
       let gap = posY - this.initY;
       if (gap + this.initHeight > 272 || gap + this.initHeight < 0) return;
       let read_per = ((gap + this.initHeight) / 272) * 100;
-      this.$store.commit('UPDATE_READERPROCESS', read_per);
+      this.$store.commit('reader/UPDATE_READERPROCESS', read_per);
       // this.$parent.scorllPos(read_per);
     },
     handlerTouchEnd(e) {
@@ -162,7 +162,7 @@ export default {
       this.lastTag = true;
       localReadProcess(this, this.imagesList);
       this.$parent.scorllPos();
-      this.$store.commit('UPDATE_READSCROLL');
+      this.$store.commit('reader/UPDATE_READSCROLL');
     },
     turnPage(type) {
       this.$parent.switchFull();

@@ -54,7 +54,7 @@ export default {
       if (this.actived === name) {
         return false;
       }
-      this.$store.commit('UPDATE_ACTIVED', name);
+      this.$store.commit('main/UPDATE_ACTIVED', name);
       this.$router.push(`/${name}`);
     },
     handleDoubleScrollTOP() {
@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('UPDATE_ACTIVED', this.$route.name);
+    this.$store.commit('main/UPDATE_ACTIVED', this.$route.name);
   }
 };
 </script>

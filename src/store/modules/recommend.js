@@ -1,5 +1,6 @@
 import { getMoreComics } from '@/common/api/home';
 const recommend = {
+  namespaced: true,
   state: {
     // 楼层ID
     SEC_ID: 1,

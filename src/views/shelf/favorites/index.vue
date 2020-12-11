@@ -72,12 +72,12 @@ export default {
     this.tabActive();
   },
   methods: {
-    ...mapMutations(['updateActive']),
+    ...mapMutations(['collect/updateActive']),
     switchTab(value) {
       if (this.active === value) {
         return false;
       }
-      this.updateActive(value);
+      this['collect/updateActive'](value);
       this.tabActive();
       document.documentElement.scrollTop = 0;
     },

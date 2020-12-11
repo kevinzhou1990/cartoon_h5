@@ -13,7 +13,7 @@ export default {
     src: { type: String, default: '' },
     comics: {
       type: Object,
-      default: function () {
+      default: function() {
         return {};
       }
     },
@@ -38,10 +38,10 @@ export default {
     }
   },
   computed: {
-    imagesList: function () {
+    imagesList: function() {
       return this.$store.state.reader.imagesList.detail;
     },
-    readscroll: function () {
+    readscroll: function() {
       return this.$store.state.reader.readscroll;
     }
   },
@@ -51,12 +51,12 @@ export default {
       // 当前图片是否在可见区域
       if (offset.top > innerHeight / 3 && offset.top < innerHeight) {
         // 计算进度
-        const idList = this.imagesList.map((item) => {
+        const idList = this.imagesList.map(item => {
           return item.detail_id;
         });
         const idx = idList.indexOf(this.comics.detail_id);
         const readProcess = (idx + 1) / this.imagesList.length;
-        this.$store.commit('UPDATE_READERPROCESS', readProcess * 100);
+        this.$store.commit('reader/UPDATE_READERPROCESS', readProcess * 100);
         const localContents = {};
         const chapter = {};
         chapter[this.$route.query.capterId] = {
@@ -66,7 +66,7 @@ export default {
         localContents[this.$route.query.cartoon_id] = {
           ...chapter
         };
-        this.$store.dispatch('saveProcess', localContents);
+        this.$store.dispatch('reader/saveProcess', localContents);
       }
       // 图片预加载,加载负一屏和下一屏的图片
       if (offset.top > -innerHeight && offset.top < 2 * innerHeight && this.$refs.img) {

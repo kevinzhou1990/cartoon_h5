@@ -61,12 +61,12 @@ export default {
     // 点击翻页开关
     changeStatus() {
       const setting = { clickTurnPage: !this.clickTurnPage };
-      this.$store.dispatch('updateSetting', setting);
+      this.$store.dispatch('reader/updateSetting', setting);
     },
     // 更改功能栏位置
     changePos() {
       const setting = this.funcPos === 'right' ? { funcPos: 'left' } : { funcPos: 'right' };
-      this.$store.dispatch('updateSetting', setting);
+      this.$store.dispatch('reader/updateSetting', setting);
     },
     switchSetting() {
       this.$parent.navigationStatus = !this.$parent.navigationStatus;

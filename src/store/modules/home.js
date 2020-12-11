@@ -1,6 +1,7 @@
 import { getBanner, getRecommend } from '@/common/api/home';
 import { getTabs } from '@/common/api/recommend';
 const home = {
+  namespaced: true,
   state: {
     recData: null,
     // banner list
@@ -86,7 +87,7 @@ const home = {
             recData.push({
               name: item.name,
               index: item.rec_id
-            })
+            });
           }
         });
         commit('SET_REC_DATA', recData);

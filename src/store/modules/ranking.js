@@ -1,5 +1,6 @@
 import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
 const ranking = {
+  namespaced: true,
   state: {
     // 漫画列表
     comicsList: [],

@@ -1,5 +1,6 @@
 import { getContents, getChapter } from '@/common/api/reader';
 const reader = {
+  namespaced: true,
   state: {
     imagesList: {}, // 当前章节图片列表
     contentsList: [], // 漫画章节列表

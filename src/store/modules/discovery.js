@@ -1,6 +1,7 @@
 import { getFilterItem, getComicsList } from '@/common/api/discovery';
 // import Toast from '@/common/plugin/toast';
 const discovery = {
+  namespaced: true,
   state: {
     tags: [],
     places: [],

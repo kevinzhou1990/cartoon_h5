@@ -1,4 +1,5 @@
 const collect = {
+  namespaced: true,
   state: {
     shelfTab: '收藏',
     active: 'default'

@@ -90,9 +90,9 @@ export default {
   },
   asyncData({ store, route }) {
     return Promise.all([
-      store.dispatch('getBanner'),
-      store.dispatch('getRec'),
-      store.dispatch('getRecTab')
+      store.dispatch('home/getBanner'),
+      store.dispatch('home/getRec'),
+      store.dispatch('home/getRecTab')
     ]);
   },
   computed: {

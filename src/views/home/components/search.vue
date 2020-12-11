@@ -2,32 +2,34 @@
   <div class="search">
     <div class="search-label">
       <img class="search-label-img" src="../images/search.png" />
-<!--      <input class="search-label-input" v-model="searchValue" :placeholder="placeholderValue" />-->
+      <!--      <input class="search-label-input" v-model="searchValue" :placeholder="placeholderValue" />-->
       <div class="scroll-box">
-        <ul v-if="scrollTextList.length>0">
+        <ul v-if="scrollTextList.length > 0">
           <li
-              v-for="(item, index) of scrollTextList"
-              :key="index"
-              @click.stop="handleClickSearch(item)"
+            v-for="(item, index) of scrollTextList"
+            :key="index"
+            @click.stop="handleClickSearch(item)"
           >
             {{ item || '什么也没有' }}
           </li>
         </ul>
-          <ul v-else>
-            {{ firstName }}
-          </ul>
+        <ul v-else>
+          {{
+            firstName
+          }}
+        </ul>
         <ul></ul>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { searchWroldList } from '@/common/api/home'
+import { searchWroldList } from '@/common/api/home';
 export default {
   name: 'ZM-search',
   data() {
-    this.timer = null
-    this.box = null
+    this.timer = null;
+    this.box = null;
     return {
       searchValue: '', // search values
       placeholderValue: '请输入你想要的内容', // search init values
@@ -37,57 +39,57 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.getData()
-    })
+      this.getData();
+    });
   },
   methods: {
-	  /**
-	   * @info: jump search page
-	   * @author: PengGeng
-	   * @date: 9/29/20-4:17 下午
-	   */
-	  handleClickSearch(val) {
-      console.log('jump search page', val)
-      this.$store.commit('SET_SEARCH_VAL', val)
-      this.$store.commit('SET_BACK_ROUTER', this.$route.path)
-      this.$router.push('/ZMSearch')
+    /**
+     * @info: jump search page
+     * @author: PengGeng
+     * @date: 9/29/20-4:17 下午
+     */
+    handleClickSearch(val) {
+      console.log('jump search page', val);
+      this.$store.commit('home/SET_SEARCH_VAL', val);
+      this.$store.commit('home/SET_BACK_ROUTER', this.$route.path);
+      this.$router.push('/ZMSearch');
     },
     async getData() {
-      const resData = await searchWroldList()
-      if (resData && resData.code === 0){
-        this.firstName = resData.data.hot_keywords[0]
-        this.scrollTextList = resData.data.hot_keywords || []
-	      this.textScroll()
+      const resData = await searchWroldList();
+      if (resData && resData.code === 0) {
+        this.firstName = resData.data.hot_keywords[0];
+        this.scrollTextList = resData.data.hot_keywords || [];
+        this.textScroll();
       } else {
-	      this.$toast(resData.msg || '系统出错,请稍后重试');
+        this.$toast(resData.msg || '系统出错,请稍后重试');
       }
     },
     textScroll() {
-	    this.box = document.getElementsByClassName('scroll-box')[0];
-	    let parent = document.getElementsByTagName('ul')[0];
-	    let parent2 = document.getElementsByTagName('ul')[1];
-	    parent2.innerHTML = parent.innerHTML;
+      this.box = document.getElementsByClassName('scroll-box')[0];
+      let parent = document.getElementsByTagName('ul')[0];
+      let parent2 = document.getElementsByTagName('ul')[1];
+      parent2.innerHTML = parent.innerHTML;
       /*启动定时器*/
-      if (this.scrollTextList.length > 1){
-	      this.timer = setInterval(this.autoScrollLine, 30);
+      if (this.scrollTextList.length > 1) {
+        this.timer = setInterval(this.autoScrollLine, 30);
       }
     },
     autoScrollLine() {
-	    let boxScrollTopTimers = null
+      let boxScrollTopTimers = null;
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
-      const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0]
-      if (!parent) return
+      const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0];
+      if (!parent) return;
       if (parent.offsetHeight - this.box.scrollTop <= 37) {
         // let timers = null
         boxScrollTopTimers = setTimeout(() => {
           this.box.scrollTop = 0;
-        }, 3000)
+        }, 3000);
       } else {
         this.box.scrollTop++;
       }
       /* 判断滚动的距离刚好为一条内容的高度时停掉定时器，隔1s之后重新启动定时器即可实现内容滚动停留效果 */
       if (this.box.scrollTop % this.box.offsetHeight === 0) {
-        boxScrollTopTimers && clearInterval(boxScrollTopTimers)
+        boxScrollTopTimers && clearInterval(boxScrollTopTimers);
         clearInterval(this.timer);
         setTimeout(() => {
           this.timer = setInterval(this.autoScrollLine, 30);
@@ -95,7 +97,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 <style scoped lang="scss">
 $search-font-size: 12px;
@@ -135,14 +137,14 @@ $search-color: #fff;
       margin: 8px auto;
       /*background: rgba(0,0,0,0.30);*/
       line-height: 36px;
-      background: rgba(0,0,0,0.30);
+      background: rgba(0, 0, 0, 0.3);
       border-radius: 4px;
       overflow: hidden;
       ul {
         font-family: 'PingFangSC-Semibold';
         line-height: 36px;
         padding-left: 40px;
-        color: #FFFFFF;
+        color: #ffffff;
         opacity: 0.6;
         font-size: 12px;
         li {

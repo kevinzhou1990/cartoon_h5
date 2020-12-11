@@ -1,4 +1,5 @@
 const main = {
+  namespaced: true,
   state: {
     actived: 'home'
   },

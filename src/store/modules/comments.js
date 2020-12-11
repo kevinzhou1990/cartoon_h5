@@ -1,5 +1,6 @@
 import { getCommentList, getEvalList } from '@/common/api/comments';
 const comments = {
+  namespaced: true,
   state: {
     // 评论或评分列表
     commentList: [],

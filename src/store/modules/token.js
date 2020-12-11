@@ -11,6 +11,7 @@ import {
 } from '@/lib/utils/const';
 
 const token = {
+  namespaced: true,
   state: {
     access_token: '',
     expires: '',

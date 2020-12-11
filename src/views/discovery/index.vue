@@ -26,11 +26,7 @@
           <span>下拉刷新</span>
         </div>-->
         <div ref="fliterResult" v-if="comicsList.length" class="result-container">
-          <common-info
-            :dataList = "comicsList"
-            refs = 6
-            showStatus
-          ></common-info>
+          <common-info :dataList="comicsList" refs="6" showStatus></common-info>
         </div>
         <div class="discovery-nodata" v-else>
           <img src="@/assets/img/network.png" alt="无数据" />
@@ -70,8 +66,8 @@ export default {
   },
   asyncData({ store, route }) {
     return Promise.all([
-      store.dispatch('getFilterItem', parseInt(route.query.tag || 0)),
-      store.dispatch('getComicsList', {
+      store.dispatch('discovery/getFilterItem', parseInt(route.query.tag || 0)),
+      store.dispatch('discovery/getComicsList', {
         ...store.state.discovery.checked,
         page: 1
       })
@@ -228,7 +224,7 @@ export default {
     position: relative;
     z-index: 2;
     box-shadow: 0 -14px 24px rgba(0, 0, 0, 0.1);
-    .result-container{
+    .result-container {
       margin-top: -8px;
     }
     &.discovery-comics-list-top {

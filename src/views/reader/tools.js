@@ -54,5 +54,5 @@ export const localReadProcess = function(context, imglist) {
   localContents[context.$route.query.cartoon_id] = {
     ...chapter
   };
-  context.$store.dispatch('saveProcess', localContents);
+  context.$store.dispatch('reader/saveProcess', localContents);
 };

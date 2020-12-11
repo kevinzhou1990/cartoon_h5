@@ -1,5 +1,6 @@
 import { getUpdateStatus } from '@/common/api/shelf';
 const status = {
+  namespaced: true,
   state: {
     hasUpdate: false
   },

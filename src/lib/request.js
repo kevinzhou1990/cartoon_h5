@@ -65,7 +65,7 @@ service.intercept({
         return res.data;
       case 1004:
         option.requests.push(opt);
-        router.app.$store.dispatch('refreshToken').then(res => {
+        router.app.$store.dispatch('token/refreshToken').then(res => {
           clearTimeout(option.refreshTimer);
           service.reset(option.requests);
           option.requests = [];
@@ -74,7 +74,7 @@ service.intercept({
       case 1003:
         option.requests.push(opt);
         // 重新获取token
-        router.app.$store.dispatch('getToken').then(res => {
+        router.app.$store.dispatch('token/getToken').then(res => {
           clearTimeout(option.refreshTimer);
           service.reset(option.requests);
           option.requests = [];
@@ -82,12 +82,12 @@ service.intercept({
         return false;
       case 1209:
         console.log('未登陆，跳转到登陆。。。。');
-        router.app.$store.commit('SET_USERS_INFO', {})
+        router.app.$store.commit('SET_USERS_INFO', {});
         return res.data;
       case 1204:
         // 异地登陆
         console.log('异地登陆。。。。。');
-        router.app.$store.commit('SET_USERS_INFO', {})
+        router.app.$store.commit('SET_USERS_INFO', {});
         return res.data;
       default:
         return res.data;
@@ -96,12 +96,12 @@ service.intercept({
 
   //请求失败
   fail(res) {
-    if (res.status !== 999){
+    if (res.status !== 999) {
       if (res.status === 500) {
         Toast('加载失败，请检查网络', {
           duration: 2000
-        })
-        return
+        });
+        return;
       }
       Toast(res.msg || '系统出错,请稍后重试', {
         type: 'fail',

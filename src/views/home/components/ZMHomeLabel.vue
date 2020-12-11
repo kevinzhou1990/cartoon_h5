@@ -1,8 +1,4 @@
-/**
-* @info: ZM-Home-Label
-* @author: PengGeng
-* @date: 8/5/20-11:38 上午
-*/
+/** * @info: ZM-Home-Label * @author: PengGeng * @date: 8/5/20-11:38 上午 */
 <template>
   <div class="main-label" @click.stop="hotMore">
     <span class="main-label-l">{{ labelName }}</span>
@@ -31,7 +27,7 @@ export default {
      */
     hotMore() {
       // this.$emit('hot-more')
-      this.$store.commit('UPDATE_SEC_ID', this.recId);
+      this.$store.commit('recommend/UPDATE_SEC_ID', this.recId);
       this.$router.push({
         path: '/recommend',
         query: {

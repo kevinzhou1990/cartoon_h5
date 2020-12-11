@@ -73,7 +73,7 @@ export default {
   name: 'Topic',
   components: { ZMHeader, SvgIcon },
   asyncData({ store, route }) {
-    return store.dispatch('getTopic', route.query.id);
+    return store.dispatch('topic/getTopic', route.query.id);
   },
   data() {
     return {
@@ -96,10 +96,6 @@ export default {
     }
   },
   mounted() {
-    // this.$nextTick(() => {
-    //   console.log(this.special.title, this.specialData.title);
-    // });
-    // this.special = JSON.parse(JSON.stringify(this.specialData));
     setTimeout(() => {
       if (this.$refs.article.clientHeight < innerHeight && this.special.can_comment === 1) {
         this.showAddComment = true;
@@ -128,7 +124,10 @@ export default {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
       if (t <= innerHeight) {
-        this.$store.dispatch('getComments', { id: this.$route.query.id, page: this.pageInfo.page });
+        this.$store.dispatch('topic/getComments', {
+          id: this.$route.query.id,
+          page: this.pageInfo.page
+        });
       }
       if (document.scrollingElement.scrollTop > 86) {
         this.titleText = this.special.title;

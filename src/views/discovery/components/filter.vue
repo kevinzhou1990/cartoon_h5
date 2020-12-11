@@ -151,27 +151,27 @@ export default {
         case 'tag':
         default:
           this.tagActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
-          this.$store.commit('UPDATECHECKED', { tag_id: '' });
+          this.$store.commit('discovery/UPDATECHECKED', { tag_id: '' });
           d = { tag_id: data.tag_id };
           break;
         case 'place':
           this.placeActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
-          this.$store.commit('UPDATECHECKED', { place_id: '' });
+          this.$store.commit('discovery/UPDATECHECKED', { place_id: '' });
           d = { place_id: data.tag_id };
           break;
         case 'status':
           this.statusActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
-          this.$store.commit('UPDATECHECKED', { status: '' });
+          this.$store.commit('discovery/UPDATECHECKED', { status: '' });
           d = { status: data.id };
           break;
         case 'sort':
           this.sortActived = { left: ele.offsetLeft, top: ele.offsetTop, width: ele.clientWidth };
-          this.$store.commit('UPDATECHECKED', { sort: '' });
+          this.$store.commit('discovery/UPDATECHECKED', { sort: '' });
           d = { sort: data.id };
           break;
       }
       setTimeout(() => {
-        this.$store.commit('UPDATECHECKED', d);
+        this.$store.commit('discovery/UPDATECHECKED', d);
       }, 300);
     }
   },

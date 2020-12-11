@@ -1,5 +1,6 @@
 import { helpList, helpDetail, commitFeedback } from '@/common/api/help';
 const help = {
+  namespaced: true,
   state: {
     tabListData: [],
     list: [],
@@ -9,9 +10,6 @@ const help = {
     activeIndex: 0
   },
   mutations: {
-    UPDATE_ACTIVED_INDEX: (state, index) => {
-      state.activeIndex = index;
-    },
     UPDATEHELPLIST: (state, list) => {
       state.list = list;
     },

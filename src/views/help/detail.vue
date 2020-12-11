@@ -27,7 +27,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getHelpDetail', this.$route.query.id);
+    this.$store.dispatch('help/getHelpDetail', this.$route.query.id);
   },
   components: { ZMHeader, SvgIcon },
   computed: {
@@ -52,7 +52,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (to.name === 'help') {
-      this.$store.commit('UPDATEHELPDETAIL', {});
+      this.$store.commit('help/UPDATEHELPDETAIL', {});
     }
     next();
   }

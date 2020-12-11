@@ -101,10 +101,10 @@ export default {
         help_id: this.$route.query.id
       };
       this.isLoading = true;
-      this.$store.dispatch('addFeedback', data).then(res => {
+      this.$store.dispatch('help/addFeedback', data).then(res => {
         this.isLoading = false;
         if (res.code === 0) {
-          this.$store.commit('UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
+          this.$store.commit('help/UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
           this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
           this.$router.go(-1);
         } else {

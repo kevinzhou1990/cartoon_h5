@@ -1,5 +1,6 @@
 import { getZMDetail, getAuthorOther } from '@/common/api/detail';
 const detail = {
+  namespaced: true,
   state: {
     ZMDetailData: {},
     // 作者的其他漫画
@@ -14,7 +15,10 @@ const detail = {
   },
   actions: {
     getDetail({ commit }, params = {}) {
-      return getZMDetail(params.cartoon_id || '', {ref: params.ref || '', ref_id: params.ref_id || ''})
+      return getZMDetail(params.cartoon_id || '', {
+        ref: params.ref || '',
+        ref_id: params.ref_id || ''
+      })
         .then(res => {
           if (res) commit('UPDATE_ZMDETAIL_DATA', res.data);
           return res;

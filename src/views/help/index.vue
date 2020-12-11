@@ -39,7 +39,7 @@ export default {
   },
   components: { ZMHeader, ZMNavBar, SvgIcon },
   mounted() {
-    this.$store.dispatch('getHelpList').then(res => {
+    this.$store.dispatch('help/getHelpList').then(res => {
       this.filterData(this.activeIndex);
     });
   },
@@ -59,9 +59,9 @@ export default {
       this.$router.push({ path: '/help/detail', query: { id } });
     },
     filterData(key) {
-      this.$store.commit('UPDATE_SEC_ID', parseInt(key));
+      this.$store.commit('recommend/UPDATE_SEC_ID', parseInt(key));
       // this.$store.commit('UPDATE_ACTIVED_INDEX', parseInt(key));
-      this.$store.commit('HELP_LIST_FILTER', key);
+      this.$store.commit('help/HELP_LIST_FILTER', key);
     }
   }
 };

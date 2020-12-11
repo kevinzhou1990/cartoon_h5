@@ -120,7 +120,12 @@
       </div>
     </div>
 
-    <no-data-view v-else class="no-data" type="ranking" textContent="还没有排行榜诞生～"></no-data-view>
+    <no-data-view
+      v-else
+      class="no-data"
+      type="ranking"
+      textContent="还没有排行榜诞生～"
+    ></no-data-view>
   </div>
 </template>
 
@@ -136,7 +141,7 @@ export default {
   mixins: [myMixins],
   components: { ZMHeader, SvgIcon, noDataView },
   asyncData({ store, route }) {
-    return store.dispatch('getRankingList', route.query.rank);
+    return store.dispatch('ranking/getRankingList', route.query.rank);
   },
   data() {
     return {
@@ -157,7 +162,7 @@ export default {
     for (let i = 0; i < list.length; i++) {
       if (list[i].rank_id === rank) this.activeName = list[i].name;
     }
-    this.$store.dispatch('getRankingComicsList', this.activeRank);
+    this.$store.dispatch('ranking/getRankingComicsList', this.activeRank);
   },
   computed: {
     comicsList() {
@@ -182,7 +187,7 @@ export default {
     },
     //获取排行分类对应漫画
     getRankingByCate() {
-      const r = this.$store.dispatch('getRankingComicsList', this.activeRank);
+      const r = this.$store.dispatch('ranking/getRankingComicsList', this.activeRank);
       r.then(res => {
         if (res.code === 0) {
           // 切换动画效果

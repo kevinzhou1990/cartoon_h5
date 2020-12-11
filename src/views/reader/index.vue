@@ -75,7 +75,7 @@ export default {
       last_chapter_id: parseInt(this.$route.query.capterId)
     };
     this.firstUse = sessionStorage.getItem('firstUse');
-    this.$store.commit('UPDATE_REPORTMSG', reportMsg);
+    this.$store.commit('reader/UPDATE_REPORTMSG', reportMsg);
   },
   computed: {
     comicsList: function() {
@@ -105,10 +105,10 @@ export default {
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.comicsInfo.last_chapter_id = parseInt(this.$route.query.capterId);
       // 更新漫画上报数据
-      this.$store.commit('UPDATE_REPORTMSG', {
+      this.$store.commit('reader/UPDATE_REPORTMSG', {
         last_chapter_id: parseInt(this.$route.query.capterId)
       });
-      await this.$store.dispatch('getChapterDetail', this.$route.query.capterId);
+      await this.$store.dispatch('reader/getChapterDetail', this.$route.query.capterId);
       if (!this.comicsList.length) {
         // 没有图片，回退到上一个页面
         this.Toast(`当前章节无数据`, {
@@ -160,7 +160,7 @@ export default {
         chapter_id: parseInt(this.$route.query.capterId),
         detail: this.comicsList
       });
-      this.$store.commit('UPDATE_READERPROCESS', reader_per);
+      this.$store.commit('reader/UPDATE_READERPROCESS', reader_per);
       // 计算图片索引
       const idx = getIndex(reader_per, this.comicsList.length);
       // 根据图片索引，计算滚动高度
@@ -229,7 +229,7 @@ export default {
     const reportMsg = {
       end_time: Math.floor(new Date().getTime() / 1000)
     };
-    this.$store.commit('UPDATE_REPORTMSG', reportMsg);
+    this.$store.commit('reader/UPDATE_REPORTMSG', reportMsg);
     let rpdata = this.$store.state.reader.reportMsg;
     // 组装上报数据
     const localContents = JSON.parse(JSON.stringify(this.$store.state.reader.localContents));
@@ -249,7 +249,7 @@ export default {
     );
     if (rp.code === 0) {
       // 上报成功，清除本地数据
-      this.$store.dispatch('saveProcess', {});
+      this.$store.dispatch('reader/saveProcess', {});
       // 更新漫画详情数据
       const params = {
         cartoon_id: this.$route.query.cartoon_id,

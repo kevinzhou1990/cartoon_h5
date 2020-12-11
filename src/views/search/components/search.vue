@@ -2,17 +2,17 @@
   <div>
     <div class="search" id="search">
       <div class="content">
-        <form action="javascript:return true" @submit.prevent=''>
+        <form action="javascript:return true" @submit.prevent="">
           <input
-              id="searchInput"
-              v-model.trim="searchValue"
-              ref="searchInput"
-              type="search"
-              class="content-input"
-              :placeholder="placeholderValue"
-              maxlength="20"
-              @focus="goToHistroy"
-              @keyup.enter="handleClickSearch(searchValue)"
+            id="searchInput"
+            v-model.trim="searchValue"
+            ref="searchInput"
+            type="search"
+            class="content-input"
+            :placeholder="placeholderValue"
+            maxlength="20"
+            @focus="goToHistroy"
+            @keyup.enter="handleClickSearch(searchValue)"
           />
         </form>
         <span class="content-clear" v-show="searchValue" @click.stop="handleClickClearInput"></span>
@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import { searchResult } from '@/common/api/search'
-import { EventBus } from 'lib/utils/eventBus'
-import setLocalStorage from '@/views/search/common/common'
+import { searchResult } from '@/common/api/search';
+import { EventBus } from 'lib/utils/eventBus';
+import setLocalStorage from '@/views/search/common/common';
 export default {
   name: 'search',
   props: {
-	  searchVal: {
+    searchVal: {
       type: String,
       default: ''
     },
@@ -42,119 +42,119 @@ export default {
   data() {
     return {
       searchValue: ''
-    }
+    };
   },
   mounted() {
-	  EventBus.$on('searchResultContent', (val) => {
-      this.searchValue = val
-	  })
-	  this.$nextTick(() => {
-      if (!this.searchValue) this.searchValue = this.searchVal
-	  })
+    EventBus.$on('searchResultContent', val => {
+      this.searchValue = val;
+    });
+    this.$nextTick(() => {
+      if (!this.searchValue) this.searchValue = this.searchVal;
+    });
   },
   created() {
-	  this.$nextTick(() => {
-      console.log(sessionStorage.getItem('name'))
-      this.searchValue = sessionStorage.getItem('name')
-	  })
+    this.$nextTick(() => {
+      console.log(sessionStorage.getItem('name'));
+      this.searchValue = sessionStorage.getItem('name');
+    });
   },
   computed: {
-	  placeholderValue() {
-		  const homeSearchVal = this.$store.state.home.homeSearchVal
-		  return homeSearchVal !== '' ? homeSearchVal : this.hotData && this.hotData.wordsList[0]
+    placeholderValue() {
+      const homeSearchVal = this.$store.state.home.homeSearchVal;
+      return homeSearchVal !== '' ? homeSearchVal : this.hotData && this.hotData.wordsList[0];
     }
   },
   methods: {
-	  /**
-	   * @info: 点击了取消
-	   * @author: PengGeng
-	   * @date: 9/30/20-2:16 下午
-	   */
-	  handleClickCancel() {
-		  sessionStorage.removeItem('name')
-      this.$store.commit('SET_SEARCH_VAL', '')
-      this.$router.replace(this.$store.state.home.backRouter || '/home')
-      console.log('back to path....')
+    /**
+     * @info: 点击了取消
+     * @author: PengGeng
+     * @date: 9/30/20-2:16 下午
+     */
+    handleClickCancel() {
+      sessionStorage.removeItem('name');
+      this.$store.commit('home/SET_SEARCH_VAL', '');
+      this.$router.replace(this.$store.state.home.backRouter || '/home');
+      console.log('back to path....');
     },
-	  /**
-	   * @info: 获取数据
-	   * @author: PengGeng
-	   * @date: 10/12/20-6:29 下午
-	   */
+    /**
+     * @info: 获取数据
+     * @author: PengGeng
+     * @date: 10/12/20-6:29 下午
+     */
     async getData() {
-      const resData = await searchResult(this.searchValue)
+      const resData = await searchResult(this.searchValue);
       if (resData && resData.code === 0) {
         return new Promise(resolve => {
-	        return resolve(resData.data)
-        })
+          return resolve(resData.data);
+        });
       } else {
-        this.$toast(resData.msg || '系统出错请稍后重试')
+        this.$toast(resData.msg || '系统出错请稍后重试');
       }
     },
-	  /**
-	   * @info: 得到焦点
-	   * @author: PengGeng
-	   * @date: 10/12/20-6:29 下午
-	   */
-	  goToHistroy() {
+    /**
+     * @info: 得到焦点
+     * @author: PengGeng
+     * @date: 10/12/20-6:29 下午
+     */
+    goToHistroy() {
       if (this.$route.path !== '/ZMSearch') {
-        this.$router.replace('/ZMSearch')
+        this.$router.replace('/ZMSearch');
       }
     },
-	  /**
-	   * @info: 点击X按钮的事件
-	   * @author: PengGeng
-	   * @date: 10/12/20-6:33 下午
-	   */
-	  handleClickClearInput() {
-      this.searchValue = ''
-      this.goToHistroy()
-      sessionStorage.setItem('name', '')
+    /**
+     * @info: 点击X按钮的事件
+     * @author: PengGeng
+     * @date: 10/12/20-6:33 下午
+     */
+    handleClickClearInput() {
+      this.searchValue = '';
+      this.goToHistroy();
+      sessionStorage.setItem('name', '');
     },
-	  /**
-	   * @info: 触发键盘的entry事件
-	   * @author: PengGeng
-	   * @date: 10/27/20-10:41 上午
-	   */
-	  handleClickSearch(val) {
-      if (!val && !this.placeholderValue) return
-		  let searchContext = val.trim() || this.placeholderValue
-		  setLocalStorage(searchContext)
-		  // 文本框的类容同步
-		  this.$router.push({
-			  path: '/ZMSearchResult',
-			  query: {
-				  searchValue: searchContext
-			  }
-		  })
+    /**
+     * @info: 触发键盘的entry事件
+     * @author: PengGeng
+     * @date: 10/27/20-10:41 上午
+     */
+    handleClickSearch(val) {
+      if (!val && !this.placeholderValue) return;
+      let searchContext = val.trim() || this.placeholderValue;
+      setLocalStorage(searchContext);
+      // 文本框的类容同步
+      this.$router.push({
+        path: '/ZMSearchResult',
+        query: {
+          searchValue: searchContext
+        }
+      });
     }
   },
   watch: {
-    searchValue: function (val, oldValue) {
+    searchValue: function(val, oldValue) {
       if (val && val.trim() && val !== oldValue) {
-	      this.getData().then(res => {
-          const searchResult = res
-		      this.$emit('change', true, searchResult)
-        })
+        this.getData().then(res => {
+          const searchResult = res;
+          this.$emit('change', true, searchResult);
+        });
       } else {
-	      this.$emit('change', false)
+        this.$emit('change', false);
       }
-	  }
+    }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
 // 设置input placeholder的字体
 input::-webkit-input-placeholder {
   font-family: 'pingfang-blod';
-  color: #BBBBBB;
+  color: #bbbbbb;
   font-size: 12px;
 }
-input[type="text"]{
+input[type='text'] {
   font-size: inherit;
 }
-input[type=search]::-webkit-search-cancel-button{
+input[type='search']::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
 input {
@@ -171,9 +171,9 @@ input {
     margin: 8px 16px;
     padding-left: 35px;
     font-size: 12px;
-    color: #BBBBBB;
+    color: #bbbbbb;
     letter-spacing: 0;
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 4px;
     width: 261px;
     height: 36px;
@@ -192,7 +192,7 @@ input {
       top: 50%;
       left: 16px;
       transform: translateY(-50%);
-      background: url("../images/search.png") no-repeat center;
+      background: url('../images/search.png') no-repeat center;
       background-size: 100%;
     }
     &-clear {
@@ -202,7 +202,7 @@ input {
       right: 16px;
       width: 16px;
       height: 16px;
-      background: url("../images/delete.png") no-repeat center;
+      background: url('../images/delete.png') no-repeat center;
       background-size: 100%;
     }
   }
