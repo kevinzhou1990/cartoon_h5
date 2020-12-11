@@ -23,8 +23,8 @@
       <div class="contents-last">
         <div>{{ comicsInfo.status_text }}</div>
         <div class="zm-b zm-b-radius" @click="switchSort">
-          <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_ba' : 'sort_bb'" />
-          <span>{{ `${comicsInfo.sort === 1 ? '顺序排列' : '倒序排列'}` }}</span>
+          <SvgIcon size="small" :iconClass="comicsInfo.sort === 1 ? 'sort_bb' : 'sort_ba'" />
+          <span>{{ `${comicsInfo.sort === 1 ? '倒序排列' : '顺序排列'}` }}</span>
         </div>
       </div>
       <ul class="contents-list" ref="chapter">

@@ -8,9 +8,7 @@
         <span v-if="showComicsLink">漫画详情</span>
       </div>
     </z-m-header>
-    <div v-if="isClientRender">
-      <Navigation :show="navigationStatus" />
-    </div>
+    <Navigation :show="navigationStatus" />
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
@@ -47,7 +45,6 @@ import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
 import { getIndex, getPageHeight, getDistance, localReadProcess } from './tools';
-import env from '@/lib/utils/env';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -68,15 +65,10 @@ export default {
       pageIndex: 3,
       // 每张图片的高度
       imgHeight: [],
-      firstUse: true,
-      isClientRender: false
+      firstUse: true
     };
   },
-  created() {
-    this.isClientRender = env.isClient();
-  },
   mounted() {
-    this.isClientRender = env.isClient();
     this.pageinit();
     const reportMsg = {
       start_time: Math.floor(new Date().getTime() / 1000),
@@ -210,6 +202,7 @@ export default {
       const idx = getIndex(this.readerProcess, this.comicsList.length);
       const p = getPageHeight(this.comicsList);
       let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx - 1, p.p);
+      console.log(scrollDistance, p, '滚动高度');
       document.scrollingElement.scrollTo({ top: scrollDistance - innerHeight / 2 });
     },
     // 图片翻页
