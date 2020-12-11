@@ -5,7 +5,7 @@
         <div class="date scale">{{ history.date }}</div>
 
         <div class="content zm-b-b" v-for="item in history.items" :key="item.cartoon_id" @click="handleZMInfo(item.cartoon_id, ref)">
-          <div class="cover" :style="{background: item.cover ? 'url('+item.cover+')' : '','background-size': '100%'}"></div>
+          <div class="cover" :style="{background: item.cover ? 'url('+item.cover+'), url(' + defaultLCover + ')' : '','background-size': '100%'}"></div>
 
           <div class="info">
             <div class="title ellipsis">{{ item.title }}</div>
@@ -43,7 +43,7 @@ import myMixins from '@/common/mixin/myMixins'
 import shelfMixin from '../mixin'
 export default {
   name: 'history',
-  mixins: [ myMixins, shelfMixin ],
+  mixins: [ shelfMixin, myMixins ],
   components: { noDataView },
   data() {
     return {
@@ -110,7 +110,7 @@ export default {
           height: $COVERHEIGHT;
           width: $COVERWIDTH;
           border-radius: 4px;
-          background: url("../../../assets/img/defaultBook.png") no-repeat;
+          background: url("../../../assets/img/defaultLBook.png") no-repeat;
         }
 
         .info {
