@@ -5,7 +5,7 @@
         show ? 'navigation-wrap-' + funcPos + '-hidden' : ''
       }`
     "
-    v-if="imagesList.detail"
+    v-if="imagesList"
   >
     <div :class="`navigation-content ${touching ? 'navigation-content-touch' : ''}`">
       <div :class="`navigation-contents ${touching}`" @click="openContents">
@@ -32,11 +32,11 @@
           <div>
             <span>{{ pageIndex }}</span>
             <i></i>
-            <span>{{ imagesList.detail.length }}</span>
+            <span>{{ imagesList.detail ? imagesList.detail.length : 0 }}</span>
           </div>
         </div>
         <div :class="`tag ${'tag-' + touching}`">
-          {{ pageIndex }}/{{ imagesList.detail.length }}
+          {{ pageIndex }}/{{ imagesList.detail ? imagesList.detail.length : 0 }}
         </div>
       </div>
       <div
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="toast" @click="goIndex" v-show="lastTag">
-      上次所在 {{ startIndex }}/{{ imagesList.detail.length }}
+      上次所在 {{ startIndex }}/{{ imagesList.detail ? imagesList.detail.length : 0 }}
       <svg-icon iconClass="more_bb" size="small" class="toast-more" />
     </div>
   </div>

@@ -77,9 +77,6 @@ export default {
     this.firstUse = sessionStorage.getItem('firstUse');
     this.$store.commit('UPDATE_REPORTMSG', reportMsg);
   },
-  // activated() {
-  //   this.pageinit();
-  // },
   computed: {
     comicsList: function() {
       return this.$store.state.reader.imagesList.detail;
