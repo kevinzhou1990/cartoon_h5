@@ -13,7 +13,7 @@
         <div class="collect-tip ellipsis">{{ item.shelf_num }}本收藏</div>
       </div>
       <div class="more" @click.stop="jumpDownloadPage">
-        <svg-icon icon-class="more_bc" size="small" />
+        <svg-icon icon-class="more_bd" size="small" />
       </div>
     </div>
 
