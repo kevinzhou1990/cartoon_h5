@@ -50,8 +50,8 @@ $BORDER_COLOR: #eee;
   position: fixed;
   width: 100%;
   height: 100%;
-  background: url('./views/home/images/homeLoading.gif') 100% 100% no-repeat;
-  background-size: cover;
+  background: url('./assets/img/default_record_aa.png') center no-repeat;
+  background-size: 100%;
   z-index: 999;
   touch-action: none;
 }
@@ -61,6 +61,7 @@ $BORDER_COLOR: #eee;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  background: #ffffff;
 }
 .box {
   position: relative;
