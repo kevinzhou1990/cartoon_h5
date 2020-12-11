@@ -41,19 +41,6 @@ let store = null;
 if (env.isClient()) {
   const createPersisted = createPersistedState({
     storage: sessionStorage
-    // paths: [
-    //   'reader',
-    //   'recommend',
-    //   'token',
-    //   'collect',
-    //   'home',
-    //   'comments',
-    //   'detail',
-    //   'status',
-    //   'user',
-    //   'login',
-    //   'help'
-    // ]
   });
   store = new Vuex.Store({
     modules: { ...storeModules },

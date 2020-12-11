@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     commitQa() {
-      if (!this.content.trim().length > 4 && !this.isLoading) {
+      if (!(this.content.trim().length > 4) && !this.isLoading) {
         return false;
       }
       const data = {
@@ -218,6 +218,7 @@ export default {
     border-radius: 4px;
     position: relative;
     textarea {
+      font-size: 12px;
       resize: none;
       outline: none;
       width: 100%;

@@ -111,8 +111,8 @@ export default {
   .mine-info {
     position: relative;
     & > img {
+      position: fixed;
       height: 48px;
-      position: absolute;
       right: 0;
       top: 104px;
     }
