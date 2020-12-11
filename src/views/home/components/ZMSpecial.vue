@@ -7,7 +7,7 @@
   <div class="special-main" v-if="specialData" @click="handleSpecialInfo">
     <div
       class="speical-bg"
-      :style="{background: 'url('+specialData.banner+'), ur('+defaultBanner+')', 'background-size': '100%'}"
+      :style="{background: 'url('+specialData.banner+'), ur('+defaultCBanner+')', 'background-size': '100%'}"
     >
       <div class="speical-bg-li"></div>
       <span class="speical-bg-text">{{ specialData.special && specialData.special.title }}</span>
@@ -20,7 +20,7 @@ export default {
   name: 'ZMSpecial',
   data() {
     return {
-      defaultBanner: require('../../../assets/img/defaultBanner.png') // banner
+      defaultCBanner: require('../../../assets/img/defaultCBanner.png') // banner
     }
   },
   props: {
@@ -59,7 +59,7 @@ export default {
     border-radius: 4px;
     height: 172px;
     margin: 0 16px;
-    background: url('../../../assets/img/defaultBanner.png') no-repeat center;
+    background: url('../../../assets/img/defaultCBanner.png') no-repeat center;
     background-size: 100%;
     &-li {
       position: absolute;

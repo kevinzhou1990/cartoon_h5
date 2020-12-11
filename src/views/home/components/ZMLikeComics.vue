@@ -8,7 +8,7 @@
     <z-m-home-label :label-name="labelName" :rec-id="recId"></z-m-home-label>
     <div
       class="like-main-banner"
-      :style="{ background: 'url('+likeBannerData.cover+'), url(' + defaultBanner + ') no-repeat ', 'background-size': '100%' }"
+      :style="{ background: 'url('+likeBannerData.cover+'), url(' + defaultCBanner + ') no-repeat ', 'background-size': '100%' }"
       @click="handleZMInfo(likeBannerData.cartoon_id, 2, recId)"
     >
       <div class="like-main-banner-img">

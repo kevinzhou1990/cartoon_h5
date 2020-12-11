@@ -13,7 +13,7 @@
       <div class="update-tip" v-if="item.has_new && hasUpdate">更新</div>
       <span
         class="main-content-item-img"
-        :style="{background: item.cover ? 'url('+item.cover+'), url(' + defaultCover + ')' : '','background-size': '100%', 'background-repeat': 'no-repeat'}"
+        :style="{background: item.cover ? 'url('+item.cover+'), url(' + defaultLCover + ')' : '','background-size': '100%', 'background-repeat': 'no-repeat'}"
       ></span>
       <span class="main-content-item-title">{{ item.title }}</span>
       <span class="main-content-item-status" v-if="showStatus">{{ item.publish_status || item.status_text || '--'}}</span>
@@ -63,11 +63,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  data() {
-    return {
-      defaultCover: require('../../assets/img/defaultBook.png')
-    };
   }
 };
 </script>

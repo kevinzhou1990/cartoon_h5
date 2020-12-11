@@ -14,7 +14,7 @@
     >
       <div class="maybe-main-content-item">
         <div class="maybe-main-content-item-img"
-             :style="{ background: 'url('+item.cover+'), url(' + defaultCover + ') no-repeat', 'background-size': '100%'}"></div>
+             :style="{ background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat', 'background-size': '100%'}"></div>
         <div class="maybe-main-content-item-desc">
           <div class="maybe-main-content-item-desc-title">
             <span class="maybe-main-content-item-desc-title-text">{{ item.title || '--'}}</span>

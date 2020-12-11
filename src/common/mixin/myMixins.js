@@ -2,8 +2,10 @@ export default {
   data() {
     return {
       defaultCover: require('../../assets/img/defaultBook.png'), // comics Icon
+      defaultLCover: require('../../assets/img/defaultLBook.png'), // 长的默认图
+      defaultCBanner: require('../../assets/img/defaultCBanner.png'), // 漫画的大图
       defaultBanner: require('../../assets/img/defaultBanner.png'), // banner
-      defaultBannerAb: require('../../assets/img/defaultBannerAb.png') // ad default
+      defaultBannerAb: require('../../assets/img/defaultBannerAD.png') // ad default
     }
   },
   methods: {
