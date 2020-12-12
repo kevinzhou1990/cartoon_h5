@@ -73,8 +73,8 @@ function render(req, res) {
       res.status(404).send('404 | Page Not Found');
     } else {
       // Render Error Page or Redirect
+      res.status(500);
       res.redirect('/error?status=500');
-      // res.status(500).send('500 | Internal Server Error');
       console.error(`error during render : ${req.url}`);
       console.error(err.stack);
     }
@@ -86,6 +86,7 @@ function render(req, res) {
   };
   // 执行服务端渲染，返回的是服务端渲染的模板
   renderer.renderToString(context, (err, html) => {
+    console.log(context.url, err);
     if (err) {
       return handleError(err);
     }

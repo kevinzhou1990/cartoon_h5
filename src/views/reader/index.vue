@@ -134,13 +134,15 @@ export default {
         document.body.classList.add('overflow-hidden');
         this.$refs.readerComponent.classList.add('overflow-hidden');
       }
-      if (localContents && JSON.stringify(localContents) !== '{}') {
-        // 根据本地数据计算滚动位置
-        if (CAPTERID && CARTOONID && localContents[CARTOONID]) {
-          reader_per = localContents[CARTOONID][CAPTERID]
-            ? localContents[CARTOONID][CAPTERID].read_per
-            : 0;
-        }
+      // 本地阅读记录存在，且有当前章节的数据时，使用本地数据
+      if (
+        localContents &&
+        JSON.stringify(localContents) !== '{}' &&
+        CAPTERID &&
+        CARTOONID &&
+        localContents[CARTOONID][CAPTERID]
+      ) {
+        reader_per = localContents[CARTOONID][CAPTERID].read_per;
       } else {
         // 如果没有本地数据，获取后台返回的
         for (let i = 0; i < contentsList.length; i++) {
@@ -152,6 +154,9 @@ export default {
       // 上一话下一话跳转的，并且当前话图片数量超过1张，从0开始阅读
       if (this.$route.query.flag && this.comicsList.length > 1) {
         reader_per = 0;
+        // 更新本地阅读记录
+        const cartoon = localContents[CARTOONID];
+        cartoon[CAPTERID] = { read_per: 0 };
       }
       if (reader_per) {
         this.Toast('上次读到这', { type: 'tag', duration: 1000 });
