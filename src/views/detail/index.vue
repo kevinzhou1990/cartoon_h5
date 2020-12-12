@@ -254,7 +254,7 @@ export default {
           ref: to.query.ref,
           ref_id: to.query.refId
         };
-        this.$store.dispatch('getDetail', params);
+        this.$store.dispatch('detail/getDetail', params);
         window.location.reload();
       }
     },

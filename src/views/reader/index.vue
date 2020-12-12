@@ -200,8 +200,9 @@ export default {
     // 导航拉动结束后执行
     scorllPos() {
       const idx = getIndex(this.readerProcess, this.comicsList.length);
+      console.log(idx, 'scrollPos');
       const p = getPageHeight(this.comicsList);
-      let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx - 1, p.p);
+      let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx, p.p);
       console.log(scrollDistance, p, '滚动高度');
       document.scrollingElement.scrollTo({ top: scrollDistance - innerHeight / 2 });
     },
@@ -256,7 +257,7 @@ export default {
         ref: this.$route.query.ref,
         ref_id: this.$route.query.refId
       };
-      this.$store.dispatch('getDetail', params);
+      this.$store.dispatch('detail/getDetail', params);
     }
   }
 };
