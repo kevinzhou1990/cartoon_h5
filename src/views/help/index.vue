@@ -78,6 +78,9 @@ export default {
       }
     }
   }
+  & >>> .scroll-box {
+    top: 44px !important;
+  }
   .flex {
     display: flex;
     .flex-1 {
