@@ -140,7 +140,12 @@ export default {
 			const resData = await updatePassword(reqData)
 			if (resData && resData.code === 0){
 				this.$toast('密码重置成功')
-        this.$router.push('/ZMLogin')
+        this.$router.push({
+          path: '/ZMLogin',
+          query: {
+            loginType: 1
+          }
+        })
 			} else {
 				this.$toast(resData.msg || '系统繁忙,请稍后重试')
 			}

@@ -121,6 +121,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.show = true;
+      this.loginType = this.$route.query.loginType || 0
     });
   },
   methods: {
