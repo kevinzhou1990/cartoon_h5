@@ -114,7 +114,7 @@ $item-color: #bbbbbb;
 }
 .main {
   position: relative;
-  padding-top: 56px;
+  margin-top: 56px;
   width: 100%;
   box-sizing: border-box;
   .scroll-box {
@@ -166,7 +166,7 @@ $item-color: #bbbbbb;
         bottom: -2px;
         width: 24px;
         transform: translateX(-50%);
-        border-bottom: 3px solid $item-selected-color;
+        border-bottom: 4px solid $item-selected-color;
         z-index: 1000;
         /*border-bottom: 2px solid $item-selected-color;*/
         /*margin: 0 8px;*/

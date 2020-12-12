@@ -96,7 +96,7 @@
 
   .maybe-main {
     position: relative;
-    padding: 8px;
+    padding: 20px 8px;
     color: $maybe-color;
     font-size: $maybe-fontSize;
 
@@ -126,7 +126,7 @@
 
           &-title {
             display: flex;
-            padding: 8px 2px 4px 2px;
+            padding: 4px 2px;
             justify-content: space-between;
             font-size: $title-fontSize;
 
@@ -170,33 +170,32 @@
           }
 
           &-label {
-            margin: 2px 2px;
+            margin: 4px 2px;
             color: $chapter-color;
             font-size: 12px;
-
             .s-border {
               position: relative;
-              /*display: inline-block;*/
+              display: inline-block;
               padding: 3px 6px;
-              min-width: 32px;
+              /*min-width: 32px;*/
+              text-align: center;
               /*border: 1px solid rgba(0, 0, 0, 0.2);*/
               /*border-radius: 4px;*/
-              text-align: center;
-              align-items: center;
               &:before {
                 content: " ";
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 200%;
-                color: #eee;
+                color: #bbb;
                 height: 200%;
                 -webkit-transform-origin: left top;
                 transform-origin: left top;
                 -webkit-transform: scale(0.5);
                 transform: scale(0.5);
-                border: 1px solid rgba(0,0,0,0.2);
-                border-radius: 4px;
+                text-align: center;
+                border: 2px solid rgba(0,0,0,0.2);
+                border-radius: 8px;
               }
             }
           }

@@ -129,7 +129,7 @@ export default {
 		 */
 		async handleClickSurePassword() {
 			if (!this.regExp.test(this.newPasswordVal)) {
-				return this.$toast('密码格式不正确，请重新设置！')
+				return this.Toast('密码格式不正确，请重新设置！')
 			}
 			const reqData = {
 				// country_code: this.telCode,
@@ -139,7 +139,9 @@ export default {
 			}
 			const resData = await updatePassword(reqData)
 			if (resData && resData.code === 0){
-				this.$toast('密码重置成功')
+				this.Toast('密码重置成功', {
+				  type: 'success'
+        })
         this.$router.push({
           path: '/ZMLogin',
           query: {
@@ -147,7 +149,7 @@ export default {
           }
         })
 			} else {
-				this.$toast(resData.msg || '系统繁忙,请稍后重试')
+				this.Toast(resData.msg || '系统繁忙,请稍后重试', {type: 'warning', duration: 1000})
 			}
 		}
   },

@@ -43,7 +43,7 @@ export default {
 .main-content {
   position: relative;
   width: auto;
-  padding: 16px 12px;
+  padding: 20px 12px;
   /*display: flex;*/
   &-item {
     display: flex;
