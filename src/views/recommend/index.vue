@@ -84,7 +84,7 @@ export default {
       // adBannerList: [], // 广告
       bannerHeight: 86,
       currentPage: 1,
-      allLoaded: false,
+      allLoaded: true,
       wrapperHeight: 0,
       times: 1
     };
@@ -141,6 +141,7 @@ export default {
         secId: this.SEC_ID || 1,
         pageInfo: reqData
       });
+      this.allLoaded = false;
       res.then(resData => {
         if (resData.code === 0) {
           this.isRecLoading = false;
@@ -170,7 +171,6 @@ export default {
     getComicsList(val) {
       if (Number(val) === this.activeIndex) return;
       // console.log('getComicsList.....', val);
-      this.allLoaded = false;
       this.$refs.recommendList.scrollTop = 0;
       this.activeIndex = Number(val);
       this.$store.commit('recommend/UPDATE_SEC_ID', this.activeIndex);
@@ -178,6 +178,7 @@ export default {
       this.getData();
     },
     nextPage() {
+      console.log('11111')
       setTimeout(() => {
         if (this.pageInfo.totalPage === 1) return;
         if (this.currentPage === this.pageInfo.totalPage) {
@@ -187,7 +188,7 @@ export default {
         console.log('触发了。。。', this.currentPage, this.pageInfo.totalPages);
         this.currentPage++;
         this.getData();
-        this.$refs.loadmore.onTopLoaded();
+        this.$refs.loadmore.onBottomLoaded();
       }, 500);
     }
   }

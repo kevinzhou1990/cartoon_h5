@@ -51,6 +51,8 @@ export default {
           let timeOutDateTime = Date.now();
           console.log(timeOutDateTime - loadDateTime);
           if (timeOutDateTime - loadDateTime < 2200) {
+            // var t = document.createEvent('HTMLEvents'); // 返回新创建的 Event 对象，具有指定的类型。
+            // t.initEvent('click', !1, !1) // 初始化新事件对象的属性
             window.location.href = iosUrl;
           }
         }, 2000);
