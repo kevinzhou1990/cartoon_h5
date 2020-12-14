@@ -136,6 +136,7 @@ export default {
           this.filterText = `${
             t[0].tag_id !== 0 && p[0].tag_id !== 0 && s[0].id !== 0 ? '' : allText
           }${otherText}`;
+          this.getComics(n, 1);
         }
       },
       deep: true
@@ -144,7 +145,7 @@ export default {
   methods: {
     async getComics(filter, page) {
       this.loadingStatus = true;
-      await this.$store.dispatch('getComicsList', { ...filter, page, page_size: 30 });
+      await this.$store.dispatch('discovery/getComicsList', { ...filter, page, page_size: 30 });
       this.page = this.page + 1;
       setTimeout(() => {
         this.loadingStatus = false;

@@ -21,19 +21,6 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
 
-console.log(vueloader);
-
-// const createLintingRule = () => ({
-//   test: /\.(js|vue)$/,
-//   loader: 'eslint-loader',
-//   enforce: 'pre',
-//   include: [resolve('src'), resolve('test')],
-//   options: {
-//     formatter: require('eslint-friendly-formatter'),
-//     emitWarning: !config.dev.showEslintErrorsInOverlay
-//   }
-// });
-
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
@@ -57,7 +44,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.(css|scss|sass)$/,
         use: isProd
@@ -129,7 +115,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: isProd ? false : '#cheap-module-source-map'
+  devtool: isProd ? '#nosources-source-map' : '#cheap-module-source-map'
   // devtool: '#cheap-module-source-map'
   // plugins: [new CleanWebpackPlugin()]
 };

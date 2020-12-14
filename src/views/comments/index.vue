@@ -163,7 +163,7 @@ export default {
     };
   },
   asyncData({ store, route }) {
-    return store.dispatch('getCommentList', {
+    return store.dispatch('comments/getCommentList', {
       type: route.query.remarkType,
       page: 1,
       cartoonId: route.query.cartoonId

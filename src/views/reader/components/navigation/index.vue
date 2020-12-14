@@ -11,11 +11,7 @@
       <div :class="`navigation-contents ${touching}`" @click="openContents">
         <SvgIcon iconClass="catalog_ba" size="small" />
       </div>
-      <div
-        :class="`navigation-next ${touching}`"
-        v-if="contentsList.indexOf(parseInt($route.query.capterId)) > 0"
-        @click="turnPage(0)"
-      >
+      <div :class="`navigation-next ${touching}`" v-if="capterIndex > 0" @click="turnPage(0)">
         <span>上一话</span>
       </div>
       <div
@@ -41,7 +37,7 @@
       </div>
       <div
         :class="`navigation-next ${touching}`"
-        v-if="contentsList.indexOf(parseInt($route.query.capterId)) !== contentsList.length - 1"
+        v-if="capterIndex !== contentsList.length - 1"
         @click="turnPage(1)"
       >
         <span>下一话</span>
@@ -81,20 +77,22 @@ export default {
       // 开始索引
       startIndex: 1,
       // 显示上次阅读标签
-      lastTag: false
+      lastTag: false,
+      // 当前章节在章节列表里的索引
+      capterIndex: 0
     };
   },
   watch: {
     $route(to, from) {
       setTimeout(() => {
-        this.init();
+        // this.init();
       }, 500);
     },
     show(n, o) {
       if (n) this.lastTag = false;
     },
     'imagesList.detail': function(n) {
-      this.init();
+      // this.init();
     },
     readerProcess(n, o) {
       // 计算图片页码
@@ -106,7 +104,7 @@ export default {
     }
   },
   mounted() {
-    this.init();
+    // this.init();
   },
   computed: {
     contentsList: function() {
@@ -132,6 +130,7 @@ export default {
       let index = Math.floor((this.readerProcess / 100) * this.imagesList.detail.length + 1);
       this.pageIndex =
         index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
+      this.capterIndex = this.contentsList.indexOf(parseInt(this.$route.query.capterId));
     },
     switchFull() {
       this.$parent.navigationStatus = !this.$parent.navigationStatus;

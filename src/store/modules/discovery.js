@@ -50,7 +50,6 @@ const discovery = {
       }
     },
     getComicsList: async ({ commit, state }, data) => {
-      console.log('data', data);
       const res = await getComicsList(data);
       if (res.code === 0) {
         let list = JSON.parse(JSON.stringify(state.comicsList));
