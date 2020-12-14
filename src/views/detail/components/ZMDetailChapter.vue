@@ -67,7 +67,7 @@ $font-color: #bbbbbb !default;
 }
 .main-chapter {
   display: inline-block;
-  margin: 24px 16px;
+  margin: 24px 16px 0 16px;
   height: 118px;
   width: 343px;
   align-content: center;

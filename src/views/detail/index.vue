@@ -114,7 +114,6 @@ export default {
     this.cartoon_id = queryData.cartoon_id || '';
     this.isZMScrollFlag = false;
     setTimeout(() => {
-      this.isZMScrollFlag = true;
       this.getZMDetail(this.ZMDetailData);
       this.infoHeight =
         document.getElementsByClassName('info-content') &&
@@ -130,7 +129,8 @@ export default {
             .getComputedStyle(document.getElementsByClassName('info-content')[0])
             .width.replace('px', '')
         );
-      console.log(this.infoHeight);
+      console.log('this.infoHeight', this.infoHeight);
+      this.isZMScrollFlag = true;
       // const headerHeight = document.getElementsByClassName('header-main')[0].offsetHeight
     }, 200);
   },

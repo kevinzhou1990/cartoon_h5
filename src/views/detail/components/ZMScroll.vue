@@ -34,7 +34,7 @@
     </div>
     <div class="main-other" ref="ohterEl" :class="{ bgColor: isShowBgColor }">
       <z-m-detail-chapter
-        v-if="detailData && detailData.is_coming != 1"
+        v-if="detailData && detailData.is_online !== 0"
         :status-text="detailData.status_text"
         :detail-news="detailData && detailData.news"
       ></z-m-detail-chapter>
