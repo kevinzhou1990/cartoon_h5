@@ -39,6 +39,7 @@ const topic = {
       return getTopic(id, state.pageInfo.page)
         .then(res => {
           commit('UPDATE_SPECIAL', res.data);
+          commit('UPDATE_PAGE_INFO', { page: 1 });
           dispatch('getComments', { id, page: 1 });
           return res;
         })

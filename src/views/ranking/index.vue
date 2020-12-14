@@ -1,6 +1,19 @@
 <template>
   <div class="ranking">
-    <ZMHeader :titleText="activeName" ref="header" :has-border="hasBoder" />
+    <ZMHeader
+      :titleText="titleText"
+      ref="header"
+      :background-color="headColor"
+      :class="titleText ? 'animation-active-out' : 'animation-active-in'"
+    />
+    <div
+      class="ranking-cover"
+      :style="
+        `background-image:url(${comicsList[0].cover});background-color:${comicsList[0].color};background-size:100%;`
+      "
+      ref="rankingCover"
+    ></div>
+    <div class="comments-contents-top"></div>
     <div class="ranking-wrap" v-if="rankingList.length">
       <ul class="ranking-type" :style="`height:${typeH}px;`">
         <li
@@ -12,64 +25,7 @@
           {{ rank.name }}
         </li>
       </ul>
-      <div
-        class="ranking-comics-list"
-        ref="comicsList"
-        :style="{ display: isback ? 'block' : 'none' }"
-      >
-        <ul>
-          <li v-for="comics in comicsList" :key="comics.cartoon_id">
-            <div
-              class="comics-cover"
-              :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
-              :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
-            />
-            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
-              <div class="ranking-info">
-                <span :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'">{{
-                  comics.rank >= 10 ? comics.rank : `0${comics.rank}`
-                }}</span>
-                <span class="ranking-occupy" v-if="comics.days >= 7"
-                  >连续霸榜{{ Math.floor(comics.days / 7) }}周</span
-                >
-                <span class="comics-info-other" v-else-if="comics.status !== 0">
-                  <SvgIcon
-                    :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
-                    size="small"
-                  />
-                  {{
-                    comics.status > 0
-                      ? `上升${Math.abs(comics.status)}位`
-                      : `下降${Math.abs(comics.status)}位`
-                  }}
-                </span>
-              </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, 1, activeRank)">
-                {{ comics.title }}
-              </p>
-              <div style="position: relative">
-                <div class="other-container">
-                  <p class="comics-info-other" v-if="comics.author.length > 0">
-                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{
-                      author
-                    }}</span>
-                  </p>
-                  <p class="comics-info-other">{{ comics.status_text }}</p>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div class="no-more" v-if="comicsList && comicsList.length > 0">
-          {{ activeName }}Top50都在这里啦～
-        </div>
-      </div>
-      <div
-        class="ranking-comics-list ranking-comics-list-back"
-        :style="{ display: isback ? 'none' : 'block' }"
-        ref="comicsListBack"
-      >
+      <div class="ranking-comics-list" ref="comicsList">
         <ul>
           <li v-for="comics in comicsList" :key="comics.cartoon_id">
             <div
@@ -148,9 +104,10 @@ export default {
       activeRank: this.$route.query.rank,
       activeName: '',
       typeH: 0,
-      isback: true,
       hasBoder: false,
-      scrollHandler: throttle(this.handlerScroll, 100, this)
+      scrollHandler: throttle(this.handlerScroll, 100, this),
+      titleText: '',
+      headColor: 'transparent'
     };
   },
   mounted() {
@@ -185,30 +142,6 @@ export default {
     switchRank(rank) {
       this.setQuery(rank);
     },
-    //获取排行分类对应漫画
-    getRankingByCate() {
-      const r = this.$store.dispatch('ranking/getRankingComicsList', this.activeRank);
-      r.then(res => {
-        if (res.code === 0) {
-          // 切换动画效果
-          const listClass = this.$refs.comicsList.classList;
-          const backClass = this.$refs.comicsListBack.classList;
-          listClass.contains('ranking-comics-list-back')
-            ? listClass.remove('ranking-comics-list-back')
-            : listClass.add('ranking-comics-list-back');
-          backClass.contains('ranking-comics-list-back')
-            ? backClass.remove('ranking-comics-list-back')
-            : backClass.add('ranking-comics-list-back');
-          setTimeout(() => {
-            this.isback = !this.isback;
-          }, 300);
-        } else {
-          this.$toast(res.msg || '系统出错,请稍后重试');
-        }
-      }).catch(error => {
-        console.log('getComicsList error', error);
-      });
-    },
     //选择的rankId更新到路由里
     setQuery(rank) {
       let query = JSON.parse(JSON.stringify(this.$route.query));
@@ -219,6 +152,14 @@ export default {
     handlerScroll() {
       // 处理滚动
       this.hasBoder = document.scrollingElement.scrollTop !== 0;
+      const scrollValue = document.scrollingElement.scrollTop;
+      if (scrollValue > this.$refs.rankingCover.clientHeight - this.$refs.header.$el.clientHeight) {
+        this.titleText = this.activeName;
+        this.headColor = '#fff';
+      } else {
+        this.titleText = '';
+        this.headColor = 'transparent';
+      }
     }
   },
   beforeDestroy() {
@@ -236,16 +177,18 @@ $SIDEWIDTH: 86px;
   padding-top: 0 !important;
 }
 .ranking {
-  padding-top: 44px;
   font-family: 'pingfang-blod';
   width: 100%;
+  .ranking-cover {
+    height: 196px;
+  }
   .ranking-wrap {
     position: relative;
     .ranking-type {
       width: $SIDEWIDTH;
-      position: fixed;
+      position: absolute;
       left: 0;
-      top: 44px;
+      top: 0px;
       li {
         box-sizing: border-box;
         height: 56px;
@@ -391,6 +334,59 @@ $SIDEWIDTH: 86px;
   }
   .no-data {
     height: calc(100vh - 44px);
+  }
+}
+.comments-contents-top {
+  height: 24px;
+  width: 100%;
+  background: url('../../assets/img/bannermask.png') no-repeat bottom;
+  background-size: 100% 100%;
+  margin-top: -24px;
+}
+.animation-active-in {
+  animation: fadeIn 0.3s;
+}
+.animation-active-out {
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
+    color: #222222;
+    height: 44px;
+    background: #ffffff;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 0.1;
+    height: 44px;
+    background: #fff;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    background: #fff;
+    opacity: 1;
   }
 }
 </style>

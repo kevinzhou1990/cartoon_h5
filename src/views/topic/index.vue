@@ -81,6 +81,7 @@ export default {
       defaultHead: require('../../assets/img/default_head.png'),
       titleText: '',
       showAddComment: false
+      // commentsList: []
     };
   },
   mixins: [myMixins],
@@ -105,21 +106,6 @@ export default {
   },
   watch: {},
   methods: {
-    async getComments(page) {
-      if (page > this.totalPage) {
-        return false;
-      }
-      let comments = await getTopicComments(this.$route.query.id, page);
-      let list = comments.data.data;
-      if (page === 1) {
-        this.commentsList = list;
-      } else {
-        this.commentsList = [...this.commentsList, ...list];
-      }
-      this.totalPage = comments.data.total_pages;
-      this.count = comments.data.count;
-      this.page += 1;
-    },
     async handlerScroll() {
       // 处理滚动
       const t = this.$refs.nextPage.getBoundingClientRect().top;
