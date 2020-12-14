@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     getRecommend(pageInfo) {
-      this.$store.dispatch('getRec', pageInfo).then(res => {
+      this.$store.dispatch('home/getRec', pageInfo).then(res => {
         return res;
       });
     },
