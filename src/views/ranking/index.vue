@@ -9,69 +9,76 @@
     <div
       class="ranking-cover"
       :style="
-        `background-image:url(${comicsList[0].cover});background-color:${comicsList[0].color};background-size:100%;`
+        `background-image:url(${comicsList[0] ? comicsList[0].cover : ''});background-color:${
+          comicsList[0] ? comicsList[0].color : '#fff'
+        };background-size:100%;`
       "
       ref="rankingCover"
     ></div>
-    <div class="comments-contents-top"></div>
-    <div class="ranking-wrap" v-if="rankingList.length">
-      <ul class="ranking-type" :style="`height:${typeH}px;`">
-        <li
-          :class="rank.rank_id === parseInt(activeRank) ? 'actived' : ''"
-          :key="rank.rank_id"
-          v-for="rank in rankingList"
-          @click="switchRank(rank)"
-        >
-          {{ rank.name }}
-        </li>
-      </ul>
-      <div class="ranking-comics-list" ref="comicsList">
-        <ul>
-          <li v-for="comics in comicsList" :key="comics.cartoon_id">
-            <div
-              class="comics-cover"
-              :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
-              :style="`background-image:url(${comics.cover})`"
-              @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
-            />
-            <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
-              <div class="ranking-info">
-                <span :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'">{{
-                  comics.rank >= 10 ? comics.rank : `0${comics.rank}`
-                }}</span>
-                <span class="ranking-occupy" v-if="comics.days >= 7"
-                  >连续霸榜{{ Math.floor(comics.days / 7) }}周</span
-                >
-                <span class="comics-info-other" v-else-if="comics.status !== 0">
-                  <SvgIcon
-                    :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
-                    size="small"
-                  />
-                  {{
-                    comics.status > 0
-                      ? `上升${Math.abs(comics.status)}位`
-                      : `下降${Math.abs(comics.status)}位`
-                  }}
-                </span>
-              </div>
-              <p class="comics-info-title" @click="handleZMInfo(comics.cartoon_id, 1, activeRank)">
-                {{ comics.title }}
-              </p>
-              <div style="position: relative">
-                <div class="other-container">
-                  <p class="comics-info-other" v-if="comics.author.length > 0">
-                    <span v-for="(author, index) in comics.author" :key="index" class="author">{{
-                      author
-                    }}</span>
-                  </p>
-                  <p class="comics-info-other">{{ comics.status_text }}</p>
-                </div>
-              </div>
-            </div>
+    <div v-if="rankingList.length">
+      <div class="comments-contents-top"></div>
+      <div class="ranking-wrap">
+        <ul class="ranking-type" :style="`height:${typeH}px;`">
+          <li
+            :class="rank.rank_id === parseInt(activeRank) ? 'actived' : ''"
+            :key="rank.rank_id"
+            v-for="rank in rankingList"
+            @click="switchRank(rank)"
+          >
+            {{ rank.name }}
           </li>
         </ul>
-        <div class="no-more" v-if="comicsList && comicsList.length > 0">
-          {{ activeName }}Top50都在这里啦～
+        <div class="ranking-comics-list" ref="comicsList">
+          <ul>
+            <li v-for="comics in comicsList" :key="comics.cartoon_id">
+              <div
+                class="comics-cover"
+                :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
+                :style="`background-image:url(${comics.cover})`"
+                @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
+              />
+              <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">
+                <div class="ranking-info">
+                  <span :class="comics.rank < 4 ? 'ranking-serial-top' : 'ranking-serial-bottom'">{{
+                    comics.rank >= 10 ? comics.rank : `0${comics.rank}`
+                  }}</span>
+                  <span class="ranking-occupy" v-if="comics.days >= 7"
+                    >连续霸榜{{ Math.floor(comics.days / 7) }}周</span
+                  >
+                  <span class="comics-info-other" v-else-if="comics.status !== 0">
+                    <SvgIcon
+                      :iconClass="comics.status > 0 ? 'rankingup_ba' : 'rankingup_bb'"
+                      size="small"
+                    />
+                    {{
+                      comics.status > 0
+                        ? `上升${Math.abs(comics.status)}位`
+                        : `下降${Math.abs(comics.status)}位`
+                    }}
+                  </span>
+                </div>
+                <p
+                  class="comics-info-title"
+                  @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
+                >
+                  {{ comics.title }}
+                </p>
+                <div style="position: relative">
+                  <div class="other-container">
+                    <p class="comics-info-other" v-if="comics.author.length > 0">
+                      <span v-for="(author, index) in comics.author" :key="index" class="author">{{
+                        author
+                      }}</span>
+                    </p>
+                    <p class="comics-info-other">{{ comics.status_text }}</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="no-more" v-if="comicsList && comicsList.length > 0">
+            {{ activeName }}Top50都在这里啦～
+          </div>
         </div>
       </div>
     </div>
@@ -112,7 +119,8 @@ export default {
   },
   mounted() {
     // this.setQuery(this.currentRank);
-    this.typeH = innerHeight - this.$refs.header.$el.clientHeight;
+    this.typeH =
+      innerHeight - this.$refs.header.$el.clientHeight - this.$refs.rankingCover.clientHeight;
     window.addEventListener('scroll', this.scrollHandler, false);
     const rank = this.$store.state.ranking.currentRank;
     const list = this.rankingList;
@@ -180,10 +188,12 @@ $SIDEWIDTH: 86px;
   font-family: 'pingfang-blod';
   width: 100%;
   .ranking-cover {
+    width: 100%;
     height: 196px;
   }
   .ranking-wrap {
     position: relative;
+    width: 100%;
     .ranking-type {
       width: $SIDEWIDTH;
       position: absolute;
