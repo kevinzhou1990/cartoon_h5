@@ -89,16 +89,20 @@ export default {
       // 同步本地记录阅读进度
       let contentsList = this.$store.state.reader.contentsList;
       let localContents = this.$store.state.reader.localContents;
-      contentsList.map(item => {
-        const CAPTERID = item.chapter_id;
-        const CARTOON_ID = item.cartoon_id;
-        if (localContents[CARTOON_ID]) {
-          const P = localContents[CARTOON_ID][CAPTERID];
-          if (P) {
-            item.read_per = P.read_per;
+      // 处在阅读器界面，使用本地记录，否则不替换
+      if (this.$route.name === 'reader') {
+        contentsList.map(item => {
+          const CAPTERID = item.chapter_id;
+          const CARTOON_ID = item.cartoon_id;
+          if (localContents[CARTOON_ID]) {
+            const P = localContents[CARTOON_ID][CAPTERID];
+            if (P) {
+              item.read_per = P.read_per;
+            }
           }
-        }
-      });
+        });
+      }
+
       return contentsList;
     }
   },
