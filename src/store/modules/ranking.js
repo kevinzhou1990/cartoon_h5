@@ -1,4 +1,5 @@
 import { getRankingCate, getRankingByCate } from '@/common/api/ranking';
+import { hex2rgb } from '@/lib/utils';
 const ranking = {
   namespaced: true,
   state: {
@@ -46,7 +47,13 @@ const ranking = {
                 break;
               }
             }
-            commit('UPDATE_COMICS_LIS', res.data.data);
+            commit(
+              'UPDATE_COMICS_LIS',
+              res.data.data.map(item => {
+                item.bk_color = hex2rgb(item.bk_color, 0.8);
+                return item;
+              })
+            );
           }
           return res;
         })

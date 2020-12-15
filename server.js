@@ -105,6 +105,7 @@ app.set('trust proxy', true);
 app.disable('etag');
 app.use(cookieParser());
 app.use(compression({ threshold: 0 }));
+app.use('/.well-known', serve('./dist', true));
 app.use('/dist', serve('./dist', true));
 app.use('/assets', serve('./assets', true));
 app.use('/favicon.ico', serve('./favicon.ico', true));

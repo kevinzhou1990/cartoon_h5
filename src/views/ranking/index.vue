@@ -5,20 +5,30 @@
       ref="header"
       :background-color="headColor"
       :class="titleText ? 'animation-active-out' : 'animation-active-in'"
+      :show-nav-flag="titleText ? false : true"
     />
     <div
       class="ranking-cover"
       :style="
-        `background-image:url(${comicsList[0] ? comicsList[0].cover : ''});background-color:${
-          comicsList[0] ? comicsList[0].color : '#fff'
-        };background-size:100%;`
+        `background-image:url(${comicsList[0] ? comicsList[0].cover : ''});background-size:100%;`
       "
       ref="rankingCover"
-    ></div>
-    <div v-if="rankingList.length">
+    >
+      <div
+        class="ranking-cover-color"
+        :style="`background-color:${comicsList[0] ? comicsList[0].bk_color : 'rgba(0,0,0,0)'};`"
+      >
+        <div>
+          <h2>{{ activeName }}</h2>
+          <span>{{ comicsList[0] ? comicsList[0].title : '' }}霸占封面</span>
+        </div>
+      </div>
+      <div ref="rankingLottie" class="ranking-cover" style="top:0;"></div>
+    </div>
+    <div v-if="rankingList.length" class="comics-list-wrap">
       <div class="comments-contents-top"></div>
       <div class="ranking-wrap">
-        <ul class="ranking-type" :style="`height:${typeH}px;`">
+        <ul :class="`ranking-type ${fixeded ? 'fixed' : ''}`" :style="`height:${typeH}px;`">
           <li
             :class="rank.rank_id === parseInt(activeRank) ? 'actived' : ''"
             :key="rank.rank_id"
@@ -82,7 +92,6 @@
         </div>
       </div>
     </div>
-
     <no-data-view
       v-else
       class="no-data"
@@ -98,6 +107,8 @@ import SvgIcon from '@/common/components/svg';
 import ZMHeader from '@/common/components/ZMHeader';
 import noDataView from '@/common/components/noDataView';
 import { throttle } from '@/lib/utils';
+import * as animationDate from './top.json';
+import env from '@/lib/utils/env';
 
 export default {
   name: 'Ranking',
@@ -114,7 +125,8 @@ export default {
       hasBoder: false,
       scrollHandler: throttle(this.handlerScroll, 100, this),
       titleText: '',
-      headColor: 'transparent'
+      headColor: 'transparent',
+      fixeded: false
     };
   },
   mounted() {
@@ -152,6 +164,21 @@ export default {
     },
     //选择的rankId更新到路由里
     setQuery(rank) {
+      if (env.isClient()) {
+        import('lottie-web').then(module => {
+          const lottie = module.loadAnimation({
+            container: this.$refs.rankingLottie,
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            path: animationDate,
+            animationData: animationDate
+          });
+          lottie.addEventListener('complete', () => {
+            module.destroy();
+          });
+        });
+      }
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.rank = rank.rank_id;
       this.$router.replace({ path: this.$route.path, query: query });
@@ -164,9 +191,13 @@ export default {
       if (scrollValue > this.$refs.rankingCover.clientHeight - this.$refs.header.$el.clientHeight) {
         this.titleText = this.activeName;
         this.headColor = '#fff';
+        // setTimeout(() => {
+        this.fixeded = true;
+        // }, 300);
       } else {
         this.titleText = '';
         this.headColor = 'transparent';
+        this.fixeded = false;
       }
     }
   },
@@ -184,16 +215,45 @@ $SIDEWIDTH: 86px;
 .pt-0 {
   padding-top: 0 !important;
 }
+.fixed {
+  position: fixed !important;
+  top: 44px !important;
+}
 .ranking {
   font-family: 'pingfang-blod';
   width: 100%;
   .ranking-cover {
     width: 100%;
     height: 196px;
+    position: fixed;
+    z-index: 9;
+  }
+  .comics-list-wrap {
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    margin-top: 196px;
+  }
+  .ranking-cover-color {
+    height: 100%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2 {
+      font-size: 18px;
+      text-align: center;
+    }
+    > div {
+      margin-top: -24px;
+    }
   }
   .ranking-wrap {
     position: relative;
     width: 100%;
+    * {
+      background: #fff;
+    }
     .ranking-type {
       width: $SIDEWIDTH;
       position: absolute;

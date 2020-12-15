@@ -1,11 +1,11 @@
-/**
-* @info: 头部组件
-* @author: PengGeng
-* @date: 8/31/20-10:24 上午
-*/
+/** * @info: 头部组件 * @author: PengGeng * @date: 8/31/20-10:24 上午 */
 <template>
   <div
-    :class="`header-main h-h title-wrap ${hasBorder ? 'zm-b-b' :''} ${isShowHeader ? '' :'header-main-hidden'}`"
+    :class="
+      `header-main h-h title-wrap ${hasBorder ? 'zm-b-b' : ''} ${
+        isShowHeader ? '' : 'header-main-hidden'
+      }`
+    "
     :style="{ background: backgroundColor }"
   >
     <div style="display: flex;">
@@ -60,9 +60,9 @@ export default {
   methods: {
     goBack() {
       if (this.leftBtnFlag) {
-        this.$emit('goBack')
+        this.$emit('goBack');
       } else {
-	      this.$router.back()
+        this.$router.back();
       }
       // this.$router.back()
     }
@@ -88,7 +88,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: inline-block;padding-left: 16px;box-sizing: border-box;
+  display: inline-block;
+  padding-left: 16px;
+  box-sizing: border-box;
 }
 .header-right {
   width: 44px;

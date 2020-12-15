@@ -97,4 +97,16 @@ function setCookie(key, value) {
   document.cookie = `${key}=${escape(value)};expires=${exp.toUTCString()}`;
 }
 
-export { encry, getRandomStr, timestampToTime, throttle, getCookie, setCookie };
+/**
+ * @info 16进制色值转换为rgb
+ * @param { String } hex 16进制色值
+ * @param { Number } opcity 1以内小数，背景透明度
+ * @returns rgba 返回对应rgba值
+ * **/
+function hex2rgb(hex = '#000000', opcity = 0.8) {
+  return `rgba(${parseInt('0x' + hex.slice(1, 3))},${parseInt('0x' + hex.slice(3, 5))},${parseInt(
+    '0x' + hex.slice(5, 7)
+  )},${opcity})`;
+}
+
+export { encry, getRandomStr, timestampToTime, throttle, getCookie, setCookie, hex2rgb };
