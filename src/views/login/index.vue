@@ -45,7 +45,7 @@
             <span class="login-content-b-left">密码</span>
             <input
               v-model="passwordVal"
-              :type="passwordShowFlag ? 'tel' : 'password'"
+              :type="passwordShowFlag ? 'text' : 'password'"
               class="login-content-b-phone"
               maxlength="20"
               placeholder="请输入密码"
@@ -121,7 +121,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.show = true;
-      this.loginType = this.$route.query.loginType || 0
+      this.loginType = Number(this.$route.query.loginType) || 0
     });
   },
   methods: {

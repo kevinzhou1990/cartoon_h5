@@ -12,7 +12,7 @@ export default {
   name: 'ZMInfoLabel',
   props: {
     loginType: {
-      type: Number,
+      type: Number | String,
       default: 0
     }
   },
@@ -27,7 +27,8 @@ export default {
       this.$router.push({
         path: '/ZM/userAgreement',
         query: {
-          agreeType: val
+          agreeType: val,
+          loginType: this.loginType
         }
       })
     }

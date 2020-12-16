@@ -1,7 +1,7 @@
 <template>
   <transition name="agreement" appear>
     <div class="agree-main" :class="{'box': agreementFlag}">
-      <z-m-header :title-text="agreeType" v-show="agreementFlag" has-border></z-m-header>
+      <z-m-header :title-text="agreeType" @goBack="back" v-show="agreementFlag" leftBtnFlag has-border ></z-m-header>
       <div class="agree-main-content" v-html="userContent"></div>
     </div>
   </transition>
@@ -15,7 +15,7 @@ export default {
   name: 'userAgreement',
   data() {
     return {
-	    agreementFlag: false,
+	    agreementFlag: true,
       userContent: ''
     }
   },
@@ -33,13 +33,22 @@ export default {
   },
   mounted() {
 	  let u = navigator.userAgent;
-	  let APPFlag = u.indexOf('isApp') > -1 // 判断是否是在APP里面运行
+	  let APPFlag = u.indexOf('isApp') < 0 // 判断是否是在APP里面运行
 	  // let isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 	  // let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-    this.agreementFlag = !APPFlag;
+    console.log(u.indexOf('isApp'))
+    this.agreementFlag = APPFlag;
     this.getData(this.$route.query.agreeType)
   },
   methods: {
+    back() {
+      this.$router.push({
+        path: '/ZMLogin',
+        query: {
+          loginType: this.$route.query.loginType || ''
+        }
+      })
+    },
     async getData(type = 1) {
       const resData = await getAgreement(type)
       if (resData && resData.code === 0) {

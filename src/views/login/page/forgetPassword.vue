@@ -31,7 +31,7 @@
                 class="login-content-b-va"
                 :class="{'theme-color' : showValidateFlag, 'time-color': isShowCountDown}"
                 @click.stop="handleClickGetValidate(2)">
-            {{ isShowCountDown ? times: '获取验证码' }}
+            {{ isShowCountDown ? `${times}s`: '获取验证码' }}
           </span>
           </div>
         </div>
@@ -45,7 +45,7 @@
       </template>
       <template v-else>
         <div class="login-content">
-          <span class="login-content-label">密码为6-20位，需要包含数字、字母组合</span>
+          <span class="login-content-label">密码为6-20位，建议包含数字、字母组合</span>
           <div class="login-content-p zm-b-radius m-8">
             <input
                 v-model="newPasswordVal"
@@ -155,7 +155,12 @@ export default {
       const resData = await fountPassword(reqData)
       if (resData && resData.code === 0){
         this.$toast('密码设置成功')
-        this.back()
+        this.$router.push({
+          path: '/ZMLogin',
+          query: {
+            loginType: 1
+          }
+        })
       } else {
         this.$toast(resData.msg || '系统繁忙,请稍后重试')
       }

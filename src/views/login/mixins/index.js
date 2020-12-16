@@ -181,8 +181,7 @@ export default {
 			  // 清楚定时器
 			  clearInterval(this.timer)
 		  } else {
-        this.Toast('手机号或验证码不能为空', { type: 'warning', duration: 500 });
-			  // this.$toast(resData.msg || '系统繁忙,请稍后重试', 'fail')
+        this.Toast(resData.msg, { type: 'warning', duration: 2000 });
 		  }
 		  console.log('click validate update password next')
 	  }
