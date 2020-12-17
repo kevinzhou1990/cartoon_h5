@@ -40,7 +40,7 @@
                 <input type="file" @change="choseFile" accept="image/*" />
                 <svg-icon icon-class="add_aa" />
               </div>
-              <span v-else>图片添加已满</span>
+              <span v-else>图片添加<br />已满</span>
             </div>
           </div>
           <z-m-img
@@ -101,16 +101,22 @@ export default {
         help_id: this.$route.query.id
       };
       this.isLoading = true;
-      this.$store.dispatch('help/addFeedback', data).then(res => {
-        this.isLoading = false;
-        if (res.code === 0) {
-          this.$store.commit('help/UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
-          this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
-          this.$router.go(-1);
-        } else {
-          this.Toast(res.msg, { type: 'fail', duration: 1000 });
-        }
-      });
+      this.$store
+        .dispatch('help/addFeedback', data)
+        .then(res => {
+          this.isLoading = false;
+          if (res.code === 0) {
+            this.$store.commit('help/UPDATE_UNDERSTAND', parseInt(this.$route.query.id));
+            this.Toast('提交成功，感谢你的反馈', { type: 'success', duration: 1000 });
+            this.$router.go(-1);
+          } else {
+            this.Toast(res.msg, { type: 'fail', duration: 1000 });
+          }
+        })
+        .catch(error => {
+          this.isLoading = false;
+          console.log(error);
+        });
     },
     changeLen() {
       const len = this.content.trim().length;

@@ -35,7 +35,7 @@ const token = {
         return res;
       });
     },
-    getToken: ({ commit }) => {
+    getToken: ({ state, commit }) => {
       const getTokenParams = {
         version: VERSION, // 版本号
         platform: PLATFORM, // APP类型，1-PC web 2-H5 web 3-IOS APP 4-Android APP  5-后台管理web
@@ -45,6 +45,7 @@ const token = {
         cid: CID, // 推送标识
         install_time: INSTALL_TIME // APP安装时间，APP必须
       };
+      console.log(DEVICE_ID, 'gettoken');
       return new Promise(resolve => {
         getToken(getTokenParams).then(res => {
           if (res.code === 0) {

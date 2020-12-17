@@ -84,6 +84,14 @@ function render(req, res) {
     url: req.url,
     cookies: req.cookies
   };
+  if (JSON.stringify(req.cookies) !== '{}') {
+    res.cookie('access_token', req.cookies.access_token, {
+      expires: new Date(new Date().getTime() + 14 * 86400000)
+    });
+    res.cookie('refresh_token', req.cookies.refresh_token, {
+      expires: new Date(new Date().getTime() + 14 * 86400000)
+    });
+  }
   // 执行服务端渲染，返回的是服务端渲染的模板
   renderer.renderToString(context, (err, html) => {
     console.log(context.url, err);
@@ -105,7 +113,7 @@ app.set('trust proxy', true);
 app.disable('etag');
 app.use(cookieParser());
 app.use(compression({ threshold: 0 }));
-app.use('/.well-known', serve('./dist', true));
+app.use('/apple-app-site-association', serve('./dist/apple-app-site-association'));
 app.use('/dist', serve('./dist', true));
 app.use('/assets', serve('./assets', true));
 app.use('/favicon.ico', serve('./favicon.ico', true));
@@ -144,7 +152,7 @@ app.use(
     changeOrigin: true,
     onProxyReq: (proxyReq, req, res) => {
       proxyReq.setHeader('X-Forwarded-For', req.connection.remoteAddress);
-      console.log('接口请求url-----', req.url, req.connection.remoteAddress);
+      console.log('接口请求url-----', process.env.VUE_ENV, req.url, req.connection.remoteAddress);
     }
   })
 );

@@ -127,6 +127,9 @@ export default {
     },
     nextPage() {
       this.pageInfo.page++;
+      if (this.pageInfo.page > this.pageInfo.totalPage) {
+        return false;
+      }
       this.getRecommend({ page: this.pageInfo.page, page_size: this.pageInfo.page_size });
       this.isNoMoreData = this.pageInfo.page >= this.pageInfo.totalPage;
       this.bottomAjax = !this.isNoMoreData;
