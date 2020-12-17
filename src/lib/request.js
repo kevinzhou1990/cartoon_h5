@@ -14,7 +14,7 @@ if (env.isServer()) {
     baseUrl = target.dev;
   }
 }
-console.log(baseUrl, '----');
+console.log(baseUrl, '----', env.isServer(), process.env.NODE_ENV);
 const service = axios.create({
   timeout: 2000, // 超时
   withCredentials: true,
