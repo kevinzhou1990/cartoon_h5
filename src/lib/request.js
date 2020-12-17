@@ -6,14 +6,19 @@ import { router } from '../router/index';
 import { getRandomStr, getCookie } from './utils';
 import target from '../../config/romteAddress';
 //创建axios实例
+let baseUrl = '/';
+if (env.isServer()) {
+  if (process.env.NODE_ENV === 'production') {
+    baseUrl = target.prod;
+  } else {
+    baseUrl = target.dev;
+  }
+}
+console.log(baseUrl, '----');
 const service = axios.create({
   timeout: 2000, // 超时
   withCredentials: true,
-  baseURL: env.isServer()
-    ? process.env.NODE_ENV === 'production'
-      ? target.prod
-      : target.dev
-    : '/',
+  baseURL: baseUrl,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json'
