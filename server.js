@@ -160,7 +160,7 @@ app.use(
 
 app.get(
   '*',
-  isProd
+  isProd || devServer
     ? render
     : (req, res) => {
         readyPromise.then(() => render(req, res));
