@@ -23,8 +23,9 @@ Vue.mixin({
 if (window.__INITIAL_STATE__) {
   // 存在本地store的情况下，使用本地的store
   const localStore = JSON.parse(sessionStorage.getItem('vuex'));
-
+  // 需要实时同步的使用服务端store的内容
   localStore.home = window.__INITIAL_STATE__.home;
+  localStore.detail = window.__INITIAL_STATE__.detail;
   // window.__INITIAL_STATE__
   store.replaceState(localStore || window.__INITIAL_STATE__);
 }

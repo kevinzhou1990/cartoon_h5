@@ -1,8 +1,4 @@
-/**
-* @info: 追漫详情评论
-* @author: PengGeng
-* @date: 8/12/20-5:25 下午
-*/
+/** * @info: 追漫详情评论 * @author: PengGeng * @date: 8/12/20-5:25 下午 */
 <template>
   <div class="main-remark">
     <div class="remark-title" @click.stop="handleClickInfo">

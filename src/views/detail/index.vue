@@ -63,6 +63,7 @@ import ZMHeader from '@/common/components/ZMHeader';
 import ZMCollect from '@/views/detail/components/ZMCollect';
 import ZMScroll from '@/views/detail/components/ZMScroll';
 import ZMContents from '@/common/components/contents';
+import env from '@/lib/utils/env';
 import '@/common/filters/home';
 
 export default {
@@ -105,6 +106,7 @@ export default {
   },
   computed: {
     ZMDetailData() {
+      console.log(this.$store.state.detail.ZMDetailData);
       return this.$store.state.detail.ZMDetailData;
     }
   },
@@ -255,7 +257,9 @@ export default {
           ref_id: to.query.refId
         };
         this.$store.dispatch('detail/getDetail', params);
-        window.location.reload();
+        if (env.isClient()) {
+          window.location.reload();
+        }
       }
     },
     isChangeHeader: function(newVal, oldVal) {
