@@ -38,3 +38,11 @@ export const searchWroldList = function(data = {}) {
     params: data
   })
 }
+// 首页广告
+export const getScreen = function(data = {}) {
+  return request({
+    url: 'api/home/screen',
+    method: 'get',
+    params: data
+  })
+}

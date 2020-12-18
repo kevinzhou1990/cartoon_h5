@@ -45,6 +45,7 @@
         </div>
       </is-scroll>
     </template>
+    <z-m-home-alert-a-d v-model="showADFlag" :adData="adData"></z-m-home-alert-a-d>
   </div>
 </template>
 
@@ -62,6 +63,8 @@ import ZMMaybeLikeComics from './components/ZMMaybeLikeComics';
 import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial';
 import homeLoading from '@/views/home/components/homeLoading';
+import ZMHomeAlertAD from '@/views/home/components/ZMHomeAlertAD';
+import { getScreen } from '@/common/api/home'
 
 export default {
   name: 'home',
@@ -78,14 +81,17 @@ export default {
     ZMMaybeLikeComics,
     ZMNoData,
     homeLoading,
-    ZMSpecial
+    ZMSpecial,
+    ZMHomeAlertAD
   },
   data() {
     return {
       bottomAjax: false, // 是否上拉加载文字
       isBottomAjax: false, // 是否触发上拉加载的回调
       isNoMoreData: false, // 是否还有更多数据
-      topAjax: false
+      topAjax: false,
+      adData: null,
+      showADFlag: false
     };
   },
   asyncData({ store, route }) {
@@ -113,8 +119,25 @@ export default {
     console.log('客户端首页已经加载-------');
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
+    console.log(this.$store.state.home.showADFlag)
+    if (!this.$store.state.home.showADFlag) {
+      this.getData()
+    }
   },
   methods: {
+    async getData() {
+      const resData = await getScreen()
+      if (resData && resData.code === 0) {
+        this.adData = resData.data.pop_ad
+        if (this.adData) {
+          this.showADFlag = true
+          this.$store.commit('home/SET_AD_FLAG', false)
+          // sessionStorage.setItem('showADFlag', false)
+        }
+      } else {
+        this.Toast(resData.msg, { type: 'fail', duration: 2000 })
+      }
+    },
     getRecommend(pageInfo) {
       this.$store.dispatch('home/getRec', pageInfo).then(res => {
         return res;
