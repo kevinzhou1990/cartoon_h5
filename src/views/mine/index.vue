@@ -2,7 +2,12 @@
   <div class="mine">
     <div class="mine-info" @click="redicrectTo('/personal')">
       <div class="mine-header flex">
-        <img :src="userInfo.avatar || defaultHead" alt="" class="mine-avatar" />
+        <img
+          :src="userInfo.avatar || defaultHead"
+          @error="laodDefault"
+          alt=""
+          class="mine-avatar"
+        />
         <div class="flex flex-1 mine-name">
           <div class="flex-1">{{ userInfo.nickname || '进入你的漫画世界' }}</div>
           <svg-icon icon-class="more_ba" size="small" />
@@ -80,6 +85,9 @@ export default {
     })
   },
   methods: {
+    laodDefault(err) {
+      err.target.src = defaultHead;
+    },
     redicrectTo(address) {
       const p = this.needLoginRoute;
       if (p.indexOf(address) !== -1) {

@@ -43,7 +43,7 @@
             <div class="topic-gray">
               <span>{{ item.created_at_text }}</span>
               <span class="option">
-                <svg-icon icon-class="like_ba" size="small" />
+                <svg-icon :icon-class="item.has_praise ? 'like_bb' : 'like_ba'" size="small" />
                 {{ item.praise_num_text }}
                 <svg-icon icon-class="more_bc" size="small" />
               </span>

@@ -92,7 +92,7 @@ export default {
       if (n) this.lastTag = false;
     },
     'imagesList.detail': function(n) {
-      // this.init();
+      this.init();
     },
     readerProcess(n, o) {
       // 计算图片页码

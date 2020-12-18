@@ -1,7 +1,6 @@
 /**
 * 哇咔漫画列表样式（大图底下带漫画信息）
 */
-
 <template>
   <div class="container" v-if="dataList.length" :class="flexWrap ? 'wrap-flex' : ''">
     <div

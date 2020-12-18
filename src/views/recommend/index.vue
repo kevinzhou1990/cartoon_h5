@@ -115,7 +115,8 @@ export default {
   mounted() {
     this.activeIndex = Number(this.$route.query.SEC_ID) || 1;
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true';
-    console.log(this.$store);
+    // 客户端加载完成，设置是否可以继续加载下一页
+    this.allLoaded = this.currentPage >= this.pageInfo.totalPage;
     this.$store.commit(
       'home/SET_REC_DATA',
       JSON.parse(sessionStorage.getItem('vuex')).home.recData
@@ -127,11 +128,11 @@ export default {
   },
   methods: {
     /**
-     * @info: 获取tab上的数据
+     * @info: 获取tab上的数据,点击tab切换时调用
      * @author: PengGeng
      * @date: 8/21/20-5:32 下午
      */
-    async getData() {
+    getData() {
       const reqData = {
         page: this.currentPage,
         page_size: this.pageInfo.page_size
@@ -170,7 +171,6 @@ export default {
      */
     getComicsList(val) {
       if (Number(val) === this.activeIndex) return;
-      // console.log('getComicsList.....', val);
       this.$refs.recommendList.scrollTop = 0;
       this.activeIndex = Number(val);
       this.$store.commit('recommend/UPDATE_SEC_ID', this.activeIndex);
@@ -178,14 +178,12 @@ export default {
       this.getData();
     },
     nextPage() {
-      console.log('11111')
       setTimeout(() => {
         if (this.pageInfo.totalPage === 1) return;
         if (this.currentPage === this.pageInfo.totalPage) {
           this.allLoaded = true;
           return;
         }
-        console.log('触发了。。。', this.currentPage, this.pageInfo.totalPages);
         this.currentPage++;
         this.getData();
         this.$refs.loadmore.onBottomLoaded();

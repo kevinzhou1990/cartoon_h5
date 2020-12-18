@@ -102,7 +102,6 @@ export default {
           }
         });
       }
-
       return contentsList;
     }
   },

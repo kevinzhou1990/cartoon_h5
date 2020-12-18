@@ -76,7 +76,6 @@ export default {
       }
       const resData = await getMoreComics(this.recId, reqData)
       if (resData && resData.code === 0){
-        debugger
         if (resData.data && !resData.data.cartoon_list.length) return
         this.hotComicsList = resData.data.cartoon_list
         this.totalPage = resData.data.total_pages

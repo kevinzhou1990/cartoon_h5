@@ -5,9 +5,13 @@
 */
 <template>
   <div class="special-main" v-if="specialData" @click="handleSpecialInfo">
+    <!-- 修改背景图 -->
     <div
       class="speical-bg"
-      :style="{background: 'url('+specialData.banner+'), ur('+defaultCBanner+')', 'background-size': '100%'}"
+      :style="{
+        background: 'url(' + specialData.banner + ') ,url(' + defaultCBanner + ') ',
+        'background-size': '100%'
+      }"
     >
       <div class="speical-bg-li"></div>
       <span class="speical-bg-text">{{ specialData.special && specialData.special.title }}</span>
@@ -21,7 +25,7 @@ export default {
   data() {
     return {
       defaultCBanner: require('../../../assets/img/defaultCBanner.png') // banner
-    }
+    };
   },
   props: {
     specialData: {
@@ -65,7 +69,7 @@ export default {
       position: absolute;
       width: 343px;
       height: 60px;
-      background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.72) 100%);
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.72) 100%);
       border-radius: 0 0 4px 4px;
       bottom: 0;
     }

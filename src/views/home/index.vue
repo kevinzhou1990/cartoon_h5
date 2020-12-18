@@ -45,7 +45,11 @@
         </div>
       </is-scroll>
     </template>
-    <z-m-home-alert-a-d v-if="adData && adData.img" v-model="showADFlag" :adData="adData"></z-m-home-alert-a-d>
+    <z-m-home-alert-a-d
+      v-if="adData && adData.img"
+      v-model="showADFlag"
+      :adData="adData"
+    ></z-m-home-alert-a-d>
   </div>
 </template>
 
@@ -64,7 +68,7 @@ import ZMNoData from '../../common/components/ZMNoData';
 import ZMSpecial from '@/views/home/components/ZMSpecial';
 import homeLoading from '@/views/home/components/homeLoading';
 import ZMHomeAlertAD from '@/views/home/components/ZMHomeAlertAD';
-import { getScreen } from '@/common/api/home'
+import { getScreen } from '@/common/api/home';
 
 export default {
   name: 'home',
@@ -115,27 +119,32 @@ export default {
       return this.$store.state.home.pageInfo;
     }
   },
+  activated() {
+    // 激活首页的时候，重置上拉加载标志
+    this.isNoMoreData = false;
+    this.bottomAjax = true;
+    this.isBottomAjax = true;
+  },
   mounted() {
     console.log('客户端首页已经加载-------');
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
-    console.log(this.$store.state.home.showADFlag)
     if (!this.$store.state.home.showADFlag) {
-      this.getData()
+      this.getData();
     }
   },
   methods: {
     async getData() {
-      const resData = await getScreen()
+      const resData = await getScreen();
       if (resData && resData.code === 0) {
-        this.adData = resData.data.pop_ad
+        this.adData = resData.data.pop_ad;
         if (this.adData) {
-          this.showADFlag = true
-          this.$store.commit('home/SET_AD_FLAG', false)
+          this.showADFlag = true;
+          this.$store.commit('home/SET_AD_FLAG', false);
           // sessionStorage.setItem('showADFlag', false)
         }
       } else {
-        this.Toast(resData.msg, { type: 'fail', duration: 2000 })
+        this.Toast(resData.msg, { type: 'fail', duration: 2000 });
       }
     },
     getRecommend(pageInfo) {

@@ -104,13 +104,18 @@ export default {
       console.log(this.$store.state.detail.ZMDetailData);
       return data;
     },
-    zmCollectData() {
-      const data = this.$store.state.detail.ZMDetailData;
-      return {
-        score: data.score ? data.score.toFixed(1) : 0, // 评分
-        evalNum: data.eval_num || 0, // 评价数
-        shelfNum: data.shelf_num_text || 0 // 被加入书架量
-      };
+    zmCollectData: {
+      get() {
+        const data = this.$store.state.detail.ZMDetailData;
+        return {
+          score: data.score ? data.score.toFixed(1) : 0, // 评分
+          evalNum: data.eval_num || 0, // 评价数
+          shelfNum: data.shelf_num_text || 0 // 被加入书架量
+        };
+      },
+      set(data) {
+        console.log(data);
+      }
     }
   },
   mounted() {
