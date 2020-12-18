@@ -45,7 +45,7 @@
         </div>
       </is-scroll>
     </template>
-    <z-m-home-alert-a-d v-model="showADFlag" :adData="adData"></z-m-home-alert-a-d>
+    <z-m-home-alert-a-d v-if="adData && adData.img" v-model="showADFlag" :adData="adData"></z-m-home-alert-a-d>
   </div>
 </template>
 

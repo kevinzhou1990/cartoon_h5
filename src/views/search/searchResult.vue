@@ -9,7 +9,7 @@
                 :searchVal="searchVal"
     ></z-m-search>
     <z-m-loading v-if="showFlag" style="margin-top: 68px;"></z-m-loading>
-    <template v-else>
+    <template>
         <is-scroll
                  ref="ZMScroll"
                  v-if="dataList.length"

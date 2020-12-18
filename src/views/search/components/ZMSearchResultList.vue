@@ -6,7 +6,7 @@
          :key="item.cartoon_id"
          @click.stop="handleClickInfo(item.cartoon_id)"
     >
-      <div class="list-main-content-img" :style="{background: 'url('+item.cover+') no-repeat center / cover'}"></div>
+      <div class="list-main-content-img" :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / cover'}"></div>
       <div class="list-main-content-text">
         <span class="title" v-html="hitWrods(item.title, item.hit_words)"></span>
         <div class="chapter">
@@ -85,7 +85,7 @@ export default {
 .list-main {
   position: relative;
   display: inline-block;
-  overflow: auto;
+  overflow: hidden;
   margin-top: 58px;
   padding: 8px 0 16px 16px;
   font-family: pingfang-blod;
