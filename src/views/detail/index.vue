@@ -7,11 +7,6 @@
       :show-nav-flag="showNavFlag"
       :class="showNavFlag ? 'animation-active-out' : 'animation-active-in'"
     >
-      <!--      <div-->
-      <!--        slot="right"-->
-      <!--        :class="showNavFlag ? 'header-right-white' : 'header-right-detail'"-->
-      <!--        @click="handleClickShare"-->
-      <!--      ></div>-->
     </z-m-header>
     <section class="main-content" ref="mainContent" :style="{ background: mainColor }">
       <div class="main-content-box">
@@ -77,7 +72,6 @@ export default {
       mainColor: '',
       showMoreFlag: false, // 展开查看更多
       isChangeHeader: false,
-      zmCollectData: null,
       cartoon_id: '', // 漫画id
       textLength: 50, // 简介默认展示47个字符 刚好占两行
       textContent: '', // 简介行的内容
@@ -106,8 +100,17 @@ export default {
   },
   computed: {
     ZMDetailData() {
+      const data = this.$store.state.detail.ZMDetailData;
       console.log(this.$store.state.detail.ZMDetailData);
-      return this.$store.state.detail.ZMDetailData;
+      return data;
+    },
+    zmCollectData() {
+      const data = this.$store.state.detail.ZMDetailData;
+      return {
+        score: data.score ? data.score.toFixed(1) : 0, // 评分
+        evalNum: data.eval_num || 0, // 评价数
+        shelfNum: data.shelf_num_text || 0 // 被加入书架量
+      };
     }
   },
   mounted() {
@@ -183,7 +186,6 @@ export default {
      * @date: 8/24/20-4:30 下午
      */
     getZMDetail(cartoonData) {
-      console.log(cartoonData, 'mounted');
       const comicsInfo = {
         cartoon_id: this.$route.query.cartoon_id, // 漫画ID
         status: cartoonData.status || 1, // 1=连载中,2=已完结,3=休更中
@@ -193,7 +195,6 @@ export default {
           (cartoonData.last && cartoonData.last.chapter_id && cartoonData.last.has_read) || '', // 当前阅读的章节
         status_text: cartoonData.status_text
       };
-      console.log(cartoonData.last, '-----');
       if (!this.showNavFlag) {
         // 在详情里面得到显示title再次点击漫画的时候触发
         this.titleText = cartoonData && cartoonData.title;
