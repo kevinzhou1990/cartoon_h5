@@ -44,7 +44,7 @@
               <div
                 class="comics-cover"
                 :class="comics.rank > 3 ? 'comics-cover-normal' : ''"
-                :style="`background-image:url(${comics.cover})`"
+                :style="`background-image:url(${comics.cover}), url(${defaultLCover})`"
                 @click="handleZMInfo(comics.cartoon_id, 1, activeRank)"
               />
               <div class="comics-info" :class="comics.rank > 3 ? 'pt-0' : ''">

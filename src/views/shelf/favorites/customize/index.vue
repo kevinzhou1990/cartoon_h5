@@ -4,7 +4,7 @@
       <div
         class="bg-container bg"
         :style="{
-          background: item.cover_url ? 'url(' + item.cover_url + ')' : '',
+          background: item.cover_url ? 'url(' + item.cover_url + '), url(' + defaultGroup + ')' : '',
           'background-size': '100%'
         }"
       ></div>
@@ -54,7 +54,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      defaultGroup: require('../../../../assets/img/default_group.png')
+    };
   },
   methods: {
     //跳转自定义收藏详情
