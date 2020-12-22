@@ -129,8 +129,11 @@ export default {
     console.log('客户端首页已经加载-------');
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
-    if (!this.$store.state.home.showADFlag) {
-      this.getData();
+    // if (!this.$store.state.home.showADFlag) {
+    //   this.getData();
+    // }
+    if (Number(sessionStorage.getItem('adDate')) !== Number(new Date().getDate())){
+      this.getData()
     }
   },
   methods: {

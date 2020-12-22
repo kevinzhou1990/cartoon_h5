@@ -36,8 +36,8 @@
        * @date: 2020/12/18-下午4:28
        */
       showAlertAD() {
-        this.$store.commit('home/SET_AD_FLAG', true)
-        // sessionStorage.setItem('showADFlag', true)
+        // this.$store.commit('home/SET_AD_FLAG', true)
+        sessionStorage.setItem('adDate', new Date().getDate())
         this.$emit('close', false)
       },
       /**
@@ -87,7 +87,7 @@
           }
         };
         if (this.adData && this.adData['jump_type']) {
-          this.$store.commit('home/SET_AD_FLAG', true)
+          sessionStorage.setItem('adDate', new Date().getDate())
           JUMP_ADDRESS[this.adData['jump_type']]();
         } else {
           this.$toast('暂时不支持跳转，谢谢！');
