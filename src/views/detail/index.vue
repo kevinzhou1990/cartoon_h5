@@ -197,7 +197,7 @@ export default {
         // update_freq: ZMDetailData.update_freq || '', // 更新频率
         title: (cartoonData.last && cartoonData.last.title) || '', // 章节编号
         last_chapter_id:
-          (cartoonData.last && cartoonData.last.chapter_id && cartoonData.last.has_read) || '', // 当前阅读的章节
+          (cartoonData.last.has_read && cartoonData.last && cartoonData.last.chapter_id) || '', // 当前阅读的章节
         status_text: cartoonData.status_text
       };
       if (!this.showNavFlag) {

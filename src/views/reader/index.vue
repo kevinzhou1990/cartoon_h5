@@ -12,7 +12,7 @@
     <Setting :show="settingStatus" />
     <div class="reader-mask">
       <div class="reader-mask-top" v-if="settingData.clickTurnPage" @click="turnPage('prev')"></div>
-      <div class="reader-mask-middle" @click="switchFull"></div>
+      <div class="reader-mask-middle" @touchstart="touStart" @click="switchFull"></div>
       <div
         class="reader-mask-bottom"
         v-if="settingData.clickTurnPage"
@@ -185,6 +185,7 @@ export default {
     },
     // 全屏切换
     switchFull() {
+      console.log('click');
       if (this.settingStatus) {
         this.settingStatus = false;
         this.fullRead = false;
@@ -229,6 +230,26 @@ export default {
       document.body.classList.remove('overflow-hidden');
       this.$refs.readerComponent.classList.remove('overflow-hidden');
       this.firstUse = 'no';
+    },
+    touStart(e) {
+      if (!this.fullRead) {
+        this.fullRead = true;
+        this.navigationStatus = true;
+        this.show = false;
+        this.settingStatus = false;
+        e.preventDefault();
+      }
+      // if (this.settingStatus) {
+      //   this.settingStatus = false;
+      //   this.fullRead = false;
+      // } else {
+      //   this.fullRead = !this.fullRead;
+      // }
+      // if (this.show) {
+      //   this.show = false;
+      //   this.navigationStatus = false;
+      // }
+      // this.navigationStatus = !this.navigationStatus;
     }
   },
   async beforeDestroy() {
