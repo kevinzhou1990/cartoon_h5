@@ -26,7 +26,7 @@
         <p class="comments-title-substance">{{ details.title }}</p>
         <p v-if="remarkType === 0">
           评论区
-          <span>（{{ dataNumber }}条评论）</span>
+          <span>（{{ dataNumberText }}条评论）</span>
         </p>
         <!--评分页面--评分显示-->
         <div v-else-if="remarkType === 1" class="collect-container">
@@ -186,6 +186,10 @@ export default {
     // 评分或评论条数
     dataNumber() {
       return this.$store.state.comments.dataNumber;
+    },
+    // 评分或评论条数(处理过的文本)
+    dataNumberText() {
+      return this.$store.state.comments.dataNumberText;
     }
   },
   destroyed() {
@@ -204,7 +208,7 @@ export default {
         this.scrollTop > titleHeight
           ? this.remarkType === 1
             ? '评分' + this.details.score + ' (' + this.details.eval_num + '人评分)'
-            : '评论区（' + this.dataNumber + '）'
+            : '评论区（' + this.dataNumberText + '）'
           : '';
       if (windowHeight + this.scrollTop >= containerHeight - 150) {
         if (this.isLoadNext) {

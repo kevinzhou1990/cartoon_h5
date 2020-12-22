@@ -7,7 +7,9 @@ const comments = {
     // 漫画详情
     details: {},
     // 评论或评分条数
-    dataNumber: 0
+    dataNumber: 0,
+    // 评论条数（处理过的文本）
+    dataNumberText: ''
   },
   mutations: {
     UPDATE_COMMENT_LIST: (state, data) => {
@@ -18,6 +20,9 @@ const comments = {
     },
     UPDATE_DATA_NUMBER: (state, data) => {
       state.dataNumber = data;
+    },
+    UPDATE_DATA_NUMBER_TEXT: (state, data) => {
+      state.dataNumberText = data;
     }
   },
   actions: {
@@ -30,6 +35,7 @@ const comments = {
             commit('UPDATE_COMMENT_LIST', list);
             commit('UPDATE_DETAILS', res.data.cartoon);
             commit('UPDATE_DATA_NUMBER', res.data.count);
+            commit('UPDATE_DATA_NUMBER_TEXT', res.data.count_text);
             return res;
           })
           .catch(error => error);
@@ -44,6 +50,7 @@ const comments = {
             commit('UPDATE_COMMENT_LIST', list);
             commit('UPDATE_DETAILS', res.data.cartoon);
             commit('UPDATE_DATA_NUMBER', res.data.count);
+            commit('UPDATE_DATA_NUMBER_TEXT', res.data.count_text);
             return res;
           })
           .catch(error => error);

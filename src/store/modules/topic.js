@@ -19,7 +19,7 @@ const topic = {
     pageInfo: {
       page: 1,
       totalPage: 1,
-      count: 1
+      count: ''
     }
   },
   mutations: {
@@ -52,7 +52,7 @@ const topic = {
       return getTopicComments(params.id, params.page)
         .then(res => {
           const pageInfo = {
-            count: res.data.count,
+            count: res.data.count_text,
             page: state.pageInfo.page + 1,
             totalPage: res.data.total_pages
           };
