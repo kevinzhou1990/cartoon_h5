@@ -16,8 +16,7 @@ const home = {
       count: 0
     },
     backRouter: '',
-    homeSearchVal: '',
-    showADFlag: false
+    homeSearchVal: ''
   },
   mutations: {
     SET_REC_DATA: function(state, val) {
@@ -39,9 +38,6 @@ const home = {
     },
     SET_SEARCH_VAL: function(state, val) {
       state.homeSearchVal = val;
-    },
-    SET_AD_FLAG: function(state, val) {
-      state.showADFlag = val
     }
   },
   actions: {

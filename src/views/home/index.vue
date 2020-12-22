@@ -143,7 +143,7 @@ export default {
         this.adData = resData.data.pop_ad;
         if (this.adData) {
           this.showADFlag = true;
-          this.$store.commit('home/SET_AD_FLAG', false);
+          // this.$store.commit('home/SET_AD_FLAG', false);
           // sessionStorage.setItem('showADFlag', false)
         }
       } else {

@@ -13,7 +13,7 @@
            @click.stop="handleClickInfo(item.cartoon_id)"
       >
         <div class="recommend-main-content-item-img"
-             :style="{background: 'url('+item.cover+') no-repeat center / cover'}"
+             :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / cover'}"
         ></div>
         <span class="recommend-main-content-item-info">
           {{ item.title }}</span>
