@@ -13,7 +13,7 @@
            @click.stop="handleClickInfo(item.cartoon_id)"
       >
         <div class="recommend-main-content-item-img"
-             :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / cover'}"
+             :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / contain'}"
         ></div>
         <span class="recommend-main-content-item-info">
           {{ item.title }}</span>
@@ -77,8 +77,8 @@ export default {
         width: 90px;
         height: 120px;
         border-radius: 4px;
-        background: url("../../../assets/img/defaultBook.png") no-repeat center;
-        background-size: 100%;
+        background: url("../../../assets/img/defaultLBook.png") no-repeat center;
+        background-size: contain !important;
       }
       &-info {
         font-size: 14px;
