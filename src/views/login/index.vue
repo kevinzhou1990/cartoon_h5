@@ -49,6 +49,7 @@
               class="login-content-b-phone"
               maxlength="20"
               placeholder="请输入密码"
+              :change="checkPassContent(passwordVal)"
               @focus="changLoginImg(passwordShowFlag ? 'sms' : 'pass')"
             />
             <span
@@ -125,6 +126,10 @@ export default {
     });
   },
   methods: {
+    checkPassContent(val) {
+      console.log(this.regExp)
+      this.passwordVal = val.toString().replace(/[^\a-\z\A-\Z0-9\@\.\!\#\$\%\*\~\,\{\}\[\]\:\'\"\?\/\>\<\^\&\!\~\-\=\(\)]/g, '')
+    },
     getSMSCode(val, randCode) {
       this.handleClickGetValidate(1, val, randCode);
     },
