@@ -115,14 +115,16 @@ export default {
   mounted() {
     this.activeIndex = Number(this.$route.query.SEC_ID) || 1;
     this.isLightIcon = localStorage.getItem('isLightIcon') === 'true';
-    // 客户端加载完成，设置是否可以继续加载下一页
-    this.allLoaded = this.currentPage >= this.pageInfo.totalPage;
     this.$store.commit(
       'home/SET_REC_DATA',
       JSON.parse(sessionStorage.getItem('vuex')).home.recData
     );
     this.$nextTick(() => {
       this.wrapperHeight = document.documentElement.clientHeight - 90;
+      setTimeout(() => {
+        // 客户端加载完成，设置是否可以继续加载下一页
+        this.allLoaded = this.currentPage >= this.pageInfo.totalPage;
+      }, 200);
       // this.adBannerList = (this.dataList && this.dataList.ad_list) || [];
     });
   },

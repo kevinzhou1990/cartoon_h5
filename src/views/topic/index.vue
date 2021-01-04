@@ -66,7 +66,6 @@
 <script>
 import ZMHeader from '@/common/components/ZMHeader';
 import SvgIcon from '@/common/components/svg';
-import { getTopicComments } from '@/common/api/topic';
 import { throttle } from '@/lib/utils';
 import myMixins from '@/common/mixin/myMixins';
 export default {

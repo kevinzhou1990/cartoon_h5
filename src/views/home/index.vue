@@ -121,17 +121,13 @@ export default {
   },
   activated() {
     // 激活首页的时候，重置上拉加载标志
-    this.isNoMoreData = false;
-    this.bottomAjax = true;
+    this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);;
+    this.bottomAjax = this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isBottomAjax = true;
   },
   mounted() {
-    console.log('客户端首页已经加载-------');
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
-    // if (!this.$store.state.home.showADFlag) {
-    //   this.getData();
-    // }
     if (Number(sessionStorage.getItem('adDate')) !== Number(new Date().getDate())){
       this.getData()
     }
@@ -143,8 +139,6 @@ export default {
         this.adData = resData.data.pop_ad;
         if (this.adData) {
           this.showADFlag = true;
-          // this.$store.commit('home/SET_AD_FLAG', false);
-          // sessionStorage.setItem('showADFlag', false)
         }
       } else {
         this.Toast(resData.msg, { type: 'fail', duration: 2000 });
