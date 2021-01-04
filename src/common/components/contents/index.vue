@@ -119,7 +119,6 @@ export default {
       }
     },
     'comicsInfo.cartoon_id': function(n, o) {
-      console.log(n, 'cartoon_id');
       this.$store.dispatch('reader/getContentsData', n);
     }
   },

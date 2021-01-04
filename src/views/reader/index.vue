@@ -161,10 +161,6 @@ export default {
       if (reader_per) {
         this.Toast('上次读到这', { type: 'tag', duration: 1000 });
       }
-      localReadProcess(this, {
-        chapter_id: parseInt(this.$route.query.capterId),
-        detail: this.comicsList
-      });
       this.$store.commit('reader/UPDATE_READERPROCESS', reader_per);
       // 计算图片索引
       const idx = getIndex(reader_per, this.comicsList.length);
@@ -185,7 +181,6 @@ export default {
     },
     // 全屏切换
     switchFull() {
-      console.log('click');
       if (this.settingStatus) {
         this.settingStatus = false;
         this.fullRead = false;
@@ -239,20 +234,14 @@ export default {
         this.settingStatus = false;
         e.preventDefault();
       }
-      // if (this.settingStatus) {
-      //   this.settingStatus = false;
-      //   this.fullRead = false;
-      // } else {
-      //   this.fullRead = !this.fullRead;
-      // }
-      // if (this.show) {
-      //   this.show = false;
-      //   this.navigationStatus = false;
-      // }
-      // this.navigationStatus = !this.navigationStatus;
     }
   },
   async beforeDestroy() {
+    // 更新本地阅读数据
+    localReadProcess(this, {
+      chapter_id: parseInt(this.$route.query.capterId),
+      detail: this.comicsList
+    });
     const reportMsg = {
       end_time: Math.floor(new Date().getTime() / 1000)
     };
