@@ -128,7 +128,7 @@ export default {
   methods: {
     checkPassContent(val) {
       console.log(this.regExp)
-      this.passwordVal = val.toString().replace(/[^\a-\z\A-\Z0-9\@\.\!\#\$\%\*\~\,\{\}\[\]\:\'\"\?\/\>\<\^\&\!\~\-\=\(\)]/g, '')
+      this.passwordVal = val.toString().replace(/[^\a-\z\A-\Z0-9\@\.\!\#\$\%\*\~\,\{\}\[\]\:\;\'\"\?\/\>\<\^\&\!\~\-\=\(\)\+\_\^\|\\]/g, '')
     },
     getSMSCode(val, randCode) {
       this.handleClickGetValidate(1, val, randCode);

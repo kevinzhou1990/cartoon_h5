@@ -29,7 +29,7 @@ export const searchResult = function (keywords) {
 export const getSearchData = function (keywords, data = {}) {
   return request({
     method: 'get',
-	  url: `/api/search/index/${keywords}`,
+	  url: `/api/search/index/${encodeURIComponent(keywords)}`,
 	  params: data
   })
 }
