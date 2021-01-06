@@ -10,7 +10,7 @@
     <div
       class="ranking-cover"
       :style="
-        `background-image:url(${comicsList[0] ? comicsList[0].cover : ''});background-size:100%;`
+        `background-image:url(${comicsList[0] ? comicsList[0].cover_detail : ''});background-size:100%;`
       "
       ref="rankingCover"
     >
