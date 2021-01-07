@@ -65,11 +65,13 @@ export default {
       pageIndex: 3,
       // 每张图片的高度
       imgHeight: [],
-      firstUse: true
+      firstUse: true,
+      capterId: ''
     };
   },
   mounted() {
     this.pageinit();
+    this.capterId = this.$route.query.capterId;
     const reportMsg = {
       start_time: Math.floor(new Date().getTime() / 1000),
       last_chapter_id: parseInt(this.$route.query.capterId)
@@ -201,10 +203,8 @@ export default {
     // 导航拉动结束后执行
     scorllPos() {
       const idx = getIndex(this.readerProcess, this.comicsList.length);
-      console.log(idx, 'scrollPos');
       const p = getPageHeight(this.comicsList);
       let scrollDistance = getDistance(idx - 1 < 0 ? 0 : idx, p.p);
-      console.log(scrollDistance, p, '滚动高度');
       document.scrollingElement.scrollTo({ top: scrollDistance - innerHeight / 2 });
     },
     // 图片翻页
@@ -239,7 +239,7 @@ export default {
   async beforeDestroy() {
     // 更新本地阅读数据
     localReadProcess(this, {
-      chapter_id: parseInt(this.$route.query.capterId),
+      chapter_id: parseInt(this.capterId),
       detail: this.comicsList
     });
     const reportMsg = {
