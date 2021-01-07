@@ -18,9 +18,9 @@
         class="ranking-cover-color"
         :style="`background-color:${comicsList[0] ? comicsList[0].bk_color : 'rgba(0,0,0,0)'};`"
       >
-        <div>
+        <div style="width: 100%;text-align: center">
           <h2>{{ activeName }}</h2>
-          <span>{{ comicsList[0] ? comicsList[0].title : '' }}霸占封面</span>
+          <div class="ranking-cartoon-title">《{{ comicsList[0] ? comicsList[0].title : '' }}》霸占封面</div>
         </div>
       </div>
       <div ref="rankingLottie" class="ranking-cover" style="top:0;"></div>
@@ -246,6 +246,12 @@ $SIDEWIDTH: 86px;
     }
     > div {
       margin-top: -24px;
+    }
+    .ranking-cartoon-title{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
     }
   }
   .ranking-wrap {
