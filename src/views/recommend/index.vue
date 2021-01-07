@@ -23,7 +23,7 @@
       @getRecommendData="getComicsList"
     ></z-m-nav-bar>
     <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
-      <div class="ba" v-if="adBannerList.length && !isLightIcon">
+      <div class="ba" v-if="adBannerList.length">
         <z-mswiper
           :banner-list="adBannerList"
           :bannerHeight="bannerHeight"
