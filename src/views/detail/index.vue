@@ -101,7 +101,6 @@ export default {
   computed: {
     ZMDetailData() {
       const data = this.$store.state.detail.ZMDetailData;
-      console.log(this.$store.state.detail.ZMDetailData);
       return data;
     },
     zmCollectData: {
@@ -268,7 +267,7 @@ export default {
         }
       }
     },
-    isChangeHeader: function(newVal, oldVal) {
+    isChangeHeader(newVal, oldVal) {
       if (newVal !== oldVal && newVal) {
         this.titleText = this.ZMDetailData && this.ZMDetailData.title;
         this.headerBgColor = '#FFFFFF';
@@ -278,6 +277,9 @@ export default {
         this.headerBgColor = this.mainColor;
         this.showNavFlag = true;
       }
+    },
+    ZMDetailData(n, o) {
+      this.getZMDetail(n);
     }
   },
   beforeDestroy() {

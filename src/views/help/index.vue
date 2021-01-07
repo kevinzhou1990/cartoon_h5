@@ -51,7 +51,7 @@ export default {
       return this.$store.state.help.list;
     },
     activeIndex() {
-      return this.$store.state.recommend.SEC_ID;
+      return this.$store.state.help.activeIndex;
     }
   },
   methods: {
