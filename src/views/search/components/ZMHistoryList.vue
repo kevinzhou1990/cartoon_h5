@@ -65,12 +65,16 @@ export default {
 	   */
 	  handleClickInfo(val) {
 		  setLocalStorage(val)
-		  this.$router.push({
-        path: '/ZMSearchResult',
-        query: {
-	        searchValue: val
-        }
-      })
+      if (this.$route.path === '/ZMSearchResult'){
+        window.location.href = `${location.origin}/ZMSearchResult?searchValue=${encodeURIComponent(val)}`
+      } else {
+        this.$router.push({
+          path: '/ZMSearchResult',
+          query: {
+            searchValue: val
+          }
+        })
+      }
     }
   }
 }
