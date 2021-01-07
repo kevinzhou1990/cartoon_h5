@@ -32,7 +32,7 @@
     <div class="topic-comment">
       <div class="topic-comment-title">专题评论（{{ this.pageInfo.count }}）</div>
       <ul v-if="commentsList.length">
-        <li v-for="item in commentsList" :key="item.id" @click="jumpDownloadPage">
+        <li v-for="item in commentsList" :key="item.id">
           <div>
             <img class="avatar" :src="item.avatar" @error="getDefaultHead" />
           </div>
@@ -42,7 +42,7 @@
             <div class="topic-comment-content">{{ item.content }}</div>
             <div class="topic-gray">
               <span>{{ item.created_at_text }}</span>
-              <span class="option">
+              <span class="option" @click="jumpDownloadPage">
                 <svg-icon :icon-class="item.has_praise ? 'like_bb' : 'like_ba'" size="small" />
                 {{ item.praise_num_text }}
                 <svg-icon icon-class="more_bc" size="small" />
