@@ -42,7 +42,7 @@ export default {
   },
   methods: {
    back() {
-     if (this.agreeType === 3) {
+     if (Number(this.$route.query.agreeType) === 3) {
       this.$router.back()
      } else {
        this.$router.push({
