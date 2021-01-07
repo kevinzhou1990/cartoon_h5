@@ -304,7 +304,6 @@ export default {
     vertical-align: middle;
     animation: roates 1s linear infinite;
     position: relative;
-    left: 15px;
   }
   @keyframes roates {
     0% {
