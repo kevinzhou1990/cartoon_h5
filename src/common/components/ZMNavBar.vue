@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <div class="scroll-box" :class="{'b-d': showBorderBottom }" ref="scrollBox">
+    <div class="scroll-box" :class="{ 'b-d': showBorderBottom }" ref="scrollBox">
       <div
-          ref="scrollItem"
-          class="item"
-          :class="{ active: isSelected == item.index}"
-          v-for="(item, index) in tabListData"
-          :key="item.index"
-          @click.stop="start(item.index, index)"
+        ref="scrollItem"
+        class="item"
+        :class="{ active: isSelected == item.index }"
+        v-for="(item, index) in tabListData"
+        :key="item.index"
+        @click.stop="start(item.index, index)"
       >
         {{ item.name }}
       </div>
@@ -48,19 +48,21 @@ export default {
     };
   },
   mounted() {
-    const that = this
+    const that = this;
     this.$nextTick(() => {
-      let _index = 0
+      let _index = 0;
       if (this.dataList && this.dataList.length) {
-        for (let i = 0; i < this.dataList.length; i++){
+        for (let i = 0; i < this.dataList.length; i++) {
           if (this.dataList[i].index === that.activeIndex) {
-            _index = i
-            break
+            _index = i;
+            break;
           }
         }
       }
-      const navIndex = this.$store.state.recommend.SEC_ID || '';
-      const key = navIndex || this.activeIndex;
+      // const navIndex = this.$store.state.recommend.SEC_ID || '';
+      const key = this.activeIndex;
+      // const key = navIndex || this.activeIndex;
+      // console.log(key, this.currentIndex, navIndex);
       if (_index > -1) this.start(key, _index);
     });
   },
@@ -81,8 +83,7 @@ export default {
         this.$nextTick(() => {
           if (this.$refs && this.$refs.scrollItem) {
             let offsetWidth = this.$refs.scrollItem[index].offsetWidth; //item
-            let scrollLeft =
-              this.$refs.scrollItem && this.$refs.scrollItem[index].offsetLeft; //选中的元素滚到可视区域的最左边
+            let scrollLeft = this.$refs.scrollItem && this.$refs.scrollItem[index].offsetLeft; //选中的元素滚到可视区域的最左边
             const containWidth = this.$refs.scrollBox.offsetWidth; //容器的宽度
             let resultSpot = scrollLeft + offsetWidth / 2 - containWidth / 2; //最终要停留的点
             if (Math.abs(this.lastSpot - resultSpot) < nextSpace) {
@@ -174,5 +175,4 @@ $item-color: #bbbbbb;
     }
   }
 }
-
 </style>
