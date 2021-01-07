@@ -4,7 +4,7 @@
       <img class="search-label-img" src="../images/search.png" />
       <!--      <input class="search-label-input" v-model="searchValue" :placeholder="placeholderValue" />-->
       <div class="scroll-box">
-        <ul v-if="scrollTextList.length > 0">
+        <ul v-if="scrollTextList.length > 0" ref="searchRefOne">
           <li
             v-for="(item, index) of scrollTextList"
             :key="index"
@@ -13,7 +13,7 @@
             {{ item || '什么也没有' }}
           </li>
         </ul>
-        <ul v-else>
+        <ul v-else ref="searchRefTwo">
           {{
             firstName
           }}
@@ -66,6 +66,7 @@ export default {
     },
     textScroll() {
       this.box = document.getElementsByClassName('scroll-box')[0];
+      if (!this.box) return;
       let parent = document.getElementsByTagName('ul')[0];
       let parent2 = document.getElementsByTagName('ul')[1];
       parent2.innerHTML = parent.innerHTML;
@@ -79,7 +80,6 @@ export default {
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
       const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0];
       if (!parent) return;
-      if (!this.box) return;
       if (parent.offsetHeight - this.box.scrollTop <= 37) {
         // let timers = null
         boxScrollTopTimers = setTimeout(() => {
