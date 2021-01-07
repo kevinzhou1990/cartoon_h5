@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     async pageinit() {
+      console.log(this.$store.state.reader.localContents, '+++-----');
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.comicsInfo.last_chapter_id = parseInt(this.$route.query.capterId);
       // 更新漫画上报数据
@@ -237,11 +238,6 @@ export default {
     }
   },
   async beforeDestroy() {
-    // 更新本地阅读数据
-    localReadProcess(this, {
-      chapter_id: parseInt(this.capterId),
-      detail: this.comicsList
-    });
     const reportMsg = {
       end_time: Math.floor(new Date().getTime() / 1000)
     };
@@ -250,6 +246,7 @@ export default {
     // 组装上报数据
     const localContents = JSON.parse(JSON.stringify(this.$store.state.reader.localContents));
     const chapter_info = [];
+    console.log(localContents, '本地记录');
     for (let i in localContents) {
       if (this.$route.query.cartoon_id === i) {
         const cartoon = localContents[i];
@@ -265,7 +262,7 @@ export default {
     );
     if (rp.code === 0) {
       // 上报成功，清除本地数据
-      this.$store.dispatch('reader/saveProcess', {});
+      // this.$store.dispatch('reader/saveProcess', {});
       // 更新漫画详情数据
       const params = {
         cartoon_id: this.$route.query.cartoon_id,
@@ -274,6 +271,12 @@ export default {
       };
       this.$store.dispatch('detail/getDetail', params);
     }
+    // console.log(this.imgIndex, '=====+++');
+    // 更新本地阅读数据
+    // localReadProcess(this, {
+    //   chapter_id: parseInt(this.capterId),
+    //   detail: this.comicsList
+    // });
   }
 };
 </script>
