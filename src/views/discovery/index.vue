@@ -95,12 +95,12 @@ export default {
     // 监听滚动事件，列表距头部小于等于48px，筛选条件贴边
     // this.$store.commit('UPDATECHECKED', { tag_id: parseInt(this.$route.query.tag || 0) });
     this.scrollHandler = throttle(this.handlerScroll, 100, this);
+    this.$store.commit('home/SET_BACK_ROUTER', '/discovery');
     window.addEventListener('scroll', this.scrollHandler, false);
   },
   watch: {
     checked: {
       handler: function(n, o) {
-        console.log('watch', n);
         if (n.tag_id !== '' && n.place_id !== '' && n.status !== '' && n.sort !== '') {
           this.getComics(n, 1);
           const s = this.$store.state.discovery.status.filter(item => {
