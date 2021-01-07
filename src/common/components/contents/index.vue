@@ -111,6 +111,7 @@ export default {
   watch: {
     show(n, o) {
       if (n) {
+        // this.$store.dispatch('reader/getContentsData', this.comicsInfo.cartoon_id);
         this.touchPois.y = '50%';
         document.body.classList.add('overflow-hidden');
       } else {
