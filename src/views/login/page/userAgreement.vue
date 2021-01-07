@@ -41,13 +41,17 @@ export default {
     this.getData(this.$route.query.agreeType)
   },
   methods: {
-    back() {
-      this.$router.push({
-        path: '/ZMLogin',
-        query: {
-          loginType: this.$route.query.loginType || ''
-        }
-      })
+   back() {
+     if (this.agreeType === 3) {
+      this.$router.back()
+     } else {
+       this.$router.push({
+         path: '/ZMLogin',
+         query: {
+           loginType: this.$route.query.loginType || ''
+         }
+       })
+     }
     },
     async getData(type = 1) {
       const resData = await getAgreement(type)
