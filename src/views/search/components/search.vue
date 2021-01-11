@@ -73,7 +73,8 @@ export default {
     handleClickCancel() {
       sessionStorage.removeItem('name');
       this.$store.commit('home/SET_SEARCH_VAL', '');
-      this.$router.replace(this.$store.state.home.backRouter || '/home');
+      this.$route.name === 'ZMSearchResult' ? history.go(-2) : history.go(-1);
+      // this.$router.replace(this.$store.state.home.backRouter || '/home');
       console.log('back to path....');
     },
     /**

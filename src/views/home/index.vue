@@ -121,15 +121,16 @@ export default {
   },
   activated() {
     // 激活首页的时候，重置上拉加载标志
-    this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);;
-    this.bottomAjax = this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
+    this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
+    this.bottomAjax = this.bottomAjax = this.isBottomAjax =
+      this.pageInfo.page < this.pageInfo.totalPage;
     this.isBottomAjax = true;
   },
   mounted() {
     this.bottomAjax = this.isBottomAjax = this.pageInfo.page < this.pageInfo.totalPage;
     this.isNoMoreData = !(this.pageInfo.page < this.pageInfo.totalPage);
-    if (Number(sessionStorage.getItem('adDate')) !== Number(new Date().getDate())){
-      this.getData()
+    if (Number(sessionStorage.getItem('adDate')) !== Number(new Date().getDate())) {
+      this.getData();
     }
   },
   methods: {
