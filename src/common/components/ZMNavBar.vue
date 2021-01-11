@@ -59,8 +59,12 @@ export default {
           }
         }
       }
+      let key = this.activeIndex;
+      if (this.$route.name === 'recommend') {
+        key = this.$store.state.recommend.SEC_ID;
+      }
       // const navIndex = this.$store.state.recommend.SEC_ID || '';
-      const key = this.activeIndex;
+      // const key = this.activeIndex;
       // const key = navIndex || this.activeIndex;
       // console.log(key, this.currentIndex, navIndex);
       if (_index > -1) this.start(key, _index);
