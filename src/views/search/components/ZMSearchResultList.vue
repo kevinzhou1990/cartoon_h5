@@ -6,7 +6,7 @@
          :key="item.cartoon_id"
          @click.stop="handleClickInfo(item.cartoon_id)"
     >
-      <div class="list-main-content-img" :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / contain'}"></div>
+      <div class="list-main-content-img" :style="{background: 'url('+item.cover+'), url(' + defaultLCover + ') no-repeat center / cover'}"></div>
       <div class="list-main-content-text">
         <span class="title" v-html="hitWrods(item.title, item.hit_words)"></span>
         <div class="chapter">
@@ -104,7 +104,7 @@ export default {
       width: 72px;
       border-radius: 4px;
       background: url("../../../assets/img/defaultLBook.png") no-repeat center;
-      background-size: contain !important;
+      background-size: cover !important;
     }
     &-text {
       margin: 8px 0 8px 8px;

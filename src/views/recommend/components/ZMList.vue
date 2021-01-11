@@ -18,7 +18,7 @@
           class="maybe-main-content-item-img"
           :style="{
             background: 'url(' + item.cover + '), url(' + defaultLCover + ')',
-            'background-size': 'contain'
+            'background-size': 'cover'
           }"
         ></div>
         <div class="maybe-main-content-item-desc">
@@ -127,7 +127,7 @@ $content-color: #999999;
         width: 90px;
         height: 120px;
         border-radius: 4px;
-        background: url('../../../assets/img/defaultBook.png') no-repeat;
+        background: url('../../../assets/img/defaultBook.png') no-repeat center;
         background-size: cover;
       }
 

@@ -83,7 +83,9 @@
           action: '', // 当前进行的操作
           originPoint: {}, // 点击时所在位置
           selectLine: '' // 选择那一条边进行拉伸，为空则不是在拉伸
-        }
+        },
+        //压缩率，可解决翻转
+        quality: 1
       }
     },
     mounted() {
@@ -287,6 +289,27 @@
           100
         )
       },
+      //检测ios系统版本号，小于13.4.1的拍照图片需要处理翻转
+      compareIosVer(){
+        let UA = navigator.userAgent;
+        const isIos = UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if (!isIos) return;
+        const str = UA.toLowerCase();
+        let ver = str.match(/cpu iphone os (.*?) like mac os/);
+        if (!ver) return;
+        let verStr = ver[1].replace(/_/g, '.').split('.');
+        console.log('你当前的Ios系统版本为：' + verStr);
+        if (parseInt(verStr[0]) < 13){
+          this.quality = 0.9
+        } else if (parseInt(verStr[0]) === 13){
+          if (verStr[1] < 4){
+            console.log('小于13.4');
+            this.quality = 0.9
+          }
+        } else {
+          console.log('大于13')
+        }
+      },
       // 选择图片
       fileChange(event) {
         //lrz压缩并且调整ios上图片反转的问题
@@ -294,8 +317,9 @@
         import('lrz').then((_module) => {
           const fileObj = event.target.files[0];
           let that = this;
+          this.compareIosVer();
           _module(fileObj, {
-            quality: 1
+            quality: that.quality
           })
             .then(function(rst) {
               console.log(rst);
