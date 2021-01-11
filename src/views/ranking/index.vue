@@ -10,7 +10,9 @@
     <div
       class="ranking-cover"
       :style="
-        `background-image:url(${comicsList[0] ? comicsList[0].cover_detail : ''});background-size:100%;`
+        `background-image:url(${
+          comicsList[0] ? comicsList[0].cover_detail : ''
+        });background-size:100%;`
       "
       ref="rankingCover"
     >
@@ -20,7 +22,15 @@
       >
         <div style="width: 100%;text-align: center">
           <h2>{{ activeName }}</h2>
-          <div class="ranking-cartoon-title">《{{ comicsList[0] ? comicsList[0].title : '' }}》霸占封面</div>
+          <div class="ranking-cartoon-title">
+            《{{
+              comicsList[0]
+                ? comicsList[0].title.length > 12
+                  ? `${comicsList[0].title.substr(0, 12)}...`
+                  : comicsList[0].title
+                : ''
+            }}》霸占封面
+          </div>
         </div>
       </div>
       <div ref="rankingLottie" class="ranking-cover" style="top:0;"></div>
@@ -247,7 +257,7 @@ $SIDEWIDTH: 86px;
     > div {
       margin-top: -24px;
     }
-    .ranking-cartoon-title{
+    .ranking-cartoon-title {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
