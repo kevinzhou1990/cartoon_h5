@@ -58,7 +58,6 @@ service.intercept({
       'APP-SIGN': sign,
       Authorization
     };
-    console.log(c);
     if (c.url === 'api/oauth' && c.method === 'put') {
       c.data = {
         refresh_token
