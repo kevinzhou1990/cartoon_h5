@@ -43,6 +43,10 @@ service.intercept({
       Authorization = getCookie('access_token');
       refresh_token = getCookie('refresh_token');
     }
+    if (env.isServer()) {
+      Authorization = global.__VUE_SSR_CONTEXT__.cookies.access_token;
+      refresh_token = global.__VUE_SSR_CONTEXT__.cookies.refresh_token;
+    }
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
     const appKey = '1zKsCmor4blnFEhiWHfhZLtXFVfwEH3e';
@@ -54,6 +58,7 @@ service.intercept({
       'APP-SIGN': sign,
       Authorization
     };
+    console.log(c);
     if (c.url === 'api/oauth' && c.method === 'put') {
       c.data = {
         refresh_token

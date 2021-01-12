@@ -39,7 +39,9 @@
           height="18px"
         />
         <!--        <span style="background: url('../images/save_collect.png') no-repeat; height: 24px; width: 24px; z-index: 9;"></span>-->
-        <span class="collect-content-right-c">收藏</span>
+        <span class="collect-content-right-c">{{
+          zmCollectData && zmCollectData.hasFavor === 0 ? '收藏' : '已收藏'
+        }}</span>
       </div>
     </div>
   </div>

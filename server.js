@@ -57,7 +57,8 @@ function createRenderer(bundle, options) {
       // this is only needed when vue-server-renderer is npm-linked
       basedir: resolve('./dist'),
       // recommended for performance
-      runInNewContext: false
+      // 修改runInNewContext 值为true，使之能传递cookies透传
+      runInNewContext: true
     })
   );
 }
