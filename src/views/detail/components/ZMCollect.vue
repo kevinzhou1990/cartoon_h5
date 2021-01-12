@@ -33,7 +33,7 @@
       <div class="collect-content-line"></div>
       <div class="collect-content-right" @click.stop="handleCollect">
         <img
-          :src="zmCollectData && zmCollectData.hasFavor === 0 ? collected : collect"
+          :src="zmCollectData && zmCollectData.hasFavor === 0 ? collect : collected"
           alt
           width="17px"
           height="18px"

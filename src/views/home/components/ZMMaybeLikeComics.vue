@@ -22,7 +22,7 @@
             <div class="maybe-main-content-item-desc-title-c" @click.stop="handleClickCollect">
               <img
                 class="maybe-main-content-item-desc-title-c-img"
-                :src="isCollectFlag ? bb_img : ba_img"
+                :src="item.has_favor ? bb_img : ba_img"
               />
               <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
             </div>
@@ -92,6 +92,15 @@ export default {
     this.recId = this.maybeLikeComics.rec_id || 6;
     this.maybeLikeComicsList = this.maybeLikeComics.cartoon_list;
     this.ad_list = this.maybeLikeComics.ad_list;
+  },
+  // watch maybeLikeComics ，解决数据不同步问题
+  watch: {
+    maybeLikeComics: {
+      handler(n, o) {
+        this.maybeLikeComicsList = n.cartoon_list;
+      },
+      deep: true
+    }
   },
   methods: {
     /**

@@ -26,6 +26,7 @@ if (window.__INITIAL_STATE__) {
   // 需要实时同步的使用服务端store的内容
   localStore.home = window.__INITIAL_STATE__.home;
   localStore.detail = window.__INITIAL_STATE__.detail;
+  // console.log(window.__INITIAL_STATE__.home);
   // window.__INITIAL_STATE__
   store.replaceState(localStore || window.__INITIAL_STATE__);
 }
