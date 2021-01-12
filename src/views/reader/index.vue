@@ -213,8 +213,9 @@ export default {
       const process = Math.floor(this.$store.state.reader.readerProcess) / 100;
       const imgIndex = Math.floor(process * this.comicsList.length);
       const scolltop = document.scrollingElement.scrollTop;
-      const h = document.getElementById(`img${this.comicsList[imgIndex - 1].detail_id}`)
-        .clientHeight;
+      const h = document.getElementById(
+        `img${this.comicsList[imgIndex - 1 > 0 ? imgIndex - 1 : 0].detail_id}`
+      ).clientHeight;
       if (direction === 'next') {
         document.scrollingElement.scrollTo({ top: scolltop + h, behavior: 'smooth' });
       } else {
