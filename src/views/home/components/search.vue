@@ -80,7 +80,7 @@ export default {
       /* 判断滚动内容是否已经滚完，滚完了则滚动的值重新设置到0否则就每隔30毫秒向上滚动1px */
       const parent = document.getElementsByTagName('ul') && document.getElementsByTagName('ul')[0];
       if (!parent) return;
-      if (parent.offsetHeight - this.box.scrollTop <= 37) {
+      if (parent.offsetHeight - Math.floor(this.box.scrollTop) <= 36) {
         // let timers = null
         boxScrollTopTimers = setTimeout(() => {
           this.box.scrollTop = 0;
@@ -89,7 +89,7 @@ export default {
         this.box.scrollTop++;
       }
       /* 判断滚动的距离刚好为一条内容的高度时停掉定时器，隔1s之后重新启动定时器即可实现内容滚动停留效果 */
-      if (this.box.scrollTop % this.box.offsetHeight === 0) {
+      if (Math.floor(this.box.scrollTop) % this.box.offsetHeight === 0) {
         boxScrollTopTimers && clearInterval(boxScrollTopTimers);
         clearInterval(this.timer);
         setTimeout(() => {
@@ -123,9 +123,9 @@ $search-color: #fff;
       transform: translateY(-50%);
     }
     &-input {
-      height: 36px;
+      height: 35px;
       width: 343px;
-      line-height: 36px;
+      line-height: 35px;
       margin: 8px 0;
       padding-left: 36px;
       background: rgba(0, 0, 0, 0.3);
@@ -149,10 +149,14 @@ $search-color: #fff;
         opacity: 0.6;
         font-size: 12px;
         li {
+          height: 36px;
           overflow: hidden;
           word-break: break-word;
           white-space: nowrap;
           text-overflow: ellipsis;
+          display: flex;
+          align-items: center;
+          line-height: 36px;
         }
       }
     }

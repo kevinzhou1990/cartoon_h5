@@ -206,6 +206,8 @@ export default {
     font-family: pingfang-blod;
     font-size: 12px;
     color: #bbbbbb;
+    height: 34px;
+    line-height: 100%;
   }
   .m-8 {
     margin-top: 8px;
@@ -259,6 +261,9 @@ export default {
         position: relative;
         outline: none;
         border: none;
+        /*height: 34px;*/
+        /*line-height: 34px;*/
+        caret-color: #12e079;
       }
       &-va {
         position: absolute;
