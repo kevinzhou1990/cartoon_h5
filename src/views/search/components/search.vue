@@ -151,8 +151,8 @@ input::-webkit-input-placeholder {
   font-family: 'pingfang-blod';
   color: #bbbbbb;
   font-size: 12px;
-  height: 34px;
-  line-height: 100%;
+  /*height: 34px;*/
+  /*line-height: 100%;*/
 }
 input[type='text'] {
   font-size: inherit;
@@ -185,7 +185,7 @@ input {
       border: none;
       width: 228px;
       height: 34px;
-      line-height: 100%;
+      line-height: 34px;
       /*height: 36px;*/
       outline: none;
     }
