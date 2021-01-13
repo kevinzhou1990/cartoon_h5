@@ -186,7 +186,6 @@ input {
       width: 228px;
       height: 34px;
       line-height: 34px;
-      /*height: 36px;*/
       outline: none;
     }
     &:before {
