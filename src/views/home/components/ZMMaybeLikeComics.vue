@@ -24,7 +24,9 @@
                 class="maybe-main-content-item-desc-title-c-img"
                 :src="item.has_favor ? bb_img : ba_img"
               />
-              <span :class="{ 'f-c-g': !isCollectFlag }">收藏</span>
+              <span :class="{ 'f-c-g': !isCollectFlag }">{{
+                item.has_favor ? '已收藏' : '收藏'
+              }}</span>
             </div>
           </div>
           <div class="maybe-main-content-item-desc-chapter">
@@ -179,7 +181,7 @@ $content-color: #999999;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            width: 195px;
+            width: 180px;
           }
           &-c {
             display: flex;
