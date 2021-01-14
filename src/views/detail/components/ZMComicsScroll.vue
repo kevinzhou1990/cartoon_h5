@@ -8,7 +8,7 @@
           :key="item.cartoon_id"
           @click.prevent="handleZMInfo(item.cartoon_id, 4)"
       >
-        <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': '100%'}"></span>
+        <span class="main-img-content-img" :style="{background: 'url('+item.cover || comicsImg+')', 'background-size': 'cover'}"></span>
         <span class="main-img-content-title">{{ item.title }}</span>
         <span class="main-img-content-chapter" v-if="comicsType === 1">{{ item.status_text }}</span>
         <span class="main-img-content-chapter" v-else>{{ item.author | authorFormate }}</span>
