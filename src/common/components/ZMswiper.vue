@@ -31,7 +31,7 @@ import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter';
 
 MySwiperClass.use([Pagination, Autoplay]);
 const { Swiper, SwiperSlide } = getAwesomeSwiper(MySwiperClass);
-let vm = null
+let vm = null;
 export default {
   name: 'ZMswiper',
   props: {
@@ -75,7 +75,7 @@ export default {
         on: {
           click(swiper, event) {
             // 1,4 第一个; 2 第二个;  3 第三个 分别跳转不同的链接
-            vm.showInfo(swiper.realIndex, JSON.parse(event.target.name))
+            vm.showInfo(swiper.realIndex, JSON.parse(event.target.name));
           }
         },
         pagination: {
@@ -109,15 +109,15 @@ export default {
       return this.$refs.mySwiper.$swiper;
     }
   },
-  created() {
-    vm = this
+  mounted() {
+    vm = this;
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps);
     // this.swiperOptions = this.swiperOptionsObject
     // console.log('Current Swiper instance object', this.swiper)
     // this.swiper.slideTo(3, 1000, false)
   },
   methods: {
-    showDefaultImg(){},
+    showDefaultImg() {},
     /**
      * @info: 跳转banner的详情
      * @author: PengGeng
