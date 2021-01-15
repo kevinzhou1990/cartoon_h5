@@ -22,29 +22,6 @@
       :activeIndex="activeIndex"
       @getRecommendData="getComicsList"
     ></z-m-nav-bar>
-    <div class="loadmore-se" :style="{ height: wrapperHeight + 'px' }">
-      <div class="ba" v-if="adBannerList.length">
-        <z-mswiper
-          :banner-list="adBannerList"
-          :bannerHeight="bannerHeight"
-          :banner-width="343"
-        ></z-mswiper>
-      </div>
-      <div>
-        <section v-if="dataList.length">
-          <!--          <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">-->
-          <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
-          <z-m-list v-else :dataList="dataList"></z-m-list>
-          <z-m-no-data v-if="allLoaded"></z-m-no-data>
-          <!--          </mt-loadmore>-->
-        </section>
-        <div v-else>
-          <!-- 楼层数据加载 -->
-          <z-m-rec-loading v-if="isRecLoading"></z-m-rec-loading>
-          <z-m-not-network></z-m-not-network>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
