@@ -104,11 +104,11 @@ export default {
     Swiper,
     SwiperSlide
   },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
-    }
-  },
+  // computed: {
+  //   swiper() {
+  //     return this.$refs.mySwiper.$swiper;
+  //   }
+  // },
   mounted() {
     vm = this;
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps);
