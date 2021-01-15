@@ -36,6 +36,7 @@ const option = {
 service.intercept({
   //拦截配置
   config(c) {
+    console.log('是否服务端：', env.isServer(), 'url:', c.url, '方法：', c.method);
     const store = router.app.$store;
     let Authorization = store ? store.state.token.access_token : '';
     let refresh_token = store ? store.state.token.refresh_token : '';
@@ -44,8 +45,12 @@ service.intercept({
       refresh_token = getCookie('refresh_token');
     }
     if (env.isServer()) {
-      Authorization = global.__VUE_SSR_CONTEXT__.cookies.access_token;
-      refresh_token = global.__VUE_SSR_CONTEXT__.cookies.refresh_token;
+      // 服务端已经获取到store里面的token后，不在获取全局参数
+      const SSRCOOKIE = global.__VUE_SSR_CONTEXT__.cookies;
+      if (JSON.stringify(SSRCOOKIE) !== '{}' && !Authorization && !refresh_token) {
+        Authorization = SSRCOOKIE.access_token;
+        refresh_token = SSRCOOKIE.refresh_token;
+      }
     }
     const timestamp = new Date().getTime();
     const appNonce = getRandomStr();
