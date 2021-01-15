@@ -56,3 +56,62 @@ export const localReadProcess = function(context, imglist) {
   };
   context.$store.dispatch('reader/saveProcess', localContents);
 };
+
+/**
+ * @description:初始化阅读数据
+ * @param {Object} context 执行上下文
+ * **/
+export const dataInit = function(context) {
+  // 阅读器数据初始化
+  // 根据图片宽高比，计算每一张图片高度，设置页面高度
+  const p = getPageHeight(context.comicsList);
+  context.$refs.imgWrap.style.height = p.pageHeight + 'px';
+  context.imgHeight = p.p;
+  // 计算滚动位置
+  let contentsList = context.$store.state.reader.contentsList;
+  let localContents = context.$store.state.reader.localContents;
+  let reader_per = 0;
+  const CAPTERID = parseInt(context.$route.query.capterId);
+  const CARTOONID = parseInt(context.$route.query.cartoon_id);
+  // 本地阅读记录存在，且有当前章节的数据时，使用本地数据
+  if (
+    localContents &&
+    JSON.stringify(localContents) !== '{}' &&
+    CAPTERID &&
+    CARTOONID &&
+    localContents[CARTOONID][CAPTERID]
+  ) {
+    reader_per = localContents[CARTOONID][CAPTERID].read_per;
+  } else {
+    // 如果没有本地数据，获取后台返回的
+    for (let i = 0; i < contentsList.length; i++) {
+      if (CAPTERID === contentsList[i].chapter_id) {
+        reader_per = contentsList[i].read_per;
+      }
+    }
+  }
+  // 上一话下一话跳转的，并且当前话图片数量超过1张，从0开始阅读
+  if (context.$route.query.flag && context.comicsList.length > 1) {
+    reader_per = 0;
+    // 更新本地阅读记录
+    const cartoon = localContents[CARTOONID];
+    cartoon[CAPTERID] = { read_per: 0 };
+  }
+  if (reader_per) {
+    context.Toast('上次读到这', { type: 'tag', duration: 1000 });
+  }
+  context.$store.commit('reader/UPDATE_READERPROCESS', reader_per);
+  // 计算图片索引
+  const idx = getIndex(reader_per, context.comicsList.length);
+  // 根据图片索引，计算滚动高度
+  let scrollDistance = getDistance(idx, p.p);
+  document.scrollingElement.scrollTop = scrollDistance;
+  context.pageIndex = idx > 3 ? idx : 3;
+  // 获取当前阅读漫画章节标题和序号
+  for (let i = 0; i < contentsList.length; i++) {
+    if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
+      context.titleText = contentsList[i].title + '.' + contentsList[i].intro;
+      return false;
+    }
+  }
+};

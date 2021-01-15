@@ -131,6 +131,7 @@ export default {
       this.pageIndex =
         index > this.imagesList.detail.length ? this.imagesList.detail.length : index;
       this.capterIndex = this.contentsList.indexOf(parseInt(this.$route.query.capterId));
+      localReadProcess(this, this.imagesList);
     },
     switchFull() {
       this.$parent.navigationStatus = !this.$parent.navigationStatus;

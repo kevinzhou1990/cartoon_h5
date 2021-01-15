@@ -44,7 +44,7 @@ import Setting from './components/settings';
 import Contents from '@/common/components/contents';
 import ImgComponent from './components/imgComponents';
 import { reportReader } from '@/common/api/reader';
-import { getIndex, getPageHeight, getDistance, localReadProcess } from './tools';
+import { getIndex, getPageHeight, getDistance, dataInit } from './tools';
 export default {
   name: 'Reader',
   components: { ZMHeader, SvgIcon, Navigation, Setting, Contents, ImgComponent },
@@ -105,6 +105,13 @@ export default {
   methods: {
     async pageinit() {
       console.log(this.$store.state.reader.localContents, '+++-----');
+      if (!this.firstUse) {
+        // 首次进入阅读器
+        this.navigationStatus = false;
+        this.fullRead = false;
+        document.body.classList.add('overflow-hidden');
+        this.$refs.readerComponent.classList.add('overflow-hidden');
+      }
       this.comicsInfo.cartoon_id = this.$route.query.cartoon_id;
       this.comicsInfo.last_chapter_id = parseInt(this.$route.query.capterId);
       // 更新漫画上报数据
@@ -120,64 +127,7 @@ export default {
         });
         this.back();
       }
-      // 根据图片宽高比，计算每一张图片高度，设置页面高度
-      const p = getPageHeight(this.comicsList);
-      this.$refs.imgWrap.style.height = p.pageHeight + 'px';
-      this.imgHeight = p.p;
-      // 计算滚动位置
-      let contentsList = this.$store.state.reader.contentsList;
-      let localContents = this.$store.state.reader.localContents;
-      let reader_per = 0;
-      const CAPTERID = parseInt(this.$route.query.capterId);
-      const CARTOONID = parseInt(this.$route.query.cartoon_id);
-      if (!this.firstUse) {
-        // 首次进入阅读器
-        this.navigationStatus = false;
-        this.fullRead = false;
-        document.body.classList.add('overflow-hidden');
-        this.$refs.readerComponent.classList.add('overflow-hidden');
-      }
-      // 本地阅读记录存在，且有当前章节的数据时，使用本地数据
-      if (
-        localContents &&
-        JSON.stringify(localContents) !== '{}' &&
-        CAPTERID &&
-        CARTOONID &&
-        localContents[CARTOONID][CAPTERID]
-      ) {
-        reader_per = localContents[CARTOONID][CAPTERID].read_per;
-      } else {
-        // 如果没有本地数据，获取后台返回的
-        for (let i = 0; i < contentsList.length; i++) {
-          if (CAPTERID === contentsList[i].chapter_id) {
-            reader_per = contentsList[i].read_per;
-          }
-        }
-      }
-      // 上一话下一话跳转的，并且当前话图片数量超过1张，从0开始阅读
-      if (this.$route.query.flag && this.comicsList.length > 1) {
-        reader_per = 0;
-        // 更新本地阅读记录
-        const cartoon = localContents[CARTOONID];
-        cartoon[CAPTERID] = { read_per: 0 };
-      }
-      if (reader_per) {
-        this.Toast('上次读到这', { type: 'tag', duration: 1000 });
-      }
-      this.$store.commit('reader/UPDATE_READERPROCESS', reader_per);
-      // 计算图片索引
-      const idx = getIndex(reader_per, this.comicsList.length);
-      // 根据图片索引，计算滚动高度
-      let scrollDistance = getDistance(idx, p.p);
-      document.scrollingElement.scrollTop = scrollDistance;
-      this.pageIndex = idx > 3 ? idx : 3;
-      // 获取当前阅读漫画章节标题和序号
-      for (let i = 0; i < contentsList.length; i++) {
-        if (CAPTERID && parseInt(contentsList[i].chapter_id) === CAPTERID) {
-          this.titleText = contentsList[i].title + '.' + contentsList[i].intro;
-          return false;
-        }
-      }
+      dataInit(this);
     },
     back() {
       history.go(-1);
@@ -247,7 +197,6 @@ export default {
     // 组装上报数据
     const localContents = JSON.parse(JSON.stringify(this.$store.state.reader.localContents));
     const chapter_info = [];
-    console.log(localContents, '本地记录');
     for (let i in localContents) {
       if (this.$route.query.cartoon_id === i) {
         const cartoon = localContents[i];
@@ -262,9 +211,7 @@ export default {
       this.$store.state.reader.reportMsg
     );
     if (rp.code === 0) {
-      // 上报成功，清除本地数据
-      // this.$store.dispatch('reader/saveProcess', {});
-      // 更新漫画详情数据
+      // 上报成功，更新漫画详情
       const params = {
         cartoon_id: this.$route.query.cartoon_id,
         ref: this.$route.query.ref,
@@ -272,12 +219,6 @@ export default {
       };
       this.$store.dispatch('detail/getDetail', params);
     }
-    // console.log(this.imgIndex, '=====+++');
-    // 更新本地阅读数据
-    // localReadProcess(this, {
-    //   chapter_id: parseInt(this.capterId),
-    //   detail: this.comicsList
-    // });
   }
 };
 </script>
