@@ -1,11 +1,14 @@
 <template>
   <!--  还在加载客户端代码状态下设置超出隐藏，防止在loading图下出现滚动条-->
-  <div id="app" :class="!isShow ? 'h-overflow': ''">
+  <div id="app" :class="!isShow ? 'h-overflow' : ''">
     <div v-if="!isShow" class="app-loading"></div>
 
     <!--  服务端代码视图设置为透明，等待客户端代码加载完成，即关掉loading显示客户端视图，优化视觉效果-->
     <!--  服务端代码不走keep-alive，否则ssr没效果-->
-    <router-view v-if="(!$route.meta.keepAlive) || !isClient" :class="!isClient ? 'opacity' : ''"></router-view>
+    <router-view
+      v-if="!$route.meta.keepAlive || !isClient"
+      :class="!isClient ? 'opacity' : ''"
+    ></router-view>
     <keep-alive v-else>
       <router-view :class="!isClient ? 'opacity' : ''" />
     </keep-alive>
@@ -25,6 +28,9 @@ export default {
     isClient() {
       return env.isClient();
     }
+  },
+  created() {
+    console.log('created', this.isClient);
   },
   mounted() {
     this.isShow = true;
