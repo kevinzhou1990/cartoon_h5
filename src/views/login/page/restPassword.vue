@@ -207,7 +207,7 @@ export default {
     font-size: 12px;
     color: #bbbbbb;
     height: 34px;
-    line-height: 100%;
+    line-height: 34px;
   }
   .m-8 {
     margin-top: 8px;
