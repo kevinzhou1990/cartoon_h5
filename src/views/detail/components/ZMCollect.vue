@@ -196,7 +196,7 @@ export default {
     &-right {
       display: flex;
       flex-direction: column;
-      padding: 9px 20px 9px 24px;
+      padding: 9px 0px 9px 24px;
       align-items: center;
       &-c {
         padding: 4px 0;
