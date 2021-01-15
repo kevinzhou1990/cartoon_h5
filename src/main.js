@@ -11,7 +11,7 @@ import './assets/style/index.scss';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 if (env.isClient()) {
-  require('lib-flexible');
+  // require('lib-flexible');
 }
 
 /**

@@ -29,9 +29,6 @@ export default {
       return env.isClient();
     }
   },
-  created() {
-    console.log('created', this.isClient);
-  },
   mounted() {
     this.isShow = true;
     console.log(this.$route.meta.keepAlive, this.$route.name, this.isClient);
