@@ -32,11 +32,11 @@
       </div>
       <div>
         <section v-if="dataList.length">
-          <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">
-            <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
-            <z-m-list v-else :dataList="dataList"></z-m-list>
-            <z-m-no-data v-if="allLoaded"></z-m-no-data>
-          </mt-loadmore>
+          <!--          <mt-loadmore :bottom-method="nextPage" :bottom-all-loaded="allLoaded" ref="loadmore">-->
+          <z-m-table v-if="isLightIcon" :dataList="dataList"></z-m-table>
+          <z-m-list v-else :dataList="dataList"></z-m-list>
+          <z-m-no-data v-if="allLoaded"></z-m-no-data>
+          <!--          </mt-loadmore>-->
         </section>
         <div v-else>
           <!-- 楼层数据加载 -->

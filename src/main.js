@@ -8,10 +8,10 @@ import '@/common/beforeEach';
 import Toast from '@/common/plugin/toast';
 import Loading from '@/common/plugin/loading';
 import './assets/style/index.scss';
-import MintUI from 'mint-ui';
+// import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 if (env.isClient()) {
-  // require('lib-flexible');
+  require('lib-flexible');
 }
 
 /**
@@ -19,7 +19,7 @@ if (env.isClient()) {
  */
 
 // swpier组件
-Vue.use(MintUI);
+// Vue.use(MintUI);
 Vue.prototype.Toast = Toast;
 Vue.prototype.$Loading = Loading;
 Vue.config.productionTip = false;
