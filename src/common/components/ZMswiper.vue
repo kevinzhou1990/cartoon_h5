@@ -109,7 +109,7 @@ export default {
       return this.$refs.mySwiper.$swiper;
     }
   },
-  mounted() {
+  created() {
     vm = this;
     this.swiperOptions = Object.assign({}, this.swiperObjOptions, this.swiperOptionsProps);
     // this.swiperOptions = this.swiperOptionsObject
